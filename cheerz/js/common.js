@@ -123,11 +123,11 @@ function listalllesson() {
 				for (i = 0; i < count; i++) {
 					if (data.lesson[i].recommed == 1)
 						$("#lessons").append(
-							"<li><a href ='javascript:kcxq("+data.lesson[i].id+")' class='item'><img src='" + data.lesson[i].coverurl +
+							"<li><a href ='javascript:kcxq(" + data.lesson[i].id + ")' class='item'><img src='" + data.lesson[i].coverurl +
 							"'><div class='mvp'>MVP</div><div class='name'>" + data.lesson[i].engname + "</div></a></li>");
 					else
 						$("#lessons").append(
-							"<li><a href ='javascript:kcxq("+data.lesson[i].id+")' class='item'><img src='" + data.lesson[i].coverurl +
+							"<li><a href ='javascript:kcxq(" + data.lesson[i].id + ")' class='item'><img src='" + data.lesson[i].coverurl +
 							"'><div class='name'>" + data.lesson[i].engname + "</div></a></li>");
 
 				}
@@ -154,16 +154,22 @@ function lessondetail(lid) {
 		success: function(data) {
 			// 请求成功
 			if (data.rst == 0) {
-				jump('index','index.html');
+				jump('index', 'index.html');
 				return;
 			}
 			if (data.rst == 1) {
-				$("#title").append("<h4>"+data.lesson.engname+"<br>"+data.lesson.cname+"</h4>");
+				$("#title").append("<h4>" + data.lesson.engname + "<br>" + data.lesson.cname + "</h4>");
 				$("#title").append("<span><img src='images/kc-mvp.png'></span>");
 				$("#coin").text(data.lesson.coin);
-				$("#cover").attr('src',data.lesson.coverurl);
-				var times=timetrans(data.lesson.starttime);
+				$("#cover").attr('src', data.lesson.coverurl);
+				var times = timetrans(data.lesson.starttime);
 				$("#time").text(times);
+				wordcount = data.wordcount;
+				for (i = 0; i < wordcount; i++) {
+					$("#words ul").append(
+						"<li><div class='mui-clearfix'><div class='img-box'><img src='images/zb.jpg'></div><div class='txt-box'><span>mouth</span><span>嘴巴</span></div><a href='' class='laba'></a></div></li>"
+					);
+				}
 			}
 		},
 		error: function(xhr, type, errorThrown) {
@@ -173,14 +179,14 @@ function lessondetail(lid) {
 	});
 }
 
-function timetrans(date){
-    var date = new Date(date*1000);//如果date为13位不需要乘1000
-    var Y = date.getFullYear() + '.';
-    var M = date.getMonth()+1 + '.';
-    var D =  date.getDate() + ' ';
-    var h = date.getHours() + ':';
-    var m = (date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes()) ;
-    return Y+M+D+h+m;
+function timetrans(date) {
+	var date = new Date(date * 1000); //如果date为13位不需要乘1000
+	var Y = date.getFullYear() + '.';
+	var M = date.getMonth() + 1 + '.';
+	var D = date.getDate() + ' ';
+	var h = date.getHours() + ':';
+	var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
+	return Y + M + D + h + m;
 }
 
 function jump(title, url) {
