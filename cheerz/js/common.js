@@ -121,18 +121,14 @@ function listalllesson() {
 			if (data.rst == 1) {
 				count = data.count;
 				for (i = 0; i < count; i++) {
-					l_ename = data.lesson[i].engname;
-					l_coverurl = data.lesson[i].coverurl;
-					l_recommed = data.lesson[i].recommed;
-					l_id=data.lesson[i].id;
-					if (l_recommed == 1)
+					if (data.lesson[i].recommed == 1)
 						$("#lessons").append(
-							"<li><a href ='javascript:kcxq("+l_id+")' class='item'><img src='" + l_coverurl +
-							"'><div class='mvp'>MVP</div><div class='name'>" + l_ename + "</div></a></li>");
+							"<li><a href ='javascript:kcxq("+data.lesson[i].id+")' class='item'><img src='" + data.lesson[i].coverurl +
+							"'><div class='mvp'>MVP</div><div class='name'>" + data.lesson[i].engname + "</div></a></li>");
 					else
 						$("#lessons").append(
-							"<li><a href ='javascript:kcxq("+l_id+")' class='item'><img src='" + l_coverurl +
-							"'><div class='name'>" + l_ename + "</div></a></li>");
+							"<li><a href ='javascript:kcxq("+data.lesson[i].id+")' class='item'><img src='" + data.lesson[i].coverurl +
+							"'><div class='name'>" + data.lesson[i].engname + "</div></a></li>");
 
 				}
 			}
