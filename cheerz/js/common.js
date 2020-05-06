@@ -158,6 +158,8 @@ function lessondetail(lid) {
 				return;
 			}
 			if (data.rst == 1) {
+				$("#title").append("<h4>"+data.lesson.engname+"<br>"+data.lesson.cname+"</h4>");
+				$("#title").append("<span><img src='images/kc-mvp.png'></span>");
 			}
 		},
 		error: function(xhr, type, errorThrown) {
