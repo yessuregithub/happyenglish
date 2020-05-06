@@ -159,7 +159,7 @@ function lessondetail(lid) {
 			}
 			if (data.rst == 1) {
 				$("#title").append("<h4>" + data.lesson.engname + "<br>" + data.lesson.cname + "</h4>");
-				$("#title").append("<span><img src='images/kc-mvp.png'></span>");
+				if (data.lesson.recommed==1) $("#title").append("<span><img src='images/kc-mvp.png'></span>");
 				$("#coin").text(data.lesson.coin);
 				$("#cover").attr('src', data.lesson.coverurl);
 				var times = timetrans(data.lesson.starttime);
@@ -167,8 +167,10 @@ function lessondetail(lid) {
 				wordcount = data.wordcount;
 				for (i = 0; i < wordcount; i++) {
 					$("#words ul").append(
-						"<li><div class='mui-clearfix'><div class='img-box'><img src='images/zb.jpg'></div><div class='txt-box'><span>mouth</span><span>嘴巴</span></div><a href='' class='laba'></a></div></li>"
+						"<li><div class='mui-clearfix'><div class='img-box'><img src='"+data.word[i].pict+"'></div><div class='txt-box'><span>"+data.word[i].word+"</span><span>"+data.word[i].cword+"</span></div><a href='javascript:playvoice(\""+data.word[i].voiceurl+"\")' class='laba'></a></div></li>"
 					);
+
+
 				}
 			}
 		},
