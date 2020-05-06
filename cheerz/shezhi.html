@@ -98,49 +98,37 @@
 					"-webkit-transform-origin": "center center"
 				});
 			}
-			
+
 			var token = checklogin();
-		    if (token==null) return;
+			if (token == null) return;
 			fetchuserinfo(token);
 		</script>
 
 		<script>
-			var token = localStorage.getItem("token");
-			if (token == null || token == "") { jump('dl','dl.html'); return;} 
-			
+			function loadpage() {
+				var token = localStorage.getItem("token");
+				if (token == null || token == "") {
+					jump('dl', 'dl.html');
+					return;
+				}
 
-			$('#logout').on('click', function() {
-				localStorage.setItem("token", "");
-				jump('dl','dl.html');
-				return;
+
+				$('#logout').on('click', function() {
+					localStorage.setItem("token", "");
+					jump('dl', 'dl.html');
+					return;
+				});
+			}
+
+			mui.ready(function() {
+				loadpage();
+
+
 			});
+			mui.plusReady(function() {
+				plus.screen.lockOrientation("landscape");
 
-			var orientLayer = document.getElementById("orientLayer");
-			//判断横屏竖屏 
-			function checkDirect() {
-				if (document.documentElement.clientHeight >= document.documentElement.clientWidth) {
-					return "portrait";
-				} else {
-					return "landscape";
-				}
-			}
-			//显示屏幕方向提示浮层 
-			function orientNotice() {
-				var orient = checkDirect();
-				if (orient == "portrait") {
-					orientLayer.style.display = "none";
-				} else {
-					orientLayer.style.display = "block";
-				}
-			}
-
-			function init() {
-				orientNotice();
-				window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {
-					setTimeout(orientNotice, 200);
-				})
-			}
-			init();
+			});
 		</script>
 
 	</body>

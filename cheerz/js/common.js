@@ -38,7 +38,7 @@ function fetchuserinfo(token) {
 						'class': 'selected'
 					});
 					$("#timesele2").attr({
-						'class': ''
+						'class': ''	
 					});
 				} else {
 					$("#timesele1").attr({
@@ -180,6 +180,50 @@ function lessondetail(lid) {
 		}
 	});
 }
+
+
+function listcurrlesson(token) {
+	mui.ajax({
+		url: 'http://47.241.5.29/Home_index_listcurrlesson.html',
+		data: {
+			token: token,
+		},
+		async: true,
+		dataType: 'json',
+		type: 'post',
+		timeout: 10000,
+		success: function(data) {
+			// 请求成功
+			if (data.rst == 0) {
+				localStorage.setItem("token", "");
+				mui.openWindow({
+					id: 'login',
+					url: 'dl.html'
+				});
+				return;
+			}
+			if (data.rst == 1) {
+				count = data.count;
+				for (i = 0; i < count; i++) {
+					if (data.lesson[i].recommed == 1)
+						$("#lessons").append(
+							"<li><a href ='javascript:kcxq(" + data.lesson[i].id + ")' class='item'><img src='" + data.lesson[i].coverurl +
+							"'><div class='mvp'>MVP</div><div class='name'>" + data.lesson[i].engname + "</div></a></li>");
+					else
+						$("#lessons").append(
+							"<li><a href ='javascript:kcxq(" + data.lesson[i].id + ")' class='item'><img src='" + data.lesson[i].coverurl +
+							"'><div class='name'>" + data.lesson[i].engname + "</div></a></li>");
+
+				}
+			}
+		},
+		error: function(xhr, type, errorThrown) {
+			// 请求失败  
+			mui.alert("网络错误，请稍后再试");
+		}
+	});
+}
+
 
 function timetrans(date) {
 	var date = new Date(date * 1000); //如果date为13位不需要乘1000
