@@ -18,7 +18,7 @@
 						<div class="kc-left">
 							<div id="title" class="ck-title">
 							</div>
-							<div class="img-box"><img id="cover" src=""/></div>
+							<div class="img-box"><img id="cover" src="" /></div>
 							<div class="kc-btn">
 								<div class="mui-clearfix">
 									<div class="jinbi">
@@ -74,15 +74,14 @@
 				}
 				lessondetail(lid);
 			}
-			
-			function playvoice(url)
-			{
+
+			function playvoice(url) {
 				p = plus.audio.createPlayer(url);
-					p.play( function () {
-						alert( "Audio play success!" ); 
-					}, function ( e ) {
-						alert( "Audio play error: " + e.message ); 
-					} );
+				p.play(function() {
+					alert("Audio play success!");
+				}, function(e) {
+					alert("Audio play error: " + e.message);
+				});
 			}
 		</script>
 	</body>
