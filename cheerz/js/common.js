@@ -140,6 +140,33 @@ function listalllesson() {
 	});
 }
 
+
+function lessondetail(lid) {
+	mui.ajax({
+		url: 'http://47.241.5.29/Home_index_lessondetail.html',
+		data: {
+			lid: lid,
+		},
+		async: true,
+		dataType: 'json',
+		type: 'post',
+		timeout: 10000,
+		success: function(data) {
+			// 请求成功
+			if (data.rst == 0) {
+				jump('index','index.html');
+				return;
+			}
+			if (data.rst == 1) {
+			}
+		},
+		error: function(xhr, type, errorThrown) {
+			// 请求失败  
+			mui.alert("网络错误，请稍后再试");
+		}
+	});
+}
+
 function jump(title, url) {
 	/*	mui.openWindow({
 			id: title,
