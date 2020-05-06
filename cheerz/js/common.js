@@ -38,7 +38,7 @@ function fetchuserinfo(token) {
 						'class': 'selected'
 					});
 					$("#timesele2").attr({
-						'class': ''	
+						'class': ''
 					});
 				} else {
 					$("#timesele1").attr({
@@ -159,7 +159,7 @@ function lessondetail(lid) {
 			}
 			if (data.rst == 1) {
 				$("#title").append("<h4>" + data.lesson.engname + "<br>" + data.lesson.cname + "</h4>");
-				if (data.lesson.recommed==1) $("#title").append("<span><img src='images/kc-mvp.png'></span>");
+				if (data.lesson.recommed == 1) $("#title").append("<span><img src='images/kc-mvp.png'></span>");
 				$("#coin").text(data.lesson.coin);
 				$("#cover").attr('src', data.lesson.coverurl);
 				var times = timetrans(data.lesson.starttime);
@@ -167,7 +167,9 @@ function lessondetail(lid) {
 				wordcount = data.wordcount;
 				for (i = 0; i < wordcount; i++) {
 					$("#words ul").append(
-						"<li><div class='mui-clearfix'><div class='img-box'><img src='"+data.word[i].pict+"'></div><div class='txt-box'><span>"+data.word[i].word+"</span><span>"+data.word[i].cword+"</span></div><a href='javascript:playvoice(\""+data.word[i].voiceurl+"\")' class='laba'></a></div></li>"
+						"<li><div class='mui-clearfix'><div class='img-box'><img src='" + data.word[i].pict +
+						"'></div><div class='txt-box'><span>" + data.word[i].word + "</span><span>" + data.word[i].cword +
+						"</span></div><a href='javascript:playvoice(\"" + data.word[i].voiceurl + "\")' class='laba'></a></div></li>"
 					);
 
 
@@ -205,14 +207,15 @@ function listcurrlesson(token) {
 			if (data.rst == 1) {
 				count = data.count;
 				for (i = 0; i < count; i++) {
-					if (data.lesson[i].recommed == 1)
-						$("#lessons").append(
-							"<li><a href ='javascript:kcxq(" + data.lesson[i].id + ")' class='item'><img src='" + data.lesson[i].coverurl +
-							"'><div class='mvp'>MVP</div><div class='name'>" + data.lesson[i].engname + "</div></a></li>");
-					else
-						$("#lessons").append(
-							"<li><a href ='javascript:kcxq(" + data.lesson[i].id + ")' class='item'><img src='" + data.lesson[i].coverurl +
-							"'><div class='name'>" + data.lesson[i].engname + "</div></a></li>");
+					if (data.lesson[i].cname=="" ) title="<h4>"+data.lesson[i].engname+"</h4>";
+					else title="<p>"+data.lesson[i].engname+"</p><p>"+data.lesson[i].cname+"</p>";
+					datetime=Date.now();
+					timestamp=Math.floor(datetime/1000);
+					if (parseInt(datetime/86400)==parseInt(data.lesson[i].starttime/86400)) istoday=true; else istoday=false;
+					if (istoday) promptword="进入教室"; else promptword="回看课程"; 
+					$("#lessons ul").append(
+						"<li><div class='sliding-title'>"+title+"</div><div class='img-box'><img src='"+data.lesson[i].coverurl+"'></div><div class='txt-box'><span>"+starttimetrans(data.lesson[i].starttime,istoday)+"</span><a href='zhibo-kt.html' class='jinru'>"+promptword+"</a></div></li>"
+					);
 
 				}
 			}
@@ -224,6 +227,17 @@ function listcurrlesson(token) {
 	});
 }
 
+
+function starttimetrans(date,istoday) {
+	var date = new Date(date * 1000); //如果date为13位不需要乘1000
+	var Y = date.getFullYear();
+	var M = date.getMonth() + 1 ;
+	var D = date.getDate() ;
+	var h = date.getHours() ;
+	var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
+	if (istoday) return '今天'+h+':'+m+'开课';
+	else return Y+'.'+M+'.'+D+'已开课';
+}
 
 function timetrans(date) {
 	var date = new Date(date * 1000); //如果date为13位不需要乘1000
