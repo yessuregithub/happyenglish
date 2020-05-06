@@ -160,6 +160,10 @@ function lessondetail(lid) {
 			if (data.rst == 1) {
 				$("#title").append("<h4>"+data.lesson.engname+"<br>"+data.lesson.cname+"</h4>");
 				$("#title").append("<span><img src='images/kc-mvp.png'></span>");
+				$("#coin").text(data.lesson.coin);
+				$("#cover").attr('src',data.lesson.coverurl);
+				var times=timetrans(data.lesson.starttime);
+				$("#time").text(times);
 			}
 		},
 		error: function(xhr, type, errorThrown) {
@@ -167,6 +171,16 @@ function lessondetail(lid) {
 			mui.alert("网络错误，请稍后再试");
 		}
 	});
+}
+
+function timetrans(date){
+    var date = new Date(date*1000);//如果date为13位不需要乘1000
+    var Y = date.getFullYear() + '.';
+    var M = date.getMonth()+1 + '.';
+    var D =  date.getDate() + ' ';
+    var h = date.getHours() + ':';
+    var m = (date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes()) ;
+    return Y+M+D+h+m;
 }
 
 function jump(title, url) {
