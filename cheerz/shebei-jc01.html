@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>哈彼英语</title>
+    <link href="css/mui.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />		
+</head>
+<body>
+<div id="orientLayer">
+    <div class="wt-box">
+        <div class="wt-bg"><img src="images/wt-bg.png"></div>
+        <a href="" class="wt-return"></a>
+        <div class="wt-box-pa">
+            <div class="wt-auto">
+                <div class="wt-title"><img src="images/t6.png"></div>
+                <div class="shebei-box">
+                	<div class="img-box"></div>
+                    <div class="txt-box">
+    	                <h5>是否能看到视频？</h5>               
+                        <div class="mui-clearfix">     
+		                    <a href=""  class="kd-sub">看不到</a>
+                            <a href=""  class="kdd-sub">看得到</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+		
+
+<script src="js/mui.min.js"></script>
+<script src="js/jquery-1.8.3.min.js"></script>		
+<script src="js/rem.js"></script>		  
+<script src="js/ui-choose.js"></script>
+	<script>
+	// 将所有.ui-choose实例化
+	$('.ui-choose').ui_choose();
+	// uc_01 ul 单选
+	var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
+	uc_01.click = function(index, item) {
+	    console.log('click', index, item.text())
+	}
+	uc_01.change = function(index, item) {
+	    console.log('change', index, item.text())
+	}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>哈彼英语</title>
+    <link href="css/mui.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />		
+</head>
+<body>
+<div id="orientLayer">
+    <div class="wt-box">
+        <div class="wt-bg"><img src="images/wt-bg.png"></div>
+        <a href="javascript:history.back(-1)" class="wt-return"></a>
+        <div class="wt-box-pa">
+            <div class="wt-auto">
+                <div class="wt-title"><img src="images/t1.png"></div>
+                <ul class="wt-list">
+                    <li><a href="">购买课程后的有效期是怎么计算的？</a></li>
+                    <li><a href="">如何使用兑换码、查询物流？</a></li>
+                    <li><a href="">如何关闭教室里其他学生的声音、视频？</a></li>
+                    <li><a href="">上课或游戏获得钻石异常问题</a></li>
+                    <li><a href="">上课时，课件区域显示加载失败怎么办？</a></li>
+                    <li><a href="">上课时，老师的视频和声音卡顿怎么办？</a></li>
+                    <li><a href="">如何切换上课时间？</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!---竖屏提示--->
+<div class="mod-orient-layer">
+	<div class="mod-orient-layer__content">
+    	<div class="mod-orient-layer__icon-orient">
+        </div>
+        <span>为了更好的体验，请使用横屏浏览</span>
+    </div>
+</div>
+	
+		
+
+<script src="js/mui.min.js"></script>
+<script src="js/jquery-1.8.3.min.js"></script>		
+<script src="js/rem.js"></script>		  
+<script>
+    function horizontalScreen(className){
+    // transform 强制横屏
+    var conW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+		var conH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+		// transform: rotate(90deg); width: 667px; height: 375px;transform-origin:28% 50%;
+		//var iosTopHe = 0;//若有其他样式判断，写于此
+		
+		$(className).css({
+			"transform":"rotate(90deg) translate("+((conH-conW)/2)+"px,"+((conH-conW)/2)+"px)",
+			"width":conH+"px",
+			"height":conW+"px",
+			//"margin-top":iosTopHe+"px",
+			// "border-left":iosTopHe+"px solid #000",
+			"transform-origin":"center center",
+			"-webkit-transform-origin": "center center"
+		});
+	}
+  </script>
+  
+  <script>
+  
+  var orientLayer = document.getElementById("orientLayer"); 
+  //判断横屏竖屏 
+  function checkDirect() { if (document.documentElement.clientHeight >= document.documentElement.clientWidth) { return "portrait"; } else { return "landscape"; } } 
+  //显示屏幕方向提示浮层 
+  function orientNotice() { 
+  var orient = checkDirect(); 
+  if (orient == "portrait") { orientLayer.style.display = "none"; }else { orientLayer.style.display = "block"; } } function init() { 
+  orientNotice(); window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () { setTimeout(orientNotice, 200); }) } init();
+  </script>
+
+</body>
+</html>

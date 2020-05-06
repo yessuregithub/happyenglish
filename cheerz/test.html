@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript">
+var playing = false;
+// H5 plus事件处理
+function plusReady(){
+	// 创建视频播放控件
+	video = new plus.video.VideoPlayer('video1',{
+		src:'http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8'
+	});
+}
+document.addEventListener('plusready', plusReady, false);
+// 播放
+// 播放/暂停
+// 创建子创建覆盖在视频控件上
+		</script>
+	</head>
+	<body>
+		<br/>
+		<div>
+		<div id="video1" style="width:10%;height:200px;background-color:#000000;margin:auto"></div>
+		<br/>
+		</div>
+	</body>
+</html>

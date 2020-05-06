@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div id="orientLayer">
+			<div class="wt-box">
+				<div class="wt-bg"><img src="images/shezhi.jpg"></div>
+				<a href="javascript:jump('index','index.html')" class="wt-return"></a>
+				<div class="wt-box-pa">
+					<div class="she-zhi">
+						<ul class="shezhi-list mui-clearfix">
+							<li>
+								<a href="javascript:jump('grxx','grxx.html')" class="item">
+									<img src="images/sz01.png">
+									<span>个人信息</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:jump('kcsz','kcsz.html')" class="item">
+									<img src="images/sz02.png">
+									<span>课程设置</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:jump('sbjc','shebei-jc.html')" class="item">
+									<img src="images/sz03.png">
+									<span>设备检测</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:jump('cjwt','wt-list.html')" class="item">
+									<img src="images/sz04.png">
+									<span>常见问题</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:jump('gywm','gywm.html')" class="item">
+									<img src="images/sz05.png">
+									<span>关于我们</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:jump('wlcx','wlcx.html')" class="item">
+									<img src="images/sz06.png">
+									<span>物流查询</span>
+								</a>
+							</li>
+							<li>
+								<a href="#" id="logout" class="item">
+									<img src="images/sz07.png">
+									<span>退出登录</span>
+								</a>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!---竖屏提示--->
+		<div class="mod-orient-layer">
+			<div class="mod-orient-layer__content">
+				<div class="mod-orient-layer__icon-orient">
+				</div>
+				<span>为了更好的体验，请使用横屏浏览</span>
+			</div>
+		</div>
+
+
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/common.js"></script>
+		<script>
+			function horizontalScreen(className) {
+				// transform 强制横屏
+				var conW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+				var conH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+				// transform: rotate(90deg); width: 667px; height: 375px;transform-origin:28% 50%;
+				//var iosTopHe = 0;//若有其他样式判断，写于此
+
+				$(className).css({
+					"transform": "rotate(90deg) translate(" + ((conH - conW) / 2) + "px," + ((conH - conW) / 2) + "px)",
+					"width": conH + "px",
+					"height": conW + "px",
+					//"margin-top":iosTopHe+"px",
+					// "border-left":iosTopHe+"px solid #000",
+					"transform-origin": "center center",
+					"-webkit-transform-origin": "center center"
+				});
+			}
+			
+			var token = checklogin();
+		    if (token==null) return;
+			fetchuserinfo(token);
+		</script>
+
+		<script>
+			var token = localStorage.getItem("token");
+			if (token == null || token == "") { jump('dl','dl.html'); return;} 
+			
+
+			$('#logout').on('click', function() {
+				localStorage.setItem("token", "");
+				jump('dl','dl.html');
+				return;
+			});
+
+			var orientLayer = document.getElementById("orientLayer");
+			//判断横屏竖屏 
+			function checkDirect() {
+				if (document.documentElement.clientHeight >= document.documentElement.clientWidth) {
+					return "portrait";
+				} else {
+					return "landscape";
+				}
+			}
+			//显示屏幕方向提示浮层 
+			function orientNotice() {
+				var orient = checkDirect();
+				if (orient == "portrait") {
+					orientLayer.style.display = "none";
+				} else {
+					orientLayer.style.display = "block";
+				}
+			}
+
+			function init() {
+				orientNotice();
+				window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {
+					setTimeout(orientNotice, 200);
+				})
+			}
+			init();
+		</script>
+
+	</body>
+</html>

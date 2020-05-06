@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div id="orientLayer">
+			<div class="wt-box">
+				<div class="wt-bg"><img src="images/wt-bg.png"></div>
+				<a href="shezhi.html" class="wt-return"></a>
+				<div class="wt-box">
+					<div class="wt-auto">
+						<div class="wt-title"><img src="images/t3.png"></div>
+						<form>
+							<div class="sz-box">
+								<h4>请选择合适的上课时间</h4>
+								<div class="time">
+									<img src="images/time.png">
+									<span>每天18:00前切换当天生效，18:00后次日生效</span>
+								</div>
+								<div class="sz-box-item">
+									<ul class="ui-choose" id="uc_01">
+										<li id="timesele1" class="selected">19:30~20:00上课<span>当前</span></li>
+										<li id="timesele2">20:00~20:30上课<span>当前</span></li>
+									</ul>
+								</div>
+
+
+								<a href="#" id="dochange" class="qd-sub">确定更改</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/ui-choose.js"></script>
+		<script src="js/common.js"></script>
+		<script>
+			// 将所有.ui-choose实例化
+			$('.ui-choose').ui_choose();
+			// uc_01 ul 单选
+			var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
+			uc_01.click = function(index, item) {
+				console.log('click', index, item.text())
+			}
+			uc_01.change = function(index, item) {
+				console.log('change', index, item.text())
+			}
+
+
+
+			var token = "";
+			mui.init();
+			mui.ready(function() {
+				token = checklogin();
+				if (token == null) return;
+				fetchuserinfo(token);
+			});
+
+			mui.plusReady(function() {
+				plus.screen.lockOrientation("landscape");
+			});
+
+			$("#dochange").on("click", function() {
+				if ($('#timesele1').attr('class')=="selected") timesele=1;
+				else timesele=2;
+				mui.ajax({
+					url: 'http://47.241.5.29/Home_index_settimesele.html',
+					data: {
+						'timesele':timesele,
+						'token': token,
+					},
+					async: true,
+					dataType: 'json',
+					type: 'post',
+					timeout: 10000,
+					success: function(data) {
+						// 请求成功
+						if (data.rst == 1) {
+							mui.alert('信息已更新'); //toast
+						} else {
+							mui.alert(data.msg);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						// 请求失败  
+						mui.alert("网络错误，请稍后再试");
+					}
+				});
+			});
+		</script>
+
+
+	</body>
+</html>
