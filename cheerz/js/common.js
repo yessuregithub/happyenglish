@@ -280,35 +280,18 @@ function listqa() {
 }
 
 function getqabyid() {
-	mui.ajax({
-		url: 'http://47.241.5.29/Home_index_qalist.html',
-
-		async: true,
-		dataType: 'json',
-		type: 'post',
-		timeout: 10000,
-		success: function(data) {
-			// 请求成功
-			if (data.rst == 0) {
-				jump('index', 'index.html');
-				return;
-			}
-			if (data.rst == 1) {
-				var count = data.count;
-				var qalist = data.qalist;
-
-				succ(count, qalist);
-				return;
-			}
-		},
-		error: function(xhr, type, errorThrown) {
-			// 请求失败  
-			mui.alert("网络错误，请稍后再试");
-			if (fail != null) {
-				fail(xhr);
-			}
-		}
-	});
+	var queid = getUrlParam("id");
+	var ans = localStorage.getItem("wtans" + queid);
+	var que = localStorage.getItem("wtque" + queid);
+	
+	if (ans != null && que != null) {
+		var _html1 = "";
+		var _html2 = "";
+		_html1 += "<span>" + que + "</span>";
+		_html2 += "<p>" + ans + "</p>";
+		$("#txt-que").html(_html1);
+		$("#txt-box").html(_html2);
+	}
 }
 
 // 获取跳转url参数

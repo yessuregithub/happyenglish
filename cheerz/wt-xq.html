@@ -51,19 +51,7 @@
 			});
 
 			function loadpage() {
-				var queid = getUrlParam("id");
-				var ans = localStorage.getItem("wtans" + queid);
-				var que = localStorage.getItem("wtque" + queid);
-
-				if (ans != null && que != null) {
-					var _html1 = "";
-					var _html2 = "";
-					_html1 += "<span>" + que + "</span>";
-					_html2 += "<p>" + ans + "</p>";
-					$("#txt-que").html(_html1);
-					$("#txt-box").html(_html2);
-				}
-
+				getqabyid();
 			}
 		</script>
 
