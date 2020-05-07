@@ -205,6 +205,8 @@ function listcurrlesson(token) {
 				return;
 			}
 			if (data.rst == 1) {
+				if (data.viptill < Date.parse(new Date()) / 1000) isvip = false;
+				else isvip = true;
 				count = data.count;
 				for (i = 0; i < count; i++) {
 					if (data.lesson[i].cname == "") title = "<h4>" + data.lesson[i].engname + "</h4>";
@@ -213,12 +215,18 @@ function listcurrlesson(token) {
 					timestamp = Math.floor(datetime / 1000);
 					if (parseInt(datetime / 86400) == parseInt(data.lesson[i].starttime / 86400)) istoday = true;
 					else istoday = false;
-					if (istoday) promptword = "进入教室";
-					else promptword = "回看课程";
+					if (!isvip) {
+						promptword = "课程详情";
+						link='qb-kc.html';
+					} else {
+						if (istoday) promptword = "进入教室";
+						else promptword = "回看课程";
+						link='zhibo-kt.html';
+					}
 					$("#lessons ul").append(
 						"<li><div class='sliding-title'>" + title + "</div><div class='img-box'><img src='" + data.lesson[i].coverurl +
 						"'></div><div class='txt-box'><span>" + starttimetrans(data.lesson[i].starttime, istoday) +
-						"</span><a href='zhibo-kt.html' class='jinru'>" + promptword + "</a></div></li>"
+						"</span><a href='"+link+"' class='jinru'>" + promptword + "</a></div></li>"
 					);
 
 				}
@@ -249,7 +257,7 @@ function listqa() {
 			if (data.rst == 1) {
 				var count = data.count;
 				qalist = data.qalist;
-				
+
 				// 布局页面
 				var i = 0;
 				var _html = "";
@@ -331,10 +339,10 @@ function timetrans(date) {
 }
 
 function jump(title, url) {
-		mui.openWindow({
-			id: title,
-			url: url
-		});
-		
+	mui.openWindow({
+		id: title,
+		url: url
+	});
+
 	//window.location.href = url;
 }
