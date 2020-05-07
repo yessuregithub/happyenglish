@@ -231,7 +231,55 @@ function listcurrlesson(token) {
 	});
 }
 
-function listqa(succ, fail) {
+function listqa() {
+	mui.ajax({
+		url: 'http://47.241.5.29/Home_index_qalist.html',
+
+		async: true,
+		dataType: 'json',
+		type: 'post',
+		timeout: 10000,
+		success: function(data) {
+			// 请求成功
+			if (data.rst == 0) {
+				jump('index', 'index.html');
+				return;
+			}
+			if (data.rst == 1) {
+				var count = data.count;
+				var quelist = data.qalist;
+
+				// 布局页面
+				var i = 0;
+				var _html = "";
+				for (i = 0; i < count; i++) {
+					var id = quelist[i].id;
+					var que = quelist[i].q;
+					var ans = quelist[i].a;
+					_html += "<li><a href=\"wt-xq.html?id=" + id + "\">" + que + "</a></li>";
+					// console.log(count + ',id = ' + id + 'que=' + que);
+
+					// 记录本地缓存
+					if (id != null) {
+						localStorage.setItem("wtque" + id, que);
+						localStorage.setItem("wtans" + id, ans);
+					}
+				}
+				console.log(_html);
+				$("#wt-list").html(_html);
+
+
+				return;
+			}
+		},
+		error: function(xhr, type, errorThrown) {
+			// 请求失败  
+			mui.alert("网络错误，请稍后再试");
+		}
+	});
+}
+
+function getqabyid() {
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_qalist.html',
 

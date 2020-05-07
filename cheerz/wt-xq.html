@@ -52,24 +52,18 @@
 
 			function loadpage() {
 				var queid = getUrlParam("id");
-				listqa(function(count, quelist) {
-					var i = 0;
+				var ans = localStorage.getItem("wtans" + queid);
+				var que = localStorage.getItem("wtque" + queid);
+
+				if (ans != null && que != null) {
 					var _html1 = "";
 					var _html2 = "";
-					for (i = 0; i < count; i++) {
-						var id = quelist[i].id;
-						var que = quelist[i].q;
-						var ans = quelist[i].a;
-						if (id == queid) {
-							_html1 += "<span>" + que + "</span>";
-							_html2 += "<p>" + ans + "</p>";
-							break;
-						}
-
-					}
+					_html1 += "<span>" + que + "</span>";
+					_html2 += "<p>" + ans + "</p>";
 					$("#txt-que").html(_html1);
 					$("#txt-box").html(_html2);
-				}, null);
+				}
+
 			}
 		</script>
 

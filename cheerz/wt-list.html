@@ -60,24 +60,7 @@
 			});
 
 			function loadpage() {
-				var succ = function(count, quelist) {
-
-					var i = 0;
-					var _html = "";
-					for (i = 0; i < count; i++) {
-						var id = quelist[i].id;
-						var que = quelist[i].q;
-						_html += "<li><a href=\"wt-xq.html?id=" + id + "\">" + que + "</a></li>";
-						console.log(count + ',id = ' + id + 'que=' + que);
-					}
-					console.log(_html);
-					$("#wt-list").html(_html);
-
-				}
-				var fail = function(msg) {
-					console.log(msg);
-				}
-				listqa(succ, fail);
+				listqa();
 			}
 		</script>
 
