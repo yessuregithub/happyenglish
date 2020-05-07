@@ -331,10 +331,10 @@ function timetrans(date) {
 }
 
 function jump(title, url) {
-	/*	mui.openWindow({
+		mui.openWindow({
 			id: title,
 			url: url
 		});
-		*/
-	window.location.href = url;
+		
+	//window.location.href = url;
 }

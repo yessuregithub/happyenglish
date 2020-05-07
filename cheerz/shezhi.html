@@ -11,7 +11,7 @@
 		<div id="orientLayer">
 			<div class="wt-box">
 				<div class="wt-bg"><img src="images/shezhi.jpg"></div>
-				<a href="javascript:jump('index','index.html')" class="wt-return"></a>
+				<a href="javascript:mui.back()" class="wt-return"></a>
 				<div class="wt-box-pa">
 					<div class="she-zhi">
 						<ul class="shezhi-list mui-clearfix">
@@ -115,7 +115,8 @@
 
 				$('#logout').on('click', function() {
 					localStorage.setItem("token", "");
-					jump('dl', 'dl.html');
+					//jump('dl', 'dl.html');
+					window.location.href="dl.html";
 					return;
 				});
 			}
