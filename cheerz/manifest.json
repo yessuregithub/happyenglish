@@ -186,10 +186,5 @@
         ]
     },
     "fullscreen" : true,
-    "screenOrientation" : [
-        "portrait-primary",
-        "portrait-secondary",
-        "landscape-primary",
-        "landscape-secondary"
-    ]
+    "screenOrientation" : [ "landscape-primary", "landscape-secondary" ]
 }
