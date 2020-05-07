@@ -207,14 +207,18 @@ function listcurrlesson(token) {
 			if (data.rst == 1) {
 				count = data.count;
 				for (i = 0; i < count; i++) {
-					if (data.lesson[i].cname=="" ) title="<h4>"+data.lesson[i].engname+"</h4>";
-					else title="<p>"+data.lesson[i].engname+"</p><p>"+data.lesson[i].cname+"</p>";
-					datetime=Date.now();
-					timestamp=Math.floor(datetime/1000);
-					if (parseInt(datetime/86400)==parseInt(data.lesson[i].starttime/86400)) istoday=true; else istoday=false;
-					if (istoday) promptword="进入教室"; else promptword="回看课程"; 
+					if (data.lesson[i].cname == "") title = "<h4>" + data.lesson[i].engname + "</h4>";
+					else title = "<p>" + data.lesson[i].engname + "</p><p>" + data.lesson[i].cname + "</p>";
+					datetime = Date.now();
+					timestamp = Math.floor(datetime / 1000);
+					if (parseInt(datetime / 86400) == parseInt(data.lesson[i].starttime / 86400)) istoday = true;
+					else istoday = false;
+					if (istoday) promptword = "进入教室";
+					else promptword = "回看课程";
 					$("#lessons ul").append(
-						"<li><div class='sliding-title'>"+title+"</div><div class='img-box'><img src='"+data.lesson[i].coverurl+"'></div><div class='txt-box'><span>"+starttimetrans(data.lesson[i].starttime,istoday)+"</span><a href='zhibo-kt.html' class='jinru'>"+promptword+"</a></div></li>"
+						"<li><div class='sliding-title'>" + title + "</div><div class='img-box'><img src='" + data.lesson[i].coverurl +
+						"'></div><div class='txt-box'><span>" + starttimetrans(data.lesson[i].starttime, istoday) +
+						"</span><a href='zhibo-kt.html' class='jinru'>" + promptword + "</a></div></li>"
 					);
 
 				}
@@ -227,16 +231,54 @@ function listcurrlesson(token) {
 	});
 }
 
+function listqa(succ, fail) {
+	mui.ajax({
+		url: 'http://47.241.5.29/Home_index_qalist.html',
 
-function starttimetrans(date,istoday) {
+		async: true,
+		dataType: 'json',
+		type: 'post',
+		timeout: 10000,
+		success: function(data) {
+			// 请求成功
+			if (data.rst == 0) {
+				jump('index', 'index.html');
+				return;
+			}
+			if (data.rst == 1) {
+				var count = data.count;
+				var qalist = data.qalist;
+
+				succ(count, qalist)
+				return;
+			}
+		},
+		error: function(xhr, type, errorThrown) {
+			// 请求失败  
+			mui.alert("网络错误，请稍后再试");
+			if (fail != null) {
+				fail(xhr);
+			}
+		}
+	});
+}
+
+// 获取跳转url参数
+function getUrlParam(key) {
+	var reg = new RegExp(key + '=([^&]*)');
+	var results = location.href.match(reg);
+	return results ? results[1] : null;
+}
+
+function starttimetrans(date, istoday) {
 	var date = new Date(date * 1000); //如果date为13位不需要乘1000
 	var Y = date.getFullYear();
-	var M = date.getMonth() + 1 ;
-	var D = date.getDate() ;
-	var h = date.getHours() ;
+	var M = date.getMonth() + 1;
+	var D = date.getDate();
+	var h = date.getHours();
 	var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
-	if (istoday) return '今天'+h+':'+m+'开课';
-	else return Y+'.'+M+'.'+D+'已开课';
+	if (istoday) return '今天' + h + ':' + m + '开课';
+	else return Y + '.' + M + '.' + D + '已开课';
 }
 
 function timetrans(date) {
