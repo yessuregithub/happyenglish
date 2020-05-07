@@ -249,7 +249,7 @@ function listqa(succ, fail) {
 				var count = data.count;
 				var qalist = data.qalist;
 
-				succ(count, qalist)
+				succ(count, qalist);
 				return;
 			}
 		},
