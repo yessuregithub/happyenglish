@@ -37,15 +37,6 @@
 		</div>
 
 
-		<!---竖屏提示--->
-		<div class="mod-orient-layer">
-			<div class="mod-orient-layer__content">
-				<div class="mod-orient-layer__icon-orient">
-				</div>
-				<span>为了更好的体验，请使用横屏浏览</span>
-			</div>
-		</div>
-
 
 
 		<script src="js/mui.min.js"></script>
@@ -65,55 +56,6 @@
 		</script>
 
 
-
-		<script>
-			function horizontalScreen(className) {
-				// transform 强制横屏
-				var conW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-				var conH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-				// transform: rotate(90deg); width: 667px; height: 375px;transform-origin:28% 50%;
-				//var iosTopHe = 0;//若有其他样式判断，写于此
-
-				$(className).css({
-					"transform": "rotate(90deg) translate(" + ((conH - conW) / 2) + "px," + ((conH - conW) / 2) + "px)",
-					"width": conH + "px",
-					"height": conW + "px",
-					//"margin-top":iosTopHe+"px",
-					// "border-left":iosTopHe+"px solid #000",
-					"transform-origin": "center center",
-					"-webkit-transform-origin": "center center"
-				});
-			}
-		</script>
-
-		<script>
-			var orientLayer = document.getElementById("orientLayer");
-			//判断横屏竖屏 
-			function checkDirect() {
-				if (document.documentElement.clientHeight >= document.documentElement.clientWidth) {
-					return "portrait";
-				} else {
-					return "landscape";
-				}
-			}
-			//显示屏幕方向提示浮层 
-			function orientNotice() {
-				var orient = checkDirect();
-				if (orient == "portrait") {
-					orientLayer.style.display = "none";
-				} else {
-					orientLayer.style.display = "block";
-				}
-			}
-
-			function init() {
-				orientNotice();
-				window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {
-					setTimeout(orientNotice, 200);
-				})
-			}
-			init();
-		</script>
 
 	</body>
 </html>
