@@ -231,6 +231,7 @@ function listcurrlesson(token) {
 	});
 }
 
+var qalist; // 问题页面的全局数据
 function listqa() {
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_qalist.html',
@@ -247,28 +248,20 @@ function listqa() {
 			}
 			if (data.rst == 1) {
 				var count = data.count;
-				var quelist = data.qalist;
-
+				qalist = data.qalist;
+				
 				// 布局页面
 				var i = 0;
 				var _html = "";
 				for (i = 0; i < count; i++) {
-					var id = quelist[i].id;
-					var que = quelist[i].q;
-					var ans = quelist[i].a;
-					_html += "<li><a href=\"wt-xq.html?id=" + id + "\">" + que + "</a></li>";
-					// console.log(count + ',id = ' + id + 'que=' + que);
+					var id = qalist[i].id;
+					var que = qalist[i].q;
 
-					// 记录本地缓存
-					if (id != null) {
-						localStorage.setItem("wtque" + id, que);
-						localStorage.setItem("wtans" + id, ans);
-					}
+					_html += "<li><a href='javascript:clickedquestion(" + id + ")'>" + que + "</a></li>";
 				}
-				console.log(_html);
+				// console.log(_html);
+
 				$("#wt-list").html(_html);
-
-
 				return;
 			}
 		},
@@ -279,11 +272,26 @@ function listqa() {
 	});
 }
 
-function getqabyid() {
-	var queid = getUrlParam("id");
-	var ans = localStorage.getItem("wtans" + queid);
-	var que = localStorage.getItem("wtque" + queid);
-	
+function clickedquestion(queid) {
+	var count = qalist.length;
+	for (i = 0; i < count; i++) {
+		var id = qalist[i].id;
+		if (queid == id) {
+			var que = qalist[i].q;
+			var ans = qalist[i].a;
+			localStorage.setItem('ques', que);
+			localStorage.setItem('answ', ans);
+			jump('detial', "wt-xq.html");
+			break;
+		}
+	}
+}
+
+
+function getwtxq() {
+	var ans = localStorage.getItem("answ");
+	var que = localStorage.getItem("ques");
+
 	if (ans != null && que != null) {
 		var _html1 = "";
 		var _html2 = "";
