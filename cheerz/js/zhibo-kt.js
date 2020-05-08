@@ -19,14 +19,18 @@ function kt_setstarttime() {
 	}
 }
 
-
 function showtime(endtime) {
 	var nowtime = new Date(); //获取当前时间
-	// endtime = new Date("2020/8/8");  //定义结束时间
 	var lefttime = endtime.getTime() - nowtime.getTime(); //距离结束时间的毫秒数
-	// var leftd = Math.floor(lefttime / (1000 * 60 * 60 * 24)); //计算天数
+
+	// var leftdate = new Date(lefttime);
+	// console.log(lefttime + "  , " + leftdate + "  ,  " + endtime + "  ,  " + nowtime);
+	
+	var leftd = Math.floor(lefttime / (1000 * 60 * 60 * 24)); //计算天数
 	var lefth = Math.floor(lefttime / (1000 * 60 * 60) % 24); //计算小时数
 	var leftm = Math.floor(lefttime / (1000 * 60) % 60); //计算分钟数
 	var lefts = Math.floor(lefttime / 1000 % 60); //计算秒数
+	leftm = leftm < 10 ? "0" + leftm : leftm;
+	lefts = lefts < 10 ? "0" + lefts : lefts;
 	return lefth + ":" + leftm + ":" + lefts; //返回倒计时的字符串
 }
