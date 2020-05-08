@@ -8,14 +8,14 @@ function kt_setstarttime() {
 	else istoday = false;
 
 	// 倒数计时
-	if (istoday) {
+	if (istoday && timestamp<=starttime_ts) {
 		var div = document.getElementById("id_starttime");
 		var endtime = new Date(parseInt(starttime_ts) * 1000);
 		setInterval(function() {
 			div.innerHTML = showtime(endtime);
 		}, 1000); //反复执行函数本身
 	} else {
-		$("#id_starttime_title").html("");
+		$("#id_starttime_title").html("请注意保持课堂纪律哦！");
 	}
 }
 
