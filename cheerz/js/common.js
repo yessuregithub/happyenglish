@@ -213,7 +213,7 @@ function listcurrlesson(token) {
 					else title = "<p>" + data.lesson[i].engname + "</p><p>" + data.lesson[i].cname + "</p>";
 					datetime = Date.now();
 					timestamp = Math.floor(datetime / 1000);
-					if (parseInt(datetime / 86400) == parseInt(data.lesson[i].starttime / 86400)) istoday = true;
+					if (parseInt(timestamp / 86400) == parseInt(data.lesson[i].starttime / 86400)) istoday = true;
 					else istoday = false;
 					if (!isvip) {
 						promptword = "课程详情";
