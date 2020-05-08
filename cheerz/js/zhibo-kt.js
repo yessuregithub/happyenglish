@@ -116,7 +116,7 @@ function createpusher(videoid, divid, url) {
 		height: height,
 	});
 	return pusher;
-}
+} 
 
 
 function enterlesson() {
