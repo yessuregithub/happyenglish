@@ -19,8 +19,8 @@
 						<div class="kt">
 							<img src="images/hb.jpg">
 							<div class="txt-box">
-								<h4>距离-上课还有</h4>
-								<span>10:00</span>
+								<h4 id="id_startime_title">距离-上课还有</h4>
+								<span id="id_startime"></span>
 							</div>
 						</div>
 						<div class="laoshi-btn">
@@ -124,11 +124,23 @@
 		<script src="js/jquery-1.8.3.min.js"></script>
 		<script src="js/rem.js"></script>
 		<script src="js/mui.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/zhibo-kt.js"></script>
+		
 
 		<script>
 			var r, pusher, player2;
 			var fn;
 
+			mui.init();
+			mui.ready(function() {
+				loadpage();
+			});
+
+			function loadpage() {
+				kt_setstarttime(); // 设置课程倒计时时间
+			}
+			
 
 			function createvideo(videoid, divid, url) {
 				var odiv = document.getElementById(divid);
@@ -167,8 +179,8 @@
 
 			function plusReady() {
 				plus.screen.lockOrientation("landscape");
-			//	setTimeout(laterdo, 3000);
-			//	return;
+				//	setTimeout(laterdo, 3000);
+				//	return;
 				var audio = plus.audio.createPlayer("_doc/audio/Recorder_006.wav");
 				audio.play(function() { //播放完成回调 
 					alert("Audio play success!");
@@ -215,5 +227,6 @@
 			}
 			document.addEventListener('plusready', plusReady, false);
 		</script>
+		
 	</body>
 </html>

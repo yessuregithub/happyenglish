@@ -183,8 +183,21 @@ function lessondetail(lid) {
 	});
 }
 
+var lesson_data; // 全局直播课数据
+var index_go_link;
+// 处理点击index.html课程直播间
+function clickedlesson(less_index) {
+	if (lesson_data == null) return;
+	var i = less_index;
+	var starttime = lesson_data[i].starttime;
+	localStorage.setItem("less_startime",starttime);
+	// jump('index_go', "index_go_link");
+	window.location.href = index_go_link;
+	// console.log(starttime + ' link:' + index_go_link);
+}
 
 function listcurrlesson(token) {
+
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_listcurrlesson.html',
 		data: {
@@ -195,6 +208,7 @@ function listcurrlesson(token) {
 		type: 'post',
 		timeout: 10000,
 		success: function(data) {
+
 			// 请求成功
 			if (data.rst == 0) {
 				localStorage.setItem("token", "");
@@ -208,6 +222,8 @@ function listcurrlesson(token) {
 				if (data.viptill < Date.parse(new Date()) / 1000) isvip = false;
 				else isvip = true;
 				count = data.count;
+				lesson_data = data.lesson;
+
 				for (i = 0; i < count; i++) {
 					if (data.lesson[i].cname == "") title = "<h4>" + data.lesson[i].engname + "</h4>";
 					else title = "<p>" + data.lesson[i].engname + "</p><p>" + data.lesson[i].cname + "</p>";
@@ -215,21 +231,33 @@ function listcurrlesson(token) {
 					timestamp = Math.floor(datetime / 1000);
 					if (parseInt(timestamp / 86400) == parseInt(data.lesson[i].starttime / 86400)) istoday = true;
 					else istoday = false;
+
+					// 开始时间
+
 					if (!isvip) {
 						promptword = "课程详情";
-						link='qb-kc.html';
+						link = 'qb-kc.html';
 					} else {
 						if (istoday) promptword = "进入教室";
 						else promptword = "回看课程";
-						link='zhibo-kt.html';
+						link = 'zhibo-kt.html';
 					}
+					index_go_link = link;
+
 					$("#lessons ul").append(
+						// "<li><div class='sliding-title'>" + title + "</div><div class='img-box'><img src='" + data.lesson[i].coverurl +
+						// "'></div><div class='txt-box'><span>" + starttimetrans(data.lesson[i].starttime, istoday) +
+						// "</span><a href='" + link + "' class='jinru'>" + promptword + "</a></div></li>"
+
 						"<li><div class='sliding-title'>" + title + "</div><div class='img-box'><img src='" + data.lesson[i].coverurl +
 						"'></div><div class='txt-box'><span>" + starttimetrans(data.lesson[i].starttime, istoday) +
-						"</span><a href='"+link+"' class='jinru'>" + promptword + "</a></div></li>"
+						"</span><a href='javascript:clickedlesson(" + i + ")' class='jinru'>" + promptword +
+						"</a></div></li>"
 					);
 
 				}
+
+
 			}
 		},
 		error: function(xhr, type, errorThrown) {
@@ -279,7 +307,7 @@ function listqa() {
 		}
 	});
 }
-
+// 点击问答详情
 function clickedquestion(queid) {
 	var count = qalist.length;
 	for (i = 0; i < count; i++) {
