@@ -78,7 +78,7 @@ function initclassroom(data) {
 			$(tag).html("<img src=\"images/wsx.jpg\">"); //显示未上线
 		}
 	}
-	pusher.start();  //搞不明白为什么必须放在player后面,否则就不能推流
+	pusher.start();  //搞不明白为什么必须放在player后面,否则就不能推流!
 }
 
 function createvideo(videoid, divid, url) {
