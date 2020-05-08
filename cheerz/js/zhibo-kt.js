@@ -1,5 +1,5 @@
 function kt_setstarttime() {
-	var starttime_ts = localStorage.getItem("less_startime");
+	var starttime_ts = localStorage.getItem("less_starttime");
 	if (starttime_ts == null) return;
 
 	datetime = Date.now();
@@ -9,13 +9,13 @@ function kt_setstarttime() {
 
 	// 倒数计时
 	if (istoday) {
-		var div = document.getElementById("id_startime");
+		var div = document.getElementById("id_starttime");
 		var endtime = new Date(parseInt(starttime_ts) * 1000);
 		setInterval(function() {
 			div.innerHTML = showtime(endtime);
 		}, 1000); //反复执行函数本身
 	} else {
-		$("#id_startime_title").html("");
+		$("#id_starttime_title").html("");
 	}
 }
 

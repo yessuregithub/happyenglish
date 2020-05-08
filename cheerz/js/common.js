@@ -190,7 +190,7 @@ function clickedlesson(less_index) {
 	if (lesson_data == null) return;
 	var i = less_index;
 	var starttime = lesson_data[i].starttime;
-	localStorage.setItem("less_startime",starttime);
+	localStorage.setItem("less_starttime",starttime);
 	// jump('index_go', "index_go_link");
 	window.location.href = index_go_link;
 	// console.log(starttime + ' link:' + index_go_link);
