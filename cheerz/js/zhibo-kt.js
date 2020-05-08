@@ -45,7 +45,7 @@ function showtime(endtime) {
 function quitlesson() {
 	pusher.stop();
 	pusher.close();
-	for (i = 1; i <= 4; i++)
+	for (i = 1; i <= 5; i++)
 		if (player[i] != null) {
 			player[i].stop();
 			player[i].close();
@@ -55,7 +55,7 @@ function quitlesson() {
 
 function initclassroom(data) {
 	//console.log(JSON.stringify(data));
-	for (i = 1; i <= 4; i++) player[i] = null;
+	for (i = 1; i <= 5; i++) player[i] = null;
 	for (i = 1; i <= 4; i++) {
 		playername[i] = data.player[i].name;
 		playercoin[i] = data.player[i].coin;
@@ -78,7 +78,7 @@ function initclassroom(data) {
 			$(tag).html("<img src=\"images/wsx.jpg\">"); //显示未上线
 		}
 	}
-	pusher.start();  //搞不明白为什么必须放在player后面,否则就不能推流! *测试修复损坏的git
+	pusher.start();  //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。如果有这个问题，新的player可能也会中断pusher
 }
 
 function createvideo(videoid, divid, url) {
