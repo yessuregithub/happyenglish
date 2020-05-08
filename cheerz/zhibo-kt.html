@@ -13,7 +13,7 @@
 				<div class="wt-bg"><img src="images/gou-bg.jpg"></div>
 				<a href="javascript:void(0)" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'"
 				 class="wt-return"></a>
-				<a href="index.html" class="wt-return"></a>
+				<a href="javascript:quitlesson()" class="wt-return"></a>
 				<div class="zhibo-box">
 					<div class="zhibo-top mui-clearfix">
 						<div class="kt">
@@ -39,13 +39,14 @@
 						<li>
 
 							<div class="mui-clearfix">
-								<div class="name">name1</div>
-								<div class="jin"><img src="images/jibi.png"><span>0</span></div>
+								<div id="name1" class="name">name1</div>
+								<div class="jin"><img src="images/jibi.png"><span id="coin1">0</span></div>
 							</div>
 
 							<div class="img-box">
 								<div style="width:100%;height:100%;background-color:#000000">
-									<div id="video" style="width:100%;height:100%;background-color:#1fffff;margin:1px 1px 1px 1px">
+									<div id="v1" style="width:100%;height:100%;background-color:#1fffff;margin:1px 1px 1px 1px">
+										<img src="images/wsx.jpg">
 									</div>
 								</div>
 								<span class="shexiangtou"></span>
@@ -53,12 +54,13 @@
 						</li>
 						<li>
 							<div class="mui-clearfix">
-								<div class="name">name2</div>
-								<div class="jin" id="pusher"><img src="images/jibi.png"><span>0</span></div>
+								<div id="name2" class="name">name2</div>
+								<div class="jin" id="pusher"><img src="images/jibi.png"><span id="coin2">0</span></div>
 							</div>
 							<div class="img-box">
 								<div style="width:100%;height:100%;background-color:#000000">
 									<div id="v2" style="width:100%;height:100%;background-color:#1fffff;margin:1px 1px 1px 1px">
+									<img src="images/wsx.jpg">
 									</div>
 								</div>
 								<span class="shexiangtou"></span>
@@ -66,23 +68,27 @@
 						</li>
 						<li>
 							<div class="mui-clearfix">
-								<div class="name">name3</div>
-								<div class="jin"><img src="images/jibi.png"><span>0</span></div>
+								<div id="name3" class="name">name3</div>
+								<div class="jin"><img src="images/jibi.png"><span id="coin3">0</span></div>
 							</div>
 							<div class="img-box">
+								<div id="v3" style="width:100%;height:100%;background-color:#000000">
 								<img src="images/wsx.jpg">
+								</div>
 								<span class="shexiangtou"></span>
 							</div>
 						</li>
 						<li>
 							<div class="mui-clearfix">
-								<div class="name">name4</div>
-								<div class="jin"><img src="images/jibi.png"><span>0</span></div>
+								<div id="name4" class="name">name4</div>
+								<div class="jin"><img src="images/jibi.png"><span id="coin4">0</span></div>
 							</div>
 							<div class="img-box">
+								<div id="v4" style="width:100%;height:100%;background-color:#000000">
 								<img src="images/pingbi.jpg">
+								</div>
 								<span class="shexiangtou"><img src="images/pb.png"></span>
-							</div>
+							</div><div id=video></div>
 						</li>
 					</ul>
 
@@ -126,10 +132,10 @@
 		<script src="js/mui.js"></script>
 		<script src="js/common.js"></script>
 		<script src="js/zhibo-kt.js"></script>
-		
+
 
 		<script>
-			var r, pusher, player2;
+			var r, player2;
 			var fn;
 
 			mui.init();
@@ -139,58 +145,25 @@
 
 			function loadpage() {
 				kt_setstarttime(); // 设置课程倒计时时间
-			}
-			
-
-			function createvideo(videoid, divid, url) {
-				var odiv = document.getElementById(divid);
-				var left = odiv.getBoundingClientRect().left;
-				var top = odiv.getBoundingClientRect().top;
-				var width = odiv.getBoundingClientRect().width;
-				var height = odiv.getBoundingClientRect().height;
-				var player = plus.video.createVideoPlayer(videoid, {
-					src: url,
-					top: top,
-					left: left,
-					width: width,
-					height: height,
-				});
-				plus.webview.currentWebview().append(player);
-				return player;
+				//enterlesson(); //debug
 			}
 
-			function createpusher(videoid, divid, url) {
-				var pusher = null;
-				var odiv = document.getElementById(divid);
-				var left = odiv.getBoundingClientRect().left;
-				var top = odiv.getBoundingClientRect().top;
-				var width = odiv.getBoundingClientRect().width;
-				var height = odiv.getBoundingClientRect().height;
-				pusher = new plus.video.LivePusher(videoid, {
-					url: url,
-					mode: 'SD',
-					top: top,
-					left: left,
-					width: width,
-					height: height,
-				});
-				return pusher;
-			}
+
+
+
+
 
 			function plusReady() {
 				plus.screen.lockOrientation("landscape");
-				//	setTimeout(laterdo, 3000);
-				//	return;
-				var audio = plus.audio.createPlayer("_doc/audio/Recorder_006.wav");
-				audio.play(function() { //播放完成回调 
-					alert("Audio play success!");
-				}, function(e) { //失败回调 
-					alert("Audio play error: " + e.message);
-				});
-
+				pusher = createpusher("pusher", "video", "rtmp://47.241.111.251/live?vhost=rotate.localhost/123");
+				
+				setTimeout(laterdo, 5000); //让页面框架更快加载完成，耗cpu资源的推送和视频播放押后
+				return;
 			}
 
 			function laterdo() {
+				enterlesson();
+				/*
 				pusher = createpusher("pusher", "video", "rtmp://47.241.111.251/live?vhost=rotate.localhost/123");
 
 				player2 = createvideo('videoid2', 'v2', 'rtmp://47.241.111.251/live/123');
@@ -210,7 +183,7 @@
 				});
 
 				setTimeout(lateragain, 5000);
-
+              */
 			}
 
 			function lateragain() {
@@ -227,6 +200,6 @@
 			}
 			document.addEventListener('plusready', plusReady, false);
 		</script>
-		
+
 	</body>
 </html>

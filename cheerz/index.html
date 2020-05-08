@@ -37,7 +37,7 @@
 				</div>
 			</div>
 		</div>
-
+        <div id=nouse></div>
 
 
 		<script src="js/mui.min.js"></script>
@@ -45,7 +45,6 @@
 		<script src="js/rem.js"></script>
 		<script src="js/common.js"></script>
 		<script>
-			mui.init();
 			function loadpage() {
 				var token = checklogin();
 				if (token == null) return;
@@ -57,9 +56,12 @@
 			mui.ready(function() {
 				loadpage();
 			});
-			mui.plusReady(function() {
+			
+			function plusReady() {
 				plus.screen.lockOrientation("landscape");
-			});
+			}
+			
+			document.addEventListener('plusready', plusReady, false);
 		</script>
 	</body>
 </html>

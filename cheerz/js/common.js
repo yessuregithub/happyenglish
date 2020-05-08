@@ -191,6 +191,7 @@ function clickedlesson(less_index) {
 	var i = less_index;
 	var starttime = lesson_data[i].starttime;
 	localStorage.setItem("less_starttime",starttime);
+	localStorage.setItem("less_id",lesson_data[i].id);
 	// jump('index_go', "index_go_link");
 	window.location.href = index_go_link;
 	// console.log(starttime + ' link:' + index_go_link);
@@ -367,10 +368,12 @@ function timetrans(date) {
 }
 
 function jump(title, url) {
-	mui.openWindow({
+	/*mui.openWindow({
 		id: title,
 		url: url
 	});
-
-	//window.location.href = url;
+*/
+	window.location.href = url;
 }
+
+
