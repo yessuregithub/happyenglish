@@ -45,7 +45,7 @@ function showtime(endtime) {
 function quitlesson() {
 	pusher.stop();
 	pusher.close();
-	for (i = 1; i <= 5; i++)
+	for (i = 0; i <= 4; i++)
 		if (player[i] != null) {
 			player[i].stop();
 			player[i].close();
@@ -68,6 +68,7 @@ function initclassroom(data) {
 			tag = "#v" + i;
 			$(tag).html("<div id=\"v" + i + "\" style=\"width:100%;height:100%;background-color:#000000\">"); //准备视频区域
 			player[i] = createvideo("v" + i, "v" + i, playervideo[i]);
+			player[i].addEventListener('play', videoinplay, false);
 			player[i].play();
 		} else {
 			tag = "#name" + i;
@@ -78,7 +79,13 @@ function initclassroom(data) {
 			$(tag).html("<img src=\"images/wsx.jpg\">"); //显示未上线
 		}
 	}
-	pusher.start();  //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。如果有这个问题，新的player可能也会中断pusher
+	pusher.start(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
+	//在新的视频加入后，必须stop，然后再start pusher
+	pusher.start(); 
+}
+
+function videoinplay(e) {
+//	alert('video in play');
 }
 
 function createvideo(videoid, divid, url) {
@@ -93,7 +100,6 @@ function createvideo(videoid, divid, url) {
 		left: left,
 		width: width,
 		height: height,
-		direction: -90,
 	});
 	plus.webview.currentWebview().append(player);
 	return player;
@@ -101,13 +107,13 @@ function createvideo(videoid, divid, url) {
 
 
 function createpusher(videoid, divid, url) {
-	var pusher = null;
+	var pusher1 = null;
 	var odiv = document.getElementById(divid);
 	var left = odiv.getBoundingClientRect().left;
 	var top = odiv.getBoundingClientRect().top;
 	var width = odiv.getBoundingClientRect().width;
 	var height = odiv.getBoundingClientRect().height;
-	pusher = new plus.video.LivePusher(videoid, {
+	pusher1 = new plus.video.LivePusher(videoid, {
 		url: url,
 		mode: 'SD',
 		top: top,
@@ -115,8 +121,9 @@ function createpusher(videoid, divid, url) {
 		width: width,
 		height: height,
 	});
-	return pusher;
-} 
+	plus.webview.currentWebview().append(pusher1);
+	return pusher1;
+}
 
 
 function enterlesson() {
