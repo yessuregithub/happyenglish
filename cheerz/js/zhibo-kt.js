@@ -81,11 +81,11 @@ function initclassroom(data) {
 	}
 	pusher.start(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
 	//在新的视频加入后，必须stop，然后再start pusher
-	pusher.start(); 
+
 }
 
 function videoinplay(e) {
-//	alert('video in play');
+	//	alert('video in play');
 }
 
 function createvideo(videoid, divid, url) {
@@ -106,27 +106,8 @@ function createvideo(videoid, divid, url) {
 }
 
 
-function createpusher(videoid, divid, url) {
-	var pusher1 = null;
-	var odiv = document.getElementById(divid);
-	var left = odiv.getBoundingClientRect().left;
-	var top = odiv.getBoundingClientRect().top;
-	var width = odiv.getBoundingClientRect().width;
-	var height = odiv.getBoundingClientRect().height;
-	pusher1 = new plus.video.LivePusher(videoid, {
-		url: url,
-		mode: 'SD',
-		top: top,
-		left: left,
-		width: width,
-		height: height,
-	});
-	plus.webview.currentWebview().append(pusher1);
-	return pusher1;
-}
-
-
 function enterlesson() {
+	setInterval(pullmessage, 5000);
 	token = localStorage.getItem("token");
 	lid = localStorage.getItem("less_id");
 
@@ -165,4 +146,73 @@ function enterlesson() {
 			mui.alert("网络错误，请稍后再试");
 		}
 	});
+
+}
+
+function addplayer(order, name, coin, url) {
+	if (playername[order] != "") return; //duplicate user
+	playername[order] = name;
+	playercoin[order] = coin;
+	playervideo[order] = url;
+	tag = "#name" + order;
+	$(tag).text(playername[order]);
+	tag = "#coin" + order;
+	$(tag).text(playercoin[order]);
+	tag = "#v" + order;
+	$(tag).html("<div id=\"v" + order + "\" style=\"width:100%;height:100%;background-color:#000000\">"); //准备视频区域
+	player[order] = createvideo("v" + order, "v" + order, playervideo[order]);
+	player[order].addEventListener('play', videoinplay, false);
+	player[order].play();
+    pusher.stop();
+	pusher.start();
+}
+
+function docommand(cmds) {
+	cmd = cmds[0];
+	console.log("do cmd:" + cmd);
+	if (cmd == "addplayer") addplayer(cmds[1], cmds[2], cmds[3], cmds[4]);
+}
+
+function pullmessage() {
+	token = localStorage.getItem("token");
+	lid = localStorage.getItem("less_id");
+
+	if (token == null || token == "" || typeof(token) == undefined) {
+		quitlesson();
+		return null;
+	}
+	if (lid == null || lid == "" || typeof(lid) == undefined) {
+		quitlesson();
+		return null;
+	}
+	mui.ajax({
+		url: 'http://47.241.5.29/Home_index_pullmessage.html',
+		async: true,
+		dataType: 'json',
+		data: {
+			token: token,
+			lid: lid
+		},
+		type: 'post',
+		timeout: 10000,
+		success: function(data) {
+			// 请求成功
+			if (data.rst == 0) {
+				mui.alert(data.msg);
+				quitlesson();
+				return;
+			}
+			if (data.rst == 1) {
+				commandcount = data.msgcount;
+				for (i = 0; i < commandcount; i++) {
+					//console.log("do cmd:" + data.cmd[i]);
+					cmds = data.cmd[i].split("|");
+					docommand(cmds);
+				}
+				return;
+			}
+		},
+		error: function(xhr, type, errorThrown) {}
+	});
+
 }

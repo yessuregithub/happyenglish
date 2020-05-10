@@ -149,14 +149,8 @@
 				//enterlesson(); //debug
 			}
 
-
-
-
-
-
 			function plusReady() {
-				plus.screen.lockOrientation("landscape");
-                plus.device.setVolume(1);
+				plus.screen.lockOrientation("landscape-primary");
 				setTimeout(laterdo, 1000); //让页面框架更快加载完成，耗cpu资源的推送和视频播放押后
 				return;
 			}
@@ -165,42 +159,10 @@
 				pusher = new plus.video.LivePusher('pusher', {
 					url: 'rtmp://47.241.111.251/live?vhost=rotate.localhost/123'
 				});
+				
 				enterlesson();
-				/*
-				pusher = createpusher("pusher", "video", "rtmp://47.241.111.251/live?vhost=rotate.localhost/123");
-
-				player2 = createvideo('videoid2', 'v2', 'rtmp://47.241.111.251/live/123');
-				player2.play();
-
-				pusher.start();
-
-				r = plus.audio.getRecorder();
-				if (r == null) alert('can not found recorder');
-				r.record({
-					filename: "_doc/audio/"
-				}, function(p) {
-					alert("Audio record success!" + p);
-					fn = p;
-				}, function(e) {
-					alert("Audio record failed: " + e.message);
-				});
-
-				setTimeout(lateragain, 5000);
-              */
 			}
 
-			function lateragain() {
-				r.stop();
-				pusher.stop();
-				player2.stop();
-
-				var audio = plus.audio.createPlayer(fn);
-				audio.play(function() { //播放完成回调 
-					alert("Audio play success!");
-				}, function(e) { //失败回调 
-					alert("Audio play error: " + e.message);
-				});
-			}
 			document.addEventListener('plusready', plusReady, false);
 		</script>
 
