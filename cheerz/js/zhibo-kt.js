@@ -43,8 +43,11 @@ function showtime(endtime) {
 }
 
 function quitlesson() {
+	plus.device.setVolume(0.5);
 	pusher.stop();
+
 	pusher.close();
+	plus.device.setVolume(0.5);
 	for (i = 0; i <= 4; i++)
 		if (player[i] != null) {
 			player[i].stop();
@@ -55,7 +58,8 @@ function quitlesson() {
 
 function initclassroom(data) {
 	//console.log(JSON.stringify(data));
-	for (i = 1; i <= 5; i++) player[i] = null;
+	plus.device.setVolume(0.5);
+	for (i = 0; i < 5; i++) player[i] = null;
 	for (i = 1; i <= 4; i++) {
 		playername[i] = data.player[i].name;
 		playercoin[i] = data.player[i].coin;
@@ -81,11 +85,21 @@ function initclassroom(data) {
 	}
 	pusher.start(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
 	//在新的视频加入后，必须stop，然后再start pusher
+	plus.device.setVolume(0.5);
 
 }
 
 function videoinplay(e) {
 	//	alert('video in play');
+}
+
+var lastplaytime=0;
+
+function timeupdate(e) {
+	//console.log('statechange: ' + JSON.stringify(e));
+	currtime=e.detail.currentTime;
+	if (lastplaytime<40 && currtime>40) mui.toast("here");
+	lastplaytime=currtime;
 }
 
 function createvideo(videoid, divid, url) {
@@ -110,7 +124,7 @@ function enterlesson() {
 	setInterval(pullmessage, 5000);
 	token = localStorage.getItem("token");
 	lid = localStorage.getItem("less_id");
-
+    cover=localStorage.getItem("cover");
 	if (token == null || token == "" || typeof(token) == undefined) {
 		jump('login', 'dl.html');
 		return null;
@@ -119,6 +133,7 @@ function enterlesson() {
 		jump('index', 'index.html');
 		return null;
 	}
+	$("#vtarea").html("<img src='"+cover+"'>");
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_enterlesson.html',
 		async: true,
@@ -163,14 +178,28 @@ function addplayer(order, name, coin, url) {
 	player[order] = createvideo("v" + order, "v" + order, playervideo[order]);
 	player[order].addEventListener('play', videoinplay, false);
 	player[order].play();
-    pusher.stop();
+	pusher.stop();
+	pusher.start();
+	plus.device.setVolume(0.5);
+}
+
+function startlesson(starttime, url) {
+	if (player[0] != null) return;
+	console.log("start lesson:" + url);
+	tag = "#vtarea";
+	$(tag).html("<div id=\"vt\" style=\"width:100%;height:100%;background-color:#000000\">"); //准备视频区域
+	player[0] = createvideo("vt", "vt", url);
+	player[0].addEventListener('timeupdate', timeupdate, false);
+	player[0].play();
+	pusher.stop();
 	pusher.start();
 }
 
 function docommand(cmds) {
 	cmd = cmds[0];
-	console.log("do cmd:" + cmd);
+	//console.log("do cmd:" + cmd);
 	if (cmd == "addplayer") addplayer(cmds[1], cmds[2], cmds[3], cmds[4]);
+	if (cmd == "lessonstart") startlesson(cmds[1], cmds[2]);
 }
 
 function pullmessage() {

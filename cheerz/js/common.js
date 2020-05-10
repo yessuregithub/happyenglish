@@ -192,6 +192,7 @@ function clickedlesson(less_index) {
 	var starttime = lesson_data[i].starttime;
 	localStorage.setItem("less_starttime",starttime);
 	localStorage.setItem("less_id",lesson_data[i].id);
+	localStorage.setItem("cover",lesson_data[i].coverurl);
 	// jump('index_go', "index_go_link");
 	window.location.href = index_go_link;
 	// console.log(starttime + ' link:' + index_go_link);
