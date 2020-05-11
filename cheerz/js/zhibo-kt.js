@@ -70,7 +70,7 @@ function initclassroom(data) {
 			tag = "#coin" + i;
 			$(tag).text(playercoin[i]);
 			tag = "#v" + i;
-			$(tag).html("<div id=\"v" + i + "\" style=\"width:100%;height:100%;background-color:#000000\">"); //准备视频区域
+			//$(tag).html("<div id=\"v" + i + "\" style=\"width:100%;height:100%;background-color:#000000\">"); //准备视频区域
 			player[i] = createvideo("v" + i, "v" + i, playervideo[i]);
 			player[i].addEventListener('play', videoinplay, false);
 			player[i].play();
@@ -93,19 +93,19 @@ function videoinplay(e) {
 	//	alert('video in play');
 }
 
-var lastplaytime=0;
+var lastplaytime = 0;
 
 function timeupdate(e) {
 	//console.log('statechange: ' + JSON.stringify(e));
-	currtime=e.detail.currentTime;
-	if (lastplaytime<40 && currtime>40) mui.toast("here");
-	lastplaytime=currtime;
+	currtime = e.detail.currentTime;
+	if (lastplaytime < 40 && currtime > 40) mui.toast("here");
+	lastplaytime = currtime;
 }
 
 function ended(e) {
 	plus.device.setVolume(0.5);
 	pusher.stop();
-	
+
 	pusher.close();
 	plus.device.setVolume(0.5);
 	for (i = 0; i <= 4; i++)
@@ -113,7 +113,7 @@ function ended(e) {
 			player[i].stop();
 			player[i].close();
 		}
-	jump('ended','kc-end.html');
+	jump('ended', 'kc-end.html');
 }
 
 function createvideo(videoid, divid, url) {
@@ -138,7 +138,7 @@ function enterlesson() {
 	setInterval(pullmessage, 5000);
 	token = localStorage.getItem("token");
 	lid = localStorage.getItem("less_id");
-    cover=localStorage.getItem("cover");
+	cover = localStorage.getItem("cover");
 	if (token == null || token == "" || typeof(token) == undefined) {
 		jump('login', 'dl.html');
 		return null;
@@ -147,7 +147,7 @@ function enterlesson() {
 		jump('index', 'index.html');
 		return null;
 	}
-	$("#vtarea").html("<img src='"+cover+"'>");
+	$("#vtarea").html("<img src='" + cover + "'>");
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_enterlesson.html',
 		async: true,
@@ -178,6 +178,19 @@ function enterlesson() {
 
 }
 
+function playerleave(pos) {
+	if (playername[pos]=="") return;
+	player[pos].stop();
+	player[pos].close();
+    player[pos]=null;
+	playername[pos]="";
+	playercoin[pos]="-";
+	tag = "#name" + pos;
+	$(tag).text("");
+	tag = "#coin" + pos;
+	$(tag).text("-");
+}
+
 function addplayer(order, name, coin, url) {
 	if (playername[order] != "") return; //duplicate user
 	playername[order] = name;
@@ -188,7 +201,7 @@ function addplayer(order, name, coin, url) {
 	tag = "#coin" + order;
 	$(tag).text(playercoin[order]);
 	tag = "#v" + order;
-	$(tag).html("<div id=\"v" + order + "\" style=\"width:100%;height:100%;background-color:#000000\">"); //准备视频区域
+	//$(tag).html("<div id=\"v" + order + "\" style=\"width:100%;height:100%;background-color:#000000\">"); //准备视频区域
 	player[order] = createvideo("v" + order, "v" + order, playervideo[order]);
 	player[order].addEventListener('play', videoinplay, false);
 	player[order].play();
@@ -209,11 +222,11 @@ function startlesson(starttime, url) {
 	pusher.stop();
 	pusher.start();
 
-/*   开新webview测试
-     var webview = mui.openWindow({
-	   url:'zhoumo-yx.html',
-	   });
-*/
+	/*   开新webview测试
+	     var webview = mui.openWindow({
+		   url:'zhoumo-yx.html',
+		   });
+	*/
 }
 
 function docommand(cmds) {
@@ -221,6 +234,7 @@ function docommand(cmds) {
 	//console.log("do cmd:" + cmd);
 	if (cmd == "addplayer") addplayer(cmds[1], cmds[2], cmds[3], cmds[4]);
 	if (cmd == "lessonstart") startlesson(cmds[1], cmds[2]);
+	if (cmd == "leavelesson") playerleave(cmds[1]);
 }
 
 function pullmessage() {
