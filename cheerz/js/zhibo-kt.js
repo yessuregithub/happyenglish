@@ -102,6 +102,20 @@ function timeupdate(e) {
 	lastplaytime=currtime;
 }
 
+function ended(e) {
+	plus.device.setVolume(0.5);
+	pusher.stop();
+	
+	pusher.close();
+	plus.device.setVolume(0.5);
+	for (i = 0; i <= 4; i++)
+		if (player[i] != null) {
+			player[i].stop();
+			player[i].close();
+		}
+	jump('ended','kc-end.html');
+}
+
 function createvideo(videoid, divid, url) {
 	var odiv = document.getElementById(divid);
 	var left = odiv.getBoundingClientRect().left;
@@ -190,6 +204,7 @@ function startlesson(starttime, url) {
 	$(tag).html("<div id=\"vt\" style=\"width:100%;height:100%;background-color:#000000\">"); //准备视频区域
 	player[0] = createvideo("vt", "vt", url);
 	player[0].addEventListener('timeupdate', timeupdate, false);
+	player[0].addEventListener('ended', ended, false);
 	player[0].play();
 	pusher.stop();
 	pusher.start();
