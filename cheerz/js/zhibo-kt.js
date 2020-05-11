@@ -3,6 +3,8 @@ var player = new Array(5); // 0<-老师 1<-自己 2-4 同学
 var playername = new Array(5);
 var playercoin = new Array(5);
 var playervideo = new Array(5);
+var token,lid;
+
 
 var classid; //课堂编号
 function kt_setstarttime() {
@@ -42,7 +44,7 @@ function showtime(endtime) {
 	return lefth + ":" + leftm + ":" + lefts; //返回倒计时的字符串
 }
 
-function quitlesson() {
+function quitlesson(backtofirstpage) {
 	plus.device.setVolume(0.5);
 	pusher.stop();
 
@@ -53,7 +55,28 @@ function quitlesson() {
 			player[i].stop();
 			player[i].close();
 		}
-	jump('index', 'index.html');
+	mui.ajax({
+		url: 'http://47.241.5.29/Home_index_quitlesson.html',
+		async: true,
+		dataType: 'json',
+		data: {
+			token: token,
+			lid: lid
+		},
+		type: 'post',
+		timeout: 10000,
+		success: function(data) {
+			// 请求成功
+			if (data.rst == 0) {
+			}
+			if (data.rst == 1) {
+			}
+		},
+		error: function(xhr, type, errorThrown) {
+			// 请求失败  
+		}
+	});
+	if (backtofirstpage) jump('index', 'index.html');
 }
 
 function initclassroom(data) {
@@ -103,16 +126,7 @@ function timeupdate(e) {
 }
 
 function ended(e) {
-	plus.device.setVolume(0.5);
-	pusher.stop();
-
-	pusher.close();
-	plus.device.setVolume(0.5);
-	for (i = 0; i <= 4; i++)
-		if (player[i] != null) {
-			player[i].stop();
-			player[i].close();
-		}
+	quitlesson(false);
 	jump('ended', 'kc-end.html');
 }
 
@@ -179,12 +193,12 @@ function enterlesson() {
 }
 
 function playerleave(pos) {
-	if (playername[pos]=="") return;
+	if (playername[pos] == "") return;
 	player[pos].stop();
 	player[pos].close();
-    player[pos]=null;
-	playername[pos]="";
-	playercoin[pos]="-";
+	player[pos] = null;
+	playername[pos] = "";
+	playercoin[pos] = "-";
 	tag = "#name" + pos;
 	$(tag).text("");
 	tag = "#coin" + pos;
@@ -242,11 +256,11 @@ function pullmessage() {
 	lid = localStorage.getItem("less_id");
 
 	if (token == null || token == "" || typeof(token) == undefined) {
-		quitlesson();
+		quitlesson(true);
 		return null;
 	}
 	if (lid == null || lid == "" || typeof(lid) == undefined) {
-		quitlesson();
+		quitlesson(true);
 		return null;
 	}
 	mui.ajax({
@@ -263,7 +277,7 @@ function pullmessage() {
 			// 请求成功
 			if (data.rst == 0) {
 				mui.alert(data.msg);
-				quitlesson();
+				quitlesson(true);
 				return;
 			}
 			if (data.rst == 1) {
