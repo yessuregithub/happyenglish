@@ -125,6 +125,8 @@ function checklessondata(lastplaytime, currtime) {
 	for (i = 0; i < datacount; i++) {
 		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
 			console.log("pop up "+lessondata[i].url);
+			localStorage.setItem("gid",lessondata[i].id);
+			localStorage.setItem("gpara",lessondata[i].para);
 			var webview = mui.openWindow({
 			  url:lessondata[i].url+".html",
 			  });
