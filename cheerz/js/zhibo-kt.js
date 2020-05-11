@@ -3,8 +3,8 @@ var player = new Array(5); // 0<-老师 1<-自己 2-4 同学
 var playername = new Array(5);
 var playercoin = new Array(5);
 var playervideo = new Array(5);
-var token,lid;
-
+var token, lid;
+var lessondata, datacount;
 
 var classid; //课堂编号
 function kt_setstarttime() {
@@ -67,10 +67,8 @@ function quitlesson(backtofirstpage) {
 		timeout: 10000,
 		success: function(data) {
 			// 请求成功
-			if (data.rst == 0) {
-			}
-			if (data.rst == 1) {
-			}
+			if (data.rst == 0) {}
+			if (data.rst == 1) {}
 		},
 		error: function(xhr, type, errorThrown) {
 			// 请求失败  
@@ -79,9 +77,14 @@ function quitlesson(backtofirstpage) {
 	if (backtofirstpage) jump('index', 'index.html');
 }
 
+
+
 function initclassroom(data) {
 	//console.log(JSON.stringify(data));
 	plus.device.setVolume(0.5);
+	lessondata = data.lessondata;
+	datacount = data.datacount;
+
 	for (i = 0; i < 5; i++) player[i] = null;
 	for (i = 1; i <= 4; i++) {
 		playername[i] = data.player[i].name;
@@ -118,10 +121,21 @@ function videoinplay(e) {
 
 var lastplaytime = 0;
 
+function checklessondata(lastplaytime, currtime) {
+	for (i = 0; i < datacount; i++) {
+		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
+			console.log("pop up "+lessondata[i].url);
+			var webview = mui.openWindow({
+			  url:lessondata[i].url+".html",
+			  });
+		}
+	}
+}
+
 function timeupdate(e) {
 	//console.log('statechange: ' + JSON.stringify(e));
 	currtime = e.detail.currentTime;
-	if (lastplaytime < 40 && currtime > 40) mui.toast("here");
+	checklessondata(lastplaytime, currtime); //需要处理超时不返回，否则多次弹窗！
 	lastplaytime = currtime;
 }
 
