@@ -193,6 +193,12 @@ function startlesson(starttime, url) {
 	player[0].play();
 	pusher.stop();
 	pusher.start();
+
+/*   开新webview测试
+     var webview = mui.openWindow({
+	   url:'zhoumo-yx.html',
+	   });
+*/
 }
 
 function docommand(cmds) {
