@@ -1,5 +1,5 @@
 var pusher, token;
-var player = new Array(5); // 0<-老师 1<-自己 2-4 同学
+var player = new Array(5); // 0<-老师 1-4 学生
 var playername = new Array(5);
 var playercoin = new Array(5);
 var playervideo = new Array(5);
@@ -31,9 +31,6 @@ function kt_setstarttime() {
 function showtime(endtime) {
 	var nowtime = new Date(); //获取当前时间
 	var lefttime = endtime.getTime() - nowtime.getTime(); //距离结束时间的毫秒数
-
-	// var leftdate = new Date(lefttime);
-	// console.log(lefttime + "  , " + leftdate + "  ,  " + endtime + "  ,  " + nowtime);
 
 	var leftd = Math.floor(lefttime / (1000 * 60 * 60 * 24)); //计算天数
 	var lefth = Math.floor(lefttime / (1000 * 60 * 60) % 24); //计算小时数
@@ -96,9 +93,7 @@ function initclassroom(data) {
 			tag = "#coin" + i;
 			$(tag).text(playercoin[i]);
 			tag = "#v" + i;
-			//$(tag).html("<div id=\"v" + i + "\" style=\"width:100%;height:100%;background-color:#000000\">"); //准备视频区域
 			player[i] = createvideo("v" + i, "v" + i, playervideo[i]);
-			player[i].addEventListener('play', videoinplay, false);
 			player[i].play();
 		} else {
 			tag = "#name" + i;
@@ -115,21 +110,17 @@ function initclassroom(data) {
 
 }
 
-function videoinplay(e) {
-	//	alert('video in play');
-}
-
 var lastplaytime = 0;
 
 function checklessondata(lastplaytime, currtime) {
 	for (i = 0; i < datacount; i++) {
 		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
-			console.log("pop up "+lessondata[i].url);
-			localStorage.setItem("gid",lessondata[i].id);
-			localStorage.setItem("gpara",lessondata[i].para);
+			console.log("pop up " + lessondata[i].url);
+			localStorage.setItem("gid", lessondata[i].id);
+			localStorage.setItem("gpara", lessondata[i].para);
 			var webview = mui.openWindow({
-			  url:lessondata[i].url+".html",
-			  });
+				url: lessondata[i].url + ".html",
+			});
 		}
 	}
 }
@@ -231,9 +222,7 @@ function addplayer(order, name, coin, url) {
 	tag = "#coin" + order;
 	$(tag).text(playercoin[order]);
 	tag = "#v" + order;
-	//$(tag).html("<div id=\"v" + order + "\" style=\"width:100%;height:100%;background-color:#000000\">"); //准备视频区域
 	player[order] = createvideo("v" + order, "v" + order, playervideo[order]);
-	player[order].addEventListener('play', videoinplay, false);
 	player[order].play();
 	pusher.stop();
 	pusher.start();
@@ -244,7 +233,7 @@ function startlesson(starttime, url) {
 	if (player[0] != null) return;
 	console.log("start lesson:" + url);
 	tag = "#vtarea";
-	$(tag).html("<div id=\"vt\" style=\"width:100%;height:100%;background-color:#000000\">"); //准备视频区域
+	//$(tag).html("<div id=\"vt\" style=\"width:100%;height:100%;background-color:#000000\">"); //准备视频区域
 	player[0] = createvideo("vt", "vt", url);
 	player[0].addEventListener('timeupdate', timeupdate, false);
 	player[0].addEventListener('ended', ended, false);
@@ -252,11 +241,6 @@ function startlesson(starttime, url) {
 	pusher.stop();
 	pusher.start();
 
-	/*   开新webview测试
-	     var webview = mui.openWindow({
-		   url:'zhoumo-yx.html',
-		   });
-	*/
 }
 
 function docommand(cmds) {
