@@ -263,8 +263,8 @@ function docommand(cmds) {
 	cmd = cmds[0];
 	//console.log("do cmd:" + cmd);
 	if (cmd == "addplayer") addplayer(cmds[1], cmds[2], cmds[3], cmds[4]);
-	if (cmd == "lessonstart") startlesson(cmds[1], cmds[2]);
-	if (cmd == "leavelesson") playerleave(cmds[1]);
+	else if (cmd == "lessonstart") startlesson(cmds[1], cmds[2]);
+	else if (cmd == "leavelesson") playerleave(cmds[1]);
 }
 
 function pullmessage() {
