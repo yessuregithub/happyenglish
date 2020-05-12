@@ -115,11 +115,22 @@ var lastplaytime = 0;
 function checklessondata(lastplaytime, currtime) {
 	for (i = 0; i < datacount; i++) {
 		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
+			var odiv = document.getElementById("kt");
+			var left = odiv.getBoundingClientRect().left;
+			var top = odiv.getBoundingClientRect().top;
+			var width = odiv.getBoundingClientRect().width;
+			var height = odiv.getBoundingClientRect().height;
 			console.log("pop up " + lessondata[i].url);
 			localStorage.setItem("gid", lessondata[i].id);
 			localStorage.setItem("gpara", lessondata[i].para);
 			var webview = mui.openWindow({
 				url: lessondata[i].url + ".html",
+				styles:{
+					top:top,
+					left: left,
+					height: height,
+					width: width
+					}
 			});
 		}
 	}
@@ -149,6 +160,7 @@ function createvideo(videoid, divid, url) {
 		left: left,
 		width: width,
 		height: height,
+		loop: true        //debug
 	});
 	plus.webview.currentWebview().append(player);
 	return player;
@@ -233,10 +245,10 @@ function startlesson(starttime, url) {
 	if (player[0] != null) return;
 	console.log("start lesson:" + url);
 	tag = "#vtarea";
-	//$(tag).html("<div id=\"vt\" style=\"width:100%;height:100%;background-color:#000000\">"); //准备视频区域
+	$(tag).html("<div id=\"vt\" style=\"width:100%;height:100%;background-color:#000000\">"); //准备视频区域
 	player[0] = createvideo("vt", "vt", url);
 	player[0].addEventListener('timeupdate', timeupdate, false);
-	player[0].addEventListener('ended', ended, false);
+	// debug player[0].addEventListener('ended', ended, false);
 	player[0].play();
 	pusher.stop();
 	pusher.start();
