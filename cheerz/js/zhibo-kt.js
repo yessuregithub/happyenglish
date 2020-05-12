@@ -5,6 +5,7 @@ var playercoin = new Array(5);
 var playervideo = new Array(5);
 var token, lid;
 var lessondata, datacount;
+var activeview;
 
 var classid; //课堂编号
 function kt_setstarttime() {
@@ -43,6 +44,7 @@ function showtime(endtime) {
 
 function quitlesson(backtofirstpage) {
 	plus.device.setVolume(0.5);
+	activeview.close();
 	pusher.stop();
 
 	pusher.close();
@@ -78,6 +80,20 @@ function quitlesson(backtofirstpage) {
 
 function initclassroom(data) {
 	//console.log(JSON.stringify(data));
+
+	var odiv = document.getElementById("kt");
+	var left = odiv.getBoundingClientRect().left;
+	var top = odiv.getBoundingClientRect().top;
+	var width = odiv.getBoundingClientRect().width;
+	var height = odiv.getBoundingClientRect().height;
+	activeview = plus.webview.create('about:blank', 'active', {
+		top: top,
+		left: left,
+		height: height,
+		width: width
+	});
+	activeview.hide();
+
 	plus.device.setVolume(0.5);
 	lessondata = data.lessondata;
 	datacount = data.datacount;
@@ -115,23 +131,11 @@ var lastplaytime = 0;
 function checklessondata(lastplaytime, currtime) {
 	for (i = 0; i < datacount; i++) {
 		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
-			var odiv = document.getElementById("kt");
-			var left = odiv.getBoundingClientRect().left;
-			var top = odiv.getBoundingClientRect().top;
-			var width = odiv.getBoundingClientRect().width;
-			var height = odiv.getBoundingClientRect().height;
 			console.log("pop up " + lessondata[i].url);
 			localStorage.setItem("gid", lessondata[i].id);
 			localStorage.setItem("gpara", lessondata[i].para);
-			var webview = mui.openWindow({
-				url: lessondata[i].url + ".html",
-				styles:{
-					top:top,
-					left: left,
-					height: height,
-					width: width
-					}
-			});
+            activeview.loadURL(lessondata[i].url+".html");
+			activeview.show();
 		}
 	}
 }
@@ -160,7 +164,7 @@ function createvideo(videoid, divid, url) {
 		left: left,
 		width: width,
 		height: height,
-		loop: true        //debug
+		loop: true //debug
 	});
 	plus.webview.currentWebview().append(player);
 	return player;
