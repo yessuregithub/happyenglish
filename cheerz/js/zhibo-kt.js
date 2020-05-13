@@ -8,6 +8,8 @@ var lessondata, datacount;
 var activeview;
 
 var classid; //课堂编号
+var kt_starttime_interval = null;
+
 function kt_setstarttime() {
 	var starttime_ts = localStorage.getItem("less_starttime");
 	if (starttime_ts == null) return;
@@ -21,8 +23,14 @@ function kt_setstarttime() {
 	if (istoday && timestamp <= starttime_ts) {
 		var div = document.getElementById("id_starttime");
 		var endtime = new Date(parseInt(starttime_ts) * 1000);
-		setInterval(function() {
-			div.innerHTML = showtime(endtime);
+		kt_starttime_interval = setInterval(function() {
+			// 切换成直播状态
+			if (new Date().getTime() >= endtime.getTime()) {
+				clearInterval(kt_starttime_interval);
+				$("#id_starttime_title").html("请注意保持课堂纪律哦！");
+			} else {
+				div.innerHTML = showtime(endtime);
+			}
 		}, 1000); //反复执行函数本身
 	} else {
 		$("#id_starttime_title").html("请注意保持课堂纪律哦！");
@@ -43,6 +51,10 @@ function showtime(endtime) {
 }
 
 function quitlesson(backtofirstpage) {
+	// if (player[0] != null) {
+	// 	player[0].removeEventListener('timeupdate', timeupdate, false);
+	// }
+
 	plus.device.setVolume(0.5);
 	activeview.close();
 	pusher.stop();
@@ -131,13 +143,19 @@ var lastplaytime = 0;
 function checklessondata(lastplaytime, currtime) {
 	for (i = 0; i < datacount; i++) {
 		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
-			console.log("pop up " + lessondata[i].url);
+			// todo test
+			lessondata[i].url = "hudong-tupianlunbo";
+
+			console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + "pop up " + lessondata[i].url);
+			console.log("less para :" + lessondata[i].para);
+
 			localStorage.setItem("gid", lessondata[i].id);
 			localStorage.setItem("gpara", lessondata[i].para);
-            activeview.loadURL(lessondata[i].url+".html");
+			activeview.loadURL(lessondata[i].url + ".html");
 			activeview.show();
 		}
 	}
+
 }
 
 function timeupdate(e) {
