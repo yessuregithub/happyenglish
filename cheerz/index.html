@@ -25,7 +25,7 @@
 						</div>
 						<div class="mui-col-sm-6 mui-col-xs-6 mui-clearfix">
 							<a href="javascript:jump('shezhi','shezhi.html')" class="icon icon03"></a>
-							<a href="#" class="icon icon02"></a>
+							<a href="javascript:mui.alert('暂未开放，敬请期待')" class="icon icon02"></a>
 							<a href="javascript:jump('goumai','goumai-kc.html')"  class="icon icon01"></a>
 						</div>
 					</div>
@@ -45,6 +45,12 @@
 		<script src="js/rem.js"></script>
 		<script src="js/common.js"></script>
 		<script>
+			
+			$('#ustx').on('click', function() {
+				jump('grxx','grxx.html');
+				return;
+				});
+				
 			function loadpage() {
 				var token = checklogin();
 				if (token == null) return;
