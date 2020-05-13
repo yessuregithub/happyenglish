@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<script src="js/zhibo-kt.js"></script>
-		
+
 		<div id="orientLayer">
 			<div class="wt-box">
 				<div class="wt-bg"><img src="images/zb-bg.png"></div>
@@ -32,9 +32,9 @@
 								<a href="" class="ce"></a>
 								<a href="javascript:void(0)" onclick="document.getElementById('light-kf').style.display='block';document.getElementById('fade').style.display='block'"
 								 class="kf" </a> </div> <div class="laoshi-sp">
-								 <div id="vtarea" style="width:100%;height:100%;background-color:#1fffff;margin:1px 1px 1px 1px">
-									<div id="vt" class="img-box">老师视频</div>
-								</div>
+									<div id="vtarea" style="width:100%;height:100%;background-color:#1fffff;margin:1px 1px 1px 1px">
+										<div id="vt" class="img-box">老师视频</div>
+									</div>
 							</div>
 						</div>
 					</div>
@@ -152,8 +152,12 @@
 				//enterlesson(); //debug
 			}
 
+			mui.back = function() {   //禁止android返回
+			console.log("detected back, ignore");
+			});
+
 			function plusReady() {
-//				plus.screen.lockOrientation("landscape-primary");
+				//				plus.screen.lockOrientation("landscape-primary");
 				setTimeout(laterdo, 1000); //让页面框架更快加载完成，耗cpu资源的推送和视频播放押后
 				return;
 			}
@@ -162,7 +166,7 @@
 				pusher = new plus.video.LivePusher('pusherwin', {
 					url: 'rtmp://47.241.111.251/live?vhost=rotate.localhost/123'
 				});
-				
+
 				enterlesson();
 			}
 
