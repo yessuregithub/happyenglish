@@ -328,3 +328,13 @@ function pullmessage() {
 	});
 
 }
+
+function askquit() {
+	var btnArray = ['No', 'Yes'];
+	mui.confirm('确定要离开教室(Yes/No)？', '确认', btnArray, function(e) {
+		if (e.index == 1) {
+			quitlesson(true);
+		} 
+	});
+	
+}
