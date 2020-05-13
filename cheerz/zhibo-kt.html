@@ -27,7 +27,7 @@
 						</div>
 						<div class="laoshi-btn">
 							<div class="laoshi-list mui-clearfix">
-								<a href="" class="yin"><span class="pingbi"></span></a>
+								<a href="javascript:muteplayer()" class="yin"><span id="pingbi" ></span></a>
 								<a href="" class="shua"></a>
 								<a href="" class="ce"></a>
 								<a href="javascript:void(0)" onclick="document.getElementById('light-kf').style.display='block';document.getElementById('fade').style.display='block'"
@@ -154,7 +154,7 @@
 
 			mui.back = function() {   //禁止android返回
 			console.log("detected back, ignore");
-			});
+			}
 
 			function plusReady() {
 				//				plus.screen.lockOrientation("landscape-primary");
@@ -171,6 +171,7 @@
 			}
 
 			document.addEventListener('plusready', plusReady, false);
+			
 		</script>
 
 	</body>

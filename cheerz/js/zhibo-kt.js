@@ -6,6 +6,7 @@ var playervideo = new Array(5);
 var token, lid;
 var lessondata, datacount;
 var activeview;
+var ismuted = false;
 
 var classid; //课堂编号
 var kt_starttime_interval = null;
@@ -99,10 +100,10 @@ function initclassroom(data) {
 	var width = odiv.getBoundingClientRect().width;
 	var height = odiv.getBoundingClientRect().height;
 	activeview = plus.webview.create('about:blank', 'active', {
-		top: top+5,     //把黑板的边框留一点出来
-		left: left+10,
-		height: height-10,
-		width: width-20
+		top: top + 5, //把黑板的边框留一点出来
+		left: left + 10,
+		height: height - 10,
+		width: width - 20
 	});
 	activeview.hide();
 
@@ -172,6 +173,21 @@ function ended(e) {
 	jump('ended', 'kc-end.html');
 }
 
+function muteplayer() {
+	for (i = 1; i <= 4; i++) {
+		if (player[i] == null) continue;
+		console.log("mute "+i+"before");
+		player[i].setStyles({
+			muted: !ismuted,
+		});
+		console.log("mute after");
+	}
+    ismuted=!ismuted;
+	if (ismuted) $("#pingbi").attr("class", "pingbi");
+	else $("#pingbi").attr("class", "nothing");
+
+}
+
 function createvideo(videoid, divid, url) {
 	var odiv = document.getElementById(divid);
 	var left = odiv.getBoundingClientRect().left;
@@ -179,11 +195,11 @@ function createvideo(videoid, divid, url) {
 	var width = odiv.getBoundingClientRect().width;
 	var height = odiv.getBoundingClientRect().height;
 	var player = plus.video.createVideoPlayer(videoid, {
-		src: url,    //留点边框
-		top: top+2,
-		left: left+2,
-		width: width-4,
-		height: height-4,
+		src: url, //留点边框
+		top: top + 2,
+		left: left + 2,
+		width: width - 4,
+		height: height - 4,
 	});
 	plus.webview.currentWebview().append(player);
 	return player;
@@ -335,7 +351,7 @@ function askquit() {
 	mui.confirm('确定要离开教室(Yes/No)？', '确认', btnArray, function(e) {
 		if (e.index == 1) {
 			quitlesson(true);
-		} 
+		}
 	});
-	
+
 }
