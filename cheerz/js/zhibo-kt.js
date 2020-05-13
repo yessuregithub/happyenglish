@@ -144,7 +144,9 @@ function checklessondata(lastplaytime, currtime) {
 	for (i = 0; i < datacount; i++) {
 		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
 			// todo test
-			lessondata[i].url = "hudong-tupianlunbo";
+			//lessondata[i].url = "hudong-tupianlunbo";
+			//hudong-tupianlunbo 保持时间|图片url
+			//hudong-yes-no 背景图片|提示文字|正确答案(1或0)
 
 			console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + "pop up " + lessondata[i].url);
 			console.log("less para :" + lessondata[i].para);
