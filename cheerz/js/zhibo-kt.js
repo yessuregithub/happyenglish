@@ -99,10 +99,10 @@ function initclassroom(data) {
 	var width = odiv.getBoundingClientRect().width;
 	var height = odiv.getBoundingClientRect().height;
 	activeview = plus.webview.create('about:blank', 'active', {
-		top: top,
-		left: left,
-		height: height,
-		width: width
+		top: top+5,     //把黑板的边框留一点出来
+		left: left+10,
+		height: height-10,
+		width: width-20
 	});
 	activeview.hide();
 
@@ -179,12 +179,11 @@ function createvideo(videoid, divid, url) {
 	var width = odiv.getBoundingClientRect().width;
 	var height = odiv.getBoundingClientRect().height;
 	var player = plus.video.createVideoPlayer(videoid, {
-		src: url,
-		top: top,
-		left: left,
-		width: width,
-		height: height,
-		loop: true //debug
+		src: url,    //留点边框
+		top: top+2,
+		left: left+2,
+		width: width-4,
+		height: height-4,
 	});
 	plus.webview.currentWebview().append(player);
 	return player;
