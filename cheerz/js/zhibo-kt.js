@@ -148,7 +148,7 @@ function checklessondata(lastplaytime, currtime) {
 			//lessondata[i].url = "hudong-tupianlunbo";
 			//hudong-tupianlunbo 保持时间|图片url
 			//hudong-yes-no 背景图片|提示文字|正确答案(1或0)
-
+            //tuzi-youxi   提示语1|图片1/1|图片1/2|答案(1/2)|....一共5组
 			console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + "pop up " + lessondata[i].url);
 			console.log("less para :" + lessondata[i].para);
 
