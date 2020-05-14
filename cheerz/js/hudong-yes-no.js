@@ -64,6 +64,7 @@ function startgame() {
 function pro_result(click_rw) {
 	console.log("click:" + click_rw + ", anw:" + anw_rw);
 	clearInterval(count15);
+	setTimeout(endgame,2000);
 	if (click_rw == anw_rw) {
 		endgame(true);
 	} else {
