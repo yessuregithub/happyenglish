@@ -2,9 +2,12 @@
 var anw_rw; // 选对选错
 var mv_gj;
 var mv_nt;
+var count15;
+
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
+	//gamepara = "https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg|Have you something hard?|1"; //debug
 	if (gamepara != null) {
 		var paras = gamepara.split("|");
 
@@ -39,9 +42,9 @@ function startgame() {
 			urlRoot: 'movie/goodjob/',
 			imgType: 'png',
 			frameNumber: 5,
-			framePerSecond: 200,
+			framePerSecond: 20,
 			loadedAutoPlay: false,
-			loop: 1,
+			loop: 0,
 		});
 		mv_gj.load();
 
@@ -50,9 +53,9 @@ function startgame() {
 			urlRoot: 'movie/nicetry/',
 			imgType: 'png',
 			frameNumber: 5,
-			framePerSecond: 200,
+			framePerSecond: 20,
 			loadedAutoPlay: false,
-			loop: 1,
+			loop: 0,
 		});
 		mv_nt.load();
 	}
@@ -60,21 +63,18 @@ function startgame() {
 
 function pro_result(click_rw) {
 	console.log("click:" + click_rw + ", anw:" + anw_rw);
+	clearInterval(count15);
 	if (click_rw == anw_rw) {
-		$("#result").show();
-		$("#res_gj").show();
-		if (mv_gj != null) {
-			mv_gj.play();
-		}
+		endgame(true);
 	} else {
-		$("#result").show();
-		$("#res_nt").show();
-		if (mv_nt != null) {
-			mv_nt.play();
-		}
+		endgame(false);
 	}
 }
 
-function endgame() {
-
+function endgame(correct) {
+	$("#result").show();
+	if (correct) $("#res_gj").show();
+	else $("#res_nt").show();
+	if (correct) mv_gj.play();
+	else mv_nt.play();
 }
