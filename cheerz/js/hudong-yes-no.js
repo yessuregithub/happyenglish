@@ -4,7 +4,6 @@ var mv_gj;
 var mv_nt;
 var count15;
 
-
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
 	//gamepara = "https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg|Have you something hard?|1"; //debug
@@ -14,6 +13,8 @@ function startgame() {
 		var cover = paras[0];
 		var sentence = paras[1];
 		anw_rw = parseInt(paras[2]);
+		var duration = paras[3]; // todo
+		duration = 20; // debug
 
 		// 背景
 		$("#hd-yn-tuka").attr("src", cover);
@@ -42,9 +43,9 @@ function startgame() {
 			urlRoot: 'movie/goodjob/',
 			imgType: 'png',
 			frameNumber: 5,
-			framePerSecond: 20,
+			framePerSecond: 10,
 			loadedAutoPlay: false,
-			loop: 0,
+			loop: 1,
 		});
 		mv_gj.load();
 
@@ -53,18 +54,24 @@ function startgame() {
 			urlRoot: 'movie/nicetry/',
 			imgType: 'png',
 			frameNumber: 5,
-			framePerSecond: 20,
+			framePerSecond: 10,
 			loadedAutoPlay: false,
-			loop: 0,
+			loop: 1,
 		});
 		mv_nt.load();
+		
+		// 设置游戏持续时间
+		setTimeout(function() {
+			clearInterval(count15);
+			plus.webview.currentWebview().hide();
+		}, (duration * 1000));
 	}
 }
 
 function pro_result(click_rw) {
 	console.log("click:" + click_rw + ", anw:" + anw_rw);
 	clearInterval(count15);
-	setTimeout(endgame,2000);
+	// setTimeout(endgame,2000);
 	if (click_rw == anw_rw) {
 		endgame(true);
 	} else {

@@ -41,7 +41,6 @@
 				</div>
 				<div id="ads" class="m-timu">
 					<span id="hd-yn-que"></span>
-					<p id="waitsec"></p>
 				</div>
 				<div id="result" class="m-timu">
 					<div id="res_gj" class="movie"></div>
@@ -71,42 +70,38 @@
 		</script>
 
 		<script>
-			var stage=1;
-			
+			var stage = 1;
+
 			function closeAds() {
 				document.getElementById('ads').style.display = "none";
 			}
-			var oCount5s = document.getElementById("waitsec").innerText
-			var second = parseInt(oCount5s)
+
+			var second;
 
 			function countdown() {
 				second -= 0.1;
-				//document.getElementById("waitsec").innerText = second;
-				if (stage==1) totalseconds=15;
-				else totalseconds=5;
-                var length=Math.round((second*100)/totalseconds);
-				$("#progress1").attr("style","width:"+length+"%");
-				if (second < 0.1 && stage==1) {
+				if (stage == 1) totalseconds = 15;
+				else totalseconds = 5;
+				var length = Math.round((second * 100) / totalseconds);
+				$("#progress1").attr("style", "width:" + length + "%");
+				if (second < 0.1 && stage == 1) {
 					closeAds();
 					clearInterval(count15);
 					// 开启选项
-                    $("#progress1").attr("style","width: 100%");  
+					$("#progress1").attr("style", "width: 100%");
 					enableclick();
-					second=5;
-					count15=setInterval(countdown,100);
-					stage=2;
-				}
-				else if (second < 0.1 && stage==2) {
+					second = 5;
+					count15 = setInterval(countdown, 100);
+					stage = 2;
+				} else if (second < 0.1 && stage == 2) {
 					clearInterval(count15);
 					endgame(false);
-					}
-				
+				}
 			}
-			
-			
+
 			//var countDown = setInterval(countDown, 100)
-			second=15;
-			count15=setInterval(countdown,100);
+			second = 15; 
+			count15 = setInterval(countdown, 100);
 		</script>
 		<script src="js/ui-choose.js"></script>
 		<script>
