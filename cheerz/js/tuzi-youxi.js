@@ -7,6 +7,7 @@ var queIndex;
 var gameDatas;
 var queCount;
 var rightCount; // 答对次数
+var choosed;
 
 //--------------以下数据需要正确设置
 
@@ -43,7 +44,7 @@ function startgame() {
 	scene_init();
 	// debug anw=选对选错 0:错 1:对
 	var gamepara =
-		'{"tuzi":[{"que":"question 1 ?","anw":1,"pic":"https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg"},{"que":"question 2 ?","anw":0,"pic":"https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg"},{"que":"question 3 ?","anw":1,"pic":"https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg"},{"que":"question 4 ?","anw":1,"pic":"https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg"},{"que":"question 5 ?","anw":0,"pic":"https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg"}]}';
+		'{"tuzi":[{"que":"question 1 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 2 ?","anw":0,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 3 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 4 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 5 ?","anw":0,"pic1":"images/zb.jpg","pic2":"images/05.png"}]}';
 	gameDatas = JSON.parse(gamepara).tuzi;
 	queCount = gameDatas.length;
 
@@ -92,14 +93,17 @@ function setupGame(index) {
 	if (gameDatas == null) return;
 	var gameData = gameDatas[index];
 
-	var cover = gameData.pic;
+	var pic1 = gameData.pic1;
+	var pic2 = gameData.pic2;
 	var sentence = gameData.que;
 	anw_yn = gameData.anw;
-	console.log('问题:' + index + ' ' + cover + ' ' + sentence + ' ' + anw_yn);
+	//console.log('问题:' + index + ' ' + cover + ' ' + sentence + ' ' + anw_yn);
 
 	// 背景
-	$("#hd-yn-tuka").attr("src", cover);
-
+	//$("#hd-yn-tuka").attr("src", cover);
+	$("#pic1").attr("src", pic1);
+	$("#pic2").attr("src", pic2);
+	console.log("loading pic here/preload");
 	// 句子
 	$("#hd-yn-que").html(sentence);
 
@@ -171,6 +175,7 @@ function tuziRunEnd() {
 function endgame(correct) {
 	console.log("game end");
 	$("#hd-time").hide();
+	$("hd-danci").hide();
 	$("#result").show();
 	if (correct) {
 		$("#res_gj").show();

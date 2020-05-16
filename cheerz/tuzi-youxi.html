@@ -159,18 +159,13 @@
 
 			<!-- 问题图 -->
 			<div id="hd-danci" class="hd-danci" style="position: relative;display:none;">
-				<div class="img-box">
-					<div class="hd-tuka">
-						<img id="hd-yn-tuka" src="images/loading.png">
-					</div>
-				</div>
-				<ul id="uc_01" class="hd-danci-list ui-choose">
+				<ul id="uc_01" class="hd-danci-list1 ui-choose">
 					<li class="mui-pull-left hd-opt">
-						<span>YES</span>
+						<span><img id=pic1 src=""/></span>
 						<div id="hd-yes"></div>
 					</li>
 					<li class="mui-pull-right hd-opt">
-						<span>NO</span>
+						<span><img id=pic2 src=""/></span>
 						<div id="hd-no"></div>
 					</li>
 				</ul>
@@ -258,6 +253,7 @@
 					stage = 2;
 				} else if (second < 0.1 && stage == 2) //答题界面
 				{
+					choosed=false;
 					clearInterval(count15);
 					closeAds();
 					$("#hd-danci").show();
@@ -279,6 +275,8 @@
 				$('.ui-choose').ui_choose();
 				var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
 				uc_01.click = function(index, item) {
+					if (choosed) return;   //必须防止连点
+					choosed=true;
 					var yn = index == 0 ? 1 : 0;
 					pro_result(yn, false);
 				}
