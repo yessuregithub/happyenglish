@@ -175,7 +175,7 @@ function tuziRunEnd() {
 function endgame(correct) {
 	console.log("game end");
 	$("#hd-time").hide();
-	$("hd-danci").hide();
+	$("#hd-danci").hide();
 	$("#result").show();
 	if (correct) {
 		$("#res_gj").show();
