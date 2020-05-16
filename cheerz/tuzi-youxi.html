@@ -12,9 +12,10 @@
 			<div class="wt-box">
 				<div class="wt-bg"><img src="images/tz-bg.png"></div>
 				<div class="game-box">
-					<ul class="game-list mui-clearfix">
+
+					<ul id=frame1 class="game-list mui-clearfix">
 						<li class="mui-clearfix">
-							<div class="name">name</div>
+							<div id=name1 class="name">name1</div>
 							<div class="tuzi-tu"><img src="images/tz.png"></div>
 						</li>
 						<li>
@@ -43,9 +44,9 @@
 							</a>
 						</li>
 					</ul>
-					<ul class="game-list mui-clearfix">
+					<ul id=frame2 class="game-list mui-clearfix">
 						<li class="mui-clearfix">
-							<div class="name">name</div>
+							<div id=name2 class="name">name2</div>
 							<div class="tuzi-tu"><img src="images/tz.png"></div>
 						</li>
 						<li>
@@ -74,9 +75,9 @@
 							</a>
 						</li>
 					</ul>
-					<ul class="game-list mui-clearfix">
+					<ul id=frame3 class="game-list mui-clearfix">
 						<li class="mui-clearfix">
-							<div class="name">name</div>
+							<div id=name3 class="name">name3</div>
 							<div class="tuzi-tu"><img src="images/tz.png"></div>
 						</li>
 						<li>
@@ -105,9 +106,9 @@
 							</a>
 						</li>
 					</ul>
-					<ul class="game-list mui-clearfix">
+					<ul id=frame4 class="game-list mui-clearfix">
 						<li class="mui-clearfix">
-							<div class="name">name</div>
+							<div id=name4 class="name">name4</div>
 							<div class="tuzi-tu"><img src="images/tz.png"></div>
 						</li>
 						<li>
@@ -144,7 +145,7 @@
 
 
 
-		<div class="hudong-dui">
+		<div id="hudong-dui" class="hudong-dui">
 
 			<!-- 倒计时 -->
 			<div id="hd-time" class="time mui-clearfix" style="position: relative; z-index: 10;">
@@ -202,6 +203,7 @@
 		<script src="js/mui.js"></script>
 		<script src="js/seqframe.js"></script>
 		<script src="js/tuzi-youxi.js"></script>
+		<script src="js/ui-choose.js"></script>
 
 		<script>
 			mui.init();
@@ -227,9 +229,9 @@
 				document.getElementById('hd-huidi').style.display = "none";
 
 				$("#progress1").attr("style", "width: 100%");
-				stage = 1;
-				second = 15;
-				count15 = setInterval(countdown, 100);
+				//stage = 1;
+				//second = 15;
+				//count15 = setInterval(countdown, 100);
 			}
 
 			var second;
@@ -237,12 +239,10 @@
 
 			function countdown() {
 				second -= 0.1;
-				if (stage == 1) totalseconds = 15;
-				else totalseconds = 5;
 				var length = Math.round((second * 100) / totalseconds);
 				$("#progress1").attr("style", "width:" + length + "%");
-				if (second < 0.1 && stage == 1) {
-					closeAds();
+				if (second < 0.1 && stage == 1) { //等待开始界面
+					//closeAds();
 					clearInterval(count15);
 					// 开启选项
 					$("#progress1").attr("style", "width: 100%");
@@ -250,38 +250,39 @@
 					if (queIndex == 0) {
 						enableclick();
 					}
-					second = 5;
+					second = 3; //题目显示时间
+					totalseconds = 3;
+					setupGame(0);
+					openAds();
 					count15 = setInterval(countdown, 100);
 					stage = 2;
-
-				} else if (second < 0.1 && stage == 2) {
+				} else if (second < 0.1 && stage == 2) //答题界面
+				{
+					clearInterval(count15);
+					closeAds();
+					$("#hd-danci").show();
+					stage = 3;
+					second = 3; //答题时间
+					totalseconds = 3;
+					count15 = setInterval(countdown, 100);
+				} else if (second < 0.1 && stage == 3) { //题目对错检测
+					
 					pro_result(0, true);
 				}
 			}
 
-			second = 5; // 提示时间 todo debug
-			count15 = setInterval(countdown, 100);
-		</script>
-		<script src="js/ui-choose.js"></script>
-		<script>
 			function rmselected() {
 				$('.hd-opt').removeClass("selected");
 			}
 
 			function enableclick() {
-				// 将所有.ui-choose实例化
 				$('.ui-choose').ui_choose();
-				// uc_01 ul 单选
 				var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
 				uc_01.click = function(index, item) {
-					// console.log('click', index, item.text())
-					// 0:yes 1:no
 					var yn = index == 0 ? 1 : 0;
 					pro_result(yn, false);
 				}
-				uc_01.change = function(index, item) {
-					// console.log('change', index, item.text())
-				}
+				uc_01.change = function(index, item) {}
 			}
 		</script>
 	</body>

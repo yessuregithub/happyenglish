@@ -8,9 +8,39 @@ var gameDatas;
 var queCount;
 var rightCount; // 答对次数
 
+//--------------以下数据需要正确设置
+
+var playername = new Array(5); //为统一编号，把0留空
+
+playername[1] = "test1";
+playername[2] = "test2";
+playername[3] = "";
+playername[4] = "test4";
+var lessonstarttime = 12345; //课程开始时间，时间戳
+var gamestarttime = 12345; //游戏起始时间
+
+function scene_init() {
+	for (i = 1; i <= 4; i++) {
+		tag = "#frame" + i;
+		if (playername[i] == "" || playername[i] == undefined)
+			$(tag).attr("style", "display:none");
+		else {
+			tag = "#name" + i;
+			$(tag).text(playername[i]);
+		}
+	}
+	currtime = Date.parse(new Date()) / 1000; //计算进入游戏的时间
+	waittime = lessonstarttime + gamestarttime - currtime;
+	waittime = 5; //DEBUG! todo
+	second = waittime;
+	totalseconds = second;
+	count15 = setInterval(countdown, 100);
+}
+
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
 
+	scene_init();
 	// debug anw=选对选错 0:错 1:对
 	var gamepara =
 		'{"tuzi":[{"que":"question 1 ?","anw":1,"pic":"https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg"},{"que":"question 2 ?","anw":0,"pic":"https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg"},{"que":"question 3 ?","anw":1,"pic":"https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg"},{"que":"question 4 ?","anw":1,"pic":"https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg"},{"que":"question 5 ?","anw":0,"pic":"https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg"}]}';
@@ -19,7 +49,7 @@ function startgame() {
 
 	queIndex = 0;
 	rightCount = 0;
-	setupGame(queIndex);
+	//setupGame(queIndex);
 
 	// 加载欢庆动画
 	if (gamepara != null) {
@@ -54,6 +84,8 @@ function startgame() {
 		// 	plus.webview.currentWebview().hide();
 		// }, (duration * 1000));
 	}
+	$("#ads").attr('style', 'display:none');
+
 }
 
 function setupGame(index) {
@@ -86,8 +118,9 @@ function setupGame(index) {
 }
 
 function pro_result(click_yn, overtime) {
-	console.log("click:" + click_yn + ", anw:" + anw_yn);
 	clearInterval(count15);
+	console.log("click:" + click_yn + ", anw:" + anw_yn);
+
 	// setTimeout(endgame,2000);
 
 	var correct = false;
@@ -107,7 +140,12 @@ function pro_result(click_yn, overtime) {
 }
 
 function tuziRun() {
-	// 奔跑结束
+	/*	$("#ads").hide();
+		$("#result").hide();
+		$("#hd-danci").hide();
+		$("#hd-huidi").hide();
+		// 奔跑结束
+	*/
 	tuziRunEnd();
 }
 
@@ -123,12 +161,22 @@ function tuziRunEnd() {
 		// 下一题
 		setupGame(queIndex);
 		openAds(); // 开启新题
+		stage = 2;
+		second = 3;
+		totalseconds = 3;
+		count15 = setInterval(countdown, 100);
 	}
 }
 
 function endgame(correct) {
+	console.log("game end");
 	$("#hd-time").hide();
 	$("#result").show();
-	if (correct) $("#res_gj").show();
-	if (correct) mv_gj.play();
+	if (correct) {
+		$("#res_gj").show();
+		mv_gj.play();
+	} else {
+		$("#res_nt").show();
+		mv_nt.play();
+	}
 }
