@@ -8,6 +8,9 @@ var gameDatas;
 var queCount;
 var rightCount; // 答对次数
 var choosed;
+var token;
+var playerpos = new Array(5);
+var toolate=false;
 
 //--------------以下数据需要正确设置
 
@@ -20,8 +23,10 @@ playername[4] = "test4";
 var lessonstarttime = 12345; //课程开始时间，时间戳
 var gamestarttime = 12345; //游戏起始时间
 
+
 function scene_init() {
 	for (i = 1; i <= 4; i++) {
+		playerpos[i] = 0;
 		tag = "#frame" + i;
 		if (playername[i] == "" || playername[i] == undefined)
 			$(tag).attr("style", "display:none");
@@ -34,6 +39,11 @@ function scene_init() {
 	waittime = lessonstarttime + gamestarttime - currtime;
 	waittime = 5; //DEBUG! todo
 	second = waittime;
+	if (second <= 0) //进入得太晚，不能再开始游戏
+	{
+		toolate=true;
+		return;
+	}
 	totalseconds = second;
 	count15 = setInterval(countdown, 100);
 }
@@ -42,6 +52,7 @@ function startgame() {
 	var gamepara = localStorage.getItem("gpara");
 
 	scene_init();
+	if (toolate) return;
 	// debug anw=选对选错 0:错 1:对
 	var gamepara =
 		'{"tuzi":[{"que":"question 1 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 2 ?","anw":0,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 3 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 4 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 5 ?","anw":0,"pic1":"images/zb.jpg","pic2":"images/05.png"}]}';
@@ -79,11 +90,6 @@ function startgame() {
 		});
 		mv_nt.load();
 
-		// 设置游戏持续时间
-		// setTimeout(function() {
-		// 	clearInterval(count15);
-		// 	plus.webview.currentWebview().hide();
-		// }, (duration * 1000));
 	}
 	$("#ads").attr('style', 'display:none');
 
@@ -133,6 +139,24 @@ function pro_result(click_yn, overtime) {
 		rightCount++;
 	}
 
+	mui.ajax({
+		url: 'http://47.241.5.29/Home_index_sendrabbitresult.html',
+		data: {
+			token: token,
+			que: queIndex,
+			rst: correct,
+		},
+		async: true,
+		dataType: 'json',
+		type: 'post',
+		timeout: 10000,
+		success: function(data) {
+			// 请求成功
+			if (data.rst == 0) {}
+			if (data.rst == 1) {}
+		},
+		error: function(xhr, type, errorThrown) {}
+	});
 	// 显示对错 等待2秒
 	setTimeout(function() {
 		// 清除选中状态
@@ -142,18 +166,61 @@ function pro_result(click_yn, overtime) {
 		tuziRun(correct);
 	}, 2000);
 }
+var checkcounter;
+var checker;
+// 服务器后端还没做好，所以，服务器rabbitresult永远返回同一个结果
+//服务器将返回 {rst:1,p1:当前位置 ... p4: 当前位置}
+//玩家初始位置为0， 位置保存在 playerpos[1-4]中
+//如果一个玩家不存在，playername为空或者undefined
+//js需要检查服务器送回的位置与当前位置是否一致，如果不一致则执行兔子跳
+//轮询是1秒1次，所以，兔子跳必须在1秒内完成，为了视觉效果，最好在0.5秒内完成。
+
+function inquireotherplayer() {
+	mui.ajax({
+		url: 'http://47.241.5.29/Home_index_rabbitresult.html',
+		data: {
+			token: token,
+			que: queIndex
+		},
+		async: true,
+		dataType: 'json',
+		type: 'post',
+		timeout: 10000,
+		success: function(data) {
+			// 请求成功
+			if (data.rst == 0) {}
+			if (data.rst == 1) { //兔子在这里跳
+				console.log("server set position:" + JSON.stringify(data) + " p1=" + data.p1);
+			}
+		},
+		error: function(xhr, type, errorThrown) {}
+	});
+}
+
+function checkotherplayer() {
+	checkcounter++;
+	if (checkcounter == 10) {
+		clearInterval(checker);
+		tuziRunEnd();
+	} else {
+		inquireotherplayer();
+	}
+}
 
 function tuziRun() {
-	/*	$("#ads").hide();
-		$("#result").hide();
-		$("#hd-danci").hide();
-		$("#hd-huidi").hide();
-		// 奔跑结束
-	*/
-	tuziRunEnd();
+	$("#ads").hide();
+	$("#result").hide();
+	$("#hd-danci").hide();
+	$("#hd-huidi").hide();
+	$("#hd-time").hide();
+	// 奔跑结束
+	checkcounter = 0;
+	checker = setInterval(checkotherplayer, 1000);
+	//tuziRunEnd();
 }
 
 function tuziRunEnd() {
+	$("#hd-time").show();
 	queIndex++;
 	if (queIndex >= queCount) {
 		if (rightCount > 0) {
@@ -184,4 +251,7 @@ function endgame(correct) {
 		$("#res_nt").show();
 		mv_nt.play();
 	}
+	setTimeout(function() {
+		plus.webview.currentWebview().hide();
+	}, (5 * 1000));
 }
