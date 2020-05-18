@@ -530,10 +530,11 @@ input:-ms-input-placeholder {color: #666;}
 .game-box .game-list li{ float:left; width:2.5rem; min-height:2.3rem; margin-left:.3rem; position:relative;}
 .game-box .game-list li:nth-child(1){ width:4.3rem; margin-left:0;}
 .game-box .game-list li .name{ position:absolute; left:0; top:50%;width:2rem; height:.58rem; background:rgba(57,127,0,1); border-radius:.17rem; text-align:center; line-height:.58rem;font-size:.33rem; color:#fff;}
-.game-box .game-list li .tuzi-tu{ position:absolute; left:2.8rem; width:1.3rem; height:2.04rem; bottom:0;}
+.game-box .game-list li .tuzi-tu-mov{ position:absolute; width:2.5rem; height:2.04rem; bottom:0;}
+.game-box .game-list li .tuzi-tu{ position:absolute;left:0.5rem; width:1.3rem; height:2.04rem; bottom:0;}
 .game-box .game-list li .tuzi-tu img{ width:100%; height:2.04rem;}
 .game-box .game-list li .item{ width:2.5rem; height:1.9rem; display:block; position:relative; margin-top:.4rem;}
-.game-box .game-list li .item:after{ background:url(../images/caodi.png) no-repeat center bottom; background-size:100% 100%; content:""; width:2.2rem; height:.75rem; position:absolute; bottom:0; z-index:9; left:0;}
+.game-box .game-list li .item:after{ background:url(../images/caodi.png) no-repeat center bottom; background-size:100% 100%; content:""; width:2.2rem; height:.75rem; position:absolute; bottom:0; left:0;}
 .game-box .game-list li .item img{ width:1.5rem; height:1.5rem; position:absolute; right:0; top:0;}
 
 .game-box .qw-game-list li .name{ background:#eb6877;}

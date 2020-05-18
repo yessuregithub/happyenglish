@@ -10,7 +10,7 @@ var rightCount; // 答对次数
 var choosed;
 var token;
 var playerpos = new Array(5);
-var toolate=false;
+var toolate = false;
 
 //--------------以下数据需要正确设置
 
@@ -41,7 +41,7 @@ function scene_init() {
 	second = waittime;
 	if (second <= 0) //进入得太晚，不能再开始游戏
 	{
-		toolate=true;
+		toolate = true;
 		return;
 	}
 	totalseconds = second;
@@ -91,6 +91,7 @@ function startgame() {
 		mv_nt.load();
 
 	}
+
 	$("#ads").attr('style', 'display:none');
 
 }
@@ -163,7 +164,7 @@ function pro_result(click_yn, overtime) {
 		rmselected();
 
 		// 处理兔子跑
-		tuziRun(correct);
+		tuziRun();
 	}, 2000);
 }
 var checkcounter;
@@ -191,6 +192,7 @@ function inquireotherplayer() {
 			if (data.rst == 0) {}
 			if (data.rst == 1) { //兔子在这里跳
 				console.log("server set position:" + JSON.stringify(data) + " p1=" + data.p1);
+				tuziRunAction(data);
 			}
 		},
 		error: function(xhr, type, errorThrown) {}
@@ -218,6 +220,81 @@ function tuziRun() {
 	checker = setInterval(checkotherplayer, 1000);
 	//tuziRunEnd();
 }
+
+// 兔子跑动画
+function tuziRunAction(posData) {
+	for (i = 1; i <= 4; i++) {
+		if (playername[i] == "" || playername[i] == undefined) {
+
+		} else {
+			// 位置对比
+			var pos = null;
+			switch (i) {
+				case 1:
+					pos = posData.p1;
+					break;
+				case 2:
+					pos = posData.p2;
+					break;
+				case 3:
+					pos = posData.p3;
+					break;
+				case 4:
+					pos = posData.p4;
+					break;
+				default:
+					pos = null;
+			}
+
+			if (pos == null) continue;
+
+			if (playerpos[i] != pos) {
+				tuziRunToPos(i, pos);
+				playerpos[i] = pos;
+			}
+		}
+	}
+}
+
+function tuziRunToPos(no, pos) {
+	var tag;
+	console.log("tuzi run " + no + " to " + pos);
+	// 删除兔子
+	$('#frame' + no).find(".tuzi-tu").remove();
+
+	// 删除草堆
+	var posItem = $('#frame' + no).find("li");
+	for (var i = 0; i < posItem.length; i++) {
+
+		if (i == pos) {
+			$(posItem[i]).html('<div class="item"></div><div class="tuzi-tu"><img id="tuzi"'+no+' src="images/tz.png"></div>');
+		}
+		if (i == pos) {
+			// 添加兔子动画
+			// $(posItem[i-1]).html('<div id="tuzi"'+no+' class="tuzi-tu-mov"><img src="images/tz.png"></div>');
+			// var tuziimg = document.createElement("img"); // 以 DOM 创建新元素
+			// tuziimg.id = "tuzi" + no;
+			// $(tuziimg).attr('src',"images/tz.png");
+			// $(posEles[i]).append(tuziimg);
+
+			// $(posEles[i]).append('<img src="images/tz.png">');
+
+			// 兔子跳动画
+			// var mv_tz = new seqframe({
+			// 	container: document.getElementById("tuzi" + no),
+			// 	urlRoot: 'movie/tuzi/',
+			// 	imgType: 'png',
+			// 	frameNumber: 6,
+			// 	framePerSecond: 10,
+			// 	loadedAutoPlay: true,
+			// 	loop: 0,
+			// });
+			// mv_tz.load();
+		}
+	}
+}
+
+
 
 function tuziRunEnd() {
 	$("#hd-time").show();

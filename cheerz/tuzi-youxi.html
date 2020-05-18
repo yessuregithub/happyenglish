@@ -12,42 +12,46 @@
 			<div class="wt-box">
 				<div class="wt-bg"><img src="images/tz-bg.png"></div>
 				<div class="game-box">
-
 					<ul id=frame1 class="game-list mui-clearfix">
 						<li class="mui-clearfix">
 							<div id=name1 class="name">name1</div>
-							<div class="tuzi-tu"><img src="images/tz.png"></div>
+							<div class="tuzi-tu" style="left:2.8rem;"><img src="images/tz.png"></div>
 						</li>
 						<li>
 							<a href="" class="item">
 								<img src="images/luobo.png">
+								<div class="tuzi-tu"></div>
 							</a>
 						</li>
 						<li>
 							<a href="" class="item">
 								<img src="images/luobo.png">
+								<div class="tuzi-tu"></div>
 							</a>
 						</li>
 						<li>
 							<a href="" class="item">
 								<img src="images/luobo.png">
+								<div class="tuzi-tu"></div>
 							</a>
 						</li>
 						<li>
 							<a href="" class="item">
 								<img src="images/luobo.png">
+								<div class="tuzi-tu"></div>
 							</a>
 						</li>
 						<li>
 							<a href="" class="item">
 								<img src="images/luobo.png">
+								<div class="tuzi-tu"></div>
 							</a>
 						</li>
 					</ul>
 					<ul id=frame2 class="game-list mui-clearfix">
 						<li class="mui-clearfix">
 							<div id=name2 class="name">name2</div>
-							<div class="tuzi-tu"><img src="images/tz.png"></div>
+							<div class="tuzi-tu" style="left:2.8rem;"><img src="images/tz.png"></div>
 						</li>
 						<li>
 							<a href="" class="item">
@@ -78,7 +82,7 @@
 					<ul id=frame3 class="game-list mui-clearfix">
 						<li class="mui-clearfix">
 							<div id=name3 class="name">name3</div>
-							<div class="tuzi-tu"><img src="images/tz.png"></div>
+							<div class="tuzi-tu" style="left:2.8rem;"><img src="images/tz.png"></div>
 						</li>
 						<li>
 							<a href="" class="item">
@@ -109,7 +113,7 @@
 					<ul id=frame4 class="game-list mui-clearfix">
 						<li class="mui-clearfix">
 							<div id=name4 class="name">name4</div>
-							<div class="tuzi-tu"><img src="images/tz.png"></div>
+							<div class="tuzi-tu" style="left:2.8rem;"><img src="images/tz.png"></div>
 						</li>
 						<li>
 							<a href="" class="item">
@@ -140,10 +144,6 @@
 				</div>
 			</div>
 		</div>
-
-
-
-
 
 		<div id="hudong-dui" class="hudong-dui">
 
@@ -190,7 +190,8 @@
 		<div class="m-encourage" style="display:none;">
 			<img src="images/m-encourage.png">
 		</div>
-		<div class="end-overlay" style="display:none;"><img src="images/end-tan.png"></div>
+		<div class="end-overlay" style="display:none;">
+			<img src="images/end-tan.png"></div>
 
 		<script src="js/mui.min.js"></script>
 		<script src="js/jquery-1.8.3.min.js"></script>
@@ -266,7 +267,7 @@
 					second = 3; //答题时间
 					totalseconds = 3;
 					count15 = setInterval(countdown, 100);
-				} else if (second < 0.1 && stage == 3) { //题目对错检测
+				} else if (second < 0.1 && stage == 3) { //超时题目对错检测
 
 					pro_result(0, true);
 				}
