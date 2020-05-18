@@ -11,17 +11,16 @@ var choosed;
 var token;
 var playerpos = new Array(5);
 var toolate = false;
-
-//--------------以下数据需要正确设置
-
 var playername = new Array(5); //为统一编号，把0留空
 
-playername[1] = "test1";
-playername[2] = "test2";
-playername[3] = "";
-playername[4] = "test4";
-var lessonstarttime = 12345; //课程开始时间，时间戳
-var gamestarttime = 12345; //游戏起始时间
+for (i = 1; i <= 4; i++) {
+	playername[i] = localStorage.getItem("playername" + i);
+	if (playername[i] == undefined) playername[i] = "";
+}
+//debug 
+playername[1] = "test";
+var gamestarttime = parseInt(localStorage.getItem("ts"));
+var lessonstarttime = localStorage.getItem("less_starttime"); //游戏起始时间
 
 
 function scene_init() {
@@ -37,11 +36,16 @@ function scene_init() {
 	}
 	currtime = Date.parse(new Date()) / 1000; //计算进入游戏的时间
 	waittime = lessonstarttime + gamestarttime - currtime;
-	waittime = 5; //DEBUG! todo
+	//debug
+	waittime = 5;
 	second = waittime;
-	if (second <= 0) //进入得太晚，不能再开始游戏
+	if (second <= 0 ) //进入得太晚，不能再开始游戏
 	{
 		toolate = true;
+		mui.alert('迟到啦！游戏已经开始了，下次再来，别再晚了哦！');
+		setTimeout(function() {
+			plus.webview.currentWebview().hide();
+		}, 2000);
 		return;
 	}
 	totalseconds = second;
@@ -50,14 +54,13 @@ function scene_init() {
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
-
-	scene_init();
-	if (toolate) return;
-	// debug anw=选对选错 0:错 1:对
 	var gamepara =
 		'{"tuzi":[{"que":"question 1 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 2 ?","anw":0,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 3 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 4 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 5 ?","anw":0,"pic1":"images/zb.jpg","pic2":"images/05.png"}]}';
 	gameDatas = JSON.parse(gamepara).tuzi;
 	queCount = gameDatas.length;
+
+	scene_init();
+	// debug anw=选对选错 0:错 1:对
 
 	queIndex = 0;
 	rightCount = 0;
@@ -169,12 +172,6 @@ function pro_result(click_yn, overtime) {
 }
 var checkcounter;
 var checker;
-// 服务器后端还没做好，所以，服务器rabbitresult永远返回同一个结果
-//服务器将返回 {rst:1,p1:当前位置 ... p4: 当前位置}
-//玩家初始位置为0， 位置保存在 playerpos[1-4]中
-//如果一个玩家不存在，playername为空或者undefined
-//js需要检查服务器送回的位置与当前位置是否一致，如果不一致则执行兔子跳
-//轮询是1秒1次，所以，兔子跳必须在1秒内完成，为了视觉效果，最好在0.5秒内完成。
 
 function inquireotherplayer() {
 	mui.ajax({
@@ -267,29 +264,10 @@ function tuziRunToPos(no, pos) {
 	for (var i = 0; i < posItem.length; i++) {
 
 		if (i == pos) {
-			$(posItem[i]).html('<div class="item"></div><div class="tuzi-tu"><img id="tuzi"'+no+' src="images/tz.png"></div>');
+			$(posItem[i]).html('<div class="item"></div><div class="tuzi-tu"><img id="tuzi"' + no +
+				' src="images/tz.png"></div>');
 		}
 		if (i == pos) {
-			// 添加兔子动画
-			// $(posItem[i-1]).html('<div id="tuzi"'+no+' class="tuzi-tu-mov"><img src="images/tz.png"></div>');
-			// var tuziimg = document.createElement("img"); // 以 DOM 创建新元素
-			// tuziimg.id = "tuzi" + no;
-			// $(tuziimg).attr('src',"images/tz.png");
-			// $(posEles[i]).append(tuziimg);
-
-			// $(posEles[i]).append('<img src="images/tz.png">');
-
-			// 兔子跳动画
-			// var mv_tz = new seqframe({
-			// 	container: document.getElementById("tuzi" + no),
-			// 	urlRoot: 'movie/tuzi/',
-			// 	imgType: 'png',
-			// 	frameNumber: 6,
-			// 	framePerSecond: 10,
-			// 	loadedAutoPlay: true,
-			// 	loop: 0,
-			// });
-			// mv_tz.load();
 		}
 	}
 }

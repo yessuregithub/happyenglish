@@ -157,8 +157,10 @@ function checklessondata(lastplaytime, currtime) {
 			
 
 			localStorage.setItem("gid", lessondata[i].id);
+			localStorage.setItem("ts", lessondata[i].ts);
 			localStorage.setItem("gpara", lessondata[i].para);
 			activeview.loadURL(lessondata[i].url + ".html");
+			for (j=0;j<4;j++) localStorage.setItem("playername"+(j+1),playername[j]);
 			activeview.show();
 		}
 	}
