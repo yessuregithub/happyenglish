@@ -147,10 +147,13 @@ function checklessondata(lastplaytime, currtime) {
 			// todo test
 			// lessondata[i].url = "hudong-yes-no";
 			// lessondata[i].para = "https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg|Have you something hard?|1|20";
-			
+
+			// lessondata[i].url = "tuzi-youxi"; //debug
+			// lessondata[i].para = "https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg|Have you something hard?|1|20";
+
 			//hudong-tupianlunbo 保持时间|图片url
 			//hudong-yes-no 背景图片|提示文字|正确答案(1或0)
-            //tuzi-youxi   提示语1|图片1/1|图片1/2|答案(1/2)|....一共5组
+			//tuzi-youxi   提示语1|图片1/1|图片1/2|答案(1/2)|....一共5组
 			//qingwa-youxi 提示语1|图片1|答案(1/0)... 一共5组
 			console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + "pop up " + lessondata[i].url);
 			console.log("less para :" + lessondata[i].para);
@@ -158,7 +161,7 @@ function checklessondata(lastplaytime, currtime) {
 			localStorage.setItem("ts", lessondata[i].ts);
 			localStorage.setItem("gpara", lessondata[i].para);
 			activeview.loadURL(lessondata[i].url + ".html");
-			for (j=0;j<4;j++) localStorage.setItem("playername"+(j+1),playername[j]);
+			for (j = 0; j < 4; j++) localStorage.setItem("playername" + (j + 1), playername[j]);
 			activeview.show();
 		}
 	}
@@ -180,13 +183,13 @@ function ended(e) {
 function muteplayer() {
 	for (i = 1; i <= 4; i++) {
 		if (player[i] == null) continue;
-		console.log("mute "+i+"before");
+		console.log("mute " + i + "before");
 		player[i].setStyles({
 			muted: !ismuted,
 		});
 		console.log("mute after");
 	}
-    ismuted=!ismuted;
+	ismuted = !ismuted;
 	if (ismuted) $("#pingbi").attr("class", "pingbi");
 	else $("#pingbi").attr("class", "nothing");
 

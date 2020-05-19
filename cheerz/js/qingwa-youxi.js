@@ -31,6 +31,7 @@ function scene_init() {
 			$(tag).attr("style", "display:none");
 		else {
 			tag = "#name" + i;
+			console.log(tag + " online");
 			$(tag).text(playername[i]);
 		}
 	}
@@ -39,7 +40,7 @@ function scene_init() {
 	//debug
 	waittime = 5;
 	second = waittime;
-	if (second <= 0 ) //进入得太晚，不能再开始游戏
+	if (second <= 0) //进入得太晚，不能再开始游戏
 	{
 		toolate = true;
 		mui.alert('迟到啦！游戏已经开始了，下次再来，别再晚了哦！');
@@ -55,8 +56,8 @@ function scene_init() {
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
 	var gamepara =
-		'{"tuzi":[{"que":"question 1 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 2 ?","anw":0,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 3 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 4 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 5 ?","anw":0,"pic1":"images/zb.jpg","pic2":"images/05.png"}]}';
-	gameDatas = JSON.parse(gamepara).tuzi;
+		'{"qingwa":[{"que":"question 1 ?","anw":1,"pic":"images/zb.jpg"},{"que":"question 2 ?","anw":0,"pic":"images/zb.jpg"},{"que":"question 3 ?","anw":1,"pic":"images/zb.jpg"},{"que":"question 4 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 5 ?","anw":0,"pic":"images/zb.jpg"}]}';
+	gameDatas = JSON.parse(gamepara).qingwa;
 	queCount = gameDatas.length;
 
 	scene_init();
@@ -103,17 +104,15 @@ function setupGame(index) {
 	if (gameDatas == null) return;
 	var gameData = gameDatas[index];
 
-	var pic1 = gameData.pic1;
-	var pic2 = gameData.pic2;
+	var pic = gameData.pic;
 	var sentence = gameData.que;
 	anw_yn = gameData.anw;
 	//console.log('问题:' + index + ' ' + cover + ' ' + sentence + ' ' + anw_yn);
 
-	// 背景
-	//$("#hd-yn-tuka").attr("src", cover);
-	$("#pic1").attr("src", pic1);
-	$("#pic2").attr("src", pic2);
+	// 问题背景
+	$("#hd-yn-tuka").attr("src", pic);
 	console.log("loading pic here/preload");
+
 	// 句子
 	$("#hd-yn-que").html(sentence);
 
@@ -231,7 +230,8 @@ function tuziRunAction(posData) {
 					pos = posData.p1;
 					break;
 				case 2:
-					pos = posData.p2;
+					// pos = posData.p2;
+					pos = 4;// debug
 					break;
 				case 3:
 					pos = posData.p3;
@@ -243,7 +243,7 @@ function tuziRunAction(posData) {
 					pos = null;
 			}
 
-			if (pos == null) continue;
+			if (pos == null || pos > 5) continue;
 
 			if (playerpos[i] != pos) {
 				tuziRunToPos(i, pos);
@@ -254,21 +254,35 @@ function tuziRunAction(posData) {
 }
 
 function tuziRunToPos(no, pos) {
-	var tag;
 	console.log("tuzi run " + no + " to " + pos);
-	// 删除兔子
-	$('#frame' + no).find(".tuzi-tu").remove();
+	// 删除青蛙
+	$('#frame' + no).find(".qingwa-tu").remove();
 
-	// 删除草堆
 	var posItem = $('#frame' + no).find("li");
-	for (var i = 0; i < posItem.length; i++) {
 
-		if (i == pos) {
-			$(posItem[i]).html('<div class="item"></div><div class="tuzi-tu"><img id="tuzi"' + no +
-				' src="images/tz.png"></div>');
-		}
-		if (i == pos) {
-		}
+	// 第2步开始做动画
+	if (pos == 1) {
+		$(posItem[pos]).html('<div class="item"></div><div class="qingwa-tu"><img src="images/qw.png"></div>');
+	}
+	// 动画
+	else {
+		var html = '<div id="qingwa-mov' + no + '" class="qingwa-tu" style="width:4.9rem;height:2.75rem" ></div>';
+		$(posItem[pos - 1]).html(html);
+		new seqframe({
+			container: document.getElementById("qingwa-mov" + no),
+			urlRoot: 'movie/qingwa/',
+			imgType: 'png',
+			frameNumber: 4,
+			framePerSecond: 10,
+			loadedAutoPlay: true,
+			loop: 1,
+		}).load();
+
+		// 播放结束
+		setTimeout(function() {
+			$(posItem[pos - 1]).html('<div class="item"></div><div class="qingwa-tu"></div>');
+			$(posItem[pos]).html('<div class="item"></div><div class="qingwa-tu"><img src="images/qw.png"></div>');
+		}, 400);
 	}
 }
 

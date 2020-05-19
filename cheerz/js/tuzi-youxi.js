@@ -18,7 +18,9 @@ for (i = 1; i <= 4; i++) {
 	if (playername[i] == undefined) playername[i] = "";
 }
 //debug 
-playername[1] = "test";
+playername[1] = "test11";
+// playername[3] = "test3";
+playername[4] = "test4";
 var gamestarttime = parseInt(localStorage.getItem("ts"));
 var lessonstarttime = localStorage.getItem("less_starttime"); //游戏起始时间
 
@@ -31,6 +33,7 @@ function scene_init() {
 			$(tag).attr("style", "display:none");
 		else {
 			tag = "#name" + i;
+			console.log(tag + " online");
 			$(tag).text(playername[i]);
 		}
 	}
@@ -39,7 +42,7 @@ function scene_init() {
 	//debug
 	waittime = 5;
 	second = waittime;
-	if (second <= 0 ) //进入得太晚，不能再开始游戏
+	if (second <= 0) //进入得太晚，不能再开始游戏
 	{
 		toolate = true;
 		mui.alert('迟到啦！游戏已经开始了，下次再来，别再晚了哦！');
@@ -231,7 +234,8 @@ function tuziRunAction(posData) {
 					pos = posData.p1;
 					break;
 				case 2:
-					pos = posData.p2;
+					// pos = posData.p2;
+					pos = 2; // debug
 					break;
 				case 3:
 					pos = posData.p3;
@@ -243,7 +247,7 @@ function tuziRunAction(posData) {
 					pos = null;
 			}
 
-			if (pos == null) continue;
+			if (pos == null || pos > 5) continue;
 
 			if (playerpos[i] != pos) {
 				tuziRunToPos(i, pos);
@@ -254,22 +258,54 @@ function tuziRunAction(posData) {
 }
 
 function tuziRunToPos(no, pos) {
-	var tag;
+
 	console.log("tuzi run " + no + " to " + pos);
 	// 删除兔子
 	$('#frame' + no).find(".tuzi-tu").remove();
 
-	// 删除草堆
 	var posItem = $('#frame' + no).find("li");
-	for (var i = 0; i < posItem.length; i++) {
 
-		if (i == pos) {
-			$(posItem[i]).html('<div class="item"></div><div class="tuzi-tu"><img id="tuzi"' + no +
-				' src="images/tz.png"></div>');
-		}
-		if (i == pos) {
-		}
+	// 第2步开始做动画
+	if (pos == 1) {
+		$(posItem[pos]).html('<div class="item"></div><div class="tuzi-tu"><img src="images/tz.png"></div>');
 	}
+	// 动画
+	else {
+		var html = '<div id="tuzi-mov' + no + '" class="tuzi-tu" style="width:4.895rem;height:2.67rem" ></div>';
+		$(posItem[pos - 1]).html(html);
+		new seqframe({
+			container: document.getElementById("tuzi-mov" + no),
+			urlRoot: 'movie/tuzi/',
+			imgType: 'png',
+			frameNumber: 6,
+			framePerSecond: 10,
+			loadedAutoPlay: true,
+			loop: 1,
+		}).load();
+
+		// 播放结束
+		setTimeout(function() {
+			$(posItem[pos - 1]).html('<div class="item"></div><div class="tuzi-tu"></div>');
+			$(posItem[pos]).html('<div class="item"></div><div class="tuzi-tu"><img src="images/tz.png"></div>');
+		}, 600);
+	}
+
+	// var tag;
+	// console.log("tuzi run " + no + " to " + pos);
+	// // 删除兔子
+	// $('#frame' + no).find(".tuzi-tu").remove();
+
+	// // 删除草堆
+	// var posItem = $('#frame' + no).find("li");
+	// for (var i = 0; i < posItem.length; i++) {
+
+	// 	if (i == pos) {
+	// 		$(posItem[i]).html('<div class="item"></div><div class="tuzi-tu"><img id="tuzi"' + no +
+	// 			' src="images/tz.png"></div>');
+	// 	}
+	// 	if (i == pos) {
+	// 	}
+	// }
 }
 
 
