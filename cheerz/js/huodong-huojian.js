@@ -41,6 +41,5 @@ function countdown() {
 	}
 }
 
-function processanswer(correct)
-{
-	}
+function processanswer(correct) {
+}

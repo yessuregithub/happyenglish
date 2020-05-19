@@ -38,7 +38,7 @@
 						<div class="cuo" style=" display:none;"></div>
 					</li>
 					<li>
-						<span id="anwser2">22222222</span>
+						<span id="anwser2"></span>
 						<div class="dui" style=" display:none;"></div>
 						<div class="cuo"></div>
 					</li>
@@ -59,9 +59,7 @@
 		<script src="js/jquery-1.8.3.min.js"></script>
 		<script src="js/rem.js"></script>
 		<script src="js/seqframe.js"></script>
-		<script src="js/common.js"></script>
 		<script src="js/huodong-huojian.js"></script>
-
 		<script src="js/ui-choose.js"></script>
 		<script>
 			mui.init();
@@ -82,10 +80,9 @@
 				if (stage != 1) return;
 				console.log(event);
 			})
+			
 			$('.ui-choose').ui_choose();
-
-			// uc_01 ul 单选
-			var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
+			var uc_01 = $('#uc_01').data('ui-choose'); 
 			uc_01.click = function(index, item) {
 				if (checked) return;
 				checked=true;
