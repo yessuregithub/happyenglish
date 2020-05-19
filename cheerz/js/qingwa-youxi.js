@@ -143,7 +143,7 @@ function pro_result(click_yn, overtime) {
 	}
 
 	mui.ajax({
-		url: 'http://47.241.5.29/Home_index_sendrabbitresult.html',
+		url: 'http://47.241.5.29/Home_index_sendfrogresult.html',
 		data: {
 			token: token,
 			que: queIndex,
@@ -174,7 +174,7 @@ var checker;
 
 function inquireotherplayer() {
 	mui.ajax({
-		url: 'http://47.241.5.29/Home_index_rabbitresult.html',
+		url: 'http://47.241.5.29/Home_index_frogresult.html',
 		data: {
 			token: token,
 			que: queIndex
