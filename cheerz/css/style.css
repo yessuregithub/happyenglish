@@ -474,7 +474,7 @@ input:-ms-input-placeholder {color: #666;}
 .dudong-btn li img{ vertical-align:middle;}
 .dudong-btn li .dui{ background:url(../images/tm.png) repeat; width:100%; height:100%; position:absolute; left:0; top:0;  display:none;}
 .dudong-btn li .dui:after{ background:url(../images/dui02.png) no-repeat; width:1.2rem; height:.95rem; content:""; position:absolute; left:50%; top:50%;transform: translateY(-50%); margin-left:-.60rem; background-size:100% 100%; display:none;}
-
+.dudong-btn li span{ color:#ffffff; font-size:.40rem; line-height:2;}
 .dudong-btn li .cuo{ background:url(../images/tm.png) repeat; width:100%; height:100%; position:absolute; left:0; top:0;  display:none;}
 .dudong-btn li .cuo:after{ background:url(../images/cuo02.png) no-repeat; width:1.1rem; height:1.1rem; content:""; position:absolute; left:50%; top:50%;transform: translateY(-50%); margin-left:-.55rem; background-size:100% 100%; display:none;}
 
@@ -482,6 +482,7 @@ input:-ms-input-placeholder {color: #666;}
 .dudong-btn li.selected .dui:after{ display:block;}
 .dudong-btn li.selected .cuo{ display:block;}
 .dudong-btn li.selected .cuo:after{ display:block;}
+
 .m-praise{ position:fixed; z-index:1010; left:50%; top:50%;transform: translateY(-50%); width:10.4rem; margin-left:-5.2rem;}
 .m-praise img{ width:100%;}
 .m-praise{ position:fixed; z-index:1010; left:50%; top:50%;transform: translateY(-50%); width:10.4rem; margin-left:-5.2rem;}
