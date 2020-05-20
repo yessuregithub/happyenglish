@@ -70,5 +70,5 @@ function anlyvoice1(fn, token) { //第二步，读取文件并转码bas64
 	})
 }
 
-function anlyvoice2(fn, token, base64, file.size) { //进行识别
+function anlyvoice2(fn, token, base64, filesize) { //进行识别
 }
