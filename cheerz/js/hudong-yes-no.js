@@ -34,7 +34,7 @@ function startgame() {
 			$("#hd-no").addClass("dui");
 			$("#hd-yes").addClass("cuo");
 		}
-		// 加载动画
+		// 加载欢喜动画
 		$("#result").hide();
 		$("#res_gj").hide();
 		$("#res_nt").hide();

@@ -2,8 +2,12 @@ var token;
 var stage;
 var second, totalseconds;
 var counter;
-var checked=false;
+var checked = false;
 var answerindex;
+var mv_st; // 火箭升天
+var mv_hy; // 火箭黑烟
+var mv_gj;
+var mv_nt;
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
@@ -16,9 +20,62 @@ function startgame() {
 	$("#showimage").attr("src", gamedata[0]);
 	$("#anwser1").text(gamedata[3]);
 	$("#anwser2").text(gamedata[4]);
-	answerindex=parseInt(gamedata[5])-1;
+	answerindex = parseInt(gamedata[5]) - 1;
 	stage = 1;
 	setTimeout(showselect, 15000);
+
+	// 加载欢喜动画
+	$("#result").hide();
+	$("#res_gj").hide();
+	$("#res_nt").hide();
+	mv_gj = new seqframe({
+		container: document.getElementById('res_gj'),
+		urlRoot: 'movie/goodjob/',
+		imgType: 'png',
+		frameNumber: 5,
+		framePerSecond: 10,
+		loadedAutoPlay: false,
+		loop: 1,
+	});
+	mv_gj.load();
+
+	mv_nt = new seqframe({
+		container: document.getElementById('res_nt'),
+		urlRoot: 'movie/nicetry/',
+		imgType: 'png',
+		frameNumber: 5,
+		framePerSecond: 10,
+		loadedAutoPlay: false,
+		loop: 1,
+	});
+	mv_nt.load();
+
+	// 火箭升天
+	$("#huojian-mv").hide();
+	$("#huojian-st").hide();
+	$("#huojian-hy").hide();
+	mv_st = new seqframe({
+		container: document.getElementById('huojian-st'),
+		urlRoot: 'movie/huosheng/',
+		imgType: 'png',
+		frameNumber: 6,
+		framePerSecond: 10,
+		loadedAutoPlay: false,
+		loop: 1,
+	});
+	mv_st.load();
+	// 火箭黑烟
+	mv_hy = new seqframe({
+		container: document.getElementById('huojian-hy'),
+		urlRoot: 'movie/huoheiyan/',
+		imgType: 'png',
+		frameNumber: 6,
+		framePerSecond: 10,
+		loadedAutoPlay: false,
+		loop: 1,
+	});
+	mv_hy.load();
+
 }
 
 function showselect() {
@@ -28,7 +85,7 @@ function showselect() {
 	$("#progress1").show();
 	second = 5;
 	totalseconds = 5;
-	counter=setInterval(countdown, 100);
+	counter = setInterval(countdown, 100);
 }
 
 function countdown() {
@@ -42,4 +99,24 @@ function countdown() {
 }
 
 function processanswer(correct) {
+	console.log(correct);
+	
+	$("#light").hide();
+	$("#hd-huidi").hide();
+	$("#huojian-jt").hide();
+	$("#huojian-mv").show();
+	
+	if (correct) $("#huojian-st").show();
+	else $("#huojian-hy").show();
+	if (correct) mv_st.play();
+	else mv_hy.play();
+
+	setTimeout(function() {
+		$("#huojian-mv").hide();
+		$("#huojian-st").hide();
+		$("#huojian-hy").hide();
+		$("#hd-huidi").show();
+		$("#huojian-jt").show();
+
+	}, 2000);
 }

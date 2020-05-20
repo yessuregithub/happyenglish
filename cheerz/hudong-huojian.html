@@ -11,10 +11,11 @@
 		<div id="orientLayer">
 			<div class="wt-box">
 				<div class="wt-bg"><img src="images/huo-bg.jpg"></div>
-				<div class="donghua-box">
+				<div id="huojian-jt" class="donghua-box">
 					<img src="images/huo-dong.png">
 				</div>
 			</div>
+
 			<div id="light" class="m-huo-tan" style="display:block;">
 				<div class="hudong-dui">
 					<div id="progress1" class="time mui-clearfix" style="display:none;">
@@ -44,6 +45,18 @@
 					</li>
 				</ul>
 			</div>
+
+			<!-- 火箭动画 -->
+			<div id="huojian-mv" class="hd-danci-fullscreen">
+				<div id="huojian-st" class="huojian"></div>
+				<div id="huojian-hy" class="huojian"></div>
+			</div>
+			
+			<!-- 最后奖励 -->
+			<div id="result" class="m-timu">
+				<div id="res_gj" class="movie"></div>
+				<div id="res_nt" class="movie"></div>
+			</div>
 		</div>
 
 		<div class="m-praise" style="display:none;">
@@ -52,8 +65,8 @@
 		<div class="m-encourage" style="display:none;">
 			<img src="images/m-encourage.png">
 		</div>
+		<!-- 灰底 -->
 		<div id="hd-huidi" class="m-timu2"></div>
-
 
 		<script src="js/mui.min.js"></script>
 		<script src="js/jquery-1.8.3.min.js"></script>
@@ -80,19 +93,18 @@
 				if (stage != 1) return;
 				console.log(event);
 			})
-			
+
 			$('.ui-choose').ui_choose();
-			var uc_01 = $('#uc_01').data('ui-choose'); 
+			var uc_01 = $('#uc_01').data('ui-choose');
 			uc_01.click = function(index, item) {
 				if (checked) return;
-				checked=true;
+				checked = true;
 				clearInterval(counter);
 				console.log('click', index, item.text())
-				if (index==answerindex) { //答对
+				if (index == answerindex) { //答对
+				} else { //答错
 				}
-				else {   //答错
-				}
-				processanswer(index==answerindex);
+				processanswer(index == answerindex);
 			}
 		</script>
 
