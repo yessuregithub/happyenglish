@@ -28,7 +28,7 @@ function endrecord() {
 	r.stop();
 }
 
-function anlyvoice(fn) {  //第一步，获得token
+function anlyvoice(fn) { //第一步，获得token
 	// TODO: 先弹出来一个动画，转圈之类
 	//获得acess_token
 	mui.ajax({
@@ -52,20 +52,23 @@ function anlyvoice(fn) {  //第一步，获得token
 	});
 }
 
-function anlyvoice1(fn, token) {  //第二步，读取文件并转码bas64
-    plus.io.resolveLocalFileSystemURL(fn, function(entry){  
-        entry.file(function(file){  
-            var reader = new plus.io.FileReader();  
-            reader.onloadend = function (e) {  
-                //console.log(e.target.result);  //BASE64的录音文件
-			    //console.log("filesize="+file.size);
-            };  
-            reader.readAsDataURL(file); 
-			
-        },function(e){  
-            mui.toast("读写出现异常: " + e.message );  
-        })  
-    })  		
-	
+function anlyvoice1(fn, token) { //第二步，读取文件并转码bas64
+	plus.io.resolveLocalFileSystemURL(fn, function(entry) {
+		entry.file(function(file) {
+			var reader = new plus.io.FileReader();
+			reader.onloadend = function(e) {
+				//console.log(e.target.result);  //BASE64的录音文件
+				//console.log("filesize="+file.size);
+				//TODO 从带编码头的BASE64里面取出纯内容
+				anlyvoice2(fn, token, e.target.result, file.size);
+			};
+			reader.readAsDataURL(file);
+
+		}, function(e) {
+			mui.toast("读写出现异常: " + e.message);
+		})
+	})
 }
 
+function anlyvoice2(fn, token, base64, file.size) { //进行识别
+}
