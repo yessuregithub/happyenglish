@@ -398,6 +398,7 @@ input:-ms-input-placeholder {color: #666;}
 .hudong-txt span{ color:#ffffff; font-size:2.5rem; font-weight:bold; line-height:1.3;}
 .hudong-yuyin{ position:fixed; right:.6rem; bottom:.4rem;}
 .hudong-yuyin img{ width:.93rem; height:.93rem; float:left;}
+.hudong-yuyin div_nono{ width:.93rem; height:.93rem; float:left;}
 .hudong-yuyin ul{ float:left; width:1.1rem;}
 .hudong-yuyin ul li{ float:left; background:#d9d9d9;border-radius:.6rem; margin-left:.08rem; position:relative; overflow:hidden;}
 .hudong-yuyin ul li span{ position:absolute; top:0; left:0; width:100%; height:100%; background:#f5c93f;}
