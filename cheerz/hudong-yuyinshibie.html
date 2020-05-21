@@ -11,9 +11,9 @@
 		<div id="orientLayer">
 			<div class="wt-box">
 				<div class="wt-bg"><img id="pict" src=""></div>
-				<div class="hudong-yuyin" >
-					
-                    <img src="images/mkf.png" >
+				<div class="hudong-yuyin">
+
+					<img src="images/mkf.png">
 					<ul>
 						<li><span></span></li>
 						<li><span></span></li>
@@ -21,7 +21,7 @@
 						<li><span></span></li>
 						<li><span></span></li>
 					</ul>
-					<div style="position: absolute;width:.93rem; height:.93rem;top:28px;left:28px" class="second circle"></div>
+					<div style="position: absolute;width:.78rem; height:.78rem;top:.2rem;left:.2rem" class="second circle"></div>
 				</div>
 			</div>
 		</div>
@@ -46,12 +46,15 @@
 					return null;
 				}
 				$('.second.circle').circleProgress({
-				    value: 1,
-					fill: { color: "#ff1e41" },
-					size: 56,
-					startAngle: -Math.PI/2,
+					value: 1,
+					fill: {
+						color: "#3493E4"
+					},
+					size: 39,
+					startAngle: -Math.PI / 2,
+					thickness:4
 				}).on('circle-animation-progress', function(event, progress) {
-				    $(this).find('strong').html(parseInt(100 * progress) + '<i>%</i>');
+					$(this).find('strong').html(parseInt(100 * progress) + '<i>%</i>');
 				});
 				startgame();
 			}
