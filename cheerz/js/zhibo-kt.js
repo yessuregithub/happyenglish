@@ -124,6 +124,10 @@ function initclassroom(data) {
 			tag = "#v" + i;
 			player[i] = createvideo("v" + i, "v" + i, playervideo[i]);
 			player[i].play();
+			if (i==1) //自己始终静音
+			{
+				player[1].setStyles({muted: true,});
+			}
 		} else {
 			tag = "#name" + i;
 			$(tag).text("");
@@ -189,6 +193,7 @@ function muteplayer() {
 		player[i].setStyles({
 			muted: !ismuted,
 		});
+		if (i==1) player[1].setStyles({muted: true,});
 		console.log("mute after");
 	}
 	ismuted = !ismuted;

@@ -2,6 +2,8 @@ var token;
 var words;
 var r;
 var baidu_token;
+var endrecordcounter = 0;
+var endrecorder;
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
@@ -17,15 +19,24 @@ function startgame() {
 		channels: "mono",
 	}, function(fn) {
 		anlyvoice(fn);
-		alert("Audio " + fn + " record success!");
+		//alert("Audio " + fn + " record success!");
 	}, function(e) {
 		alert("Audio record failed: " + e.message);
 	});
-	setTimeout(endrecord, 5000);
+	endrecorder = setInterval(endrecord, 100);
 }
 
+
 function endrecord() {
-	r.stop();
+	endrecordcounter++;
+	$('.second.circle').circleProgress({
+		value: endrecordcounter / 50
+	});
+	$('.second.circle').circleProgress('redraw');
+	if (endrecordcounter > 50) {
+		clearInterval(endrecorder);
+		r.stop();
+	}
 }
 
 function anlyvoice(fn) { //第一步，获得token
@@ -35,8 +46,8 @@ function anlyvoice(fn) { //第一步，获得token
 		url: 'https://aip.baidubce.com/oauth/2.0/token',
 		data: {
 			grant_type: "client_credentials",
-			client_id: "api_key",
-			client_secret: "Secret Key"
+			client_id: "iHbDygjghUvvhQGn45zEUQpx",
+			client_secret: "1gUeAljoIuceH4MpqbGD5usKZdhXwPqa"
 		},
 		async: true,
 		dataType: 'json',
@@ -57,10 +68,14 @@ function anlyvoice1(fn, token) { //第二步，读取文件并转码bas64
 		entry.file(function(file) {
 			var reader = new plus.io.FileReader();
 			reader.onloadend = function(e) {
-				//console.log(e.target.result);  //BASE64的录音文件
+				puresult = e.target.result;
+				pos = puresult.indexOf("base64,");
+				pos = pos + 7;
+				rst = puresult.substring(pos);
+				//console.log(rst);  //BASE64的录音文件
 				//console.log("filesize="+file.size);
 				//TODO 从带编码头的BASE64里面取出纯内容
-				anlyvoice2(fn, token, e.target.result, file.size);
+				anlyvoice2(fn, token, rst, file.size);
 			};
 			reader.readAsDataURL(file);
 
@@ -71,4 +86,63 @@ function anlyvoice1(fn, token) { //第二步，读取文件并转码bas64
 }
 
 function anlyvoice2(fn, token, base64, filesize) { //进行识别
+	var fileExtension = fn.substring(fn.lastIndexOf('.') + 1);
+	var request = {
+		format: fileExtension,
+		rate: 16000,
+		dev_pid: 1737,
+		channel: 1,
+		token: token,
+		cuid: 'czapp',
+		len: filesize,
+		speech: base64,
+	};
+	var encoded = $.toJSON(request);
+
+	//console.log("encoded=" + encoded);
+	mui.ajax({
+		url: "http://vop.baidu.com/server_api",
+		type: 'POST',
+		data: encoded,
+		dataType: 'json',
+		contentType: 'application/json',
+		success: function(data, status, xhr) {
+			anlyvoice3(data);
+		},
+		Error: function(xhr, error, exception) {
+			alert(exception.toString());
+		}
+	});
+}
+
+function anlyvoice3(baiduresult) {
+	var score = 0;
+	var errcode = baiduresult.err_no;
+	if (errcode == 3301) {
+		processscore(0);
+		return;
+	} //没读
+	else if (errcode != 0) {
+		processscore(2);
+		return;
+	} //没能解析
+	var resultcount = baiduresult.result.length;
+	if (resultcount == 0) {
+		processscore(3);
+		return;
+	} //实在差得太多？
+	score = -1;
+	for (i = 0; i < resultcount; i++) {
+		wordget = baiduresult.result[i];
+		console.log("server word:" + wordget + " need word:" + words);
+		pos1 = wordget.indexOf(words);
+		pos2 = words.indexOf(wordget);
+		if ((pos1 != -1 || pos2 != -1) && score == -1) score = 10 - i;
+	}
+	if (score == -1) score = 5; //读错了
+	processscore(score);
+}
+
+function processscore(score) {
+	console.log("get score:" + score);
 }

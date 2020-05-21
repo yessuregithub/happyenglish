@@ -33,6 +33,7 @@
 		<script src="js/rem.js"></script>
 		<script src="js/hudong-yuyinshibie.js"></script>
 		<script src="js/jquery-circle-progress.js"></script>
+		<script src="js/jquery-json.js"></script>
 		<script>
 			mui.init();
 			mui.ready(function() {
@@ -48,7 +49,8 @@
 				var circleSize = lib.flexible.rem2px(1.48);
 				var thicknessSize = lib.flexible.rem2px(0.15);
 				$('.second.circle').circleProgress({
-					value: 1,
+					animation: false,	
+					value: 0,
 					emptyFill: "#bfbfbf",
 					fill: {
 						color: "#3493E4"
