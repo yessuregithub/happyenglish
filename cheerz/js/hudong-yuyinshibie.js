@@ -21,7 +21,8 @@ function startgame() {
 		anlyvoice(fn);
 		//alert("Audio " + fn + " record success!");
 	}, function(e) {
-		alert("Audio record failed: " + e.message);
+		mui.alert("请在系统设置中允许APP使用麦克风");
+		return;
 	});
 	endrecorder = setInterval(endrecord, 100);
 }
@@ -72,9 +73,6 @@ function anlyvoice1(fn, token) { //第二步，读取文件并转码bas64
 				pos = puresult.indexOf("base64,");
 				pos = pos + 7;
 				rst = puresult.substring(pos);
-				//console.log(rst);  //BASE64的录音文件
-				//console.log("filesize="+file.size);
-				//TODO 从带编码头的BASE64里面取出纯内容
 				anlyvoice2(fn, token, rst, file.size);
 			};
 			reader.readAsDataURL(file);
