@@ -148,7 +148,7 @@ function checklessondata(lastplaytime, currtime) {
 			// lessondata[i].url = "hudong-yes-no";
 			// lessondata[i].para = "https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg|Have you something hard?|1|20";
 
-			// lessondata[i].url = "tuzi-youxi"; //debug
+			lessondata[i].url = "hudong-huojian"; //debug
 			// lessondata[i].para = "https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg|Have you something hard?|1|20";
 
 			//hudong-tupianlunbo 保持时间|图片url

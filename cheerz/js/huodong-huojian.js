@@ -24,31 +24,10 @@ function startgame() {
 	stage = 1;
 	setTimeout(showselect, 15000);
 
-	// 加载欢喜动画
+	// 欢喜最后一帧
 	$("#result").hide();
 	$("#res_gj").hide();
 	$("#res_nt").hide();
-	mv_gj = new seqframe({
-		container: document.getElementById('res_gj'),
-		urlRoot: 'movie/goodjob/',
-		imgType: 'png',
-		frameNumber: 5,
-		framePerSecond: 10,
-		loadedAutoPlay: false,
-		loop: 1,
-	});
-	mv_gj.load();
-
-	mv_nt = new seqframe({
-		container: document.getElementById('res_nt'),
-		urlRoot: 'movie/nicetry/',
-		imgType: 'png',
-		frameNumber: 5,
-		framePerSecond: 10,
-		loadedAutoPlay: false,
-		loop: 1,
-	});
-	mv_nt.load();
 
 	// 火箭升天
 	$("#huojian-mv").hide();
@@ -100,12 +79,12 @@ function countdown() {
 
 function processanswer(correct) {
 	console.log(correct);
-	
+
 	$("#light").hide();
 	$("#hd-huidi").hide();
 	$("#huojian-jt").hide();
 	$("#huojian-mv").show();
-	
+
 	if (correct) $("#huojian-st").show();
 	else $("#huojian-hy").show();
 	if (correct) mv_st.play();
@@ -115,8 +94,9 @@ function processanswer(correct) {
 		$("#huojian-mv").hide();
 		$("#huojian-st").hide();
 		$("#huojian-hy").hide();
-		$("#hd-huidi").show();
-		$("#huojian-jt").show();
 
-	}, 2000);
+		$("#result").show();
+		if (correct) $("#res_gj").show();
+		else $("#res_nt").show();
+	}, 1500);
 }
