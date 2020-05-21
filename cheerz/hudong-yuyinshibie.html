@@ -21,7 +21,7 @@
 						<li><span></span></li>
 						<li><span></span></li>
 					</ul>
-					<div style="position: absolute;width:.78rem; height:.78rem;top:.2rem;left:.2rem" class="second circle"></div>
+					<div style="position: absolute;width:1.48rem; height:1.48rem;top:.19rem;left:.18rem" class="second circle"></div>
 				</div>
 			</div>
 		</div>
@@ -45,14 +45,18 @@
 					jump('login', 'dl.html');
 					return null;
 				}
+				var circleSize = lib.flexible.rem2px(1.48);
+				var thicknessSize = lib.flexible.rem2px(0.15);
 				$('.second.circle').circleProgress({
 					value: 1,
+					emptyFill: "#bfbfbf",
 					fill: {
 						color: "#3493E4"
+						// gradient: ["#46ccf2", "#3493E4"]
 					},
-					size: 39,
+					size: circleSize,
 					startAngle: -Math.PI / 2,
-					thickness:4
+					thickness: thicknessSize
 				}).on('circle-animation-progress', function(event, progress) {
 					$(this).find('strong').html(parseInt(100 * progress) + '<i>%</i>');
 				});
