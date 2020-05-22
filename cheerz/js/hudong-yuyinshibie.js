@@ -6,6 +6,7 @@ var endrecordcounter = 0;
 var endrecorder;
 
 function startgame() {
+	
 	var gamepara = localStorage.getItem("gpara");
 	//debug
 	gamepara = "images/eye.jpg|eye";
@@ -139,8 +140,11 @@ function anlyvoice3(baiduresult) {
 	}
 	if (score == -1) score = 5; //读错了
 	processscore(score);
+	// mui.alert("识别数：" + resultcount + " 子集：" + baiduresult.result + " 得:" + score + " 分");
+	// debug
 }
 
 function processscore(score) {
 	console.log("get score:" + score);
+	// document.postMessage(addcoin, score);
 }

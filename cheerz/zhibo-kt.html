@@ -27,7 +27,7 @@
 						</div>
 						<div class="laoshi-btn">
 							<div class="laoshi-list mui-clearfix">
-								<a href="javascript:muteplayer()" class="yin"><span id="pingbi" ></span></a>
+								<a href="javascript:muteplayer()" class="yin"><span id="pingbi"></span></a>
 								<a href="" class="shua"></a>
 								<a href="" class="ce"></a>
 								<a href="javascript:void(0)" onclick="document.getElementById('light-kf').style.display='block';document.getElementById('fade').style.display='block'"
@@ -44,7 +44,7 @@
 
 							<div class="mui-clearfix">
 								<div id="name1" class="name">name1</div>
-								<div class="jin"><img src="images/jibi.png"><span id="coin1">0</span></div>
+								<div class="jin"><img id="coin1_img" src="images/jibi.png"><span id="coin1">0</span></div>
 							</div>
 
 							<div class="img-box">
@@ -59,7 +59,7 @@
 						<li>
 							<div class="mui-clearfix">
 								<div id="name2" class="name">name2</div>
-								<div class="jin" id="pusher"><img src="images/jibi.png"><span id="coin2">0</span></div>
+								<div class="jin" id="pusher"><img id="coin2_img" src="images/jibi.png"><span id="coin2">0</span></div>
 							</div>
 							<div class="img-box">
 								<div style="width:100%;height:100%;background-color:#000000">
@@ -73,7 +73,7 @@
 						<li>
 							<div class="mui-clearfix">
 								<div id="name3" class="name">name3</div>
-								<div class="jin"><img src="images/jibi.png"><span id="coin3">0</span></div>
+								<div class="jin"><img id="coin3_img" src="images/jibi.png"><span id="coin3">0</span></div>
 							</div>
 							<div class="img-box">
 								<div id="v3" style="width:100%;height:100%;background-color:#000000">
@@ -85,7 +85,7 @@
 						<li>
 							<div class="mui-clearfix">
 								<div id="name4" class="name">name4</div>
-								<div class="jin"><img src="images/jibi.png"><span id="coin4">0</span></div>
+								<div class="jin"><img id="coin4_img" src="images/jibi.png"><span id="coin4">0</span></div>
 							</div>
 							<div class="img-box">
 								<div id="v4" style="width:100%;height:100%;background-color:#000000">
@@ -152,8 +152,8 @@
 				//enterlesson(); //debug
 			}
 
-			mui.back = function() {   //禁止android返回
-			console.log("detected back, ignore");
+			mui.back = function() { //禁止android返回
+				console.log("detected back, ignore");
 			}
 
 			function plusReady() {
@@ -168,10 +168,33 @@
 				});
 
 				enterlesson();
+				// 金币闪烁
+				addcoin(); // debug
 			}
 
 			document.addEventListener('plusready', plusReady, false);
-			
+
+			// 添加金币闪烁动画
+			var blink_t;
+
+			function addcoin() {
+				console.log("addcoin event");
+				blinkcoin();
+				setTimeout(function() {
+					if (blink_t != null) {
+						clearTimeout(blink_t);
+						blink_t = null;
+					}
+				}, 800);
+			}
+
+			function blinkcoin() {
+				if ($("#coin1_img").is(":hidden"))
+					$("#coin1_img").show();
+				else
+					$("#coin1_img").hide();
+				blink_t = setTimeout('blinkcoin()', 100);
+			}
 		</script>
 
 	</body>

@@ -56,6 +56,8 @@ function quitlesson(backtofirstpage) {
 	// 	player[0].removeEventListener('timeupdate', timeupdate, false);
 	// }
 
+	document.removeEventListener("addcoin");
+
 	plus.device.setVolume(0.5);
 	activeview.close();
 	pusher.stop();
@@ -124,9 +126,11 @@ function initclassroom(data) {
 			tag = "#v" + i;
 			player[i] = createvideo("v" + i, "v" + i, playervideo[i]);
 			player[i].play();
-			if (i==1) //自己始终静音
+			if (i == 1) //自己始终静音
 			{
-				player[1].setStyles({muted: true,});
+				player[1].setStyles({
+					muted: true,
+				});
 			}
 		} else {
 			tag = "#name" + i;
@@ -162,7 +166,7 @@ function checklessondata(lastplaytime, currtime) {
 			console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + "pop up " + lessondata[i].url);
 			console.log("less para :" + lessondata[i].para);
 			console.log("less url :" + lessondata[i].url);
-			
+
 			localStorage.setItem("gid", lessondata[i].id);
 			localStorage.setItem("ts", lessondata[i].ts);
 			localStorage.setItem("gpara", lessondata[i].para);
@@ -193,7 +197,9 @@ function muteplayer() {
 		player[i].setStyles({
 			muted: !ismuted,
 		});
-		if (i==1) player[1].setStyles({muted: true,});
+		if (i == 1) player[1].setStyles({
+			muted: true,
+		});
 		console.log("mute after");
 	}
 	ismuted = !ismuted;
