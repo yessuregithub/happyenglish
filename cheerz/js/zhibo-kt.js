@@ -227,6 +227,18 @@ function createvideo(videoid, divid, url) {
 
 
 function enterlesson() {
+
+	// check add 金币
+	incoin_t = setInterval(function() {
+		var coin = localStorage.getItem("incoin");
+		if (coin != null && parseInt(coin) > 0) {
+			console.log("get coin " + coin);
+			localStorage.removeItem("incoin");
+			addcoin();
+		}
+	}, 1000);
+
+
 	setInterval(pullmessage, 5000);
 	token = localStorage.getItem("token");
 	lid = localStorage.getItem("less_id");

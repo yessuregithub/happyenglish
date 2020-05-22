@@ -147,4 +147,6 @@ function anlyvoice3(baiduresult) {
 function processscore(score) {
 	console.log("get score:" + score);
 	// document.postMessage(addcoin, score);
+	if (score > 0) localStorage.setItem("incoin", score);
+	// localStorage.setItem("incoin", 10); debug
 }
