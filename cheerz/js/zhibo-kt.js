@@ -153,7 +153,7 @@ function checklessondata(lastplaytime, currtime) {
 	for (i = 0; i < datacount; i++) {
 		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
 			// todo test
-			// lessondata[i].url = "hudong-yes-no";
+			lessondata[i].url = "hudong-yidongxq";
 			// lessondata[i].para = "https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg|Have you something hard?|1|20";
 
 			// lessondata[i].url = "hudong-huojian"; //debug
