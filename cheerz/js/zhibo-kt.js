@@ -10,6 +10,7 @@ var lessondata, datacount;
 var activeview=null;
 var ismuted = false;
 var userid;
+var keepalive=null;
 
 var classid; //课堂编号
 var kt_starttime_interval = null;
@@ -164,7 +165,6 @@ function initclassroom(data) {
 	pusher.start(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
 	//在新的视频加入后，必须stop，然后再start pusher
 	plus.device.setVolume(0.5);
-
 }
 
 var lastplaytime = 0;
