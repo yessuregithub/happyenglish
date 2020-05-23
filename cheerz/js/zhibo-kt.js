@@ -1,12 +1,14 @@
 var pusher, token;
 var player = new Array(5); // 0<-老师 1-4 学生
 var playername = new Array(5);
+var playerid = new Array(5);
 var playercoin = new Array(5);
 var playervideo = new Array(5);
 var token, lid;
 var lessondata, datacount;
 var activeview;
 var ismuted = false;
+var userid;
 
 var classid; //课堂编号
 var kt_starttime_interval = null;
@@ -56,7 +58,7 @@ function quitlesson(backtofirstpage) {
 	// 	player[0].removeEventListener('timeupdate', timeupdate, false);
 	// }
 
-	document.removeEventListener("addcoin");
+	//??? document.removeEventListener("addcoin");
 
 	plus.device.setVolume(0.5);
 	activeview.close();
@@ -112,32 +114,47 @@ function initclassroom(data) {
 	plus.device.setVolume(0.5);
 	lessondata = data.lessondata;
 	datacount = data.datacount;
+	userid = data.userid; //自己的uid
+	
+	pushurl='rtmp://47.241.111.251/live?vhost=rotate.localhost/'+userid;
+	pusher = new plus.video.LivePusher('pusherwin', {
+		url: pushurl
+	});
 
 	for (i = 0; i < 5; i++) player[i] = null;
-	for (i = 1; i <= 4; i++) {
-		playername[i] = data.player[i].name;
-		playercoin[i] = data.player[i].coin;
-		playervideo[i] = data.player[i].video;
-		if (playername[i] != "") {
-			tag = "#name" + i;
-			$(tag).text(playername[i]);
-			tag = "#coin" + i;
-			$(tag).text(playercoin[i]);
-			tag = "#v" + i;
-			player[i] = createvideo("v" + i, "v" + i, playervideo[i]);
-			player[i].play();
-			if (i == 1) //自己始终静音
+	for (i = 1; i <= 4; i++)
+		if (data.player[i].id == userid) mypos = i; //先获得自己的序号
+	for (i = 1; i <= 4; i++) { //重排序号
+	    pos=i;
+		if (i == 1 && mypos == 1) pos = i;
+		if (i == 1 && mypos != 1) {
+			pos = mypos;
+		}
+		if (i == mypos) pos = 1;
+		playername[pos] = data.player[i].name;
+		playerid[pos]=data.player[i].id;
+		playercoin[pos] = data.player[i].coin;
+		playervideo[pos] = data.player[i].video;
+		if (playername[pos] != "") {
+			tag = "#name" + pos;
+			$(tag).text(playername[pos]);
+			tag = "#coin" + pos;
+			$(tag).text(playercoin[pos]);
+			tag = "#v" + pos;
+			player[pos] = createvideo("v" + pos, "v" + pos, playervideo[pos]);
+			player[pos].play();
+			if (pos == 1) //自己始终静音
 			{
 				player[1].setStyles({
 					muted: true,
 				});
 			}
 		} else {
-			tag = "#name" + i;
+			tag = "#name" + pos;
 			$(tag).text("");
-			tag = "#coin" + i;
+			tag = "#coin" + pos;
 			$(tag).text("-");
-			tag = "#v" + i;
+			tag = "#v" + pos;
 			$(tag).html("<img src=\"images/wsx.jpg\">"); //显示未上线
 		}
 	}
@@ -222,6 +239,7 @@ function createvideo(videoid, divid, url) {
 		height: height - 4,
 	});
 	plus.webview.currentWebview().append(player);
+	console.log("added video "+divid+" "+url);
 	return player;
 }
 
@@ -273,6 +291,11 @@ function enterlesson() {
 				initclassroom(data);
 				return;
 			}
+			if (data.rst == 2) { //服务器认为已经在课堂，强制退出
+				quitlesson(true);
+				return;
+			}
+
 		},
 		error: function(xhr, type, errorThrown) {
 			// 请求失败  
