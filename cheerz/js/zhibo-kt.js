@@ -1,4 +1,5 @@
-var pusher, token;
+var pusher=null;
+var token;
 var player = new Array(5); // 0<-老师 1-4 学生
 var playername = new Array(5);
 var playerid = new Array(5);
@@ -6,7 +7,7 @@ var playercoin = new Array(5);
 var playervideo = new Array(5);
 var token, lid;
 var lessondata, datacount;
-var activeview;
+var activeview=null;
 var ismuted = false;
 var userid;
 
@@ -59,12 +60,10 @@ function quitlesson(backtofirstpage) {
 	// }
 
 	//??? document.removeEventListener("addcoin");
-
 	plus.device.setVolume(0.5);
-	activeview.close();
-	pusher.stop();
-
-	pusher.close();
+	if (activeview) activeview.close();
+	if (pusher) pusher.stop();
+	if (pusher) pusher.close();
 	plus.device.setVolume(0.5);
 	for (i = 0; i <= 4; i++)
 		if (player[i] != null) {
@@ -85,12 +84,16 @@ function quitlesson(backtofirstpage) {
 			// 请求成功
 			if (data.rst == 0) {}
 			if (data.rst == 1) {}
+			if (backtofirstpage) jump('index', 'index.html');
+			
 		},
 		error: function(xhr, type, errorThrown) {
-			// 请求失败  
+			// 请求失败
+			  console.log("logout http fail");
+			  if (backtofirstpage) jump('index', 'index.html');
+			  
 		}
 	});
-	if (backtofirstpage) jump('index', 'index.html');
 }
 
 
