@@ -184,17 +184,17 @@ function lessondetail(lid) {
 }
 
 var lesson_data; // 全局直播课数据
-var index_go_link;
+var index_go_link=new Array(10);
 // 处理点击index.html课程直播间
 function clickedlesson(less_index) {
 	if (lesson_data == null) return;
 	var i = less_index;
 	var starttime = lesson_data[i].starttime;
-	localStorage.setItem("less_starttime",starttime);
-	localStorage.setItem("less_id",lesson_data[i].id);
-	localStorage.setItem("cover",lesson_data[i].coverurl);
+	localStorage.setItem("less_starttime", starttime);
+	localStorage.setItem("less_id", lesson_data[i].id);
+	localStorage.setItem("cover", lesson_data[i].coverurl);
 	// jump('index_go', "index_go_link");
-	window.location.href = index_go_link;
+	window.location.href = index_go_link[less_index];
 	// console.log(starttime + ' link:' + index_go_link);
 }
 
@@ -214,10 +214,7 @@ function listcurrlesson(token) {
 			// 请求成功
 			if (data.rst == 0) {
 				localStorage.setItem("token", "");
-				mui.openWindow({
-					id: 'login',
-					url: 'dl.html'
-				});
+				jump('login', 'dl.html');
 				return;
 			}
 			if (data.rst == 1) {
@@ -225,26 +222,35 @@ function listcurrlesson(token) {
 				else isvip = true;
 				count = data.count;
 				lesson_data = data.lesson;
+				dd = new Date().getDay();
+				if (dd == 6 || dd == 0) todayweekend = true;
+				else todayweekend = false;
 
 				for (i = 0; i < count; i++) {
+					//只在周末显示周末游戏
+					//debug closed if (!todayweekend && data.lesson[i].isweekend==1) continue;
 					if (data.lesson[i].cname == "") title = "<h4>" + data.lesson[i].engname + "</h4>";
 					else title = "<p>" + data.lesson[i].engname + "</p><p>" + data.lesson[i].cname + "</p>";
 					datetime = Date.now();
 					timestamp = Math.floor(datetime / 1000);
-					if (parseInt(timestamp / 86400) == parseInt(data.lesson[i].starttime / 86400)) istoday = true;
+					if (parseInt((timestamp-28800) / 86400) == parseInt((data.lesson[i].starttime-28800) / 86400)) istoday = true;
 					else istoday = false;
-
+					console.log("istoday="+istoday);
+					if (data.lesson[i].isweekend == "1") isweekend = true;
+					else isweekend = false;
 					// 开始时间
 
 					if (!isvip) {
 						promptword = "课程详情";
 						link = 'qb-kc.html';
 					} else {
-						if (istoday) promptword = "进入教室";
-						else promptword = "回看课程";
-						link = 'zhibo-kt.html';
+
+						if (istoday && !isweekend) { promptword = "进入教室"; link = 'zhibo-kt.html'}
+						else if (istoday && isweekend) { promptword = "开始挑战"; link = data.lesson[i].weekendurl+".html";}
+						else {  promptword = "回看课程";link = 'zhibo-kt.html'}
+						;
 					}
-					index_go_link = link;
+					index_go_link[i] = link;
 
 					$("#lessons ul").append(
 						// "<li><div class='sliding-title'>" + title + "</div><div class='img-box'><img src='" + data.lesson[i].coverurl +
@@ -376,5 +382,3 @@ function jump(title, url) {
 */
 	window.location.href = url;
 }
-
-
