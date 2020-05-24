@@ -1,4 +1,4 @@
-var pusher=null;
+var pusher = null;
 var token;
 var player = new Array(5); // 0<-老师 1-4 学生
 var playername = new Array(5);
@@ -7,10 +7,10 @@ var playercoin = new Array(5);
 var playervideo = new Array(5);
 var token, lid;
 var lessondata, datacount;
-var activeview=null;
+var activeview = null;
 var ismuted = false;
 var userid;
-var keepalive=null;
+var keepalive = null;
 
 var classid; //课堂编号
 var kt_starttime_interval = null;
@@ -86,13 +86,13 @@ function quitlesson(backtofirstpage) {
 			if (data.rst == 0) {}
 			if (data.rst == 1) {}
 			if (backtofirstpage) jump('index', 'index.html');
-			
+
 		},
 		error: function(xhr, type, errorThrown) {
 			// 请求失败
-			  console.log("logout http fail");
-			  if (backtofirstpage) jump('index', 'index.html');
-			  
+			console.log("logout http fail");
+			if (backtofirstpage) jump('index', 'index.html');
+
 		}
 	});
 }
@@ -119,8 +119,8 @@ function initclassroom(data) {
 	lessondata = data.lessondata;
 	datacount = data.datacount;
 	userid = data.userid; //自己的uid
-	
-	pushurl='rtmp://47.241.111.251/live?vhost=rotate.localhost/'+userid;
+
+	pushurl = 'rtmp://47.241.111.251/live?vhost=rotate.localhost/' + userid;
 	pusher = new plus.video.LivePusher('pusherwin', {
 		url: pushurl
 	});
@@ -129,14 +129,14 @@ function initclassroom(data) {
 	for (i = 1; i <= 4; i++)
 		if (data.player[i].id == userid) mypos = i; //先获得自己的序号
 	for (i = 1; i <= 4; i++) { //重排序号
-	    pos=i;
+		pos = i;
 		if (i == 1 && mypos == 1) pos = i;
 		if (i == 1 && mypos != 1) {
 			pos = mypos;
 		}
 		if (i == mypos) pos = 1;
 		playername[pos] = data.player[i].name;
-		playerid[pos]=data.player[i].id;
+		playerid[pos] = data.player[i].id;
 		playercoin[pos] = data.player[i].coin;
 		playervideo[pos] = data.player[i].video;
 		if (playername[pos] != "") {
@@ -242,7 +242,7 @@ function createvideo(videoid, divid, url) {
 		height: height - 4,
 	});
 	plus.webview.currentWebview().append(player);
-	console.log("added video "+divid+" "+url);
+	console.log("added video " + divid + " " + url);
 	return player;
 }
 
@@ -308,8 +308,14 @@ function enterlesson() {
 
 }
 
-function playerleave(pos) {
-	if (playername[pos] == "") return;
+function playerleave(uid) {
+	pos = 0;
+	for (i = 1; i <= 4; i++)
+		if (playerid[i] == uid) {
+			pos = i;
+			break;
+		}
+	if (pos == 0) return;
 	player[pos].stop();
 	player[pos].close();
 	player[pos] = null;
@@ -319,13 +325,22 @@ function playerleave(pos) {
 	$(tag).text("");
 	tag = "#coin" + pos;
 	$(tag).text("-");
+	pusher.stop();
+	pusher.start();
 }
 
-function addplayer(order, name, coin, url) {
-	if (playername[order] != "") return; //duplicate user
+function addplayer(uid, name, coin, url) {
+	order = -1;
+	for (i = 1; i <= 4; i++)
+		if (playername[i] == "") {
+			order = i;
+			break;
+		}
+	if (order == -1) return; //table full
 	playername[order] = name;
 	playercoin[order] = coin;
 	playervideo[order] = url;
+	playerid[order] = uid;
 	tag = "#name" + order;
 	$(tag).text(playername[order]);
 	tag = "#coin" + order;
@@ -338,7 +353,7 @@ function addplayer(order, name, coin, url) {
 	plus.device.setVolume(0.5);
 }
 
-function startlesson(starttime, url) {
+function startlesson(offset, url) {
 	if (player[0] != null) return;
 	console.log("start lesson:" + url);
 	tag = "#vtarea";
@@ -347,6 +362,8 @@ function startlesson(starttime, url) {
 	player[0].addEventListener('timeupdate', timeupdate, false);
 	// debug player[0].addEventListener('ended', ended, false);
 	player[0].play();
+	testoffset=20; //debug 
+	player[0].seek(testoffset);
 	pusher.stop();
 	pusher.start();
 
@@ -354,7 +371,6 @@ function startlesson(starttime, url) {
 
 function docommand(cmds) {
 	cmd = cmds[0];
-	//console.log("do cmd:" + cmd);
 	if (cmd == "addplayer") addplayer(cmds[1], cmds[2], cmds[3], cmds[4]);
 	else if (cmd == "lessonstart") startlesson(cmds[1], cmds[2]);
 	else if (cmd == "leavelesson") playerleave(cmds[1]);
@@ -392,8 +408,9 @@ function pullmessage() {
 			if (data.rst == 1) {
 				commandcount = data.msgcount;
 				for (i = 0; i < commandcount; i++) {
-					//console.log("do cmd:" + data.cmd[i]);
-					cmds = data.cmd[i].split("|");
+					console.log(JSON.stringify(data));
+					console.log("do cmd:" + data.cmd[i].cmd);
+					cmds = data.cmd[i].cmd.split("|");
 					docommand(cmds);
 				}
 				return;
