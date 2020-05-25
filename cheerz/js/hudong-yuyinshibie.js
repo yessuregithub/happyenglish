@@ -6,13 +6,12 @@ var endrecordcounter = 0;
 var endrecorder;
 
 function startgame() {
-	
+
 	var gamepara = localStorage.getItem("gpara");
 	//debug
-	gamepara = "images/eye.jpg|eye";
-	gamedata = gamepara.split("|");
-	$("#pict").attr("src", gamedata[0]);
-	words = gamedata[1];
+	json = JSON.parse(gamepara);
+	$("#pict").attr("src", json.image);
+	words = json.word;
 	r = plus.audio.getRecorder();
 	r.record({
 		filename: "_doc/audio/",
@@ -149,4 +148,7 @@ function processscore(score) {
 	// document.postMessage(addcoin, score);
 	if (score > 0) localStorage.setItem("incoin", score);
 	// localStorage.setItem("incoin", 10); debug
+	setTimeout(function() {
+		plus.webview.currentWebview().hide();
+	}, 5000);
 }

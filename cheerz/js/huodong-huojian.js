@@ -11,16 +11,13 @@ var mv_nt;
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
-	//debug
-	gamepara = "images/zb.jpg|Suck my ________?|It is something you love!|Mouse|Dick|2";
-	//图片|第一句话|第二句话|可选单词1|可选单词2|答案
-	gamedata = gamepara.split("|");
-	$("#words1").text(gamedata[1]);
-	$("#words2").text(gamedata[2]);
-	$("#showimage").attr("src", gamedata[0]);
-	$("#anwser1").text(gamedata[3]);
-	$("#anwser2").text(gamedata[4]);
-	answerindex = parseInt(gamedata[5]) - 1;
+	json=JSON.parse(gamepara);
+	$("#words1").text(json.word1);
+	$("#words2").text(json.word2);
+	$("#showimage").attr("src", json.image);
+	$("#anwser1").text(json.answer1);
+	$("#anwser2").text(json.answer2);
+	answerindex = parseInt(json.answer) - 1;
 	stage = 1;
 	setTimeout(showselect, 15000);
 

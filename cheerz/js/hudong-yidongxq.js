@@ -11,16 +11,15 @@ var rightCount; // 答对次数
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
 	//debug
-	gamepara = "cake|images/03.png|images/04.png|images/05.png|3";
+	json=JSON.parse(gamepara);
 	//单词|第一图|第二图|第三图|答案
-	gamedata = gamepara.split("|");
 
-	var word = gamedata[0];
+	var word = json.word;
 	pic_url = new Array(3);
-	pic_url[0] = gamedata[1];
-	pic_url[1] = gamedata[2];
-	pic_url[2] = gamedata[3];
-	anw = parseInt(gamedata[4]);
+	pic_url[0] = json.img1;
+	pic_url[1] = json.img2;
+	pic_url[2] = json.img3;
+	anw = parseInt(json.answer);
 
 	$("#hd-yn-que").html(word);
 

@@ -55,8 +55,6 @@ function scene_init() {
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
-	var gamepara =
-		'{"qingwa":[{"que":"question 1 ?","anw":1,"pic":"images/zb.jpg"},{"que":"question 2 ?","anw":0,"pic":"images/zb.jpg"},{"que":"question 3 ?","anw":1,"pic":"images/zb.jpg"},{"que":"question 4 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 5 ?","anw":0,"pic":"images/zb.jpg"}]}';
 	gameDatas = JSON.parse(gamepara).qingwa;
 	queCount = gameDatas.length;
 

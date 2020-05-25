@@ -235,7 +235,7 @@ function listcurrlesson(token) {
 					timestamp = Math.floor(datetime / 1000);
 					if (parseInt((timestamp-28800) / 86400) == parseInt((data.lesson[i].starttime-28800) / 86400)) istoday = true;
 					else istoday = false;
-					console.log("istoday="+istoday);
+					//console.log("istoday="+istoday);
 					if (data.lesson[i].isweekend == "1") isweekend = true;
 					else isweekend = false;
 					// 开始时间

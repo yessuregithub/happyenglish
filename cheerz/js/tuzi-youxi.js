@@ -57,8 +57,6 @@ function scene_init() {
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
-	var gamepara =
-		'{"tuzi":[{"que":"question 1 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 2 ?","anw":0,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 3 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 4 ?","anw":1,"pic1":"images/zb.jpg","pic2":"images/05.png"},{"que":"question 5 ?","anw":0,"pic1":"images/zb.jpg","pic2":"images/05.png"}]}';
 	gameDatas = JSON.parse(gamepara).tuzi;
 	queCount = gameDatas.length;
 

@@ -2,10 +2,12 @@
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
+	console.log("loaded " + gamepara);
 	if (gamepara != null) {
-		var paras = gamepara.split("|");
-		var duration = paras[0];
-		var cover = paras[1];
+		json = JSON.parse(gamepara);
+		console.log("parse json");
+		var duration = json.duration;
+		var cover = json.cover;
 		$("#lunbo-bg").attr("src", cover);
 
 		// 设置持续时间

@@ -299,7 +299,7 @@ function enterlesson() {
 			if (data.rst == 1) {
 				initclassroom(data);
 				
-				debuggoless(); // todo delete
+				//debuggoless(); // todo delete
 				return;
 			}
 			if (data.rst == 2) { //服务器认为已经在课堂，强制退出
@@ -370,7 +370,7 @@ function startlesson(offset, url) {
 	player[0].addEventListener('timeupdate', timeupdate, false);
 	// debug player[0].addEventListener('ended', ended, false);
 	player[0].play();
-	testoffset = 20; //debug 
+	testoffset = 0; //debug 
 	player[0].seek(testoffset);
 	pusher.stop();
 	pusher.start();
@@ -415,8 +415,8 @@ function pullmessage() {
 			if (data.rst == 1) {
 				commandcount = data.msgcount;
 				for (i = 0; i < commandcount; i++) {
-					console.log(JSON.stringify(data));
-					console.log("do cmd:" + data.cmd[i].cmd);
+					//console.log(JSON.stringify(data));
+					//console.log("do cmd:" + data.cmd[i].cmd);
 					cmds = data.cmd[i].cmd.split("|");
 					docommand(cmds);
 				}
