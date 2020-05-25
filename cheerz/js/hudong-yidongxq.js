@@ -5,6 +5,8 @@ var mv_nt;
 var count15;
 var anw;
 var pic_url;
+var count15;
+var rightCount; // 答对次数
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
@@ -48,14 +50,20 @@ function startgame() {
 	});
 	mv_nt.load();
 
-	var opt = genopt(18);
+	// 选项设置
+	var itemCount = $("#A2").find(".item").length;
+	
+	rightCount = 0;
+	var opt = genopt(itemCount);
 	setQues(opt);
 
+
 	// 设置游戏持续时间
-	// setTimeout(function() {
-	// 	clearInterval(count15);
-	// 	plus.webview.currentWebview().hide();
-	// }, (duration * 1000));
+	var duration = 15 + 35;
+	setTimeout(function() {
+		clearInterval(count15);
+		plus.webview.currentWebview().hide();
+	}, (duration * 1000));
 }
 
 // 生成一轮选项
@@ -68,8 +76,8 @@ function genopt(optcount) {
 		while (!found) {
 			found = true;
 			var val = (Math.round(Math.random() * 1000) % 3) + 1;
-			if (i > 1 && i % 2 == 0) {
-				if (val == opt[i - 1] && val == opt[i - 2]) {
+			if (i > 0 ) {
+				if (val == opt[i - 1]) {
 					found = false;
 					continue;
 				}
@@ -119,14 +127,11 @@ function setQues(opt) {
 	}
 }
 
-function processanswer(correct) {
 
-}
-
-function endgame(correct) {
+function endgame() {
 	$("#result").show();
-	if (correct) $("#res_gj").show();
+	if (rightCount > 0) $("#res_gj").show();
 	else $("#res_nt").show();
-	if (correct) mv_gj.play();
+	if (rightCount > 0) mv_gj.play();
 	else mv_nt.play();
 }

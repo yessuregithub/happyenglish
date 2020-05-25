@@ -12,12 +12,14 @@
 			<div class="wt-box">
 				<div class="wt-bg"><img src="images/yd-bg.jpg"></div>
 				<div class="hudong-dui">
+
 					<div class="time mui-clearfix">
 						<div class="name">TIME</div>
 						<div class="schedule">
-							<span style="width:80%;"></span>
+							<span id="progress1" style="width:100%;"></span>
 						</div>
 					</div>
+
 					<div class="score">SCORE：<span>1</span></div>
 				</div>
 				<div id="A1" style="height:8.9rem;" class="m-dong-box">
@@ -27,7 +29,7 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-										<!-- <div class="dui"></div> -->
+
 									</div>
 								</div>
 							</li>
@@ -35,7 +37,7 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-										<!-- <div class="dui"></div> -->
+
 									</div>
 								</div>
 							</li>
@@ -43,7 +45,7 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-										<!-- <div class="dui"></div> -->
+
 									</div>
 								</div>
 							</li>
@@ -51,7 +53,7 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-										<!-- <div class="dui"></div> -->
+
 									</div>
 								</div>
 							</li>
@@ -59,7 +61,7 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-										<!-- <div class="dui"></div> -->
+
 									</div>
 								</div>
 							</li>
@@ -67,7 +69,7 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-										<!-- <div class="dui"></div> -->
+
 									</div>
 								</div>
 							</li>
@@ -75,7 +77,7 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-										<!-- <div class="dui"></div> -->
+
 									</div>
 								</div>
 							</li>
@@ -83,7 +85,7 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-										<!-- <div class="dui"></div> -->
+
 									</div>
 								</div>
 							</li>
@@ -91,7 +93,55 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-										<!-- <div class="dui"></div> -->
+
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box">
+										<div class="tupian"></div>
+
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box">
+										<div class="tupian"></div>
+
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box">
+										<div class="tupian"></div>
+
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box">
+										<div class="tupian"></div>
+
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box">
+										<div class="tupian"></div>
+
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box">
+										<div class="tupian"></div>
+
 									</div>
 								</div>
 							</li>
@@ -99,9 +149,9 @@
 						</ul>
 					</div>
 				</div>
+
 				<div id="ads" class="m-timu">
 					<span id="hd-yn-que"></span>
-					<p id="count5s">5</p>
 				</div>
 
 				<div id="result" class="m-timu">
@@ -136,22 +186,33 @@
 			function closeAds() {
 				document.getElementById('ads').style.display = "none";
 			}
-			var oCount5s = document.getElementById("count5s").innerText
-			var second = parseInt(oCount5s)
 
-			function countDown() {
-				second -= 1;
-				document.getElementById("count5s").innerText = second;
+			var second;
+			var stage = 1;
 
-			}
-			var countDown = setInterval(countDown, 1000)
-			setInterval(function() {
-
-				if (second === 0) {
+			function countdown() {
+				second -= 0.1;
+				if (stage == 1) totalseconds = 15;
+				else totalseconds = 30;
+				var length = Math.round((second * 100) / totalseconds);
+				$("#progress1").attr("style", "width:" + length + "%");
+				if (second < 0.1 && stage == 1) {
 					closeAds();
-					clearInterval(countDown);
+					clearInterval(count15);
+					// 开启选项
+					$("#progress1").attr("style", "width: 100%");
+
+					second = 30;
+					count15 = setInterval(countdown, 100);
+					stage = 2;
+				} else if (second < 0.1 && stage == 2) {
+					clearInterval(count15);
+					endgame();
 				}
-			}, 1000)
+			}
+
+			second = 15;
+			count15 = setInterval(countdown, 100);
 		</script>
 		<script src="js/ui-choose.js"></script>
 		<script>
@@ -161,10 +222,15 @@
 			// uc_01 ul 单选
 			var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
 			uc_01.click = function(index, item) {
-				console.log('click', index, item.text())
+				// console.log('click', index, item.text() + "dui:" + $(item).find(".dui").length);
+				var dui = $(item).find(".dui").length;
+				if (dui > 0) {
+					rightCount++;
+				}
+				console.log('click:', index + " dui: " + dui + " | " + rightCount);
 			}
 			uc_01.change = function(index, item) {
-				console.log('change', index, item.text())
+				// console.log('change', index, item.text())
 			}
 		</script>
 
@@ -174,10 +240,10 @@
 				return "var marqueesHeight" + _S1 + "=" + _H + ";var stopscroll" + _S1 + "=false;var scrollElem" + _S1 +
 					"=document.getElementById('" + _S1 + "');with(scrollElem" + _S1 + "){style.width=" + _W +
 					";style.height=marqueesHeight" + _S1 + ";style.overflow='hidden';noWrap=true;}scrollElem" + _S1 +
-					".onmouseover=new Function('stopscroll" + _S1 + "=true');scrollElem" + _S1 +
-					".onmouseout=new Function('stopscroll" + _S1 + "=false');var preTop" + _S1 + "=0; var currentTop" + _S1 +
+					".onmousedown=new Function('stopscroll" + _S1 + "=true');scrollElem" + _S1 +
+					".onmouseup=new Function('stopscroll" + _S1 + "=false');var preTop" + _S1 + "=0; var currentTop" + _S1 +
 					"=0; var stoptime" + _S1 + "=0;var leftElem" + _S2 + "=document.getElementById('" + _S2 + "');scrollElem" + _S1 +
-					".appendChild(leftElem" + _S2 + ".cloneNode(true));setTimeout('init_srolltext" + _S1 + "()'," + _T +
+					".appendChild(leftElem" + _S2 + ".cloneNode(false));setTimeout('init_srolltext" + _S1 + "()'," + _T +
 					");function init_srolltext" + _S1 + "(){scrollElem" + _S1 + ".scrollTop=0;setInterval('scrollUp" + _S1 +
 					"()',50);}function scrollUp" + _S1 + "(){if(stopscroll" + _S1 + "){return;}currentTop" + _S1 + "+=1;if(currentTop" +
 					_S1 + "==(marqueesHeight" + _S1 + "+1)) {stoptime" + _S1 + "+=1;currentTop" + _S1 + "-=1;if(stoptime" + _S1 + "==" +
@@ -185,7 +251,7 @@
 					".scrollTop;scrollElem" + _S1 + ".scrollTop +=1;if(preTop" + _S1 + "==scrollElem" + _S1 + ".scrollTop){scrollElem" +
 					_S1 + ".scrollTop=0;scrollElem" + _S1 + ".scrollTop +=1;}}}";
 			}
-			eval(_InitScroll("A1", "A2", 550, 19 * 6, 1000));
+			eval(_InitScroll("A1", "A2", 550, 19 * 6, 100));
 		</script>
 
 	</body>
