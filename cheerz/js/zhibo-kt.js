@@ -100,7 +100,7 @@ function quitlesson(backtofirstpage) {
 
 
 function initclassroom(data) {
-	//console.log(JSON.stringify(data));
+	// console.log(JSON.stringify(data));
 
 	var odiv = document.getElementById("kt");
 	var left = odiv.getBoundingClientRect().left;
@@ -167,13 +167,20 @@ function initclassroom(data) {
 	plus.device.setVolume(0.5);
 }
 
+function debuggoless() {
+	activeview.loadURL("hudong-yidongxq.html"); // todo
+	for (j = 0; j < 4; j++) localStorage.setItem("playername" + (j + 1), playername[j]);
+	activeview.show();
+}
+
+
 var lastplaytime = 0;
 
 function checklessondata(lastplaytime, currtime) {
 	for (i = 0; i < datacount; i++) {
 		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
 			// todo test
-			lessondata[i].url = "hudong-yidongxq";
+			// lessondata[i].url = "hudong-yidongxq";
 			// lessondata[i].para = "https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg|Have you something hard?|1|20";
 
 			// lessondata[i].url = "hudong-huojian"; //debug
@@ -195,7 +202,6 @@ function checklessondata(lastplaytime, currtime) {
 			activeview.show();
 		}
 	}
-
 }
 
 function timeupdate(e) {
@@ -292,6 +298,8 @@ function enterlesson() {
 			}
 			if (data.rst == 1) {
 				initclassroom(data);
+				
+				debuggoless(); // todo delete
 				return;
 			}
 			if (data.rst == 2) { //服务器认为已经在课堂，强制退出
@@ -362,11 +370,10 @@ function startlesson(offset, url) {
 	player[0].addEventListener('timeupdate', timeupdate, false);
 	// debug player[0].addEventListener('ended', ended, false);
 	player[0].play();
-	testoffset=20; //debug 
+	testoffset = 20; //debug 
 	player[0].seek(testoffset);
 	pusher.stop();
 	pusher.start();
-
 }
 
 function docommand(cmds) {
