@@ -258,7 +258,7 @@ function listcurrlesson(token) {
 							link = 'zhibo-kt.html'
 						};
 					}
-					link = 'zhoumo-xq.html' // todo debug
+					//link = 'zhoumo-xq.html' // todo debug
 					index_go_link[i] = link;
 
 					$("#lessons ul").append(

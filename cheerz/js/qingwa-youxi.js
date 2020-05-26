@@ -12,13 +12,17 @@ var token;
 var playerpos = new Array(5);
 var toolate = false;
 var playername = new Array(5); //为统一编号，把0留空
+var playerid = new Array(5);
+var lid;
 
+lid = localStorage.getItem("less_id")
 for (i = 1; i <= 4; i++) {
 	playername[i] = localStorage.getItem("playername" + i);
-	if (playername[i] == undefined) playername[i] = "";
+	//console.log("get "+i+":"+playername[i]);
+	if (playername[i] == "undefined") playername[i] = "";
+	playerid[i] = localStorage.getItem("playerid" + i);
+	if (playerid[i] == "undefined") playername[i] = 0;
 }
-//debug 
-playername[1] = "test";
 var gamestarttime = parseInt(localStorage.getItem("ts"));
 var lessonstarttime = localStorage.getItem("less_starttime"); //游戏起始时间
 
@@ -40,8 +44,8 @@ function scene_init() {
 	//debug
 	waittime = 5;
 	second = waittime;
-	if (second <= 0) //进入得太晚，不能再开始游戏
-	{
+	if (second <= 0) { //进入得太晚，不能再开始游戏
+
 		toolate = true;
 		mui.alert('迟到啦！游戏已经开始了，下次再来，别再晚了哦！');
 		setTimeout(function() {
@@ -146,6 +150,7 @@ function pro_result(click_yn, overtime) {
 			token: token,
 			que: queIndex,
 			rst: correct,
+			lid: lid,
 		},
 		async: true,
 		dataType: 'json',
@@ -175,7 +180,8 @@ function inquireotherplayer() {
 		url: 'http://47.241.5.29/Home_index_frogresult.html',
 		data: {
 			token: token,
-			que: queIndex
+			que: queIndex,
+			lid: lid
 		},
 		async: true,
 		dataType: 'json',
@@ -185,7 +191,6 @@ function inquireotherplayer() {
 			// 请求成功
 			if (data.rst == 0) {}
 			if (data.rst == 1) { //兔子在这里跳
-				console.log("server set position:" + JSON.stringify(data) + " p1=" + data.p1);
 				tuziRunAction(data);
 			}
 		},
@@ -215,38 +220,47 @@ function tuziRun() {
 	//tuziRunEnd();
 }
 
+function getlanebyid(uid) {
+	result = 0;
+	for (i = 1; i <= 4; i++)
+		if (playerid[i] == uid && uid != 0) {
+			result = i;
+			break;
+		}
+	return result;
+}
 // 兔子跑动画
-function tuziRunAction(posData) {
+function tuziRunAction(data) {
 	for (i = 1; i <= 4; i++) {
-		if (playername[i] == "" || playername[i] == undefined) {
+		switch (i) {
+			case 1:
+				uid = data.posdata.p1;
+				pos = data.posdata.p1p;
+				break;
+			case 2:
+				uid = data.posdata.p2;
+				pos = data.posdata.p2p;
+				break;
+			case 3:
+				uid = data.posdata.p3;
+				pos = data.posdata.p3p;
+				break;
+			case 4:
+				uid = data.posdata.p4;
+				pos = data.posdata.p4p;
+				break;
+			default:
+				uid = data.posdata.p4;
+				pos = data.posdata.p4p;
+				break;
 
-		} else {
-			// 位置对比
-			var pos = null;
-			switch (i) {
-				case 1:
-					pos = posData.p1;
-					break;
-				case 2:
-					// pos = posData.p2;
-					pos = 4;// debug
-					break;
-				case 3:
-					pos = posData.p3;
-					break;
-				case 4:
-					pos = posData.p4;
-					break;
-				default:
-					pos = null;
-			}
+		}
+		lane = getlanebyid(uid);
+		if (lane == 0) continue;
 
-			if (pos == null || pos > 5) continue;
-
-			if (playerpos[i] != pos) {
-				tuziRunToPos(i, pos);
-				playerpos[i] = pos;
-			}
+		if (playerpos[lane] != pos) {
+			tuziRunToPos(lane, pos);
+			playerpos[lane] = pos;
 		}
 	}
 }

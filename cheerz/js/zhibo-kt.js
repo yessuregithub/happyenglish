@@ -180,15 +180,6 @@ function checklessondata(lastplaytime, currtime) {
 	for (i = 0; i < datacount; i++) {
 		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
 			// todo test
-			// lessondata[i].url = "hudong-yidongxq";
-			// lessondata[i].para = "https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg|Have you something hard?|1|20";
-
-			// lessondata[i].url = "hudong-huojian"; //debug
-			// lessondata[i].para = "https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg|Have you something hard?|1|20";
-
-			//hudong-tupianlunbo 保持时间|图片url
-			//hudong-yes-no 背景图片|提示文字|正确答案(1或0)
-			//tuzi-youxi   提示语1|图片1/1|图片1/2|答案(1/2)|....一共5组
 			//qingwa-youxi 提示语1|图片1|答案(1/0)... 一共5组
 			console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + "pop up " + lessondata[i].url);
 			console.log("less para :" + lessondata[i].para);
