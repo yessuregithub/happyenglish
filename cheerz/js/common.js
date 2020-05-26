@@ -246,6 +246,7 @@ function listcurrlesson(token) {
 						link = 'qb-kc.html';
 					} else {
 
+istoday=true;  //debug
 						if (istoday && !isweekend) {
 							promptword = "进入教室";
 							link = 'zhibo-kt.html'
