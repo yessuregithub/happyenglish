@@ -1,86 +1,89 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>哈彼英语</title>
-    <link href="css/mui.min.css" rel="stylesheet" />
-    <link href="css/style.css" rel="stylesheet" />		
-</head>
-<body>
-<div id="orientLayer">
-    <div class="wt-box">
-        <div class="wt-bg"><img src="images/index-bg.png"></div>
-        <a href="" class="wt-return"></a>
-        <div class="zhoumo-box">
-        	<div class="item mui-pull-left">
-            	<div class="img-box">
-                	<img src="images/02.jpg">
-                    <span>开启时间 2020.3.14 19:30</span>
-                </div>
-                <div class="zhoumo-erk mui-clearfix">
-                	<div class="neng">
-                    	<img src="images/jibi.png">
-                        <span>20</span>
-                    </div>
-                    <div class="xing">
-                    	<img src="images/xin.png">
-                        <span>80</span>
-                        <h5>BEST SCORE</h5>
-                    </div>
-                </div>
-                <div class="zhoum-btn">
-                	<a href="" class="ks">开始挑战</a>
-                    <a href="" class="wks" style="display:none;">未开始</a>
-                	<a href="" class="fenx">分享</a>
-                </div>                
-            </div>
-            <div class="item mui-pull-right">
-            	<div class="img-box">
-                	<img src="images/02.jpg">
-                    <span>开启时间 2020.3.14 19:30</span>
-                </div>
-                <div class="zhoumo-erk mui-clearfix">
-                	<div class="neng">
-                    	<img src="images/jibi.png">
-                        <span>20</span>
-                    </div>
-                    <div class="xing">
-                    	<img src="images/xin.png">
-                        <span>80</span>
-                        <h5>BEST SCORE</h5>
-                    </div>
-                </div>
-                <div class="zhoum-btn">
-                	<a href="" class="ks">开始挑战</a>
-                    <a href="" class="wks" style="display:none;">未开始</a>
-                	<a href="" class="fenx">分享</a>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-</div>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div id="orientLayer">
+			<div class="wt-box">
+				<div class="wt-bg"><img src="images/index-bg.png"></div>
+				<a href="javascript:history.go(-1)" class="wt-return"></a>
+				<div class="zhoumo-box">
+					<div class="item mui-pull-left">
+						<div class="img-box">
+							<img src="images/02.jpg">
+							<span>开启时间 2020.3.14 19:30</span>
+						</div>
+						<div class="zhoumo-erk mui-clearfix">
+							<div class="neng">
+								<img src="images/jibi.png">
+								<span>20</span>
+							</div>
+							<div class="xing">
+								<img src="images/xin.png">
+								<span>80</span>
+								<h5>BEST SCORE</h5>
+							</div>
+						</div>
+						<div class="zhoum-btn">
+							<!-- debug -->
+							<a href="javascript:jump('haoedehali', 'zhoumo-yx.html')" class="ks">开始挑战</a> 
+							<a href="" class="wks" style="display:none;">未开始</a>
+							<a href="" class="fenx">分享</a>
+						</div>
+					</div>
+					<div class="item mui-pull-right">
+						<div class="img-box">
+							<img src="images/02.jpg">
+							<span>开启时间 2020.3.14 19:30</span>
+						</div>
+						<div class="zhoumo-erk mui-clearfix">
+							<div class="neng">
+								<img src="images/jibi.png">
+								<span>20</span>
+							</div>
+							<div class="xing">
+								<img src="images/xin.png">
+								<span>80</span>
+								<h5>BEST SCORE</h5>
+							</div>
+						</div>
+						<div class="zhoum-btn">
+							<a href="" class="ks">开始挑战</a>
+							<a href="" class="wks" style="display:none;">未开始</a>
+							<a href="" class="fenx">分享</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
 
 
-		
 
-<script src="js/mui.min.js"></script>
-<script src="js/jquery-1.8.3.min.js"></script>		
-<script src="js/rem.js"></script>		  
-<script src="js/ui-choose.js"></script>
-	<script>
-	// 将所有.ui-choose实例化
-	$('.ui-choose').ui_choose();
-	// uc_01 ul 单选
-	var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
-	uc_01.click = function(index, item) {
-	    console.log('click', index, item.text())
-	}
-	uc_01.change = function(index, item) {
-	    console.log('change', index, item.text())
-	}
-</script>
 
-</body>
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/ui-choose.js"></script>
+		<script src="js/common.js"></script>
+
+		<script>
+			// 将所有.ui-choose实例化
+			// $('.ui-choose').ui_choose();
+			// // uc_01 ul 单选
+			// var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
+			// uc_01.click = function(index, item) {
+			// 	console.log('click', index, item.text())
+			// }
+			// uc_01.change = function(index, item) {
+			// 	console.log('change', index, item.text())
+			// }
+		</script>
+
+	</body>
 </html>

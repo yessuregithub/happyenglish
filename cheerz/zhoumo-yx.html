@@ -1,112 +1,124 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>哈彼英语</title>
-    <link href="css/mui.min.css" rel="stylesheet" />
-    <link href="css/style.css" rel="stylesheet" />		
-</head>
-<body>
-<div id="orientLayer">
-    <div class="wt-box">
-        <div class="wt-bg"><img src="images/yx.jpg"></div>
-        <a href="javascript:mui.back()"  class="yx-return"></a>
-        <div class="yx-box">
-        	<div class="yx-box-top mui-clearfix">
-                <div class="xing">
-                    <img src="images/xin.png">
-                    <span>20</span>
-                    <h5>SCORE</h5>
-                </div>
-                <ul class="xin mui-clearfix">
-                	<li><img src="images/hx.png"></li>
-                    <li><img src="images/hx.png"></li>
-                    <li></li>                    
-                </ul>
-                <div class="time mui-clearfix">
-                	<div class="name"><img src="images/time01.png"></div>
-                	<div class="schedule">
-                    	<div class="charts" style="width:80%;"></div>
-                    </div>
-                    <span class="count-down">3:00</span>
-                </div>
-            </div>
-            <div class="donghua">
-            	<img src="images/donghua.png">            
-            </div>
-            <div class="yx-cika">
-            	<div class="img-box">
-	            	<img src="images/2.png">
-                </div>
-            </div>
-            
-            <div class="yx-footer">
-            	<ul class="yx-footer-list ui-choose mui-clearfix" id="uc_01">
-                	<li>
-                    	<div class="item">
-                        	<div class="img-box"><img src="images/03.png"></div>
-                            <div class="danci">
-                            	<span>nose</span>
-                                <div class="dui"></div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                    	<div class="item">
-                        	<div class="img-box"><img src="images/04.png"></div>
-                            <div class="danci">
-                            	<span>nose</span>
-                                <div class="dui"></div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                    	<div class="item">
-                        	<div class="img-box"><img src="images/05.png"></div>
-                            <div class="danci">
-                            	<span>nose</span>
-                                <div class="dui"></div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>        
-        </div>
-    </div>
-</div>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div id="orientLayer">
+			<div class="wt-box">
+				<div class="wt-bg"><img src="images/yx.jpg"></div>
+				<a href="javascript:mui.back()" class="yx-return"></a>
+				<div class="yx-box">
+					<div class="yx-box-top mui-clearfix">
+						<div class="xing">
+							<img src="images/xin.png">
+							<span>20</span>
+							<h5>SCORE</h5>
+						</div>
+						<ul class="xin mui-clearfix">
+							<li><img src="images/hx.png"></li>
+							<li><img src="images/hx.png"></li>
+							<li></li>
+						</ul>
+						<div class="time mui-clearfix">
+							<div class="name"><img src="images/time01.png"></div>
+							<div class="schedule">
+								<div class="charts" style="width:80%;"></div>
+							</div>
+							<span class="count-down">3:00</span>
+						</div>
+					</div>
+					<div class="donghua">
+						<img src="images/donghua.png">
+					</div>
+					<div class="yx-cika">
+						<div class="img-box">
+							<img src="images/2.png">
+						</div>
+					</div>
+
+					<div class="yx-footer">
+						<ul class="yx-footer-list ui-choose mui-clearfix" id="uc_01">
+							<li>
+								<div class="item">
+									<div class="img-box"><img src="images/03.png"></div>
+									<div class="danci">
+										<span>nose</span>
+										<div class="dui"></div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"><img src="images/04.png"></div>
+									<div class="danci">
+										<span>nose</span>
+										<div class="dui"></div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"><img src="images/05.png"></div>
+									<div class="danci">
+										<span>nose</span>
+										<div class="dui"></div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
 
 
-<!---在线审核--->
-<div id="light" class="white_content">
-	<h4>确定要退出挑战吗？</h4>
-	<div class="tan-box">    	
-    	<a class="close" href="javascript:void(0)" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">取消</a>
-	    <a href="">确定</a>
-	</div>
-</div>
-<!---在线审核-end--->
-		
-
-<script src="js/mui.min.js"></script>
-<script src="js/jquery-1.8.3.min.js"></script>		
-<script src="js/rem.js"></script>		  
-<script src="js/ui-choose.js"></script>
-	<script>
-	// 将所有.ui-choose实例化
-	$('.ui-choose').ui_choose();
-
-	// uc_01 ul 单选
-	var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
-	uc_01.click = function(index, item) {
-	    console.log('click', index, item.text())
-	}
-	uc_01.change = function(index, item) {
-	    console.log('change', index, item.text())
-	}
-
-</script>
+		<!---在线审核--->
+		<div id="light" class="white_content">
+			<h4>确定要退出挑战吗？</h4>
+			<div class="tan-box">
+				<a class="close" href="javascript:void(0)" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">取消</a>
+				<a href="">确定</a>
+			</div>
+		</div>
+		<!---在线审核-end--->
 
 
-</body>
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/ui-choose.js"></script>
+		<script src="js/zhoumo-yx.js"></script>
+
+		<script>
+			mui.init();
+			mui.ready(function() {
+				loadpage();
+			});
+
+			function loadpage() {
+				startgame();
+			}
+		</script>
+
+		<script>
+			// 将所有.ui-choose实例化
+			$('.ui-choose').ui_choose();
+
+			// uc_01 ul 单选
+			var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
+			uc_01.click = function(index, item) {
+				console.log('click', index, item.text())
+			}
+			uc_01.change = function(index, item) {
+				console.log('change', index, item.text())
+			}
+		</script>
+
+
+	</body>
 </html>

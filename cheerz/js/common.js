@@ -184,7 +184,7 @@ function lessondetail(lid) {
 }
 
 var lesson_data; // 全局直播课数据
-var index_go_link=new Array(10);
+var index_go_link = new Array(10);
 // 处理点击index.html课程直播间
 function clickedlesson(less_index) {
 	if (lesson_data == null) return;
@@ -233,7 +233,8 @@ function listcurrlesson(token) {
 					else title = "<p>" + data.lesson[i].engname + "</p><p>" + data.lesson[i].cname + "</p>";
 					datetime = Date.now();
 					timestamp = Math.floor(datetime / 1000);
-					if (parseInt((timestamp-28800) / 86400) == parseInt((data.lesson[i].starttime-28800) / 86400)) istoday = true;
+					if (parseInt((timestamp - 28800) / 86400) == parseInt((data.lesson[i].starttime - 28800) / 86400)) istoday =
+						true;
 					else istoday = false;
 					//console.log("istoday="+istoday);
 					if (data.lesson[i].isweekend == "1") isweekend = true;
@@ -245,11 +246,19 @@ function listcurrlesson(token) {
 						link = 'qb-kc.html';
 					} else {
 
-						if (istoday && !isweekend) { promptword = "进入教室"; link = 'zhibo-kt.html'}
-						else if (istoday && isweekend) { promptword = "开始挑战"; link = data.lesson[i].weekendurl+".html";}
-						else {  promptword = "回看课程";link = 'zhibo-kt.html'}
-						;
+						if (istoday && !isweekend) {
+							promptword = "进入教室";
+							link = 'zhibo-kt.html'
+						} else if (istoday && isweekend) {
+							promptword = "开始挑战";
+							// link = data.lesson[i].weekendurl + ".html";
+							link = 'zhoumo-xq.html'
+						} else {
+							promptword = "回看课程";
+							link = 'zhibo-kt.html'
+						};
 					}
+					link = 'zhoumo-xq.html' // todo debug
 					index_go_link[i] = link;
 
 					$("#lessons ul").append(
