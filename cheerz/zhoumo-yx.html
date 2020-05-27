@@ -16,28 +16,30 @@
 					<div class="yx-box-top mui-clearfix">
 						<div class="xing">
 							<img src="images/xin.png">
-							<span>20</span>
+							<span id="score">0</span>
 							<h5>SCORE</h5>
 						</div>
 						<ul class="xin mui-clearfix">
 							<li><img src="images/hx.png"></li>
 							<li><img src="images/hx.png"></li>
-							<li></li>
+							<li><img src="images/hx.png"></li>
 						</ul>
 						<div class="time mui-clearfix">
 							<div class="name"><img src="images/time01.png"></div>
 							<div class="schedule">
-								<div class="charts" style="width:80%;"></div>
+								<div id="progress1" class="charts" style="width:100%;"></div>
 							</div>
-							<span class="count-down">3:00</span>
+							<span id="lefttime" class="count-down">3:00</span>
 						</div>
 					</div>
 					<div class="donghua">
+						<div id="chidui"></div>
+						<div id="chicuo"></div>
 						<img src="images/donghua.png">
 					</div>
 					<div class="yx-cika">
 						<div class="img-box">
-							<img src="images/2.png">
+							<img id="hd-yn-tuka" src="images/2.png">
 						</div>
 					</div>
 
@@ -47,8 +49,7 @@
 								<div class="item">
 									<div class="img-box"><img src="images/03.png"></div>
 									<div class="danci">
-										<span>nose</span>
-										<div class="dui"></div>
+										<div class="word-img"></div>
 									</div>
 								</div>
 							</li>
@@ -56,8 +57,7 @@
 								<div class="item">
 									<div class="img-box"><img src="images/04.png"></div>
 									<div class="danci">
-										<span>nose</span>
-										<div class="dui"></div>
+										<div class="word-img"></div>
 									</div>
 								</div>
 							</li>
@@ -65,14 +65,20 @@
 								<div class="item">
 									<div class="img-box"><img src="images/05.png"></div>
 									<div class="danci">
-										<span>nose</span>
-										<div class="dui"></div>
+										<div class="word-img"></div>
 									</div>
 								</div>
 							</li>
 						</ul>
 					</div>
 				</div>
+				
+				<div id="result" class="m-timu">
+					<div id="res_gj" class="movie"></div>
+					<div id="res_nt" class="movie"></div>
+					<div id="new_his" class="new_his">新纪录</div>
+				</div>
+				
 			</div>
 		</div>
 
@@ -91,6 +97,7 @@
 		<script src="js/mui.min.js"></script>
 		<script src="js/jquery-1.8.3.min.js"></script>
 		<script src="js/rem.js"></script>
+		<script src="js/seqframe.js"></script>
 		<script src="js/ui-choose.js"></script>
 		<script src="js/zhoumo-yx.js"></script>
 
@@ -106,17 +113,51 @@
 		</script>
 
 		<script>
+			var second;
+			var stage = 1;
+
+			function countdown() {
+				second -= 0.1;
+				if (stage == 1) totalseconds = 180;
+				var length = Math.round((second * 100) / totalseconds);
+				$("#progress1").attr("style", "width:" + length + "%");
+
+				// 显示时间
+				$("#lefttime").html(leftsec(Math.round(second)));
+				if (second < 0.1 && stage == 1) {
+					stage = 2;
+					endgame();
+					return;
+				}
+			}
+
+			//var countDown = setInterval(countDown, 100)
+			second = 180;
+			count15 = setInterval(countdown, 100);
+		</script>
+
+		<script>
+			function disable_choose() {
+				$("#uc_01").find("li").addClass("disabled");
+			}
+
+			function enable_choose() {
+				$("#uc_01").find("li").removeClass("disabled");
+			}
+
+			function rmselected() {
+				$("#uc_01").find("li").removeClass("selected");
+			}
+
 			// 将所有.ui-choose实例化
 			$('.ui-choose').ui_choose();
 
 			// uc_01 ul 单选
 			var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
 			uc_01.click = function(index, item) {
-				console.log('click', index, item.text())
+				pro_result(index);
 			}
-			uc_01.change = function(index, item) {
-				console.log('change', index, item.text())
-			}
+			uc_01.change = function(index, item) {}
 		</script>
 
 
