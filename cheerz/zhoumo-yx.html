@@ -72,13 +72,12 @@
 						</ul>
 					</div>
 				</div>
-				
-				<div id="result" class="m-timu">
+
+				<!-- <div id="result" class="m-timu">
 					<div id="res_gj" class="movie"></div>
 					<div id="res_nt" class="movie"></div>
-					<div id="new_his" class="new_his">新纪录</div>
-				</div>
-				
+				</div> -->
+
 			</div>
 		</div>
 
@@ -99,13 +98,20 @@
 		<script src="js/rem.js"></script>
 		<script src="js/seqframe.js"></script>
 		<script src="js/ui-choose.js"></script>
+		<script src="js/common.js"></script>
 		<script src="js/zhoumo-yx.js"></script>
 
 		<script>
 			mui.init();
 			mui.ready(function() {
 				loadpage();
+
+
 			});
+
+			mui.plusReady(
+				function() {}
+			)
 
 			function loadpage() {
 				startgame();

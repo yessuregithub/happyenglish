@@ -1,5 +1,3 @@
-var mv_gj;
-var mv_nt;
 var mv_chicuo;
 var mv_chidui;
 var worddatas;
@@ -136,6 +134,7 @@ function removeHear() {
 		if (i + 1 > xinCount) {
 			if ($(".xin").find("img")[i] != null) {
 				$(".xin").find("img")[i].remove();
+				licount--;
 			}
 		}
 	}
@@ -177,7 +176,6 @@ function pro_result(click_index) {
 
 			if (xinCount == 0) {
 				stage = 2;
-				console.log("endgame :"+correctCount);
 				endgame();
 			}
 		}
@@ -185,67 +183,43 @@ function pro_result(click_index) {
 	}, 1200);
 }
 
-function endgame() {	
+function endgame() {
 	disable_choose();
 	clearInterval(count15);
 
-	var hisscore = localStorage.getItem("score_chi");
-	if (hisscore == null || hisscore == "" || typeof(hisscore) == undefined) {
-		localStorage.setItem("score_chi", correctCount);
-		$("#new_his").show();
-		$("#new_his").html("新纪录：" + (correctCount * 10));
-	} else if (parseInt(hisscore) < correctCount) {
-		console.log("刷新纪录老" + hisscore + " 新" + correctCount);
-		localStorage.setItem("score_chi", correctCount);
-		$("#new_his").show();
-		$("#new_his").html("新纪录：" + (correctCount * 10));
-	}
-	// $("#new_his").html("新纪录：" + (correctCount * 10) + " ！"); // debug
+	// 每周记录一周新纪录
+	var week = getCurrWeek();
+	var his_key = "score_chi" + "_" + week;
+	// console.log("record " + his_key);
+	var hisscore = localStorage.getItem(his_key);
 
-	$("#result").show();
-	
-	if (correctCount > 0) {
-		$("#res_gj").show();
-		mv_gj.play();
+	localStorage.setItem("game_record", his_key); // 记录本次跳转类型
+
+	// 本次记录
+	localStorage.setItem("game_score", correctCount * 10);
+	// 历史记录
+	if (hisscore == null || hisscore == "" || typeof(hisscore) == undefined) {
+		localStorage.setItem(his_key, correctCount * 10);
+		localStorage.setItem("new_record", 1);
+	} else if (parseInt(hisscore) < correctCount) {
+		console.log("刷新纪录老" + hisscore + " 新" + correctCount * 10);
+		localStorage.setItem(his_key, correctCount * 10);
+		localStorage.setItem("new_record", 1);
 	} else {
-		$("#res_nt").show();
-		mv_nt.play();
+		localStorage.setItem("new_record", 0);
 	}
+
+
 
 	// 关闭游戏
-	setTimeout(function() {
-		mui.back()
-	}, 5000);
+	jump_setback("zhoumo-yx-end.html");
+	console.log("关闭游戏");
+	// jump 返回时无法重新加载
+	// jump("record", "zhoumo-yx-end.html");
+
 }
 
 function loadMovie() {
-	// 加载欢喜动画
-	$("#result").hide();
-	$("#res_gj").hide();
-	$("#res_nt").hide();
-	$("#new_his").hide();
-	mv_gj = new seqframe({
-		container: document.getElementById('res_gj'),
-		urlRoot: 'movie/goodjob/',
-		imgType: 'png',
-		frameNumber: 5,
-		framePerSecond: 10,
-		loadedAutoPlay: false,
-		loop: 1,
-	});
-	mv_gj.load();
-
-	mv_nt = new seqframe({
-		container: document.getElementById('res_nt'),
-		urlRoot: 'movie/nicetry/',
-		imgType: 'png',
-		frameNumber: 5,
-		framePerSecond: 10,
-		loadedAutoPlay: false,
-		loop: 1,
-	});
-	mv_nt.load();
-
 	mv_chicuo = new seqframe({
 		container: document.getElementById('chicuo'),
 		urlRoot: 'movie/chicuo/',
@@ -267,6 +241,19 @@ function loadMovie() {
 		loop: 1,
 	});
 	mv_chidui.load();
+}
+
+function getCurrWeek() {
+	var d1 = new Date();
+	var d2 = new Date();
+	d2.setMonth(0);
+	d2.setDate(1);
+	var rq = d1 - d2;
+	var s1 = Math.ceil(rq / (24 * 60 * 60 * 1000));
+	var s2 = Math.ceil(s1 / 7);
+	console.log("今天是本年第" + s1 + "天，第" + s2 + "周");
+
+	return s2;
 }
 
 function leftsec(sec) {

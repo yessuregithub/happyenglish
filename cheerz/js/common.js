@@ -246,7 +246,7 @@ function listcurrlesson(token) {
 						link = 'qb-kc.html';
 					} else {
 
-istoday=true;  //debug
+						istoday = true; //debug
 						if (istoday && !isweekend) {
 							promptword = "进入教室";
 							link = 'zhibo-kt.html'
@@ -384,6 +384,21 @@ function timetrans(date) {
 	return Y + M + D + h + m;
 }
 
+
+
+// 返回并重新加载老页面
+function jump_setback(url) {
+	localStorage.setItem("backurl", window.location.href);
+	window.location.href = url;
+}
+
+function jump_back() {
+	var url = localStorage.getItem("backurl");
+	if (url) {
+		window.location.href = url;
+	}
+}
+
 function jump(title, url) {
 	/*mui.openWindow({
 		id: title,
@@ -391,4 +406,18 @@ function jump(title, url) {
 	});
 */
 	window.location.href = url;
+}
+
+// 获取当前第几周
+function getCurrWeek() {
+	var d1 = new Date();
+	var d2 = new Date();
+	d2.setMonth(0);
+	d2.setDate(1);
+	var rq = d1 - d2;
+	var s1 = Math.ceil(rq / (24 * 60 * 60 * 1000));
+	var s2 = Math.ceil(s1 / 7);
+	console.log("今天是本年第" + s1 + "天，第" + s2 + "周");
+
+	return s2;
 }
