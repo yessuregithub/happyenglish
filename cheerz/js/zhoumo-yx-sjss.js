@@ -1,12 +1,13 @@
-var mv_chicuo;
-var mv_chidui;
+var count15;
+var xinCount;
+var correctCount;
 var worddatas;
 var wordcount; // 单词数
 var options; // 3选项数据
 var rightno; // 本轮正确单词编号
-var count15;
-var correctCount;
-var xinCount;
+var mv_jiandui;
+var mv_jiancuo;
+var mv_jian;
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
@@ -31,45 +32,21 @@ function setQues() {
 	var opts = options;
 	var rightdata = getDataByNo(rightno);
 	// 贴题目	
-	var tuka = rightdata.wpic2;
-	$("#hd-yn-tuka").attr("src", tuka)
+	var wpic1 = rightdata.wpic1;
+	console.log(wpic1);
+	$("#word-img").attr("src", wpic1)
 
 	// 帖选项
-	var eles = $("#uc_01").find(".word-img");
+	var eles = $("#uc_01").find(".img-box");
 	for (var i = 0; i < eles.length; i++) {
-		$(eles[i]).html('<img src=' + opts[i].wpic1 + '>');
+		$(eles[i]).html('<img src=' + opts[i].wpic2 + '>');
 	}
 
-	$(".danci").find(".dui").remove();
 	$("#uc_01").find("li").removeClass("disabled");
-	eles = $("#uc_01").find(".danci");
+	eles = $("#uc_01").find(".hsbg");
 	for (var i = 0; i < eles.length; i++) {
-		if (opts[i].wno == rightno) {
-			$(eles[i]).append('<div class="dui"></div>');
-			break;
-		}
+		$(eles[i]).hide();
 	}
-
-	// 贴食物
-	var foods = new Array();
-	for (var i = 0; i < 3; i++) {
-		while (true) {
-			food = getRandom(1, 20);
-			if ($.inArray(food, foods) == -1) {
-				foods.push(food);
-				break;
-			}
-		}
-	}
-	eles = $("#uc_01").find(".img-box");
-	for (var i = 0; i < eles.length; i++) {
-		$(eles[i]).html('<img src=images/food/food' + foods[i] + '.png>');
-	}
-
-}
-
-function getRandom(min, max) {
-	return Math.round(Math.random() * 10000) % max + min;
 }
 
 function getDataByNo(wno) {
@@ -99,7 +76,6 @@ function genopt() {
 	var tmp = getRandom(0, 2);
 	opts[tmp] = rightdata;
 
-
 	// opt2
 	newno = rightno;
 	while (true) {
@@ -128,31 +104,31 @@ function genopt() {
 	options = opts;
 }
 
-function removeHear() {
-	licount = $(".xin").find("img").length;
-	for (var i = 0; i < licount; i++) {
-		if (i + 1 > xinCount) {
-			if ($(".xin").find("img")[i] != null) {
-				$(".xin").find("img")[i].remove();
-				licount--;
-			}
-		}
-	}
-}
-
 function pro_result(click_index) {
 	var correct = false;
 	if (options[click_index].wno == rightno) correct = true;
 	console.log("click:" + click_index + "," + correct);
 
+	if (correct) {
+		if ($("#uc_01").find(".hsbg")[click_index]) {
+			$($("#uc_01").find(".hsbg")[click_index]).show();
+			var jian = $("#uc_01").find(".jian")[click_index];
+			mv_jian.resetContainer(jian);
+			mv_jian.play();
+		}
+	}
+
 	disable_choose();
 
+	$("#xiong").hide();
+	$("#xiong-dong").show();
+
 	if (correct) {
-		$("#chidui").show();
-		mv_chidui.play();
+		mv_jiandui.resetContainer($("#xiong-dong")[0]);
+		mv_jiandui.play();
 	} else {
-		$("#chicuo").show();
-		mv_chicuo.play();
+		mv_jiancuo.resetContainer($("#xiong-dong")[0]);
+		mv_jiancuo.play();
 	}
 
 	// 新题
@@ -161,8 +137,9 @@ function pro_result(click_index) {
 		enable_choose();
 		rmselected();
 
-		$("#chidui").hide();
-		$("#chicuo").hide();
+		$("#xiong-dong").hide();
+		$("#xiong").show();
+		$(".hsbg").hide();
 
 		if (correct) {
 			correctCount++;
@@ -183,6 +160,18 @@ function pro_result(click_index) {
 	}, 1200);
 }
 
+function removeHear() {
+	licount = $(".xin").find("img").length;
+	for (var i = 0; i < licount; i++) {
+		if (i + 1 > xinCount) {
+			if ($(".xin").find("img")[i] != null) {
+				$(".xin").find("img")[i].remove();
+				licount--;
+			}
+		}
+	}
+}
+
 function endgame() {
 	disable_choose();
 	clearInterval(count15);
@@ -190,11 +179,11 @@ function endgame() {
 	// 每周记录一周新纪录
 	var game_score = correctCount * 10;
 	var week = getCurrWeek();
-	var his_key = "score_chi" + "_" + week;
+	var his_key = "score_jian" + "_" + week;
 	var hisscore = localStorage.getItem(his_key);
 	console.log("record " + his_key + " 历史最高分：" + hisscore + " 本次得分：" + game_score);
 	localStorage.setItem("game_record", his_key); // 记录本次跳转类型
-	
+
 	// 本次记录
 	localStorage.setItem("game_score", game_score);
 	// 历史记录
@@ -209,8 +198,6 @@ function endgame() {
 		localStorage.setItem("new_record", 0);
 	}
 
-
-
 	// 关闭游戏
 	jump_setback("zhoumo-yx-end.html");
 	console.log("关闭游戏");
@@ -219,40 +206,38 @@ function endgame() {
 }
 
 function loadMovie() {
-	mv_chicuo = new seqframe({
-		container: document.getElementById('chicuo'),
-		urlRoot: 'movie/chicuo/',
+	mv_jiancuo = new seqframe({
+		container: null,
+		urlRoot: 'movie/jiancuo/',
 		imgType: 'png',
-		frameNumber: 4,
+		frameNumber: 6,
 		framePerSecond: 10,
 		loadedAutoPlay: false,
 		loop: 1,
 	});
-	mv_chicuo.load();
+	mv_jiancuo.load();
 
-	mv_chidui = new seqframe({
-		container: document.getElementById('chidui'),
-		urlRoot: 'movie/chidui/',
+	mv_jiandui = new seqframe({
+		container: null,
+		urlRoot: 'movie/jiandui/',
 		imgType: 'png',
-		frameNumber: 3,
+		frameNumber: 6,
 		framePerSecond: 10,
 		loadedAutoPlay: false,
 		loop: 1,
 	});
-	mv_chidui.load();
-}
+	mv_jiandui.load();
 
-function getCurrWeek() {
-	var d1 = new Date();
-	var d2 = new Date();
-	d2.setMonth(0);
-	d2.setDate(1);
-	var rq = d1 - d2;
-	var s1 = Math.ceil(rq / (24 * 60 * 60 * 1000));
-	var s2 = Math.ceil(s1 / 7);
-	console.log("今天是本年第" + s1 + "天，第" + s2 + "周");
-
-	return s2;
+	mv_jian = new seqframe({
+		container: null,
+		urlRoot: 'movie/jian/',
+		imgType: 'png',
+		frameNumber: 6,
+		framePerSecond: 10,
+		loadedAutoPlay: false,
+		loop: 1,
+	});
+	mv_jian.load();
 }
 
 function leftsec(sec) {

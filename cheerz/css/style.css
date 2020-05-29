@@ -321,9 +321,12 @@ input:-ms-input-placeholder {color: #666;}
 .daba li .cika .hsbg{width:3.39rem; height:2.32rem; background:rgba(0,0,0,0.5); position:absolute; left:0; top:0;border-radius:.15rem; }
 .daba li .cika .hsbg .dui { position:absolute; background:url(../images/dui02.png) no-repeat; background-size:100% 100%; width:1.10rem; height:.85rem; content:""; left:50%; margin-left:-.55rem;transform: translateY(-50%); top:50%;}
 .daba li .cika .hsbg .jian{ position:absolute; left:-.85rem; top:.4rem; width:2.43rem; height:1.25rem;}
-.donghua-xiong{ position:fixed; bottom:-1.6rem; width:3.3rem; height:5.4rem; z-index:9; left:50%; margin-left:-1.665rem;}
-.lupai{ background:url(../images/lupai.png) no-repeat; background-size:100% 100%; width:3.48rem; height:2.2rem; position:fixed; bottom:0; right:1.8rem; padding-top:.27rem;}
+.donghua-xiong{ position:fixed; bottom:-1rem; width:5.12rem; height:4.4rem; z-index:9; left:50%; margin-left:-2.56rem;}
+.lupai{ background:url(../images/lupai.png) no-repeat; background-size:100% 100%; width:3.48rem; height:2.2rem; position:fixed; bottom:0; right:1.8rem;}
 .lupai img{ width:100%;}
+.lupai .word-img {width: 3.465rem;height: 1.1rem;position: absolute;left: 0.15rem; top:0.27rem;}
+.lupai .word-img img{ display:inline-block; margin:0 auto; max-width:100%; height:auto; vertical-align:middle}
+
 .zhibo-box{ position:absolute; left:0; top:50%; padding:0.1rem 1.5rem; width:100%;transform: translateY(-50%);}
 .zhibo-top .kt{ background:url(../images/hd-bg.png) no-repeat; background-size:100% 100%; width:9.9rem; height:5.42rem; float:left; padding:.15rem .4rem; position:relative;z-index: 1;}
 .zhibo-top .kt img{ width:100%; display:inline-block; height:5.12rem; display:block;}

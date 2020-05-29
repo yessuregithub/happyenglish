@@ -384,7 +384,9 @@ function timetrans(date) {
 	return Y + M + D + h + m;
 }
 
-
+function getRandom(min, max) {
+	return Math.round(Math.random() * 10000) % max + min;
+}
 
 // 返回并重新加载老页面
 function jump_setback(url) {
