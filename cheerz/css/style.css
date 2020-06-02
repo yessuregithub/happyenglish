@@ -293,11 +293,14 @@ input:-ms-input-placeholder {color: #666;}
 .kc-right ul li .txt-box span{ color:#ffffff; font-size:.28rem; display:block; line-height:2;}
 .kc-right ul li .laba{ position:absolute; right:0; top:50%; background:url(../images/m-la.png) no-repeat; width:.74rem; height:.71rem; display:block; background-size:100% 100%; transform: translateY(-50%);}
 .kc-right ul li .laba:hover{ background:url(../images/m-la-hover.png) no-repeat; width:.74rem; height:.71rem;  background-size:100% 100%;}
+
 .ddp-list { position:absolute; left:0; width:100%;}
 .ddp-list li{ width:25%; float:left; margin-top:.9rem;}
-.ddp-list li .item{ position:relative; background:url(../images/danci.png) no-repeat; width:3.53rem; height:2.46rem; margin:0 auto; background-size:100% 100%; padding:.23rem;}
-.ddp-list li .item span{ display:block; text-align:center; color:#81511c; font-size:.56rem; font-weight:bold; height:1.8rem; line-height:1.8rem;}
-.ddp-list li .item img{ width:100%; vertical-align:middle; }
+.ddp-list li .item {position:relative; background:url(../images/danci.png) no-repeat; width:3.53rem; height:2.46rem; margin:0 auto; background-size:100% 100%; padding:.23rem;}
+.ddp-list li .item span{display:block; text-align:center; color:#81511c; font-size:.56rem; font-weight:bold; height:1.8rem; line-height:1.8rem;}
+.ddp-list li .item img{width:100%; vertical-align:middle;}
+.ddp-list li .item .fanpai {position: absolute;left: 0;top: 0; width: 100%;}
+
 .ylky-box{ position:absolute; left:0; top:0; width:100%; padding:1.2rem .8rem .5rem .8rem; text-align:center;}
 .ylky-box-tab{ display:inline-block;}
 .ylky-box-tab li{ background:url(../images/danci-tab.png) no-repeat; background-size:100% 100%; width:3.61rem; height:.95rem; margin:0px .15rem; float:left; padding-left:.75rem;}

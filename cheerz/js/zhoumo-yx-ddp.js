@@ -125,6 +125,13 @@ function setQues() {
 function pro_result(index) {
 	if ($.inArray(index, showPos) == -1) return;
 	console.log("process click " + index);
+
+	var pos = index + 1;
+	playFanpai(pos);
+
+	setTimeout(function() {
+		playFanpaiBack(pos);
+	}, 3000);
 }
 
 function getDataByNo(wno) {
@@ -145,4 +152,57 @@ function leftsec(sec) {
 	leftm = leftm < 10 ? "0" + leftm : leftm;
 	lefts = lefts < 10 ? "0" + lefts : lefts;
 	return leftm + ":" + lefts; //返回倒计时的字符串
+}
+
+
+function playFanpai(pos) {
+	var paitag = "#fanpai_" + pos;
+	var tukatag = "#tuka_" + pos;
+
+	if (!$(paitag)[0]) return;
+
+	$(paitag).show();
+	$(tukatag).hide();
+	var parent = $(tukatag).parent("div");
+	$(parent).css("background-image", "url()");
+
+	new seqframe({
+		container: ($(paitag)[0]),
+		urlRoot: 'movie/fanpai/',
+		imgType: 'png',
+		frameNumber: 6,
+		framePerSecond: 10,
+		loadedAutoPlay: true,
+		loop: 1,
+	}).load();
+
+	// 播完显示图卡
+	setTimeout(function() {
+		$(tukatag).show();
+		$(paitag).hide();
+		var parent = $(tukatag).parent("div");
+		$(parent).css("background-image", "url(images/danci.png)");
+	}, 600);
+}
+
+function playFanpaiBack(pos) {
+	var paitag = "#fanpai_" + pos;
+	var tukatag = "#tuka_" + pos;
+	if (!$(paitag)[0]) return;
+
+	$(paitag).show();
+	$(tukatag).hide();
+	var parent = $(tukatag).parent("div");
+	$(parent).css("background-image", "url()");
+
+	new seqframe({
+		container: ($(paitag)[0]),
+		urlRoot: 'movie/fanpai/',
+		imgType: 'png',
+		frameNumber: 6,
+		framePerSecond: 10,
+		loadedAutoPlayReverse: true,
+		loop: 1,
+	}).load_reverse();
+
 }

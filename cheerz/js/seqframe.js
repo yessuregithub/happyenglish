@@ -10,14 +10,15 @@ function seqframe(object) {
 		},
 		percent: 0,
 		loadedAutoPlay: object.loadedAutoPlay || false,
+		loadedAutoPlayReverse: object.loadedAutoPlayReverse || false,
 		loop: object.loop || 0, //是否循环，0：无限循环
 		pauseTimer: '', //播放序列计时器
 		success: object.success || function() {}, //加载成功执行的函数
 		index: 1, //当前图片序号
 		resetContainer: function(container) {
 			var that = this;
-			if(container) {
-				that.container = container;	
+			if (container) {
+				that.container = container;
 			}
 		},
 		load: function() {
@@ -39,6 +40,27 @@ function seqframe(object) {
 						that.autoPlay();
 					};
 					img.src = that.urlRoot + index + '.' + that.imgType;
+				})(start);
+			}
+		},
+		load_reverse: function() {
+			var that = this;
+			for (var start = 1; start <= that.frameNumber; start++) {
+				(function(index) {
+					var img = new Image();
+					img.onload = function() {
+						that.imgList.length++;
+						that.imgList[index] = this;
+						that.percent = Math.round(100 * that.imgList.length / that.frameNumber);
+						that.loadSuccess();
+						that.autoPlayReverse();
+					};
+					img.onerror = function() {
+
+					};
+					// 反向 src
+					var index_v = (that.frameNumber + 1) - index;
+					img.src = that.urlRoot + index_v + '.' + that.imgType;
 				})(start);
 			}
 		},
@@ -72,8 +94,13 @@ function seqframe(object) {
 				step();
 			}
 		},
+		autoPlayReverse: function() {
+			if (this.loadedAutoPlayReverse && !this.loadedAutoPlay) {
+				this.play();
+			}
+		},
 		autoPlay: function() {
-			if (this.loadedAutoPlay) {
+			if (this.loadedAutoPlay && !this.loadedAutoPlayReverse) {
 				this.play();
 			}
 		},
