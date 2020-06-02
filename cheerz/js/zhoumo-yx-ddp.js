@@ -1,10 +1,11 @@
-var curBlock; // 数组{当前显示位置的_index，是否处于翻牌动画中，单词编号，图卡或单词，已翻牌}
+var curBlock; // 数组{当前显示位置的_index，是否动画中，配对成功，单词编号，图卡或单词，已翻牌}
 var level; // 第几关
 var count15;
 var correctCount;
 var worddatas;
 var wordcount; // 单词数
-var showPos;
+var showPos; // 当前出题点位 1开始
+var curChoice; // 存放当前两次选择的卡
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
@@ -16,8 +17,10 @@ function startgame() {
 	worddatas = json;
 	wordcount = worddatas.length;
 
-	level = 1;
+	level = 2;
 	correctCount = 0;
+	curChoice = new Array();
+
 	genopt();
 	setQues();
 }
@@ -39,11 +42,11 @@ function genopt() {
 	var optw;
 	if (level == 1) {
 		optw = genwords(2);
-		showPos = [1, 2, 5, 6];
+		showPos = [2, 3, 6, 7];
 
 	} else if (level == 2) {
 		optw = genwords(4);
-		showPos = [0, 1, 2, 3, 4, 5, 6, 7];
+		showPos = [1, 2, 3, 4, 5, 6, 7, 8];
 	}
 
 	var block, kaorw, pos_count;
@@ -82,8 +85,9 @@ function genopt() {
 		// console.log(str+","+type);
 
 		block = new Object();
-		block.posIndex = showPos[i];
+		block.pos = showPos[i];
 		block.moving = false;
+		block.match = false;
 		block.type = type; // 1图片 2单词
 		block.wordno = wordPos[i];
 		block.open = false; // 明牌
@@ -92,7 +96,7 @@ function genopt() {
 
 	// 显示选项
 	for (var i = 0; i < 8; i++) {
-		if ($.inArray(i, showPos) == -1) {
+		if ($.inArray((i + 1), showPos) == -1) {
 			$($("#uc_01").find(".item")[i]).css('visibility', 'hidden');
 		} else {
 			$($("#uc_01").find(".item")[i]).css('visibility', '');
@@ -110,28 +114,69 @@ function setQues() {
 		var wdata = getDataByNo(wno);
 		var wpic1 = wdata.wpic1;
 		var wpic2 = wdata.wpic2;
-		var posIndex = block.posIndex;
+		var pos = block.pos;
 		var type = block.type;
 
 		if (type == 1) {
-			$(eles[posIndex]).html('<img src=' + wpic1 + '>');
+			$(eles[pos - 1]).html('<img src=' + wpic1 + '>');
 		} else if (type == 2) {
-			$(eles[posIndex]).html('<img src=' + wpic2 + '>');
+			$(eles[pos - 1]).html('<img src=' + wpic2 + '>');
 		}
 		// console.log(block);
 	}
 }
 
 function pro_result(index) {
-	if ($.inArray(index, showPos) == -1) return;
-	console.log("process click " + index);
-
 	var pos = index + 1;
-	playFanpai(pos);
+	if ($.inArray(pos, showPos) == -1) return;
+	console.log("process click pos " + pos);
 
-	setTimeout(function() {
-		playFanpaiBack(pos);
-	}, 3000);
+	// 动画中
+	if (curBlock[getBlockIndex(pos)].moving) {
+		console.log("pos " + pos + " is moving");
+		return;
+	}
+
+	// 已配对
+	if (curBlock[getBlockIndex(pos)].match) {
+		console.log("pos " + pos + " is match");
+		return;
+	}
+
+	var needback = false; // 是否需要翻回来
+
+	if (curChoice.length == 0) {
+		curChoice.push(pos);
+	} else if (curChoice.length == 1) {
+		var pos1 = curChoice[0];
+		// 重复翻牌
+		if (pos == pos1) {
+			console.log("repeat pos");
+			return;
+		}
+
+		if (curBlock[getBlockIndex(pos1)].wordno == curBlock[getBlockIndex(pos)].wordno) {
+			console.log("is match");
+			curBlock[getBlockIndex(pos1)].match = true;
+			curBlock[getBlockIndex(pos)].match = true;
+			curChoice.length = 0;
+		}
+		// 答错
+		else {
+			console.log("no match");
+			curChoice.length = 0;
+
+			// 翻回来
+			needback = true;
+			setTimeout(function() {
+				playFanpaiBack(pos);
+			}, 1500);
+			setTimeout(function() {
+				playFanpaiBack(pos1);
+			}, 1500);
+		}
+	}
+	playFanpai(pos, needback);
 }
 
 function getDataByNo(wno) {
@@ -142,6 +187,15 @@ function getDataByNo(wno) {
 		}
 	}
 	return null;
+}
+
+function getBlockIndex(pos) {
+	if (!curBlock) return -1;
+	for (var i = 0; i < curBlock.length; i++) {
+		if (curBlock[i].pos == pos) {
+			return i;
+		}
+	}
 }
 
 
@@ -155,7 +209,7 @@ function leftsec(sec) {
 }
 
 
-function playFanpai(pos) {
+function playFanpai(pos, needback) {
 	var paitag = "#fanpai_" + pos;
 	var tukatag = "#tuka_" + pos;
 
@@ -176,12 +230,18 @@ function playFanpai(pos) {
 		loop: 1,
 	}).load();
 
+	// 动画中屏蔽点击
+	curBlock[getBlockIndex(pos)].moving = true;
+
 	// 播完显示图卡
 	setTimeout(function() {
 		$(tukatag).show();
 		$(paitag).hide();
 		var parent = $(tukatag).parent("div");
 		$(parent).css("background-image", "url(images/danci.png)");
+		if (!needback) {
+			curBlock[getBlockIndex(pos)].moving = false;
+		}
 	}, 600);
 }
 
@@ -205,4 +265,9 @@ function playFanpaiBack(pos) {
 		loop: 1,
 	}).load_reverse();
 
+	// 动画中屏蔽点击
+	curBlock[getBlockIndex(pos)].moving = true;
+	setTimeout(function() {
+		curBlock[getBlockIndex(pos)].moving = false;
+	}, 600);
 }
