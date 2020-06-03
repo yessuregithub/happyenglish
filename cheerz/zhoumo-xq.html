@@ -13,15 +13,16 @@
 				<div class="wt-bg"><img src="images/index-bg.png"></div>
 				<a href="javascript:history.go(-1)" class="wt-return"></a>
 				<div class="zhoumo-box">
+
 					<div class="item mui-pull-left">
 						<div class="img-box">
-							<img src="images/02.jpg">
-							<span>开启时间 2020.3.14 19:30</span>
+							<img id=cover1 src="">
+							<span id=time1></span>
 						</div>
 						<div class="zhoumo-erk mui-clearfix">
 							<div class="neng">
 								<img src="images/jibi.png">
-								<span>20</span>
+								<span id=coin1></span>
 							</div>
 							<div class="xing">
 								<img src="images/xin.png">
@@ -31,20 +32,20 @@
 						</div>
 						<div class="zhoum-btn">
 							<!-- debug -->
-							<a href="javascript:jump('haoedehali', 'zhoumo-yx.html')" class="ks">开始挑战</a> 
+							<a href="javascript:starttz(1)" class="ks">开始挑战</a>
 							<a href="" class="wks" style="display:none;">未开始</a>
 							<a href="" class="fenx">分享</a>
 						</div>
 					</div>
 					<div class="item mui-pull-right">
 						<div class="img-box">
-							<img src="images/02.jpg">
-							<span>开启时间 2020.3.14 19:30</span>
+							<img id=cover2 src="">
+							<span id=time2></span>
 						</div>
 						<div class="zhoumo-erk mui-clearfix">
 							<div class="neng">
 								<img src="images/jibi.png">
-								<span>20</span>
+								<span id=coin2></span>
 							</div>
 							<div class="xing">
 								<img src="images/xin.png">
@@ -54,7 +55,7 @@
 						</div>
 						<div class="zhoum-btn">
 							<!-- debug -->
-							<a href="javascript:jump('周末游戏-神箭手彼德', 'zhoumo-yx-sjss.html')" class="ks">开始挑战</a>
+							<a href="javascript:starttz(2)" class="ks">开始挑战</a>
 							<a href="" class="wks" style="display:none;">未开始</a>
 							<a href="" class="fenx">分享</a>
 						</div>
@@ -74,16 +75,29 @@
 		<script src="js/common.js"></script>
 
 		<script>
-			// 将所有.ui-choose实例化
-			// $('.ui-choose').ui_choose();
-			// // uc_01 ul 单选
-			// var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
-			// uc_01.click = function(index, item) {
-			// 	console.log('click', index, item.text())
-			// }
-			// uc_01.change = function(index, item) {
-			// 	console.log('change', index, item.text())
-			// }
+			var token;
+
+			function loadpage() {
+				token = checklogin();
+				if (token == null) return;
+				loadweekendlist();
+			}
+
+			mui.ready(function() {
+				loadpage();
+			});
+
+			function starttz(order) {
+				if (order == 1) {
+					link = weekenddata.data.weekendurl1 + ".html";
+					gpara = weekenddata.data.weekendpara1;
+				} else {
+					link = weekenddata.data.weekendurl2 + ".html";
+					gpara = weekenddata.data.weekendpara2;
+				}
+                localStorage.setItem("gpara",unescape(gpara));
+				jump('weekend',link);
+			}
 		</script>
 
 	</body>

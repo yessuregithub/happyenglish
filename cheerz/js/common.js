@@ -285,6 +285,42 @@ function listcurrlesson(token) {
 	});
 }
 
+var weekenddata;
+
+function loadweekendlist() {
+	lid=localStorage.getItem("less_id");
+	mui.ajax({
+		url: 'http://47.241.5.29/Home_index_weekendlist.html',
+		async: true,
+		dataType: 'json',
+		type: 'post',
+		data: {
+			lid: lid,
+			token: token,
+		},
+		timeout: 10000,
+		success: function(data) {
+			// 请求成功
+			if (data.rst == 0) {
+				jump('index', 'index.html');
+				return;
+			}
+			if (data.rst == 1) {
+				$("#cover1").attr("src",data.data.weekendpic1);
+				$("#cover2").attr("src",data.data.weekendpic2);
+				$("#time1").text("开启时间 "+data.data.starttime);
+				$("#time2").text("开启时间 "+data.data.starttime);
+				$("#coin1").text(data.data.coin);
+				$("#coin2").text(data.data.coin);
+				weekenddata=data;
+			}
+		},
+		error: function(xhr, type, errorThrown) {
+			mui.alert("网络错误，请稍后再试");
+		}
+	});
+}
+
 var qalist; // 问题页面的全局数据
 function listqa() {
 	mui.ajax({
@@ -422,4 +458,12 @@ function getCurrWeek() {
 	console.log("今天是本年第" + s1 + "天，第" + s2 + "周");
 
 	return s2;
+}
+
+function unescape(str) {
+	var rst;
+	
+	rst = str.replace('"','').replace(/[\\]/g,'');
+	rst=rst.replace(/&quot;/g,"\""); 
+    return rst;
 }
