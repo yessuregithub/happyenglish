@@ -11,21 +11,22 @@
 		<div id="orientLayer">
 			<div class="wt-box">
 				<div class="wt-bg"><img src="images/zm-bg01.jpg"></div>
-				<a href="javascript:void(0)" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'"
-				 class="yx-return"></a>
+				<!-- <a href="javascript:void(0)" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'"
+				 class="yx-return"></a> -->
+				 <a href="javascript:mui.back()" class="yx-return"></a>
 				<div class="yx-box">
 					<div class="yx-box-top mui-clearfix">
 						<div class="xing">
 							<img src="images/xin.png">
-							<span>20</span>
+							<span id="score">0</span>
 							<h5>SCORE</h5>
 						</div>
 						<div class="time mui-clearfix">
 							<div class="name"><img src="images/time01.png"></div>
 							<div class="schedule">
-								<span style="width:80%;"></span>
+								<div id="progress1" class="charts" style="width:100%;"></div>
 							</div>
-							<span class="count-down">3:00</span>
+							<span id="lefttime" class="count-down">3:00</span>
 						</div>
 					</div>
 

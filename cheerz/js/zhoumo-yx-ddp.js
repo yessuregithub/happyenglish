@@ -17,7 +17,7 @@ function startgame() {
 	worddatas = json;
 	wordcount = worddatas.length;
 
-	level = 2;
+	level = 1;
 	correctCount = 0;
 	curChoice = new Array();
 
@@ -123,6 +123,8 @@ function setQues() {
 			$(eles[pos - 1]).html('<img src=' + wpic2 + '>');
 		}
 		// console.log(block);
+		
+		playFanpaiBack(pos);
 	}
 }
 
@@ -144,6 +146,7 @@ function pro_result(index) {
 	}
 
 	var needback = false; // 是否需要翻回来
+	var finish = false;
 
 	if (curChoice.length == 0) {
 		curChoice.push(pos);
@@ -155,11 +158,23 @@ function pro_result(index) {
 			return;
 		}
 
+		// 答对
 		if (curBlock[getBlockIndex(pos1)].wordno == curBlock[getBlockIndex(pos)].wordno) {
 			console.log("is match");
 			curBlock[getBlockIndex(pos1)].match = true;
 			curBlock[getBlockIndex(pos)].match = true;
 			curChoice.length = 0;
+
+
+			// 加分
+			correctCount++;
+			$("#score").html(correctCount * 10);
+			
+			// 检测是否全部完成
+			finish = true;
+			for (var i = 0; i < curBlock.length; i++) {
+				if (!curBlock[i].match) finish = false;
+			}
 		}
 		// 答错
 		else {
@@ -177,6 +192,17 @@ function pro_result(index) {
 		}
 	}
 	playFanpai(pos, needback);
+	
+	// 本轮结束
+	if(finish) {
+		setTimeout(function() {
+			level = 2;
+			curChoice = new Array();
+			
+			genopt();
+			setQues();
+		} ,1500);
+	}
 }
 
 function getDataByNo(wno) {
@@ -198,7 +224,6 @@ function getBlockIndex(pos) {
 	}
 }
 
-
 function leftsec(sec) {
 	var leftm = Math.floor(sec / 60 % 60); //计算分钟数
 	var lefts = Math.floor(sec % 60); //计算秒数
@@ -207,7 +232,6 @@ function leftsec(sec) {
 	lefts = lefts < 10 ? "0" + lefts : lefts;
 	return leftm + ":" + lefts; //返回倒计时的字符串
 }
-
 
 function playFanpai(pos, needback) {
 	var paitag = "#fanpai_" + pos;
@@ -270,4 +294,37 @@ function playFanpaiBack(pos) {
 	setTimeout(function() {
 		curBlock[getBlockIndex(pos)].moving = false;
 	}, 600);
+}
+
+function endgame() {
+	disable_choose();
+	clearInterval(count15);
+
+	// 每周记录一周新纪录
+	var game_score = correctCount * 10;
+	var week = getCurrWeek();
+	var his_key = "score_ddp" + "_" + week;
+	var hisscore = localStorage.getItem(his_key);
+	console.log("record " + his_key + " 历史最高分：" + hisscore + " 本次得分：" + game_score);
+	localStorage.setItem("game_record", his_key); // 记录本次跳转类型
+
+	// 本次记录
+	localStorage.setItem("game_score", game_score);
+	// 历史记录
+	if (hisscore == null || hisscore == "" || typeof(hisscore) == undefined) {
+		localStorage.setItem(his_key, game_score);
+		localStorage.setItem("new_record", 1);
+	} else if (parseInt(hisscore) < game_score) {
+		console.log("刷新纪录老" + hisscore + " 新" + game_score);
+		localStorage.setItem(his_key, game_score);
+		localStorage.setItem("new_record", 1);
+	} else {
+		localStorage.setItem("new_record", 0);
+	}
+
+	// 关闭游戏
+	jump_setback("zhoumo-yx-end.html");
+	console.log("关闭游戏");
+	// jump 返回时无法重新加载
+	// jump("record", "zhoumo-yx-end.html");
 }
