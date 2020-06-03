@@ -164,8 +164,8 @@ function lessondetail(lid) {
 				if (data.lesson.recommed == 1) $("#title").append("<span><img src='images/kc-mvp.png'></span>");
 				$("#coin").text(data.lesson.coin);
 				$("#cover").attr('src', data.lesson.coverurl);
-				var times = timetrans(data.lesson.starttime);
-				$("#time").text(times);
+				//var times = timetrans(data.lesson.starttime);
+				$("#time").text(data.lesson.starttime);
 				wordcount = data.wordcount;
 				for (i = 0; i < wordcount; i++) {
 					$("#words ul").append(
