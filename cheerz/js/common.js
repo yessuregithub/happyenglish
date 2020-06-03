@@ -7,6 +7,7 @@ function checklogin() {
 	return token;
 }
 
+var timesele;
 
 function fetchuserinfo(token) {
 	mui.ajax({
@@ -14,7 +15,7 @@ function fetchuserinfo(token) {
 		data: {
 			token: token,
 		},
-		async: true,
+		async: false,   //用同步,否则在显示课程时可能还没有返回,不知道上课时间
 		dataType: 'json',
 		type: 'post',
 		timeout: 10000,
@@ -31,6 +32,7 @@ function fetchuserinfo(token) {
 			if (data.rst == 1) {
 				$("#nickname").text(data.nickname);
 				$("#coin").text(data.coin);
+				timesele = data.timesele;
 				if (data.avata != "")
 					$("#ustx").html("<img src=" + data.avata + ">");
 				if (data.timesele == 1) {
@@ -193,6 +195,7 @@ function clickedlesson(less_index) {
 	localStorage.setItem("less_starttime", starttime);
 	localStorage.setItem("less_id", lesson_data[i].id);
 	localStorage.setItem("cover", lesson_data[i].coverurl);
+	localStorage.setItem("timesele",timesele);
 	// jump('index_go', "index_go_link");
 	window.location.href = index_go_link[less_index];
 	// console.log(starttime + ' link:' + index_go_link);
@@ -233,8 +236,8 @@ function listcurrlesson(token) {
 					else title = "<p>" + data.lesson[i].engname + "</p><p>" + data.lesson[i].cname + "</p>";
 					datetime = Date.now();
 					timestamp = Math.floor(datetime / 1000);
-					if (parseInt((timestamp - 28800) / 86400) == parseInt((data.lesson[i].starttime - 28800) / 86400)) istoday =
-						true;
+					//if (parseInt((timestamp - 28800) / 86400) == parseInt((data.lesson[i].starttime - 28800) / 86400)) istoday =
+					if (timetranssimple(timestamp) == data.lesson[i].starttime) istoday = true;
 					else istoday = false;
 					//console.log("istoday="+istoday);
 					if (data.lesson[i].isweekend == "1") isweekend = true;
@@ -245,8 +248,6 @@ function listcurrlesson(token) {
 						promptword = "课程详情";
 						link = 'qb-kc.html';
 					} else {
-
-						istoday = true; //debug
 						if (istoday && !isweekend) {
 							promptword = "进入教室";
 							link = 'zhibo-kt.html'
@@ -288,7 +289,7 @@ function listcurrlesson(token) {
 var weekenddata;
 
 function loadweekendlist() {
-	lid=localStorage.getItem("less_id");
+	lid = localStorage.getItem("less_id");
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_weekendlist.html',
 		async: true,
@@ -306,13 +307,15 @@ function loadweekendlist() {
 				return;
 			}
 			if (data.rst == 1) {
-				$("#cover1").attr("src",data.data.weekendpic1);
-				$("#cover2").attr("src",data.data.weekendpic2);
-				$("#time1").text("开启时间 "+data.data.starttime);
-				$("#time2").text("开启时间 "+data.data.starttime);
+				var timesele=localStorage.getItem('timesele');
+				if (timesele=="1") ts="19:30"; else ts="20:00";
+				$("#cover1").attr("src", data.data.weekendpic1);
+				$("#cover2").attr("src", data.data.weekendpic2);
+				$("#time1").text("开启时间 " + data.data.starttime+" "+ts);
+				$("#time2").text("开启时间 " + data.data.starttime+" "+ts);
 				$("#coin1").text(data.data.coin);
 				$("#coin2").text(data.data.coin);
-				weekenddata=data;
+				weekenddata = data;
 			}
 		},
 		error: function(xhr, type, errorThrown) {
@@ -400,14 +403,11 @@ function getUrlParam(key) {
 }
 
 function starttimetrans(date, istoday) {
-	var date = new Date(date * 1000); //如果date为13位不需要乘1000
-	var Y = date.getFullYear();
-	var M = date.getMonth() + 1;
-	var D = date.getDate();
-	var h = date.getHours();
-	var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
-	if (istoday) return '今天' + h + ':' + m + '开课';
-	else return Y + '.' + M + '.' + D + '已开课';
+	if (istoday) {
+		if(timesele==1) ts="19:30";
+		else ts="20:00";
+		return '今天'+ts+'开课';
+	} else return date + '已开课';
 }
 
 function timetrans(date) {
@@ -419,6 +419,21 @@ function timetrans(date) {
 	var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
 	return Y + M + D + h + m;
 }
+
+function timetranssimple(date) {
+	var date = new Date(date * 1000); //如果date为13位不需要乘1000
+	var Y = date.getFullYear();
+	var M = date.getMonth() + 1 ;
+	var D = date.getDate();
+	var rst=Y+"-";
+	if (M<10) rst=rst+"0"+M+"-";
+	else rst=rst+M+"-";
+	if (D<10) rst=rst+"0"+D;
+	else rst=rst+D;
+	
+	return rst;
+}
+
 
 function getRandom(min, max) {
 	return Math.round(Math.random() * 10000) % max + min;
@@ -462,8 +477,8 @@ function getCurrWeek() {
 
 function unescape(str) {
 	var rst;
-	
-	rst = str.replace('"','').replace(/[\\]/g,'');
-	rst=rst.replace(/&quot;/g,"\""); 
-    return rst;
+
+	rst = str.replace('"', '').replace(/[\\]/g, '');
+	rst = rst.replace(/&quot;/g, "\"");
+	return rst;
 }
