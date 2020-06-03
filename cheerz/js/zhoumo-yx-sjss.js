@@ -14,7 +14,7 @@ function startgame() {
 
 	// debug 测试5个实际应该有20个 ，根据数量生成
 	gamepara =
-		'[{"wno":1,"wpic1":"images/w1.png","wpic2":"images/p1.png","sound":"s1.mp3"},{"wno":2,"wpic1":"images/w2.png","wpic2":"images/p2.png","sound":"s2.mp3"},{"wno":3,"wpic1":"images/w3.png","wpic2":"images/p3.png","sound":"s3.mp3"},{"wno":4,"wpic1":"images/w4.png","wpic2":"images/p4.png","sound":"s4.mp3"},{"wno":5,"wpic1":"images/w5.png","wpic2":"images/p5.png","sound":"s5.mp3"}]';
+		'[{"wno":1,"wpic1":"images/w1.png","wpic2":"images/p1.jpg","sound":"s1.mp3"},{"wno":2,"wpic1":"images/w2.png","wpic2":"images/p2.jpg","sound":"s2.mp3"},{"wno":3,"wpic1":"images/w3.png","wpic2":"images/p3.jpg","sound":"s3.mp3"},{"wno":4,"wpic1":"images/w4.png","wpic2":"images/p4.jpg","sound":"s4.mp3"},{"wno":5,"wpic1":"images/w5.png","wpic2":"images/p5.jpg","sound":"s5.mp3"}]';
 	json = JSON.parse(gamepara);
 	worddatas = json;
 	wordcount = worddatas.length;

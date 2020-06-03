@@ -303,9 +303,10 @@ input:-ms-input-placeholder {color: #666;}
 
 .ylky-box{ position:absolute; left:0; top:0; width:100%; padding:1.2rem .8rem .5rem .8rem; text-align:center;}
 .ylky-box-tab{ display:inline-block;}
-.ylky-box-tab li{ background:url(../images/danci-tab.png) no-repeat; background-size:100% 100%; width:3.61rem; height:.95rem; margin:0px .15rem; float:left; padding-left:.75rem;}
+.ylky-box-tab li{position:relative; background:url(../images/danci-tab.png) no-repeat; background-size:100% 100%; width:3.61rem; height:.95rem; margin:0px .15rem; float:left; padding-left:.75rem;}
 .ylky-box-tab li.selected{ background:url(../images/danci-tab-on.png) no-repeat; background-size:100% 100%; width:3.61rem; height:.95rem; margin:0px .15rem; float:left; padding-left:.75rem;}
-.ylky-box-tab li span{ display:block; width:100%; line-height:.95rem; height:.95rem; text-align:center; color:#ffffff; font-size:.56rem; font-weight:bold;}
+.ylky-box-tab li span{ display:block; width:100%;text-align:center; color:#ffffff;  font-weight:bold;}
+.ylky-box-tab li span img{width: 3.15rem;height:0.9rem ; position:absolute;left: 60%; top:53%;transform: translate(-50%,-50%);}
 
 .youxi-list li{ width:16.66%; float:left; margin-top:.5rem;}
 .youxi-list li .item{width:2.44rem; height:1.7rem; background:rgba(255,255,255,1); border-radius:.08rem;-moz-box-shadow:0px 0px 5px #333; -webkit-box-shadow:0px 0px 5px #333; box-shadow:0px 0px 5px #333; padding:.12rem; position:relative; overflow:hidden;}

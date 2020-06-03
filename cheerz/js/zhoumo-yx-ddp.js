@@ -12,7 +12,7 @@ function startgame() {
 
 	// debug 测试5个实际应该有20个 ，根据数量生成
 	gamepara =
-		'[{"wno":1,"wpic1":"images/br1.png","wpic2":"images/p1.png","sound":"s1.mp3"},{"wno":2,"wpic1":"images/br2.png","wpic2":"images/p2.png","sound":"s2.mp3"},{"wno":3,"wpic1":"images/br3.png","wpic2":"images/p3.png","sound":"s3.mp3"},{"wno":4,"wpic1":"images/br4.png","wpic2":"images/p4.png","sound":"s4.mp3"},{"wno":5,"wpic1":"images/br5.png","wpic2":"images/p5.png","sound":"s5.mp3"}]';
+		'[{"wno":1,"wpic1":"images/br1.png","wpic2":"images/p1.jpg","sound":"s1.mp3"},{"wno":2,"wpic1":"images/br2.png","wpic2":"images/p2.jpg","sound":"s2.mp3"},{"wno":3,"wpic1":"images/br3.png","wpic2":"images/p3.jpg","sound":"s3.mp3"},{"wno":4,"wpic1":"images/br4.png","wpic2":"images/p4.jpg","sound":"s4.mp3"},{"wno":5,"wpic1":"images/br5.png","wpic2":"images/p5.jpg","sound":"s5.mp3"}]';
 	json = JSON.parse(gamepara);
 	worddatas = json;
 	wordcount = worddatas.length;
@@ -131,17 +131,17 @@ function setQues() {
 function pro_result(index) {
 	var pos = index + 1;
 	if ($.inArray(pos, showPos) == -1) return;
-	console.log("process click pos " + pos);
+	// console.log("process click pos " + pos);
 
 	// 动画中
 	if (curBlock[getBlockIndex(pos)].moving) {
-		console.log("pos " + pos + " is moving");
+		// console.log("pos " + pos + " is moving");
 		return;
 	}
 
 	// 已配对
 	if (curBlock[getBlockIndex(pos)].match) {
-		console.log("pos " + pos + " is match");
+		// console.log("pos " + pos + " is match");
 		return;
 	}
 
@@ -154,13 +154,13 @@ function pro_result(index) {
 		var pos1 = curChoice[0];
 		// 重复翻牌
 		if (pos == pos1) {
-			console.log("repeat pos");
+			// console.log("repeat pos");
 			return;
 		}
 
 		// 答对
 		if (curBlock[getBlockIndex(pos1)].wordno == curBlock[getBlockIndex(pos)].wordno) {
-			console.log("is match");
+			// console.log("is match");
 			curBlock[getBlockIndex(pos1)].match = true;
 			curBlock[getBlockIndex(pos)].match = true;
 			curChoice.length = 0;
@@ -178,7 +178,7 @@ function pro_result(index) {
 		}
 		// 答错
 		else {
-			console.log("no match");
+			// console.log("no match");
 			curChoice.length = 0;
 
 			// 翻回来
@@ -203,34 +203,6 @@ function pro_result(index) {
 			setQues();
 		} ,1500);
 	}
-}
-
-function getDataByNo(wno) {
-	if (!worddatas) return null;
-	for (var i = 0; i < worddatas.length; i++) {
-		if (worddatas[i].wno == wno) {
-			return worddatas[i];
-		}
-	}
-	return null;
-}
-
-function getBlockIndex(pos) {
-	if (!curBlock) return -1;
-	for (var i = 0; i < curBlock.length; i++) {
-		if (curBlock[i].pos == pos) {
-			return i;
-		}
-	}
-}
-
-function leftsec(sec) {
-	var leftm = Math.floor(sec / 60 % 60); //计算分钟数
-	var lefts = Math.floor(sec % 60); //计算秒数
-
-	leftm = leftm < 10 ? "0" + leftm : leftm;
-	lefts = lefts < 10 ? "0" + lefts : lefts;
-	return leftm + ":" + lefts; //返回倒计时的字符串
 }
 
 function playFanpai(pos, needback) {
@@ -294,6 +266,34 @@ function playFanpaiBack(pos) {
 	setTimeout(function() {
 		curBlock[getBlockIndex(pos)].moving = false;
 	}, 600);
+}
+
+function getDataByNo(wno) {
+	if (!worddatas) return null;
+	for (var i = 0; i < worddatas.length; i++) {
+		if (worddatas[i].wno == wno) {
+			return worddatas[i];
+		}
+	}
+	return null;
+}
+
+function getBlockIndex(pos) {
+	if (!curBlock) return -1;
+	for (var i = 0; i < curBlock.length; i++) {
+		if (curBlock[i].pos == pos) {
+			return i;
+		}
+	}
+}
+
+function leftsec(sec) {
+	var leftm = Math.floor(sec / 60 % 60); //计算分钟数
+	var lefts = Math.floor(sec % 60); //计算秒数
+
+	leftm = leftm < 10 ? "0" + leftm : leftm;
+	lefts = lefts < 10 ? "0" + lefts : lefts;
+	return leftm + ":" + lefts; //返回倒计时的字符串
 }
 
 function endgame() {
