@@ -359,7 +359,7 @@ function startlesson(offset, url) {
 	$(tag).html("<div id=\"vt\" style=\"width:100%;height:100%;background-color:#000000\">"); //准备视频区域
 	player[0] = createvideo("vt", "vt", url);
 	player[0].addEventListener('timeupdate', timeupdate, false);
-	// debug player[0].addEventListener('ended', ended, false);
+	player[0].addEventListener('ended', ended, false);
 	player[0].play();
 	testoffset = 0; //debug 
 	player[0].seek(testoffset);
