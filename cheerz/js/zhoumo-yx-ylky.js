@@ -1,5 +1,6 @@
 var curBlock; // 数组{当前显示位置的_index，是否动画中，配对成功，单词编号，图卡或单词，已翻牌}
 var curWord;
+var wordMatch;
 var level; // 第几关
 var count15;
 var correctCount;
@@ -18,7 +19,7 @@ function startgame() {
 	worddatas = json;
 	wordcount = worddatas.length;
 
-	level = 2;
+	level = 1;
 	correctCount = 0;
 	curChoice = new Array();
 
@@ -62,6 +63,8 @@ function genopt() {
 		block.wordno = opttk[i];
 		curBlock[i] = block;
 	}
+	
+	
 
 	// 显示选项
 	for (var i = 0; i < 18; i++) {
@@ -73,8 +76,13 @@ function genopt() {
 	}
 
 	// 显示目标单词
+	wordMatch = new Array();
+	
 	var _html = '';
 	for (var i = 0; i < curWord.length; i++) {
+		// 匹配
+		wordMatch.push(false);
+		
 		var wpic1 = getDataByNo(curWord[i]).wpic1;
 		_html += '<li><span><img src=' + wpic1 + '></span></li>';
 	}
@@ -112,6 +120,7 @@ function pro_result(index) {
 	}
 
 	// 答对
+	var finish;
 	var wordno = curBlock[getBlockIndex(pos)].wordno;
 	if ($.inArray(wordno, curWord) != -1) {
 		console.log(pos + " match success");
@@ -123,6 +132,30 @@ function pro_result(index) {
 		// 目标单词
 		var windex = getWordIndex(wordno);
 		$($("#target-word").find("li")[windex]).addClass('selected');
+		wordMatch[windex] = true;
+
+		correctCount++;
+		$("#score").html(correctCount * 10);
+
+		// 检测是否全部完成
+		finish = true;
+		for (var i = 0; i < wordMatch.length; i++) {
+			if (!wordMatch[i]) finish = false;
+		}
+	}
+
+	// 本轮结束
+	if (finish) {
+		if (level < 3) {
+			level++;
+			disable_choose();
+		}
+		setTimeout(function() {
+			curChoice = new Array();
+			genopt();
+			setQues();
+			enable_choose();
+		}, 1500);
 	}
 }
 
