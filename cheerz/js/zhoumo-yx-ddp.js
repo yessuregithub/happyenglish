@@ -123,7 +123,7 @@ function setQues() {
 			$(eles[pos - 1]).html('<img src=' + wpic2 + '>');
 		}
 		// console.log(block);
-		
+
 		playFanpaiBack(pos);
 	}
 }
@@ -169,7 +169,7 @@ function pro_result(index) {
 			// 加分
 			correctCount++;
 			$("#score").html(correctCount * 10);
-			
+
 			// 检测是否全部完成
 			finish = true;
 			for (var i = 0; i < curBlock.length; i++) {
@@ -189,19 +189,21 @@ function pro_result(index) {
 			setTimeout(function() {
 				playFanpaiBack(pos1);
 			}, 1500);
+
+			play_wrong();
 		}
 	}
 	playFanpai(pos, needback);
-	
+
 	// 本轮结束
-	if(finish) {
+	if (finish) {
 		setTimeout(function() {
 			level = 2;
 			curChoice = new Array();
-			
+
 			genopt();
 			setQues();
-		} ,1500);
+		}, 1500);
 	}
 }
 
@@ -321,6 +323,9 @@ function endgame() {
 	} else {
 		localStorage.setItem("new_record", 0);
 	}
+
+
+	close_game();
 
 	// 关闭游戏
 	jump_setback("zhoumo-yx-end.html");

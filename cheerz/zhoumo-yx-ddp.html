@@ -13,7 +13,7 @@
 				<div class="wt-bg"><img src="images/zm-bg01.jpg"></div>
 				<!-- <a href="javascript:void(0)" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'"
 				 class="yx-return"></a> -->
-				<a href="javascript:mui.back()" class="yx-return"></a>
+				<a href="javascript:close_game();jump('xq', 'zhoumo-xq.html');" class="yx-return"></a>
 				<div class="yx-box">
 					<div class="yx-box-top mui-clearfix">
 						<div class="xing">
@@ -106,6 +106,11 @@
 		<script src="js/zhoumo-yx-ddp.js"></script>
 
 		<script>
+			// 音频
+			var s_wrong = null;
+		</script>
+
+		<script>
 			mui.init();
 			mui.ready(function() {
 				loadpage();
@@ -113,6 +118,32 @@
 
 			function loadpage() {
 				startgame();
+			}
+
+			mui.plusReady(function() {
+				console.log("mui plusReady");
+				// s_wrong = plus.audio.createPlayer("audio/wrong.mp3");
+			});
+
+			function close_game() {
+				close_wrong();
+			}
+
+			function play_wrong() {
+				if (s_wrong) {
+					console.log("play wrong sound");
+					s_wrong.stop();
+					s_wrong.play();
+				}
+			}
+
+			function close_wrong() {
+				if (s_wrong != null) {
+					console.log("s_wrong close");
+					s_wrong.stop();
+					s_wrong.close();
+					s_wrong = null;
+				}
 			}
 		</script>
 

@@ -63,8 +63,8 @@ function genopt() {
 		block.wordno = opttk[i];
 		curBlock[i] = block;
 	}
-	
-	
+
+
 
 	// 显示选项
 	for (var i = 0; i < 18; i++) {
@@ -77,12 +77,12 @@ function genopt() {
 
 	// 显示目标单词
 	wordMatch = new Array();
-	
+
 	var _html = '';
 	for (var i = 0; i < curWord.length; i++) {
 		// 匹配
 		wordMatch.push(false);
-		
+
 		var wpic1 = getDataByNo(curWord[i]).wpic1;
 		_html += '<li><span><img src=' + wpic1 + '></span></li>';
 	}
@@ -142,6 +142,10 @@ function pro_result(index) {
 		for (var i = 0; i < wordMatch.length; i++) {
 			if (!wordMatch[i]) finish = false;
 		}
+	}
+	// 答错
+	else {
+		play_wrong();
 	}
 
 	// 本轮结束
@@ -248,6 +252,8 @@ function endgame() {
 		localStorage.setItem("new_record", 0);
 	}
 
+	close_game();
+	
 	// 关闭游戏
 	jump_setback("zhoumo-yx-end.html");
 	console.log("关闭游戏");
