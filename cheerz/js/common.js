@@ -189,8 +189,11 @@ var lesson_data; // 全局直播课数据
 var index_go_link = new Array(10);
 // 处理点击index.html课程直播间
 function clickedlesson(less_index) {
-	weekend=lesson_data[less_index].isweekend;
-	if (weekend==1) { clickedlesson1(less_index); return;}
+	weekend = lesson_data[less_index].isweekend;
+	if (weekend == 1) {
+		clickedlesson1(less_index);
+		return;
+	}
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_lessonenterrecord.html',
 		data: {
@@ -343,10 +346,37 @@ function loadweekendlist() {
 				$("#coin1").text(data.data.coin);
 				$("#coin2").text(data.data.coin);
 				weekenddata = data;
+				loadbestscore(weekenddata.data.id, weekenddata.data.weekendurl1, "#bestscore1");
+				loadbestscore(weekenddata.data.id, weekenddata.data.weekendurl2, "#bestscore2");
+
 			}
 		},
 		error: function(xhr, type, errorThrown) {
 			mui.alert("网络错误，请稍后再试");
+		}
+	});
+}
+
+function loadbestscore(lid, url, tag) {
+	mui.ajax({
+		url: 'http://47.241.5.29/Home_index_bestcharecord.html',
+		data: {
+			token: token,
+			lid: lid,
+			gurl: url,
+		},
+		async: true,
+		dataType: 'json',
+		type: 'post',
+		timeout: 10000,
+		success: function(data) {
+			if (data.rst == 0) {} else if (data.rst == 1) {
+				bestscore = data.score;
+				$(tag).text(bestscore);
+			}
+		},
+		error: function(xhr, type, errorThrown) {
+			mui.alert('网络错误,请稍后再试');
 		}
 	});
 }
