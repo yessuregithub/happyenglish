@@ -15,7 +15,7 @@ function fetchuserinfo(token) {
 		data: {
 			token: token,
 		},
-		async: false,   //用同步,否则在显示课程时可能还没有返回,不知道上课时间
+		async: false, //用同步,否则在显示课程时可能还没有返回,不知道上课时间
 		dataType: 'json',
 		type: 'post',
 		timeout: 10000,
@@ -189,16 +189,42 @@ var lesson_data; // 全局直播课数据
 var index_go_link = new Array(10);
 // 处理点击index.html课程直播间
 function clickedlesson(less_index) {
+	weekend=lesson_data[less_index].isweekend;
+	if (weekend==1) { clickedlesson1(less_index); return;}
+	mui.ajax({
+		url: 'http://47.241.5.29/Home_index_lessonenterrecord.html',
+		data: {
+			token: token,
+			lid: lesson_data[less_index].id,
+		},
+		async: true,
+		dataType: 'json',
+		type: 'post',
+		timeout: 10000,
+		success: function(data) {
+			if (data.rst == 0) {
+				mui.alert(data.msg);
+			} else if (data.rst == 1) {
+				clickedlesson1(less_index);
+			}
+		},
+		error: function(xhr, type, errorThrown) {
+			mui.alert('网络错误,请稍后再试');
+		}
+	});
+}
+
+function clickedlesson1(less_index) {
 	if (lesson_data == null) return;
 	var i = less_index;
 	var starttime = lesson_data[i].starttime;
 	localStorage.setItem("less_starttime", starttime);
 	localStorage.setItem("less_id", lesson_data[i].id);
 	localStorage.setItem("cover", lesson_data[i].coverurl);
-	localStorage.setItem("timesele",timesele);
+	localStorage.setItem("timesele", timesele);
 	// jump('index_go', "index_go_link");
 	window.location.href = index_go_link[less_index];
-	// console.log(starttime + ' link:' + index_go_link);
+	console.log(starttime + ' link:' + index_go_link);
 }
 
 function listcurrlesson(token) {
@@ -307,12 +333,13 @@ function loadweekendlist() {
 				return;
 			}
 			if (data.rst == 1) {
-				var timesele=localStorage.getItem('timesele');
-				if (timesele=="1") ts="19:30"; else ts="20:00";
+				var timesele = localStorage.getItem('timesele');
+				if (timesele == "1") ts = "19:30";
+				else ts = "20:00";
 				$("#cover1").attr("src", data.data.weekendpic1);
 				$("#cover2").attr("src", data.data.weekendpic2);
-				$("#time1").text("开启时间 " + data.data.starttime+" "+ts);
-				$("#time2").text("开启时间 " + data.data.starttime+" "+ts);
+				$("#time1").text("开启时间 " + data.data.starttime + " " + ts);
+				$("#time2").text("开启时间 " + data.data.starttime + " " + ts);
 				$("#coin1").text(data.data.coin);
 				$("#coin2").text(data.data.coin);
 				weekenddata = data;
@@ -404,9 +431,9 @@ function getUrlParam(key) {
 
 function starttimetrans(date, istoday) {
 	if (istoday) {
-		if(timesele==1) ts="19:30";
-		else ts="20:00";
-		return '今天'+ts+'开课';
+		if (timesele == 1) ts = "19:30";
+		else ts = "20:00";
+		return '今天' + ts + '开课';
 	} else return date + '已开课';
 }
 
@@ -423,14 +450,14 @@ function timetrans(date) {
 function timetranssimple(date) {
 	var date = new Date(date * 1000); //如果date为13位不需要乘1000
 	var Y = date.getFullYear();
-	var M = date.getMonth() + 1 ;
+	var M = date.getMonth() + 1;
 	var D = date.getDate();
-	var rst=Y+"-";
-	if (M<10) rst=rst+"0"+M+"-";
-	else rst=rst+M+"-";
-	if (D<10) rst=rst+"0"+D;
-	else rst=rst+D;
-	
+	var rst = Y + "-";
+	if (M < 10) rst = rst + "0" + M + "-";
+	else rst = rst + M + "-";
+	if (D < 10) rst = rst + "0" + D;
+	else rst = rst + D;
+
 	return rst;
 }
 
