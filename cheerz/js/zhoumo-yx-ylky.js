@@ -8,9 +8,13 @@ var worddatas;
 var wordcount; // 单词数
 var showPos; // 当前出题点位 1开始
 var curChoice; // 存放当前两次选择的卡
+var glid, gurl;
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
+	glid = localStorage.getItem("glid");
+	gurl = localStorage.getItem("gurl");
+
 	console.log("眼力大考验 json string :", gamepara);
 
 	// debug 测试5个实际应该有20个 ，根据数量生成
@@ -261,21 +265,20 @@ function endgame() {
 
 	// 每周记录一周新纪录
 	var game_score = correctCount * 10;
-	var week = getCurrWeek();
-	var his_key = "score_ylky" + "_" + week;
-	var hisscore = localStorage.getItem(his_key);
-	console.log("record " + his_key + " 历史最高分：" + hisscore + " 本次得分：" + game_score);
-	localStorage.setItem("game_record", his_key); // 记录本次跳转类型
+
+	var hisscore = localStorage.getItem("gbscore");
+	console.log("lid:" + glid + " record " + gurl + " 历史最高分：" + hisscore + " 本次得分：" + game_score);
 
 	// 本次记录
 	localStorage.setItem("game_score", game_score);
+
+	// 上传本次记录
+	setgamescore(glid, gurl, game_score);
+
 	// 历史记录
-	if (hisscore == null || hisscore == "" || typeof(hisscore) == undefined) {
-		localStorage.setItem(his_key, game_score);
-		localStorage.setItem("new_record", 1);
-	} else if (parseInt(hisscore) < game_score) {
+	if (parseInt(hisscore) < game_score) {
 		console.log("刷新纪录老" + hisscore + " 新" + game_score);
-		localStorage.setItem(his_key, game_score);
+		localStorage.setItem("gbscore", game_score);
 		localStorage.setItem("new_record", 1);
 	} else {
 		localStorage.setItem("new_record", 0);

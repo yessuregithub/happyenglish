@@ -26,7 +26,7 @@
 							</div>
 							<div class="xing">
 								<img src="images/xin.png">
-								<span id="bestscore1"></span>
+								<span id="bestscore1">0</span>
 								<h5>BEST SCORE</h5>
 							</div>
 						</div>
@@ -49,7 +49,7 @@
 							</div>
 							<div class="xing">
 								<img src="images/xin.png">
-								<span id="bestscore2"></span>
+								<span id="bestscore2">0</span>
 								<h5>BEST SCORE</h5>
 							</div>
 						</div>
@@ -65,14 +65,12 @@
 			</div>
 		</div>
 
-
-
-
 		<script src="js/mui.min.js"></script>
 		<script src="js/jquery-1.8.3.min.js"></script>
 		<script src="js/rem.js"></script>
 		<script src="js/ui-choose.js"></script>
 		<script src="js/common.js"></script>
+		<script src="js/md5.js"></script>
 
 		<script>
 			var token;
@@ -86,8 +84,6 @@
 			mui.ready(function() {
 				loadpage();
 			});
-
-
 
 			function starttz(order) {
 				mui.ajax({
@@ -115,14 +111,27 @@
 			}
 
 			function starttz1(order) {
+				// 历史分数
+				var bscore = 0;
+				var gurl = "";
+				var lid = weekenddata.data.id;
+				
 				if (order == 1) {
 					link = weekenddata.data.weekendurl1 + ".html";
 					gpara = weekenddata.data.weekendpara1;
+					gurl = weekenddata.data.weekendurl1;
+					bscore = parseInt($('#bestscore1').text());
 				} else {
 					link = weekenddata.data.weekendurl2 + ".html";
 					gpara = weekenddata.data.weekendpara2;
+					gurl = weekenddata.data.weekendurl2;
+					bscore = parseInt($('#bestscore2').text());
 				}
+				
 				localStorage.setItem("gpara", unescape(gpara));
+				localStorage.setItem("glid", lid);
+				localStorage.setItem("gurl", gurl);
+				localStorage.setItem("gbscore", bscore);
 				jump('weekend', link);
 			}
 		</script>

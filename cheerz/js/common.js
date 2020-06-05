@@ -358,6 +358,8 @@ function loadweekendlist() {
 }
 
 function loadbestscore(lid, url, tag) {
+
+	var token = localStorage.getItem("token");
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_bestcharecord.html',
 		data: {
@@ -374,6 +376,33 @@ function loadbestscore(lid, url, tag) {
 				bestscore = data.score;
 				$(tag).text(bestscore);
 			}
+		},
+		error: function(xhr, type, errorThrown) {
+			mui.alert('网络错误,请稍后再试');
+		}
+	});
+}
+
+// 上传周末游戏分数
+function setgamescore(lid, url, gscore) {
+	var token = localStorage.getItem("token");
+	var verify = md5(lid + url + gscore);
+
+	mui.ajax({
+		url: 'http://47.241.5.29/Home_index_charecord.html',
+		data: {
+			token: token,
+			lid: lid,
+			gurl: url,
+			score: gscore,
+			verify: verify
+		},
+		async: true,
+		dataType: 'json',
+		type: 'post',
+		timeout: 10000,
+		success: function(data) {
+			if (data.rst == 0) {} else if (data.rst == 1) {}
 		},
 		error: function(xhr, type, errorThrown) {
 			mui.alert('网络错误,请稍后再试');
