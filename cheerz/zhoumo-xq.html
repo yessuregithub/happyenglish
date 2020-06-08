@@ -69,8 +69,8 @@
 		<script src="js/jquery-1.8.3.min.js"></script>
 		<script src="js/rem.js"></script>
 		<script src="js/ui-choose.js"></script>
-		<script src="js/common.js"></script>
 		<script src="js/md5.js"></script>
+		<script src="js/common.js"></script>
 
 		<script>
 			var token;
@@ -115,7 +115,8 @@
 				var bscore = 0;
 				var gurl = "";
 				var lid = weekenddata.data.id;
-				
+				var starttime = weekenddata.data.starttime;
+
 				if (order == 1) {
 					link = weekenddata.data.weekendurl1 + ".html";
 					gpara = weekenddata.data.weekendpara1;
@@ -127,7 +128,14 @@
 					gurl = weekenddata.data.weekendurl2;
 					bscore = parseInt($('#bestscore2').text());
 				}
-				
+
+				// 加金币
+				var cha = gurl + "_lid" + lid + "_" + starttime;
+				var coin = 20;
+				var memo = "_add" + coin;
+				addcointoserv(coin, cha, memo);
+
+				// 跳转
 				localStorage.setItem("gpara", unescape(gpara));
 				localStorage.setItem("glid", lid);
 				localStorage.setItem("gurl", gurl);

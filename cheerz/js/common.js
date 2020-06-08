@@ -274,7 +274,7 @@ function listcurrlesson(token) {
 					// 开始时间
 
 					if (!isvip) {
-						promptword = "课程详情";
+						promptword = "历史课程";
 						link = 'qb-kc.html';
 					} else {
 						if (istoday && !isweekend) {
@@ -284,17 +284,16 @@ function listcurrlesson(token) {
 							promptword = "开始挑战";
 							link = 'zhoumo-xq.html'
 						} else {
-							if(isweekend) {
+							if (isweekend) {
 								promptword = "开始挑战";
 								link = 'zhoumo-xq.html'
-							}
-							else {
+							} else {
 								promptword = "回看课程";
 								link = 'zhibo-kt.html'
 							}
 						};
 					}
-					console.log("go link:" + link + " weekend:" + isweekend + " today:" + istoday +" lesstime:"+data.lesson[i].starttime);
+					console.log("go link:" + link + " weekend:" + isweekend + " today:" + istoday + " lesstime:" + data.lesson[i].starttime);
 					//link = 'zhoumo-xq.html' // todo debug
 					index_go_link[i] = link;
 
@@ -354,7 +353,6 @@ function loadweekendlist() {
 				weekenddata = data;
 				loadbestscore(weekenddata.data.id, weekenddata.data.weekendurl1, "#bestscore1");
 				loadbestscore(weekenddata.data.id, weekenddata.data.weekendurl2, "#bestscore2");
-
 			}
 		},
 		error: function(xhr, type, errorThrown) {
@@ -409,6 +407,35 @@ function setgamescore(lid, url, gscore) {
 		timeout: 10000,
 		success: function(data) {
 			if (data.rst == 0) {} else if (data.rst == 1) {}
+		},
+		error: function(xhr, type, errorThrown) {
+			mui.alert('网络错误,请稍后再试');
+		}
+	});
+}
+
+// 上传金币
+function addcointoserv(coin, cha, memo) {
+	var token = localStorage.getItem("token");
+	var verify = md5(token + coin + cha);
+
+	mui.ajax({
+		url: 'http://47.241.5.29/Home_index_addcoin.html',
+		data: {
+			token: token,
+			coin: coin,
+			cha: cha,
+			memo: memo,
+			verify: verify
+		},
+		async: true,
+		dataType: 'json',
+		type: 'post',
+		timeout: 10000,
+		success: function(data) {
+			console.log("add coin "+data);
+			if (data.rst == 0) {} else if (data.rst == 1) {
+			}
 		},
 		error: function(xhr, type, errorThrown) {
 			mui.alert('网络错误,请稍后再试');
