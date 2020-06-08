@@ -2,9 +2,6 @@
 历史课程课程入口排序     ??啥意思
 Home_index_addcoin.html  调用了，没返回数据     ??异步
 移动星球应该四张图,json中增加了img4
-
-
-数值处理
    增加金币
     * 接口  http://47.241.5.29/Home_index_addcoin.html
 	  入口参数:  token
@@ -15,8 +12,6 @@ Home_index_addcoin.html  调用了，没返回数据     ??异步
 	  返回:
 	      rst: 0             token校验失败,需要跳至登录页 dl.html  
 		       1             其它所有情况,虽然系统在msg中返回了处理情况,但实际应用应该无需判断
-				
-						
 学习报告  课程结束(kc-end.html)
       问题:  1.学习报告和课程结束页面应该不是一个?
 	         2.需要处理MVP
