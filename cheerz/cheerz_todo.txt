@@ -11,17 +11,6 @@
 	      rst: 0             token校验失败,需要跳至登录页 dl.html  
 		       1             其它所有情况,虽然系统在msg中返回了处理情况,但实际应用应该无需判断
 				
-   记录周末挑战的分数
-     *接口: http://47.241.5.29/Home_index_charecord.html  这个接口是为了处理周末游戏的 best score, 每一次完成游戏后都向服务器传得分值. 
-	  入口参数:  token
-	            lid     课程id
-				gurl    游戏的url,不带.html   以上两个值都可以在zhouo-xq.html中的weekenddata中找到, 需要setitem到游戏的html中
-				score
-				verify: md5(lid+gurl+score)
-	返回:
-	    rst: 0             token校验失败,需要跳至登录页 dl.html  
-			 1             其它所有情况
-	    
 						
 学习报告  课程结束(kc-end.html)
       问题:  1.学习报告和课程结束页面应该不是一个?
@@ -89,4 +78,15 @@ Home_index_addcoin.html  调用了，没返回数据
 		 lessoncount: 累计学习的单词
 		 lessonname: 课程名
 
+   记录周末挑战的分数
+     *接口: http://47.241.5.29/Home_index_charecord.html  这个接口是为了处理周末游戏的 best score, 每一次完成游戏后都向服务器传得分值. 
+	  入口参数:  token
+	            lid     课程id
+				gurl    游戏的url,不带.html   以上两个值都可以在zhouo-xq.html中的weekenddata中找到, 需要setitem到游戏的html中
+				score
+				verify: md5(lid+gurl+score)
+	返回:
+	    rst: 0             token校验失败,需要跳至登录页 dl.html  
+			 1             其它所有情况
+	    
 

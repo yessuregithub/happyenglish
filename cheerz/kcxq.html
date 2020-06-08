@@ -12,7 +12,7 @@
 		<div id="orientLayer">
 			<div class="wt-box">
 				<div class="wt-bg"><img src="images/index-bg.png"></div>
-				<a href="qb-kc.html" class="wt-return"></a>
+				<a href="javascript:backpage()" class="wt-return"></a>
 				<div class="kcyx-box-pa">
 					<div class="kcyx-box mui-clearfix">
 						<div class="kc-left">
@@ -55,6 +55,11 @@
 		<script src="js/rem.js"></script>
 		<script src="js/common.js"></script>
 		<script>
+			function backpage() {
+				url = localStorage.getItem('referer');
+				jump('back', url);
+			}
+
 			mui.ready(function() {
 				loadpage();
 
@@ -72,7 +77,7 @@
 					jump('index', 'index.html');
 					return null;
 				}
-				localStorage.setItem("less_id",lid);
+				localStorage.setItem("less_id", lid);
 				lessondetail(lid);
 			}
 

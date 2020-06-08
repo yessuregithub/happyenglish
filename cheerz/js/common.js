@@ -125,11 +125,11 @@ function listalllesson() {
 				for (i = 0; i < count; i++) {
 					if (data.lesson[i].recommed == 1)
 						$("#lessons").append(
-							"<li><a href ='javascript:kcxq(" + data.lesson[i].id + ")' class='item'><img src='" + data.lesson[i].coverurl +
+							"<li><a href =javascript:kcxq(" + data.lesson[i].id + ",'qb-kc.html') class='item'><img src='" + data.lesson[i].coverurl +
 							"'><div class='mvp'>MVP</div><div class='name'>" + data.lesson[i].engname + "</div></a></li>");
 					else
 						$("#lessons").append(
-							"<li><a href ='javascript:kcxq(" + data.lesson[i].id + ")' class='item'><img src='" + data.lesson[i].coverurl +
+							"<li><a href =javascript:kcxq(" + data.lesson[i].id + ",'qb-kc.html') class='item'><img src='" + data.lesson[i].coverurl +
 							"'><div class='name'>" + data.lesson[i].engname + "</div></a></li>");
 
 				}
@@ -217,6 +217,13 @@ function clickedlesson(less_index) {
 	});
 }
 
+function kcxq(lid,source) {
+	localStorage.setItem("value", lid);
+	localStorage.setItem("referer",source);
+	jump('kcxq', 'kcxq.html');
+}
+
+
 function clickedlesson1(less_index) {
 	if (lesson_data == null) return;
 	var i = less_index;
@@ -288,8 +295,8 @@ function listcurrlesson(token) {
 								promptword = "开始挑战";
 								link = 'zhoumo-xq.html'
 							} else {
-								promptword = "回看课程";
-								link = 'zhibo-kt.html'
+								promptword = "课程详情";
+								link = "javascript:kcxq("+data.lesson[i].id+",'index.html')";
 							}
 						};
 					}
@@ -433,9 +440,8 @@ function addcointoserv(coin, cha, memo) {
 		type: 'post',
 		timeout: 10000,
 		success: function(data) {
-			console.log("add coin "+data);
-			if (data.rst == 0) {} else if (data.rst == 1) {
-			}
+			console.log("add coin " + data);
+			if (data.rst == 0) {} else if (data.rst == 1) {}
 		},
 		error: function(xhr, type, errorThrown) {
 			mui.alert('网络错误,请稍后再试');
@@ -526,7 +532,7 @@ function starttimetrans(date, istoday) {
 		if (timesele == 1) ts = "19:30";
 		else ts = "20:00";
 		return '今天' + ts + '开课';
-	} else return date + '已开课';
+	} else return date + '开课';
 }
 
 function timetrans(date) {
