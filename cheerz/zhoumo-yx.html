@@ -154,7 +154,7 @@
 
 			function countdown() {
 				second -= 0.1;
-				if (stage == 1) totalseconds = 180;
+				if (stage == 1) totalseconds = 120;
 				var length = Math.round((second * 100) / totalseconds);
 				$("#progress1").attr("style", "width:" + length + "%");
 
@@ -168,7 +168,7 @@
 			}
 
 			//var countDown = setInterval(countDown, 100)
-			second = 180;
+			second = 120;
 			count15 = setInterval(countdown, 100);
 		</script>
 
