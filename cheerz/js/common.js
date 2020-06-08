@@ -125,11 +125,13 @@ function listalllesson() {
 				for (i = 0; i < count; i++) {
 					if (data.lesson[i].isweekend == 1)
 						$("#lessons").append(
-							"<li><a href =javascript:zmxq(" + data.lesson[i].id + ",'qb-kc.html') class='item'><img src='" + data.lesson[i].coverurl +
+							"<li><a href =javascript:zmxq(" + data.lesson[i].id + ",'qb-kc.html') class='item'><img src='" + data.lesson[
+								i].coverurl +
 							"'><div class='name'>" + data.lesson[i].engname + "</div></a></li>");
 					else
 						$("#lessons").append(
-							"<li><a href =javascript:kcxq(" + data.lesson[i].id + ",'qb-kc.html') class='item'><img src='" + data.lesson[i].coverurl +
+							"<li><a href =javascript:kcxq(" + data.lesson[i].id + ",'qb-kc.html') class='item'><img src='" + data.lesson[
+								i].coverurl +
 							"'><div class='name'>" + data.lesson[i].engname + "</div></a></li>");
 
 				}
@@ -160,7 +162,7 @@ function lessondetail(lid) {
 				return;
 			}
 			if (data.rst == 1) {
-				pbooklink=data.lesson.pbook;
+				pbooklink = data.lesson.pbook;
 				$("#title").append("<h4>" + data.lesson.engname + "<br>" + data.lesson.cname + "</h4>");
 				if (data.lesson.recommed == 1) $("#title").append("<span><img src='images/kc-mvp.png'></span>");
 				$("#coin").text(data.lesson.coin);
@@ -218,15 +220,16 @@ function clickedlesson(less_index) {
 	});
 }
 
-function kcxq(lid,source) {
+function kcxq(lid, source) {
 	localStorage.setItem("value", lid);
-	localStorage.setItem("referer",source);
+	localStorage.setItem("referer", source);
 	jump('kcxq', 'kcxq.html');
 }
 
-function zmxq(lid,source) {
+function zmxq(lid, source) {
 	localStorage.setItem("value", lid);
-	localStorage.setItem("referer",source);
+	localStorage.setItem("less_id", lid);
+	localStorage.setItem("referer", source);
 	jump('kcxq', 'zhoumo-xq.html');
 }
 
@@ -296,14 +299,14 @@ function listcurrlesson(token) {
 							link = 'zhibo-kt.html'
 						} else if (istoday && isweekend) {
 							promptword = "开始挑战";
-							link = 'zhoumo-xq.html'
+							link = "javascript:zmxq(" + data.lesson[i].id + ",'index.html')";
 						} else {
 							if (isweekend) {
-								promptword = "开始挑战";
-								link = 'zhoumo-xq.html'
+								promptword = "周末挑战详情";
+								link = "javascript:zmxq(" + data.lesson[i].id + ",'index.html')";
 							} else {
 								promptword = "课程详情";
-								link = "javascript:kcxq("+data.lesson[i].id+",'index.html')";
+								link = "javascript:kcxq(" + data.lesson[i].id + ",'index.html')";
 							}
 						};
 					}
@@ -355,6 +358,17 @@ function loadweekendlist() {
 				return;
 			}
 			if (data.rst == 1) {
+				datetime = Date.now();
+				timestamp = Math.floor(datetime / 1000);
+				if (timetranssimple(timestamp) == data.data.starttime) istoday = true;
+				else istoday = false;
+				if (istoday) {
+					$("#operation1").show();
+					$("#operation2").show();
+				} else {
+					$("#operation1").hide();
+					$("#operation2").hide();
+				}
 				var timesele = localStorage.getItem('timesele');
 				if (timesele == "1") ts = "19:30";
 				else ts = "20:00";

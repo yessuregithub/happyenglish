@@ -11,7 +11,7 @@
 		<div id="orientLayer">
 			<div class="wt-box">
 				<div class="wt-bg"><img src="images/index-bg.png"></div>
-				<a href="javascript:history.go(-1)" class="wt-return"></a>
+				<a href="javascript:backpage()" class="wt-return"></a>
 				<div class="zhoumo-box">
 
 					<div class="item mui-pull-left">
@@ -30,7 +30,7 @@
 								<h5>BEST SCORE</h5>
 							</div>
 						</div>
-						<div class="zhoum-btn">
+						<div id="operation1" class="zhoum-btn">
 							<!-- debug -->
 							<a href="javascript:starttz(1)" class="ks">开始挑战</a>
 							<a href="" class="wks" style="display:none;">未开始</a>
@@ -53,7 +53,7 @@
 								<h5>BEST SCORE</h5>
 							</div>
 						</div>
-						<div class="zhoum-btn">
+						<div id="operation2" class="zhoum-btn">
 							<!-- debug -->
 							<a href="javascript:starttz(2)" class="ks">开始挑战</a>
 							<a href="" class="wks" style="display:none;">未开始</a>
@@ -74,6 +74,11 @@
 
 		<script>
 			var token;
+
+			function backpage() {
+				url = localStorage.getItem("referer");
+				jump('back', url);
+			}
 
 			function loadpage() {
 				token = checklogin();
