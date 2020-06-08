@@ -15,41 +15,12 @@ function startgame() {
 	glid = localStorage.getItem("glid");
 	gurl = localStorage.getItem("gurl");
 
-	console.log("眼力大考验 json string :", gamepara);
+	// console.log("眼力大考验 json string :", gamepara);
 
-	// debug 测试5个实际应该有20个 ，根据数量生成
-	// gamepara ='[{"wno":1,"wpic1":"images/w1.png","wpic2":"images/p1.jpg","sound":"s1.mp3"},{"wno":2,"wpic1":"images/w2.png","wpic2":"images/p2.jpg","sound":"s2.mp3"},{"wno":3,"wpic1":"images/w3.png","wpic2":"images/p3.jpg","sound":"s3.mp3"},{"wno":4,"wpic1":"images/w4.png","wpic2":"images/p4.jpg","sound":"s4.mp3"},{"wno":5,"wpic1":"images/w5.png","wpic2":"images/p5.jpg","sound":"s5.mp3"},{"wno":6,"wpic1":"images/w6.png","wpic2":"images/p6.jpg","sound":"s5.mp3"},{"wno":7,"wpic1":"images/w7.png","wpic2":"images/p7.jpg","sound":"s5.mp3"},{"wno":8,"wpic1":"images/w8.png","wpic2":"images/p8.jpg","sound":"s5.mp3"},{"wno":9,"wpic1":"images/w9.png","wpic2":"images/p9.jpg","sound":"s5.mp3"},{"wno":10,"wpic1":"images/w10.png","wpic2":"images/p10.jpg","sound":"s5.mp3"},{"wno":11,"wpic1":"images/w11.png","wpic2":"images/p11.jpg","sound":"s5.mp3"},{"wno":12,"wpic1":"images/w12.png","wpic2":"images/p12.jpg","sound":"s5.mp3"},{"wno":13,"wpic1":"images/w13.png","wpic2":"images/p13.jpg","sound":"s5.mp3"},{"wno":14,"wpic1":"images/w14.png","wpic2":"images/p14.jpg","sound":"s5.mp3"},{"wno":15,"wpic1":"images/w15.png","wpic2":"images/p15.jpg","sound":"s5.mp3"},{"wno":16,"wpic1":"images/w16.png","wpic2":"images/p16.jpg","sound":"s5.mp3"},{"wno":17,"wpic1":"images/w17.png","wpic2":"images/p17.jpg","sound":"s5.mp3"},{"wno":18,"wpic1":"images/w18.png","wpic2":"images/p18.jpg","sound":"s5.mp3"},{"wno":19,"wpic1":"images/w19.png","wpic2":"images/p19.jpg","sound":"s5.mp3"},{"wno":20,"wpic1":"images/w20.png","wpic2":"images/p20.jpg","sound":"s5.mp3"}]';
-
-	json = JSON.parse(gamepara);
-	var wordnos = json.ids.split(",");
-	wordcount = wordnos.length;
-	worddatas = new Array();
-
-	var prefix, ext;
-	for (var i = 0; i < wordcount; i++) {
-		var word_data = new Object();
-
-		var wno = wordnos[i];
-
-		prefix = json.wpic1_prefix.split(".")[0];
-		ext = json.wpic1_prefix.split(".")[1];
-		var wpic1 = prefix + wno + "." + ext;
-
-		prefix = json.wpic2_prefix.split(".")[0];
-		ext = json.wpic2_prefix.split(".")[1];
-		var wpic2 = prefix + wno + "." + ext;
-
-		prefix = json.sound_prefix.split(".")[0];
-		ext = json.sound_prefix.split(".")[1];
-		var sound = prefix + wno + "." + ext;
-
-		word_data.wno = wno;
-		word_data.wpic1 = wpic1;
-		word_data.wpic2 = wpic2;
-		word_data.sound = sound;
-		worddatas.push(word_data);
-
-		console.log("game word:", wno + " " + wpic1 + " " + wpic2 + " " + sound);
+	var json = JSON.parse(gamepara);
+	if (json) {
+		worddatas = json;
+		wordcount = worddatas.length;
 	}
 
 	level = 1;

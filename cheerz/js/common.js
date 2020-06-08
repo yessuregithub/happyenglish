@@ -282,13 +282,19 @@ function listcurrlesson(token) {
 							link = 'zhibo-kt.html'
 						} else if (istoday && isweekend) {
 							promptword = "开始挑战";
-							// link = data.lesson[i].weekendurl + ".html";
 							link = 'zhoumo-xq.html'
 						} else {
-							promptword = "回看课程";
-							link = 'zhibo-kt.html'
+							if(isweekend) {
+								promptword = "开始挑战";
+								link = 'zhoumo-xq.html'
+							}
+							else {
+								promptword = "回看课程";
+								link = 'zhibo-kt.html'
+							}
 						};
 					}
+					console.log("go link:" + link + " weekend:" + isweekend + " today:" + istoday +" lesstime:"+data.lesson[i].starttime);
 					//link = 'zhoumo-xq.html' // todo debug
 					index_go_link[i] = link;
 
