@@ -160,6 +160,7 @@ function lessondetail(lid) {
 				return;
 			}
 			if (data.rst == 1) {
+				pbooklink=data.lesson.pbook;
 				$("#title").append("<h4>" + data.lesson.engname + "<br>" + data.lesson.cname + "</h4>");
 				if (data.lesson.recommed == 1) $("#title").append("<span><img src='images/kc-mvp.png'></span>");
 				$("#coin").text(data.lesson.coin);

@@ -33,7 +33,7 @@
 									<a href="" class="lsbtn">回看课程</a>
 									<a href="" class="hsbtn" style="display:none;">未开课</a>
 									<a href="" class="hsbtn" style="display:none;">回看课程</a>
-									<a href="" class="lsbtn">阅读绘本</a>
+									<a href="javascript:playpbook()" class="lsbtn">阅读绘本</a>
 								</div>
 							</div>
 						</div>
@@ -46,6 +46,7 @@
 				</div>
 				<a href="kc-end.html" class="xu-btn"></a>
 			</div>
+			<div id="video"></div>
 		</div>
 
 
@@ -55,6 +56,9 @@
 		<script src="js/rem.js"></script>
 		<script src="js/common.js"></script>
 		<script>
+			var pbooklink;
+			var video;
+
 			function backpage() {
 				url = localStorage.getItem('referer');
 				jump('back', url);
@@ -70,6 +74,17 @@
 
 			});
 
+			function playpbook() {
+				if (pbooklink == "") return;
+				video = new plus.video.VideoPlayer('video', {
+					src: pbooklink
+				});
+				video.addEventListener('ended', function(e) {
+					video.close();
+				}, false);
+				video.play();
+				video.requestFullScreen();
+			}
 
 			function loadpage() {
 				var lid = localStorage.getItem("value");
