@@ -123,10 +123,10 @@ function listalllesson() {
 			if (data.rst == 1) {
 				count = data.count;
 				for (i = 0; i < count; i++) {
-					if (data.lesson[i].recommed == 1)
+					if (data.lesson[i].isweekend == 1)
 						$("#lessons").append(
-							"<li><a href =javascript:kcxq(" + data.lesson[i].id + ",'qb-kc.html') class='item'><img src='" + data.lesson[i].coverurl +
-							"'><div class='mvp'>MVP</div><div class='name'>" + data.lesson[i].engname + "</div></a></li>");
+							"<li><a href =javascript:zmxq(" + data.lesson[i].id + ",'qb-kc.html') class='item'><img src='" + data.lesson[i].coverurl +
+							"'><div class='name'>" + data.lesson[i].engname + "</div></a></li>");
 					else
 						$("#lessons").append(
 							"<li><a href =javascript:kcxq(" + data.lesson[i].id + ",'qb-kc.html') class='item'><img src='" + data.lesson[i].coverurl +
@@ -222,6 +222,12 @@ function kcxq(lid,source) {
 	localStorage.setItem("value", lid);
 	localStorage.setItem("referer",source);
 	jump('kcxq', 'kcxq.html');
+}
+
+function zmxq(lid,source) {
+	localStorage.setItem("value", lid);
+	localStorage.setItem("referer",source);
+	jump('kcxq', 'zhoumo-xq.html');
 }
 
 
