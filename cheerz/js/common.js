@@ -381,6 +381,11 @@ function loadweekendlist() {
 				weekenddata = data;
 				loadbestscore(weekenddata.data.id, weekenddata.data.weekendurl1, "#bestscore1");
 				loadbestscore(weekenddata.data.id, weekenddata.data.weekendurl2, "#bestscore2");
+				if (data.data.first == 0) {
+					$("#coin1").text("0");
+					$("#coin2").text("0");
+
+				}
 			}
 		},
 		error: function(xhr, type, errorThrown) {
