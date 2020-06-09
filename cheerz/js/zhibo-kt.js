@@ -300,7 +300,7 @@ function enterlesson() {
 				setTimeout(reenter, 2000);
 				return;
 			}
-
+//
 		},
 		error: function(xhr, type, errorThrown) {
 			// 请求失败  
