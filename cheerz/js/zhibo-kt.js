@@ -115,7 +115,7 @@ function initclassroom(data) {
 	});
 	activeview.hide();
 
-	plus.device.setVolume(0.5);
+	// plus.device.setVolume(0.5);
 	lessondata = data.lessondata;
 	datacount = data.datacount;
 	userid = data.userid; //自己的uid
