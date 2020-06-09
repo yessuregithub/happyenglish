@@ -187,7 +187,10 @@ function checklessondata(lastplaytime, currtime) {
 			localStorage.setItem("ts", lessondata[i].ts);
 			localStorage.setItem("gpara", unescape(lessondata[i].para));
 			activeview.loadURL(lessondata[i].url + ".html");
-			for (j = 1; j <= 4; j++) { localStorage.setItem("playername" + j, playername[j]); localStorage.setItem("playerid" + j , playerid[j]);}
+			for (j = 1; j <= 4; j++) {
+				localStorage.setItem("playername" + j, playername[j]);
+				localStorage.setItem("playerid" + j, playerid[j]);
+			}
 			activeview.show();
 		}
 	}
@@ -287,12 +290,14 @@ function enterlesson() {
 			}
 			if (data.rst == 1) {
 				initclassroom(data);
-				
+
 				//debuggoless(); // todo delete
 				return;
 			}
 			if (data.rst == 2) { //服务器认为已经在课堂，强制退出
-				quitlesson(true);
+				console.log("server report duplication session");
+				quitlesson(false);
+				setTimeout(reenter, 2000);
 				return;
 			}
 
@@ -303,6 +308,10 @@ function enterlesson() {
 		}
 	});
 
+}
+
+function reenter() {
+	enterlesson();
 }
 
 function playerleave(uid) {
@@ -354,7 +363,7 @@ function startlesson(offset, url) {
 	if (player[0] != null) return;
 	console.log("start lesson:" + url);
 	tag = "#vtarea";
-	$(tag).html("<div id=\"vt\" style=\"width:100%;height:100%;background-color:#000000\">"); //准备视频区域
+	$(tag).html("<div id=\"vt\" style=\"width:100%;height:100%;background-color:#000000\"></div>"); //准备视频区域
 	player[0] = createvideo("vt", "vt", url);
 	player[0].addEventListener('timeupdate', timeupdate, false);
 	player[0].addEventListener('ended', ended, false);
