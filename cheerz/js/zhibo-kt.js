@@ -61,11 +61,11 @@ function quitlesson(backtofirstpage) {
 	// }
 
 	//??? document.removeEventListener("addcoin");
-	plus.device.setVolume(0.5);
+	// plus.device.setVolume(0.5);
 	if (activeview) activeview.close();
 	if (pusher) pusher.stop();
 	if (pusher) pusher.close();
-	plus.device.setVolume(0.5);
+	// plus.device.setVolume(0.5);
 	for (i = 0; i <= 4; i++)
 		if (player[i] != null) {
 			player[i].stop();
@@ -115,7 +115,7 @@ function initclassroom(data) {
 	});
 	activeview.hide();
 
-	plus.device.setVolume(0.5);
+	// plus.device.setVolume(0.5);
 	lessondata = data.lessondata;
 	datacount = data.datacount;
 	userid = data.userid; //自己的uid
@@ -164,7 +164,7 @@ function initclassroom(data) {
 	}
 	pusher.start(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
 	//在新的视频加入后，必须stop，然后再start pusher
-	plus.device.setVolume(0.5);
+	// plus.device.setVolume(0.5);
 }
 
 function debuggoless() {
@@ -356,7 +356,7 @@ function addplayer(uid, name, coin, url) {
 	player[order].play();
 	pusher.stop();
 	pusher.start();
-	plus.device.setVolume(0.5);
+	// plus.device.setVolume(0.5);
 }
 
 function startlesson(offset, url) {
