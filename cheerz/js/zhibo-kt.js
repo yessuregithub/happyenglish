@@ -182,7 +182,7 @@ function checklessondata(lastplaytime, currtime) {
 			// todo test
 			//qingwa-youxi 提示语1|图片1|答案(1/0)... 一共5组
 			console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + "pop up " + lessondata[i].url);
-			console.log("less para :" + lessondata[i].para);
+			console.log("less para :" + unescape(lessondata[i].para));
 			console.log("less url :" + lessondata[i].url);
 
 			localStorage.setItem("gid", lessondata[i].id);
