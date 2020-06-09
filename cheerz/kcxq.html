@@ -30,7 +30,7 @@
 									</div>
 								</div>
 								<div class="kcbtn-box fix">
-									<a href="" class="lsbtn">回看课程</a>
+									<a href="javascript:reviewkt()" class="lsbtn">回看课程</a>
 									<a href="" class="hsbtn" style="display:none;">未开课</a>
 									<a href="" class="hsbtn" style="display:none;">回看课程</a>
 									<a href="javascript:playpbook()" class="lsbtn">阅读绘本</a>
@@ -71,7 +71,6 @@
 			});
 			mui.plusReady(function() {
 				plus.screen.lockOrientation("landscape");
-
 			});
 
 			function playpbook() {
@@ -86,7 +85,13 @@
 				video.requestFullScreen();
 			}
 
+			// 回看课程
+			function reviewkt() {
+				jump("回看课程", "zhibo-kt.html");
+			}
+
 			function loadpage() {
+				console.log("kcxq loadpage");
 				var lid = localStorage.getItem("value");
 				if (lid == null || lid == "" || typeof(lid) == undefined) {
 					jump('index', 'index.html');
