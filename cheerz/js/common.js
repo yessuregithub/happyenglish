@@ -466,7 +466,7 @@ function addcointoserv(coin, cha, memo) {
 		type: 'post',
 		timeout: 10000,
 		success: function(data) {
-			console.log("add coin " + data);
+			console.log("add coin rst " + data.rst);
 			if (data.rst == 0) {} else if (data.rst == 1) {}
 		},
 		error: function(xhr, type, errorThrown) {

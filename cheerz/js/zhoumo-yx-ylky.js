@@ -14,6 +14,7 @@ function startgame() {
 	var gamepara = localStorage.getItem("gpara");
 	glid = localStorage.getItem("glid");
 	gurl = localStorage.getItem("gurl");
+	addcoin(glid, gurl);
 
 	// console.log("眼力大考验 json string :", gamepara);
 
@@ -262,4 +263,14 @@ function endgame() {
 	console.log("关闭游戏");
 	// jump 返回时无法重新加载
 	// jump("record", "zhoumo-yx-end.html");
+}
+
+function addcoin(lid, url) {
+	// 加金币
+	var starttime = localStorage.getItem("gstart");
+	if(!starttime) return;
+	var cha = url + "_lid" + lid + "_" + starttime;
+	var coin = 20;
+	var memo = "_add" + coin;
+	addcointoserv(coin, cha, memo);
 }

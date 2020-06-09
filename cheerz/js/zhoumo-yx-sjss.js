@@ -14,6 +14,7 @@ function startgame() {
 	var gamepara = localStorage.getItem("gpara");
 	glid = localStorage.getItem("glid");
 	gurl = localStorage.getItem("gurl");
+	addcoin(glid, gurl);
 
 	// console.log("神箭手彼德 json string :", gamepara);
 	
@@ -254,4 +255,14 @@ function leftsec(sec) {
 	leftm = leftm < 10 ? "0" + leftm : leftm;
 	lefts = lefts < 10 ? "0" + lefts : lefts;
 	return leftm + ":" + lefts; //返回倒计时的字符串
+}
+
+function addcoin(lid, url) {
+	// 加金币
+	var starttime = localStorage.getItem("gstart");
+	if(!starttime) return;
+	var cha = url + "_lid" + lid + "_" + starttime;
+	var coin = 20;
+	var memo = "_add" + coin;
+	addcointoserv(coin, cha, memo);
 }

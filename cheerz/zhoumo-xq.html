@@ -134,13 +134,8 @@
 					bscore = parseInt($('#bestscore2').text());
 				}
 
-				// 加金币
-				var cha = gurl + "_lid" + lid + "_" + starttime;
-				var coin = 20;
-				var memo = "_add" + coin;
-				addcointoserv(coin, cha, memo);
-
 				// 跳转
+				localStorage.setItem("gstart", starttime);
 				localStorage.setItem("gpara", unescape(gpara));
 				localStorage.setItem("glid", lid);
 				localStorage.setItem("gurl", gurl);
