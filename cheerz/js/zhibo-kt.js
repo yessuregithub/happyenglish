@@ -179,8 +179,6 @@ var lastplaytime = 0;
 function checklessondata(lastplaytime, currtime) {
 	for (i = 0; i < datacount; i++) {
 		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
-			// todo test
-			//qingwa-youxi 提示语1|图片1|答案(1/0)... 一共5组
 			console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + "pop up " + lessondata[i].url);
 			console.log("less para :" + unescape(lessondata[i].para));
 			console.log("less url :" + lessondata[i].url);

@@ -3,6 +3,7 @@
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
 	console.log("loaded " + gamepara);
+	
 	if (gamepara != null) {
 		json = JSON.parse(gamepara);
 		console.log("parse json");
@@ -15,6 +16,7 @@ function startgame() {
 			plus.webview.currentWebview().hide();
 		}, (duration * 1000));
 	}
+	
 }
 
 function endgame() {

@@ -629,7 +629,6 @@ function getCurrWeek() {
 function unescape(str) {
 	var rst;
 
-	rst = str.replace('"', '').replace(/[\\]/g, '');
-	rst = rst.replace(/&quot;/g, "\"");
+	rst = str.replace(/&quot;/g, "\"");
 	return rst;
 }
