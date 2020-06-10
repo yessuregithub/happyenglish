@@ -376,9 +376,34 @@ function startlesson(offset, url) {
 	player[0].play();
 	testoffset = 0; //debug 
 	player[0].seek(testoffset);
-	pusher.stop();
+	pusher.pause();
 	pusher.start();
+	console.log("n#1");
+	//原型 [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
+	//调用说明 https://ask.dcloud.net.cn/article/88
+	//官方文档 https://www.html5plus.org/doc/zh_cn/ios.html
+
+	//	var AVAudioSession = plus.ios.importClass("AVAudioSession");
+	//	AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayback", null);
+
+	var AVAudioSession = plus.ios.importClass("AVAudioSession");
+	console.log("n#2");
+
+
+	//(sharedInstance,"overrideOutputAudioPort:error:","spkr",null);  //方法1
+	//console.log("n#2.1");
+	//IOS 11? sharedInstance.setCategory("AVAudioSessionCategoryPlayAndRecord","AVAudioSessionModeDefault");
+	console.log("n#2.2");
+	//AVAudioSession.sharedInstance().setActive("YES", null);
+	//AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord", null);
+	console.log("n#2.3");
+	//AVAudioSession.sharedInstance().overrideOutputAudioPort("AVAudioSessionPortOverrideSpeaker", null); //方法2 调用出错
+	console.log("n#3");
+	plus.ios.deleteObject(AVAudioSession);
+	console.log("n#4");
 }
+
+//https://github.com/zhenyan-chang/RTMP-LivePlay  第三方推流
 
 function docommand(cmds) {
 	cmd = cmds[0];
