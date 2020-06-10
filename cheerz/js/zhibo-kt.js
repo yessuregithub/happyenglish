@@ -402,8 +402,12 @@ function startlesson(offset, url) {
 	plus.ios.deleteObject(AVAudioSession);
 	console.log("n#4");
 }
-
-//https://github.com/zhenyan-chang/RTMP-LivePlay  第三方推流
+//第三方推流
+//https://github.com/zhenyan-chang/RTMP-LivePlay   支持横竖屏切换! 
+//https://github.com/runner365/GPUImageRtmpPush   这个更有名
+//https://github.com/sandyCK/OpenLiveiOSPusher     这个似乎比较简单,全用第三库
+// 又拍云 七牛 阿里 腾讯等 也可以考虑接入,如果老板不在乎这点钱
+// 
 
 function docommand(cmds) {
 	cmd = cmds[0];
