@@ -7,14 +7,16 @@ var count15;
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
 	//gamepara = "https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg|Have you something hard?|1"; //debug
-	if (gamepara != null) {
-		json=JSON.parse(gamepara);
 
+	if (gamepara != null) {
+		console.log("123");
+		json = JSON.parse(gamepara);
+		console.log("1232");
 		var cover = json.cover;
-		var sentence = json.sentence;
+		var sentence = unescape_quot(json.sentence);
 		anw_rw = json.answer;
 		var duration = json.duration; // todo
-
+		console.log("123123");
 		// 背景
 		$("#hd-yn-tuka").attr("src", cover);
 
@@ -58,7 +60,7 @@ function startgame() {
 			loop: 1,
 		});
 		mv_nt.load();
-		
+
 		// 设置游戏持续时间
 		setTimeout(function() {
 			clearInterval(count15);

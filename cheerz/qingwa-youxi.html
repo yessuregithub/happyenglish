@@ -222,20 +222,17 @@
 				document.getElementById('hd-huidi').style.display = "none";
 
 				$("#progress1").attr("style", "width: 100%");
-				//stage = 1;
-				//second = 15;
-				//count15 = setInterval(countdown, 100);
 			}
 
 			var second;
-			var stage = 1;
+			var stage = 1; // 1讲解规则 2显示题目 3作答阶段 4青蛙跳
 
 			function countdown() {
 				second -= 0.1;
+
 				var length = Math.round((second * 100) / totalseconds);
 				$("#progress1").attr("style", "width:" + length + "%");
 				if (second < 0.1 && stage == 1) { //等待开始界面
-					//closeAds();
 					clearInterval(count15);
 					// 开启选项
 					$("#progress1").attr("style", "width: 100%");
@@ -243,25 +240,33 @@
 					if (queIndex == 0) {
 						enableclick();
 					}
-					second = 3; //题目显示时间
-					totalseconds = 3;
+					second = 15; //题目显示时间
+					totalseconds = 15;
+					stage = 2;
 					setupGame(0);
 					openAds();
 					count15 = setInterval(countdown, 100);
-					stage = 2;
-				} else if (second < 0.1 && stage == 2) //答题界面
+				} else if (second < 0.1 && stage == 2) //答题界面 
 				{
 					choosed = false;
 					clearInterval(count15);
 					closeAds();
 					$("#hd-danci").show();
 					stage = 3;
-					second = 3; //答题时间
-					totalseconds = 3;
+					second = 15; //答题时间 答案显示2秒 检测跳跃10秒
+					totalseconds = 15;
 					count15 = setInterval(countdown, 100);
-				} else if (second < 0.1 && stage == 3) { //超时题目对错检测
+				} else if (stage == 3) { //超时题目对错检测
+					if (second < 0.1) {
+						// 换新题目
+						tuziRunEnd();
+					} else if (second < 8) {
+						if (!choosed) {
+							choosed = true;
+							pro_result(0, true);
+						}
+					}
 
-					pro_result(0, true);
 				}
 			}
 

@@ -251,8 +251,8 @@
 					if (queIndex == 0) {
 						enableclick();
 					}
-					second = 3; //题目显示时间
-					totalseconds = 3;
+					second = 15; //题目显示时间
+					totalseconds = 15;
 					setupGame(0);
 					openAds();
 					count15 = setInterval(countdown, 100);
@@ -264,8 +264,8 @@
 					closeAds();
 					$("#hd-danci").show();
 					stage = 3;
-					second = 3; //答题时间
-					totalseconds = 3;
+					second = 5; //答题时间
+					totalseconds = 5;
 					count15 = setInterval(countdown, 100);
 				} else if (second < 0.1 && stage == 3) { //超时题目对错检测
 
