@@ -180,12 +180,15 @@ function checklessondata(lastplaytime, currtime) {
 	for (i = 0; i < datacount; i++) {
 		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
 			console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + "pop up " + lessondata[i].url);
-			console.log("less para :" + unescape(lessondata[i].para));
+			console.log("server get gamepara :" + lessondata[i].para);
 			console.log("less url :" + lessondata[i].url);
 
 			localStorage.setItem("gid", lessondata[i].id);
 			localStorage.setItem("ts", lessondata[i].ts);
 			localStorage.setItem("gpara", unescape(lessondata[i].para));
+
+			console.log("game get gamepara :" + unescape(lessondata[i].para));
+
 			activeview.loadURL(lessondata[i].url + ".html");
 			for (j = 1; j <= 4; j++) {
 				localStorage.setItem("playername" + j, playername[j]);
@@ -300,7 +303,7 @@ function enterlesson() {
 				setTimeout(reenter, 2000);
 				return;
 			}
-//
+			//
 		},
 		error: function(xhr, type, errorThrown) {
 			// 请求失败  

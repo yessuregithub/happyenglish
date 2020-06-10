@@ -108,7 +108,7 @@ function setupGame(index) {
 
 	var pic1 = gameData.pic1;
 	var pic2 = gameData.pic2;
-	var sentence = gameData.que;
+	var sentence = unescape_quot(gameData.que);
 	anw_yn = gameData.anw;
 	//console.log('问题:' + index + ' ' + cover + ' ' + sentence + ' ' + anw_yn);
 

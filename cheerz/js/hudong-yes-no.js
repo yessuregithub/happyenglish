@@ -7,11 +7,12 @@ var count15;
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
 	//gamepara = "https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg|Have you something hard?|1"; //debug
+
 	if (gamepara != null) {
-		json=JSON.parse(gamepara);
+		json = JSON.parse(gamepara);
 
 		var cover = json.cover;
-		var sentence = json.sentence;
+		var sentence = unescape_quot(json.sentence);
 		anw_rw = json.answer;
 		var duration = json.duration; // todo
 
@@ -58,7 +59,7 @@ function startgame() {
 			loop: 1,
 		});
 		mv_nt.load();
-		
+
 		// 设置游戏持续时间
 		setTimeout(function() {
 			clearInterval(count15);

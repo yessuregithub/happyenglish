@@ -626,9 +626,16 @@ function getCurrWeek() {
 	return s2;
 }
 
+// json 解析后再转义，否则句子中夹带引号，我发解析
 function unescape(str) {
 	var rst;
+	rst = str.replace(/&quot;/g, "\""); //&quot;
+	rst = rst.replace(/\\/g, "");
+	return rst;
+}
 
-	rst = str.replace(/&quot;/g, "\"");
+function unescape_quot(str) {
+	var rst;
+	rst = str.replace(/#/g, "\""); //&quot;
 	return rst;
 }
