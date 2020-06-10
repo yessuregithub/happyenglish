@@ -40,9 +40,10 @@ function scene_init() {
 		}
 	}
 	currtime = Date.parse(new Date()) / 1000; //计算进入游戏的时间
-	waittime = lessonstarttime + gamestarttime - currtime;
-	//debug
-	waittime = 5;
+	waittime = 15; //debug 规则讲解
+	console.log("lessonstarttime " + lessonstarttime + "gamestarttime " + gamestarttime + "currtime " + currtime +
+		"waittime " + waittime);
+
 	second = waittime;
 	if (second <= 0) { //进入得太晚，不能再开始游戏
 
@@ -95,11 +96,9 @@ function startgame() {
 			loop: 1,
 		});
 		mv_nt.load();
-
 	}
 
 	$("#ads").attr('style', 'display:none');
-
 }
 
 function setupGame(index) {
@@ -133,10 +132,7 @@ function setupGame(index) {
 }
 
 function pro_result(click_yn, overtime) {
-	clearInterval(count15);
 	console.log("click:" + click_yn + ", anw:" + anw_yn);
-
-	// setTimeout(endgame,2000);
 
 	var correct = false;
 	if (click_yn == anw_yn && overtime == false) {
@@ -163,6 +159,7 @@ function pro_result(click_yn, overtime) {
 		},
 		error: function(xhr, type, errorThrown) {}
 	});
+
 	// 显示对错 等待2秒
 	setTimeout(function() {
 		// 清除选中状态
@@ -172,10 +169,24 @@ function pro_result(click_yn, overtime) {
 		tuziRun();
 	}, 2000);
 }
+
+function tuziRun() {
+	$("#ads").hide();
+	$("#result").hide();
+	$("#hd-danci").hide();
+	$("#hd-huidi").hide();
+	$("#hd-time").hide();
+
+	// 检测所有跑道
+	checkcounter = 0;
+	checker = setInterval(checkotherplayer, 1000);
+}
+
 var checkcounter;
 var checker;
 
 function inquireotherplayer() {
+	console.log("inquireotherplayer");
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_frogresult.html',
 		data: {
@@ -191,6 +202,7 @@ function inquireotherplayer() {
 			// 请求成功
 			if (data.rst == 0) {}
 			if (data.rst == 1) { //兔子在这里跳
+				console.log("tuziRunAction");
 				tuziRunAction(data);
 			}
 		},
@@ -202,33 +214,37 @@ function checkotherplayer() {
 	checkcounter++;
 	if (checkcounter == 10) {
 		clearInterval(checker);
-		tuziRunEnd();
 	} else {
 		inquireotherplayer();
 	}
 }
 
-function tuziRun() {
-	$("#ads").hide();
-	$("#result").hide();
-	$("#hd-danci").hide();
-	$("#hd-huidi").hide();
-	$("#hd-time").hide();
-	// 奔跑结束
-	checkcounter = 0;
-	checker = setInterval(checkotherplayer, 1000);
-	//tuziRunEnd();
+function tuziRunEnd() {
+	checkcounter = 10;
+	clearInterval(checker);
+
+	$("#hd-time").show();
+	queIndex++;
+	if (queIndex >= queCount) {
+		if (rightCount > 0) {
+			endgame(true);
+		} else {
+			endgame(false);
+		}
+	} else {
+		// 下一题
+		setupGame(queIndex);
+		openAds(); // 开启新题
+		stage = 2;
+		second = 15;
+		totalseconds = 15;
+		clearInterval(count15);
+		count15 = setInterval(countdown, 100);
+	}
 }
 
-function getlanebyid(uid) {
-	result = 0;
-	for (i = 1; i <= 4; i++)
-		if (playerid[i] == uid && uid != 0) {
-			result = i;
-			break;
-		}
-	return result;
-}
+
+
 // 兔子跑动画
 function tuziRunAction(data) {
 	for (i = 1; i <= 4; i++) {
@@ -300,24 +316,15 @@ function tuziRunToPos(no, pos) {
 
 
 
-function tuziRunEnd() {
-	$("#hd-time").show();
-	queIndex++;
-	if (queIndex >= queCount) {
-		if (rightCount > 0) {
-			endgame(true);
-		} else {
-			endgame(false);
+
+function getlanebyid(uid) {
+	result = 0;
+	for (i = 1; i <= 4; i++)
+		if (playerid[i] == uid && uid != 0) {
+			result = i;
+			break;
 		}
-	} else {
-		// 下一题
-		setupGame(queIndex);
-		openAds(); // 开启新题
-		stage = 2;
-		second = 3;
-		totalseconds = 3;
-		count15 = setInterval(countdown, 100);
-	}
+	return result;
 }
 
 function endgame(correct) {

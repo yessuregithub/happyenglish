@@ -40,9 +40,11 @@ function scene_init() {
 		}
 	}
 	currtime = Date.parse(new Date()) / 1000; //计算进入游戏的时间
-	waittime = lessonstarttime + gamestarttime - currtime;
-	//debug
-	waittime = 5;
+	// waittime = lessonstarttime + gamestarttime - currtime;
+	waittime = 30; //debug
+	console.log("lessonstarttime " + lessonstarttime + "gamestarttime " + gamestarttime + "currtime " + currtime +
+		"waittime " + waittime);
+	
 	second = waittime;
 	if (second <= 0) //进入得太晚，不能再开始游戏
 	{
@@ -95,11 +97,8 @@ function startgame() {
 			loop: 1,
 		});
 		mv_nt.load();
-
 	}
-
 	$("#ads").attr('style', 'display:none');
-
 }
 
 function setupGame(index) {
@@ -225,7 +224,7 @@ function tuziRun() {
 function getlanebyid(uid) {
 	result = 0;
 	for (i = 1; i <= 4; i++)
-		if (playerid[i] == uid && uid!=0) {
+		if (playerid[i] == uid && uid != 0) {
 			result = i;
 			break;
 		}
@@ -321,8 +320,6 @@ function tuziRunToPos(no, pos) {
 	// 	}
 	// }
 }
-
-
 
 function tuziRunEnd() {
 	$("#hd-time").show();

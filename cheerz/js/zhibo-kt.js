@@ -179,15 +179,18 @@ var lastplaytime = 0;
 function checklessondata(lastplaytime, currtime) {
 	for (i = 0; i < datacount; i++) {
 		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
-			console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + "pop up " + lessondata[i].url);
-			console.log("server get gamepara :" + lessondata[i].para);
-			console.log("less url :" + lessondata[i].url);
+			console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + " pop up " + lessondata[i].url);
+
+			var unescape_para = unescape(lessondata[i].para);
+			// unescape_para =
+			// 	'{"tuzi":[{"que":"Which is #mouth#?","anw":2,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p3.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p1.jpg"},{"que":"Which is #ear#?","anw":2,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p1.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg"},{"que":"Which is #eye#?","anw":2,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p2.jpg"},{"que":"Which is #nose#?","anw":1,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p3.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg"},{"que":"Which is #eye#?","anw":1,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p2.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg"}]}';
+			// lessondata[i].url = 'tuzi-youxi';
 
 			localStorage.setItem("gid", lessondata[i].id);
 			localStorage.setItem("ts", lessondata[i].ts);
-			localStorage.setItem("gpara", unescape(lessondata[i].para));
+			localStorage.setItem("gpara", unescape_para);
 
-			console.log("game get gamepara :" + unescape(lessondata[i].para));
+			console.log(lessondata[i].url + ":game get gamepara :" + unescape_para);
 
 			activeview.loadURL(lessondata[i].url + ".html");
 			for (j = 1; j <= 4; j++) {
