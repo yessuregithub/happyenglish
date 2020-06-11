@@ -124,6 +124,9 @@ function initclassroom(data) {
 	pusher = new plus.video.LivePusher('pusherwin', {
 		url: pushurl
 	});
+	
+	// 6.11
+	njsSetAudioSessionForIOS();
 
 	for (i = 0; i < 5; i++) player[i] = null;
 	for (i = 1; i <= 4; i++)
@@ -164,6 +167,7 @@ function initclassroom(data) {
 	}
 	pusher.start(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
 	//在新的视频加入后，必须stop，然后再start pusher
+	
 	// plus.device.setVolume(0.5);
 }
 
@@ -386,21 +390,22 @@ function startlesson(offset, url) {
 	//	var AVAudioSession = plus.ios.importClass("AVAudioSession");
 	//	AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayback", null);
 
-	var AVAudioSession = plus.ios.importClass("AVAudioSession");
-	console.log("n#2");
-
-
-	//(sharedInstance,"overrideOutputAudioPort:error:","spkr",null);  //方法1
-	//console.log("n#2.1");
-	//IOS 11? sharedInstance.setCategory("AVAudioSessionCategoryPlayAndRecord","AVAudioSessionModeDefault");
-	console.log("n#2.2");
-	//AVAudioSession.sharedInstance().setActive("YES", null);
-	//AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord", null);
-	console.log("n#2.3");
-	//AVAudioSession.sharedInstance().overrideOutputAudioPort("AVAudioSessionPortOverrideSpeaker", null); //方法2 调用出错
-	console.log("n#3");
-	plus.ios.deleteObject(AVAudioSession);
-	console.log("n#4");
+	// var AVAudioSession = plus.ios.importClass("AVAudioSession");
+	// console.log("n#2");
+	// //(sharedInstance,"overrideOutputAudioPort:error:","spkr",null);  //方法1
+	// //console.log("n#2.1");
+	// //IOS 11? sharedInstance.setCategory("AVAudioSessionCategoryPlayAndRecord","AVAudioSessionModeDefault");
+	// console.log("n#2.2");
+	// //AVAudioSession.sharedInstance().setActive("YES", null);
+	// AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord", null);
+	// console.log("n#2.3");
+	// //AVAudioSession.sharedInstance().overrideOutputAudioPort("AVAudioSessionPortOverrideSpeaker", null); //方法2 调用出错
+	// console.log("n#3");
+	// plus.ios.deleteObject(AVAudioSession);
+	// console.log("n#4");
+	
+	// 6.11
+	// njsSetAudioSessionForIOS();
 }
 //第三方推流
 //https://github.com/zhenyan-chang/RTMP-LivePlay   支持横竖屏切换! 
@@ -408,6 +413,16 @@ function startlesson(offset, url) {
 //https://github.com/sandyCK/OpenLiveiOSPusher     这个似乎比较简单,全用第三库
 // 又拍云 七牛 阿里 腾讯等 也可以考虑接入,如果老板不在乎这点钱
 // 
+
+function njsSetAudioSessionForIOS() {
+	console.log("njsSetAudioSessionForIOS");
+	// AVAudioSession * session = [AVAudioSession sharedInstance];
+	// [session setCategory: AVAudioSessionCategoryPlayAndRecord withOptions: AVAudioSessionCategoryOptionMixWithOthers error:nil];
+
+	var AVAudioSession = plus.ios.importClass("AVAudioSession");
+	AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord","AVAudioSessionCategoryOptionMixWithOthers", null);
+	plus.ios.deleteObject(AVAudioSession);
+}
 
 function docommand(cmds) {
 	cmd = cmds[0];
