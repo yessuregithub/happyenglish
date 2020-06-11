@@ -40,11 +40,10 @@ function scene_init() {
 		}
 	}
 	currtime = Date.parse(new Date()) / 1000; //计算进入游戏的时间
-	// waittime = lessonstarttime + gamestarttime - currtime;
-	waittime = 30; //debug
+	waittime = 15; //debug 规则讲解
 	console.log("lessonstarttime " + lessonstarttime + "gamestarttime " + gamestarttime + "currtime " + currtime +
 		"waittime " + waittime);
-	
+
 	second = waittime;
 	if (second <= 0) //进入得太晚，不能再开始游戏
 	{
@@ -111,6 +110,8 @@ function setupGame(index) {
 	anw_yn = gameData.anw;
 	//console.log('问题:' + index + ' ' + cover + ' ' + sentence + ' ' + anw_yn);
 
+	choosed = false;
+
 	// 背景
 	//$("#hd-yn-tuka").attr("src", cover);
 	$("#pic1").attr("src", pic1);
@@ -119,25 +120,24 @@ function setupGame(index) {
 	// 句子
 	$("#hd-yn-que").html(sentence);
 
-	// 答案
+	// 答案 1左边 2右边
 	if (anw_yn == 1) {
 		$("#hd-yes").removeClass();
 		$("#hd-no").removeClass();
 		$("#hd-yes").addClass("dui");
 		$("#hd-no").addClass("cuo");
-	} else if (anw_yn == 0) {
+	} else if (anw_yn == 2) {
 		$("#hd-yes").removeClass();
 		$("#hd-no").removeClass();
 		$("#hd-no").addClass("dui");
 		$("#hd-yes").addClass("cuo");
 	}
+
+
 }
 
 function pro_result(click_yn, overtime) {
-	clearInterval(count15);
 	console.log("click:" + click_yn + ", anw:" + anw_yn);
-
-	// setTimeout(endgame,2000);
 
 	var correct = false;
 	if (click_yn == anw_yn && overtime == false) {
@@ -169,10 +169,27 @@ function pro_result(click_yn, overtime) {
 		// 清除选中状态
 		rmselected();
 
+		hideQue();
+
 		// 处理兔子跑
 		tuziRun();
-	}, 2000);
+	}, 1500);
 }
+
+function tuziRun() {
+	// 检测所有跑道
+	checkcounter = 0;
+	checker = setInterval(checkotherplayer, 1000);
+}
+
+function hideQue() {
+	$("#ads").hide();
+	$("#result").hide();
+	$("#hd-danci").hide();
+	$("#hd-huidi").hide();
+	$("#hd-time").hide();
+}
+
 var checkcounter;
 var checker;
 
@@ -201,35 +218,31 @@ function inquireotherplayer() {
 
 function checkotherplayer() {
 	checkcounter++;
-	if (checkcounter == 10) {
+	if (checkcounter == 5) {
 		clearInterval(checker);
-		tuziRunEnd();
 	} else {
 		inquireotherplayer();
 	}
 }
 
-function tuziRun() {
-	$("#ads").hide();
-	$("#result").hide();
-	$("#hd-danci").hide();
-	$("#hd-huidi").hide();
-	$("#hd-time").hide();
-	// 奔跑结束
-	checkcounter = 0;
-	checker = setInterval(checkotherplayer, 1000);
-	//tuziRunEnd();
+function tuziRunEnd() {
+	console.log("new question" + (queIndex + 1));
+
+	// $("#hd-time").show();
+	queIndex++;
+	if (queIndex >= queCount) {
+		if (rightCount > 0) {
+			endgame(true);
+		} else {
+			endgame(false);
+		}
+	} else {
+		// 下一题
+		setupGame(queIndex);
+		openAds(); // 开启新题
+	}
 }
 
-function getlanebyid(uid) {
-	result = 0;
-	for (i = 1; i <= 4; i++)
-		if (playerid[i] == uid && uid != 0) {
-			result = i;
-			break;
-		}
-	return result;
-}
 // 兔子跑动画
 function tuziRunAction(data) {
 	for (i = 1; i <= 4; i++) {
@@ -302,43 +315,16 @@ function tuziRunToPos(no, pos) {
 		}, 600);
 		console.log("tuzi run end");
 	}
-
-	// var tag;
-	// console.log("tuzi run " + no + " to " + pos);
-	// // 删除兔子
-	// $('#frame' + no).find(".tuzi-tu").remove();
-
-	// // 删除草堆
-	// var posItem = $('#frame' + no).find("li");
-	// for (var i = 0; i < posItem.length; i++) {
-
-	// 	if (i == pos) {
-	// 		$(posItem[i]).html('<div class="item"></div><div class="tuzi-tu"><img id="tuzi"' + no +
-	// 			' src="images/tz.png"></div>');
-	// 	}
-	// 	if (i == pos) {
-	// 	}
-	// }
 }
 
-function tuziRunEnd() {
-	$("#hd-time").show();
-	queIndex++;
-	if (queIndex >= queCount) {
-		if (rightCount > 0) {
-			endgame(true);
-		} else {
-			endgame(false);
+function getlanebyid(uid) {
+	result = 0;
+	for (i = 1; i <= 4; i++)
+		if (playerid[i] == uid && uid != 0) {
+			result = i;
+			break;
 		}
-	} else {
-		// 下一题
-		setupGame(queIndex);
-		openAds(); // 开启新题
-		stage = 2;
-		second = 3;
-		totalseconds = 3;
-		count15 = setInterval(countdown, 100);
-	}
+	return result;
 }
 
 function endgame(correct) {

@@ -11,9 +11,9 @@
 		<div id="orientLayer">
 			<div class="wt-box">
 				<div class="wt-bg"><img src="images/yes-no.png"></div>
-				
+
 				<div class="hudong-dui">
-					<div class="time mui-clearfix">
+					<div id="hd-time" class="time mui-clearfix">
 						<div class="name">TIME</div>
 						<div class="schedule">
 							<span id="progress1" style="width:100%;"></span>
@@ -40,17 +40,17 @@
 					</div>
 
 				</div>
-				
+
 				<div id="ads" class="m-timu">
 					<span id="hd-yn-que"></span>
 				</div>
-				
+
 				<div id="result" class="m-timu">
 					<div id="res_gj" class="movie"></div>
 					<div id="res_nt" class="movie"></div>
 				</div>
-				
-				
+
+
 			</div>
 		</div>
 
@@ -99,6 +99,7 @@
 					second = 5;
 					count15 = setInterval(countdown, 100);
 					stage = 2;
+					$("#hd-time").show();
 				} else if (second < 0.1 && stage == 2) {
 					clearInterval(count15);
 					endgame(false);
@@ -106,7 +107,7 @@
 			}
 
 			//var countDown = setInterval(countDown, 100)
-			second = 15; 
+			second = 15;
 			count15 = setInterval(countdown, 100);
 		</script>
 		<script src="js/ui-choose.js"></script>
@@ -120,7 +121,7 @@
 				uc_01.click = function(index, item) {
 					console.log('click', index, item.text())
 					// 0:yes 1:no
-					var rw = index == 0 ? 1 : 0;
+					var rw = index == 0 ? 1 : 2;
 					pro_result(rw);
 				}
 				uc_01.change = function(index, item) {

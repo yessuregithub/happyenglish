@@ -23,18 +23,21 @@ function startgame() {
 		// 句子
 		$("#hd-yn-que").html(sentence);
 
+		$("#hd-time").hide();
+
 		// 答案
 		if (anw_rw == 1) {
 			$("#hd-yes").removeClass();
 			$("#hd-no").removeClass();
 			$("#hd-yes").addClass("dui");
 			$("#hd-no").addClass("cuo");
-		} else if (anw_rw == 0) {
+		} else if (anw_rw == 2) {
 			$("#hd-yes").removeClass();
 			$("#hd-no").removeClass();
 			$("#hd-no").addClass("dui");
 			$("#hd-yes").addClass("cuo");
 		}
+		
 		// 加载欢喜动画
 		$("#result").hide();
 		$("#res_gj").hide();

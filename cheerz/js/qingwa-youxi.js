@@ -110,6 +110,9 @@ function setupGame(index) {
 	anw_yn = gameData.anw;
 	//console.log('问题:' + index + ' ' + cover + ' ' + sentence + ' ' + anw_yn);
 
+
+	choosed = false;
+
 	// 问题背景
 	$("#hd-yn-tuka").attr("src", pic);
 	console.log("loading pic here/preload");
@@ -117,13 +120,13 @@ function setupGame(index) {
 	// 句子
 	$("#hd-yn-que").html(sentence);
 
-	// 答案
+	// 答案 1-yes 2-no
 	if (anw_yn == 1) {
 		$("#hd-yes").removeClass();
 		$("#hd-no").removeClass();
 		$("#hd-yes").addClass("dui");
 		$("#hd-no").addClass("cuo");
-	} else if (anw_yn == 0) {
+	} else if (anw_yn == 2) {
 		$("#hd-yes").removeClass();
 		$("#hd-no").removeClass();
 		$("#hd-no").addClass("dui");
@@ -132,6 +135,7 @@ function setupGame(index) {
 }
 
 function pro_result(click_yn, overtime) {
+
 	console.log("click:" + click_yn + ", anw:" + anw_yn);
 
 	var correct = false;
@@ -165,18 +169,23 @@ function pro_result(click_yn, overtime) {
 		// 清除选中状态
 		rmselected();
 
+		hideQue();
+
 		// 处理兔子跑
 		tuziRun();
-	}, 2000);
+	}, 1500);
 }
 
-function tuziRun() {
+function hideQue() {
 	$("#ads").hide();
 	$("#result").hide();
 	$("#hd-danci").hide();
 	$("#hd-huidi").hide();
 	$("#hd-time").hide();
+}
 
+function tuziRun() {
+	// inquireotherplayer();
 	// 检测所有跑道
 	checkcounter = 0;
 	checker = setInterval(checkotherplayer, 1000);
@@ -202,7 +211,7 @@ function inquireotherplayer() {
 			// 请求成功
 			if (data.rst == 0) {}
 			if (data.rst == 1) { //兔子在这里跳
-				console.log("tuziRunAction");
+				// console.log("tuziRunAction");
 				tuziRunAction(data);
 			}
 		},
@@ -212,7 +221,7 @@ function inquireotherplayer() {
 
 function checkotherplayer() {
 	checkcounter++;
-	if (checkcounter == 10) {
+	if (checkcounter == 5) {
 		clearInterval(checker);
 	} else {
 		inquireotherplayer();
@@ -220,10 +229,9 @@ function checkotherplayer() {
 }
 
 function tuziRunEnd() {
-	checkcounter = 10;
-	clearInterval(checker);
+	console.log("new question" + (queIndex + 1));
 
-	$("#hd-time").show();
+	// $("#hd-time").show();
 	queIndex++;
 	if (queIndex >= queCount) {
 		if (rightCount > 0) {
@@ -234,16 +242,9 @@ function tuziRunEnd() {
 	} else {
 		// 下一题
 		setupGame(queIndex);
-		openAds(); // 开启新题
-		stage = 2;
-		second = 15;
-		totalseconds = 15;
-		clearInterval(count15);
-		count15 = setInterval(countdown, 100);
+		openAds();
 	}
 }
-
-
 
 // 兔子跑动画
 function tuziRunAction(data) {
@@ -313,8 +314,6 @@ function tuziRunToPos(no, pos) {
 		}, 400);
 	}
 }
-
-
 
 
 function getlanebyid(uid) {
