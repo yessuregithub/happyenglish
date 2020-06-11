@@ -213,6 +213,7 @@
 					jump('login', 'dl.html');
 					return null;
 				}
+				$("#hd-time").hide();
 				startgame();
 			}
 		</script>
@@ -230,9 +231,6 @@
 				document.getElementById('hd-huidi').style.display = "none";
 
 				$("#progress1").attr("style", "width: 100%");
-				//stage = 1;
-				//second = 15;
-				//count15 = setInterval(countdown, 100);
 			}
 
 			var second;
@@ -240,10 +238,11 @@
 
 			function countdown() {
 				second -= 0.1;
+				
 				var length = Math.round((second * 100) / totalseconds);
 				$("#progress1").attr("style", "width:" + length + "%");
+				
 				if (second < 0.1 && stage == 1) { //等待开始界面
-					//closeAds();
 					clearInterval(count15);
 					// 开启选项
 					$("#progress1").attr("style", "width: 100%");
@@ -253,23 +252,56 @@
 					}
 					second = 15; //题目显示时间
 					totalseconds = 15;
+					stage = 2;
 					setupGame(0);
 					openAds();
 					count15 = setInterval(countdown, 100);
-					stage = 2;
-				} else if (second < 0.1 && stage == 2) //答题界面
-				{
-					choosed = false;
-					clearInterval(count15);
+				}
+				// stage =2 提问时间
+				else if (second < 0.1 && stage == 2) {
 					closeAds();
+					$("#hd-time").show();
 					$("#hd-danci").show();
+
+					clearInterval(count15);
 					stage = 3;
-					second = 5; //答题时间
+					second = 5; //答题
 					totalseconds = 5;
 					count15 = setInterval(countdown, 100);
-				} else if (second < 0.1 && stage == 3) { //超时题目对错检测
+					console.log("stage 答题");
+				}
+				// 答题界面 5 秒
+				else if (stage == 3) {
+					// $("#hd-time").hide();
+					
+					if (second < 0.1) {
+						if (!choosed) {
+							choosed = true;
+							pro_result(1, true);
+						}
 
-					pro_result(0, true);
+						// 讲解 + 跳
+						clearInterval(count15);
+						stage = 4;
+						second = 9;
+						totalseconds = 9;
+						count15 = setInterval(countdown, 100);
+						console.log("stage 讲解");
+					}
+				}
+				// 讲解时间 5秒
+				else if (stage == 4) {
+					if (second < 0.1) {
+						console.log("stage 换题");
+						clearInterval(count15);
+						stage = 2;
+						second = 15;
+						totalseconds = 15;
+						count15 = setInterval(countdown, 100);
+
+						// 换新题目 
+						tuziRunEnd();
+					}
 				}
 			}
 
@@ -283,7 +315,7 @@
 				uc_01.click = function(index, item) {
 					if (choosed) return; //必须防止连点
 					choosed = true;
-					var yn = index == 0 ? 1 : 0;
+					var yn = index == 0 ? 1 : 2;
 					pro_result(yn, false);
 				}
 				uc_01.change = function(index, item) {}
