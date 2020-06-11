@@ -128,6 +128,14 @@ function initclassroom(data) {
 	pusher.addEventListener('statechange', function(e) {
 		console.log('pusher statechange: ' + JSON.stringify(e));
 	}, false);
+	
+	pusher.addEventListener('error', function(e) {
+		console.log('pusher error: ' + JSON.stringify(e));
+	}, false);
+	
+	pusher.addEventListener('netstatus', function(e) {
+		console.log('pusher netstatus: ' + JSON.stringify(e));
+	}, false);
 
 	// 6.11
 	njsSetAudioSessionForIOS();
