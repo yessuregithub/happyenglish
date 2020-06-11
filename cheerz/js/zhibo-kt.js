@@ -124,7 +124,11 @@ function initclassroom(data) {
 	pusher = new plus.video.LivePusher('pusherwin', {
 		url: pushurl
 	});
-	
+	// 监听状态变化事件
+	pusher.addEventListener('statechange', function(e) {
+		console.log('pusher statechange: ' + JSON.stringify(e));
+	}, false);
+
 	// 6.11
 	njsSetAudioSessionForIOS();
 
@@ -168,7 +172,7 @@ function initclassroom(data) {
 	console.log("pusher.start();168");
 	pusher.start(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
 	//在新的视频加入后，必须stop，然后再start pusher
-	
+
 	// plus.device.setVolume(0.5);
 }
 
@@ -342,13 +346,15 @@ function playerleave(uid) {
 	$(tag).text("");
 	tag = "#coin" + pos;
 	$(tag).text("-");
-	pusher.stop();
-	
+
+	// pusher.stop();
 	// pusher.start();
-	console.log("pusher.start();346");
+	// console.log("pusher.start();346");
 }
 
 function addplayer(uid, name, coin, url) {
+	pusher.stop();
+
 	order = -1;
 	for (i = 1; i <= 4; i++)
 		if (playername[i] == "") {
@@ -367,28 +373,35 @@ function addplayer(uid, name, coin, url) {
 	tag = "#v" + order;
 	player[order] = createvideo("v" + order, "v" + order, playervideo[order]);
 	player[order].play();
-	pusher.stop();
-	
+
+
+	// pusher.stop();
+	// pusher.pause();
 	// pusher.start();
+
+	pusher.start();
 	console.log("pusher.start();370");
+
+	// console.log("pusher.start();370");
 	// plus.device.setVolume(0.5);
 }
 
 function startlesson(offset, url) {
 	if (player[0] != null) return;
+	pusher.pause();
+	
 	console.log("start lesson:" + url);
 	tag = "#vtarea";
 	$(tag).html("<div id=\"vt\" style=\"width:100%;height:100%;background-color:#000000\"></div>"); //准备视频区域
 	player[0] = createvideo("vt", "vt", url);
 	player[0].addEventListener('timeupdate', timeupdate, false);
 	player[0].addEventListener('ended', ended, false);
-	player[0].play();
 	testoffset = 0; //debug 
 	player[0].seek(testoffset);
-	pusher.pause();
-	
-	// pusher.start();
-	console.log("pusher.start();388");
+	player[0].play();
+
+	pusher.resume();
+	console.log("pusher.resume();388");
 	console.log("n#1");
 	//原型 [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
 	//调用说明 https://ask.dcloud.net.cn/article/88
