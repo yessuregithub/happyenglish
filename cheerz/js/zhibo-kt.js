@@ -165,6 +165,7 @@ function initclassroom(data) {
 			$(tag).html("<img src=\"images/wsx.jpg\">"); //显示未上线
 		}
 	}
+	console.log("pusher.start();168");
 	pusher.start(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
 	//在新的视频加入后，必须stop，然后再start pusher
 	
@@ -342,7 +343,9 @@ function playerleave(uid) {
 	tag = "#coin" + pos;
 	$(tag).text("-");
 	pusher.stop();
-	pusher.start();
+	
+	// pusher.start();
+	console.log("pusher.start();346");
 }
 
 function addplayer(uid, name, coin, url) {
@@ -365,7 +368,9 @@ function addplayer(uid, name, coin, url) {
 	player[order] = createvideo("v" + order, "v" + order, playervideo[order]);
 	player[order].play();
 	pusher.stop();
-	pusher.start();
+	
+	// pusher.start();
+	console.log("pusher.start();370");
 	// plus.device.setVolume(0.5);
 }
 
@@ -381,7 +386,9 @@ function startlesson(offset, url) {
 	testoffset = 0; //debug 
 	player[0].seek(testoffset);
 	pusher.pause();
-	pusher.start();
+	
+	// pusher.start();
+	console.log("pusher.start();388");
 	console.log("n#1");
 	//原型 [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
 	//调用说明 https://ask.dcloud.net.cn/article/88
@@ -403,9 +410,6 @@ function startlesson(offset, url) {
 	// console.log("n#3");
 	// plus.ios.deleteObject(AVAudioSession);
 	// console.log("n#4");
-	
-	// 6.11
-	// njsSetAudioSessionForIOS();
 }
 //第三方推流
 //https://github.com/zhenyan-chang/RTMP-LivePlay   支持横竖屏切换! 
@@ -419,9 +423,9 @@ function njsSetAudioSessionForIOS() {
 	// AVAudioSession * session = [AVAudioSession sharedInstance];
 	// [session setCategory: AVAudioSessionCategoryPlayAndRecord withOptions: AVAudioSessionCategoryOptionMixWithOthers error:nil];
 
-	var AVAudioSession = plus.ios.importClass("AVAudioSession");
-	AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord","AVAudioSessionCategoryOptionMixWithOthers", null);
-	plus.ios.deleteObject(AVAudioSession);
+	// var AVAudioSession = plus.ios.importClass("AVAudioSession");
+	// AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord","AVAudioSessionCategoryOptionMixWithOthers", null);
+	// plus.ios.deleteObject(AVAudioSession);
 }
 
 function docommand(cmds) {
