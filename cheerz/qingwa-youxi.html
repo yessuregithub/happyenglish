@@ -253,7 +253,7 @@
 					closeAds();
 					$("#hd-time").show();
 					$("#hd-danci").show();
-					
+
 					clearInterval(count15);
 					stage = 3;
 					second = 5; //答题
@@ -265,12 +265,14 @@
 				else if (stage == 3) {
 					if (second < 0.1) {
 						// $("#hd-time").hide();
-						
 						if (!choosed) {
 							choosed = true;
-							pro_result(1, true);
+							click_yn = -1
+							pro_result(true);
+						} else {
+							pro_result(false);
 						}
-						
+
 						// 讲解 + 跳
 						clearInterval(count15);
 						stage = 4;
@@ -289,10 +291,10 @@
 						second = 15;
 						totalseconds = 15;
 						count15 = setInterval(countdown, 100);
-						
+
 						// 换新题目 
 						tuziRunEnd();
-					} 
+					}
 				}
 			}
 
@@ -307,7 +309,8 @@
 					if (choosed) return; //必须防止连点
 					choosed = true;
 					var yn = index == 0 ? 1 : 2;
-					pro_result(yn, false);
+					click_yn = yn;
+					// pro_result(yn, false);
 				}
 				uc_01.change = function(index, item) {}
 			}

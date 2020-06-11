@@ -112,6 +112,7 @@ function setupGame(index) {
 
 
 	choosed = false;
+	click_yn = -1;
 
 	// 问题背景
 	$("#hd-yn-tuka").attr("src", pic);
@@ -134,8 +135,8 @@ function setupGame(index) {
 	}
 }
 
-function pro_result(click_yn, overtime) {
-
+var click_yn = -1; // 选中后暂时不处理，作答时间到了处理
+function pro_result(overtime) {
 	console.log("click:" + click_yn + ", anw:" + anw_yn);
 
 	var correct = false;
@@ -164,16 +165,24 @@ function pro_result(click_yn, overtime) {
 		error: function(xhr, type, errorThrown) {}
 	});
 
-	// 显示对错 等待2秒
-	setTimeout(function() {
-		// 清除选中状态
-		rmselected();
+	// 清除选中状态
+	rmselected();
 
-		hideQue();
+	hideQue();
 
-		// 处理兔子跑
-		tuziRun();
-	}, 1500);
+	// 处理兔子跑
+	tuziRun();
+
+	// // 显示对错 等待2秒
+	// setTimeout(function() {
+	// 	// 清除选中状态
+	// 	rmselected();
+
+	// 	hideQue();
+
+	// 	// 处理兔子跑
+	// 	tuziRun();
+	// }, 1500);
 }
 
 function hideQue() {

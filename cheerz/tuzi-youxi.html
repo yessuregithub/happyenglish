@@ -277,7 +277,10 @@
 					if (second < 0.1) {
 						if (!choosed) {
 							choosed = true;
-							pro_result(1, true);
+							click_yn = -1
+							pro_result(true);
+						} else {
+							pro_result(false);
 						}
 
 						// 讲解 + 跳
@@ -316,7 +319,8 @@
 					if (choosed) return; //必须防止连点
 					choosed = true;
 					var yn = index == 0 ? 1 : 2;
-					pro_result(yn, false);
+					click_yn = yn;
+					// pro_result(yn, false);
 				}
 				uc_01.change = function(index, item) {}
 			}
