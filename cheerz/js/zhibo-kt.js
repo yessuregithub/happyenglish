@@ -97,8 +97,6 @@ function quitlesson(backtofirstpage) {
 	});
 }
 
-
-
 function initclassroom(data) {
 	// console.log(JSON.stringify(data));
 
@@ -120,21 +118,24 @@ function initclassroom(data) {
 	datacount = data.datacount;
 	userid = data.userid; //自己的uid
 
-	pushurl = 'rtmp://47.241.111.251/live?vhost=rotate.localhost/' + userid;
+	// pushurl = 'rtmp://47.241.111.251/live?vhost=rotate.localhost/' + userid;
+	pushurl2 = 'rtmp://47.114.84.56/live?vhost=rotate.localhost/' + userid; // 阿里
+	console.log("pushurl2:" + pushurl2);
 	pusher = new plus.video.LivePusher('pusherwin', {
-		url: pushurl
+		url: pushurl2
 	});
+
 	// 监听状态变化事件
-	pusher.addEventListener('statechange', function(e) {
-		console.log('pusher statechange: ' + JSON.stringify(e));
+	pusher.addEventListener("statechange", function(e) {
+		console.log('### pusher statechange: ' + JSON.stringify(e));
 	}, false);
-	
-	pusher.addEventListener('error', function(e) {
-		console.log('pusher error: ' + JSON.stringify(e));
+
+	pusher.addEventListener("error", function(e) {
+		console.log('### pusher error: ' + JSON.stringify(e));
 	}, false);
-	
-	pusher.addEventListener('netstatus', function(e) {
-		console.log('pusher netstatus: ' + JSON.stringify(e));
+
+	pusher.addEventListener("netstatus", function(e) {
+		console.log('### pusher netstatus: ' + JSON.stringify(e));
 	}, false);
 
 	// 6.11
@@ -144,6 +145,7 @@ function initclassroom(data) {
 	for (i = 1; i <= 4; i++)
 		if (data.player[i].id == userid) mypos = i; //先获得自己的序号
 	for (i = 1; i <= 4; i++) { //重排序号
+		console.log("data.player: " + JSON.stringify(data.player[i]));
 		pos = i;
 		if (i == 1 && mypos == 1) pos = i;
 		if (i == 1 && mypos != 1) {
@@ -154,12 +156,20 @@ function initclassroom(data) {
 		playerid[pos] = data.player[i].id;
 		playercoin[pos] = data.player[i].coin;
 		playervideo[pos] = data.player[i].video;
+		// todo test
+		// playervideo[pos] = "rtmp://47.114.84.56/live/" + userid;
+		playervideo[pos] = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 4) + ".mp4";
+		playerid[pos] = pos + 100;
+		playername[pos] = "tester" + pos;
+		playercoin[pos] = getRandom(0, 1000);
+
 		if (playername[pos] != "") {
 			tag = "#name" + pos;
 			$(tag).text(playername[pos]);
 			tag = "#coin" + pos;
 			$(tag).text(playercoin[pos]);
 			tag = "#v" + pos;
+			console.log("initclassroom - createvideo");
 			player[pos] = createvideo("v" + pos, "v" + pos, playervideo[pos]);
 			player[pos].play();
 			if (pos == 1) //自己始终静音
@@ -177,11 +187,42 @@ function initclassroom(data) {
 			$(tag).html("<img src=\"images/wsx.jpg\">"); //显示未上线
 		}
 	}
+
 	console.log("pusher.start();168");
-	pusher.start(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
+	startPusher(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
 	//在新的视频加入后，必须stop，然后再start pusher
 
 	// plus.device.setVolume(0.5);
+}
+
+// 继续推流
+function resumePusher() {
+	if (!pusher) return;
+	setTimeout(function() {
+		console.log("resumePusher()");
+		pusher.resume();
+	}, 500);
+}
+
+// 开始推流
+function startPusher() {
+	if (!pusher) return;
+	console.log("startPusher()");
+	pusher.start(function() {
+		console.log('Start pusher success!');
+	}, function(e) {
+		console.log('Start pusher failed: ' + JSON.stringify(e));
+	});
+}
+
+// 推流失败切换国内服务器
+function updatePusher() {
+	pushurl = 'rtmp://47.241.111.251/live?vhost=rotate.localhost/' + userid;
+	pushurl2 = 'rtmp://47.114.84.56/live?vhost=rotate.localhost/' + userid; // 阿里
+	pusher.get
+	pusher.setStyles({
+		url: pushurl2
+	});
 }
 
 function debuggoless() {
@@ -196,7 +237,7 @@ var lastplaytime = 0;
 function checklessondata(lastplaytime, currtime) {
 	for (i = 0; i < datacount; i++) {
 		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
-			console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + " pop up " + lessondata[i].url);
+			// console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + " pop up " + lessondata[i].url);
 
 			var unescape_para = unescape(lessondata[i].para);
 			// unescape_para =
@@ -207,7 +248,7 @@ function checklessondata(lastplaytime, currtime) {
 			localStorage.setItem("ts", lessondata[i].ts);
 			localStorage.setItem("gpara", unescape_para);
 
-			console.log(lessondata[i].url + ":game get gamepara :" + unescape_para);
+			// console.log(lessondata[i].url + ":game get gamepara :" + unescape_para);
 
 			activeview.loadURL(lessondata[i].url + ".html");
 			for (j = 1; j <= 4; j++) {
@@ -263,7 +304,7 @@ function createvideo(videoid, divid, url) {
 		height: height - 4,
 	});
 	plus.webview.currentWebview().append(player);
-	console.log("added video " + divid + " " + url);
+	console.log("#### added video " + divid + " " + url);
 	return player;
 }
 
@@ -361,8 +402,10 @@ function playerleave(uid) {
 }
 
 function addplayer(uid, name, coin, url) {
-	pusher.stop();
+	onsole.log("addplayer - pusher.pause()406");
+	pusher.pause();
 
+	// pusher.stop();
 	order = -1;
 	for (i = 1; i <= 4; i++)
 		if (playername[i] == "") {
@@ -379,16 +422,17 @@ function addplayer(uid, name, coin, url) {
 	tag = "#coin" + order;
 	$(tag).text(playercoin[order]);
 	tag = "#v" + order;
+	console.log("addplayer - createvideo");
 	player[order] = createvideo("v" + order, "v" + order, playervideo[order]);
 	player[order].play();
 
 
 	// pusher.stop();
-	// pusher.pause();
 	// pusher.start();
 
-	pusher.start();
-	console.log("pusher.start();370");
+	// pusher.start();
+	resumePusher();
+	console.log("pusher.resyme();436");
 
 	// console.log("pusher.start();370");
 	// plus.device.setVolume(0.5);
@@ -396,11 +440,14 @@ function addplayer(uid, name, coin, url) {
 
 function startlesson(offset, url) {
 	if (player[0] != null) return;
+
+	console.log("pusher.pause();442");
 	pusher.pause();
-	
+
 	console.log("start lesson:" + url);
 	tag = "#vtarea";
 	$(tag).html("<div id=\"vt\" style=\"width:100%;height:100%;background-color:#000000\"></div>"); //准备视频区域
+	console.log("startlesson - createvideo");
 	player[0] = createvideo("vt", "vt", url);
 	player[0].addEventListener('timeupdate', timeupdate, false);
 	player[0].addEventListener('ended', ended, false);
@@ -408,8 +455,8 @@ function startlesson(offset, url) {
 	player[0].seek(testoffset);
 	player[0].play();
 
-	pusher.resume();
-	console.log("pusher.resume();388");
+	resumePusher();
+	console.log("pusher.resume();457");
 	console.log("n#1");
 	//原型 [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
 	//调用说明 https://ask.dcloud.net.cn/article/88
