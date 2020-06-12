@@ -120,9 +120,8 @@ function initclassroom(data) {
 
 	// 创建推流 不能在此创建pusher
 	// initPusher(userid);
+	// startPusher();
 
-	// 6.11
-	njsSetAudioSessionForIOS();
 
 	// 学生端player创建
 	for (i = 0; i < 5; i++) player[i] = null;
@@ -141,8 +140,8 @@ function initclassroom(data) {
 		playercoin[pos] = data.player[i].coin;
 		playervideo[pos] = data.player[i].video;
 		// todo delete
-		// playervideo[pos] = "rtmp://47.114.84.56/live/" + userid;
-		playervideo[pos] = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 4) + ".mp4";
+		playervideo[pos] = "rtmp://47.114.84.56/live/" + userid;
+		// playervideo[pos] = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 4) + ".mp4";
 		// if (pos <= 4) {
 		// 	playervideo[pos] = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 4) + ".mp4";
 		// 	playerid[pos] = pos + 100;
@@ -179,68 +178,12 @@ function initclassroom(data) {
 	initPusher(userid);
 	console.log("pusher.start();168");
 	startPusher(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
+
+	njsSetAudioSessionForIOS();
+
 	//在新的视频加入后，必须stop，然后再start pusher
 
 	// plus.device.setVolume(0.5);
-}
-
-function initPusher(userid) {
-	// pushurl = 'rtmp://47.241.111.251/live?vhost=rotate.localhost/' + userid;
-	pushurl2 = 'rtmp://47.114.84.56/live?vhost=rotate.localhost/' + userid; // 阿里
-	console.log("pushurl2:" + pushurl2);
-	pusher = new plus.video.LivePusher('pusherwin', {
-		url: pushurl2
-	});
-
-	// 监听状态变化事件
-	pusher.addEventListener("statechange", function(e) {
-		console.log('### pusher statechange: ' + JSON.stringify(e));
-	}, false);
-
-	pusher.addEventListener("error", function(e) {
-		console.log('### pusher error: ' + JSON.stringify(e));
-	}, false);
-
-	pusher.addEventListener("netstatus", function(e) {
-		console.log('### pusher netstatus: ' + JSON.stringify(e));
-	}, false);
-}
-
-// 暂停推流
-function pausePusher() {
-	if (!pusher) return;
-	console.log("pausePusher()");
-	pusher.pause();
-}
-
-// 继续推流
-function resumePusher() {
-	if (!pusher) return;
-	setTimeout(function() {
-		console.log("resumePusher()");
-		pusher.resume();
-	}, 500);
-}
-
-// 开始推流
-function startPusher() {
-	if (!pusher) return;
-	console.log("startPusher()");
-	pusher.start(function() {
-		console.log('Start pusher success!');
-	}, function(e) {
-		console.log('Start pusher failed: ' + JSON.stringify(e));
-	});
-}
-
-// 推流失败切换国内服务器
-function updatePusher() {
-	pushurl = 'rtmp://47.241.111.251/live?vhost=rotate.localhost/' + userid;
-	pushurl2 = 'rtmp://47.114.84.56/live?vhost=rotate.localhost/' + userid; // 阿里
-	pusher.get
-	pusher.setStyles({
-		url: pushurl2
-	});
 }
 
 function debuggoless() {
@@ -320,6 +263,10 @@ function createvideo(videoid, divid, url) {
 		width: width - 4,
 		height: height - 4,
 	});
+	player.addEventListener("error", function(e) {
+		console.log("video error " + JSON.stringify(e))
+	}, false);
+
 	plus.webview.currentWebview().append(player);
 	console.log("#### added video " + divid + " " + url);
 	return player;
@@ -417,8 +364,8 @@ function playerleave(uid) {
 }
 
 function addplayer(uid, name, coin, url) {
-	// onsole.log("addplayer - pusher.pause()406");
-	// pausePusher();
+	onsole.log("addplayer - pusher.pause()406");
+	pausePusher();
 	// pusher.stop();
 
 	// todo delete 
@@ -447,16 +394,17 @@ function addplayer(uid, name, coin, url) {
 	// pusher.stop();
 	// pusher.start();
 
-	// resumePusher();
-	// console.log("pusher.resume();436");
+	resumePusher();
+	console.log("pusher.resume();436");
 
 	// plus.device.setVolume(0.5);
 }
 
 function startlesson(offset, url) {
 	if (player[0] != null) return;
-	// console.log("pusher.pause();442");
-	// pausePusher();
+	console.log("pusher.pause();442");
+	pausePusher();
+	// stopPusher();
 
 	console.log("start lesson:" + url);
 	tag = "#vtarea";
@@ -469,8 +417,8 @@ function startlesson(offset, url) {
 	player[0].seek(testoffset);
 	player[0].play();
 
-	// resumePusher();
-	// console.log("pusher.resume();457");
+	console.log("pusher.resume();457");
+	resumePusher();
 	console.log("n#1");
 }
 //第三方推流
@@ -480,14 +428,92 @@ function startlesson(offset, url) {
 // 又拍云 七牛 阿里 腾讯等 也可以考虑接入,如果老板不在乎这点钱
 // 
 
+function initPusher(userid) {
+	// pushurl = 'rtmp://47.241.111.251/live?vhost=rotate.localhost/' + userid;
+	pushurl2 = 'rtmp://47.114.84.56/live/' + userid; // 阿里
+	console.log("pushurl2:" + pushurl2);
+	pusher = new plus.video.LivePusher('pusherwin', {
+		bottom: '0px',
+		right: '0px',
+		width: '200px',
+		height: '150px',
+		position: 'static',
+		url: pushurl2,
+		autofocus: false,
+		muted: true
+	});
+	plus.webview.currentWebview().append(pusher);
+
+	// 监听状态变化事件
+	pusher.addEventListener("statechange", function onEvent(e) {
+		console.log('### pusher statechange: ' + JSON.stringify(e));
+	}, false);
+
+	pusher.addEventListener("error", function onEvent(e) {
+		console.log('### pusher error: ' + JSON.stringify(e));
+	}, false);
+
+	pusher.addEventListener("netstatus", function onEvent(e) {
+		console.log('### pusher netstatus: ' + JSON.stringify(e));
+	}, false);
+}
+
+// 暂停推流
+function pausePusher() {
+	if (!pusher) return;
+	console.log("pausePusher()");
+	pusher.pause();
+}
+
+function stopPusher() {
+	if (!pusher) return;
+	console.log("stopPusher()");
+	pusher.stop();
+}
+
+// 继续推流
+var resuming = false;
+
+function resumePusher() {
+	if (!pusher) return;
+	console.log("resumePusher()");
+	pusher.resume();
+}
+
+
+// 开始推流
+function startPusher() {
+	if (!pusher) return;
+	console.log("startPusher()");
+	pusher.start(function() {
+		console.log('Start pusher success!');
+	}, function(e) {
+		console.log('Start pusher failed: ' + JSON.stringify(e));
+	});
+}
+
+// 推流失败切换国内服务器
+function updatePusher() {
+	pushurl = 'rtmp://47.241.111.251/live?vhost=rotate.localhost/' + userid;
+	pushurl2 = 'rtmp://47.114.84.56/live?vhost=rotate.localhost/' + userid; // 阿里
+	pusher.get
+	pusher.setStyles({
+		url: pushurl2
+	});
+}
+
+
 function njsSetAudioSessionForIOS() {
 	console.log("njsSetAudioSessionForIOS");
 	// AVAudioSession * session = [AVAudioSession sharedInstance];
 	// [session setCategory: AVAudioSessionCategoryPlayAndRecord withOptions: AVAudioSessionCategoryOptionMixWithOthers error:nil];
 
 	var AVAudioSession = plus.ios.importClass("AVAudioSession");
+	// AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord",
+	// 	"AVAudioSessionCategoryOptionMixWithOthers", null);
 	AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord",
-		"AVAudioSessionCategoryOptionMixWithOthers", null);
+		"AVAudioSessionCategoryOptionDuckOthers", null);
+
 	plus.ios.deleteObject(AVAudioSession);
 }
 
