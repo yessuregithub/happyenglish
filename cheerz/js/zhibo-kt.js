@@ -118,29 +118,13 @@ function initclassroom(data) {
 	datacount = data.datacount;
 	userid = data.userid; //自己的uid
 
-	// pushurl = 'rtmp://47.241.111.251/live?vhost=rotate.localhost/' + userid;
-	pushurl2 = 'rtmp://47.114.84.56/live?vhost=rotate.localhost/' + userid; // 阿里
-	console.log("pushurl2:" + pushurl2);
-	pusher = new plus.video.LivePusher('pusherwin', {
-		url: pushurl2
-	});
-
-	// 监听状态变化事件
-	pusher.addEventListener("statechange", function(e) {
-		console.log('### pusher statechange: ' + JSON.stringify(e));
-	}, false);
-
-	pusher.addEventListener("error", function(e) {
-		console.log('### pusher error: ' + JSON.stringify(e));
-	}, false);
-
-	pusher.addEventListener("netstatus", function(e) {
-		console.log('### pusher netstatus: ' + JSON.stringify(e));
-	}, false);
+	// 创建推流 不能在此创建pusher
+	// initPusher(userid);
 
 	// 6.11
 	njsSetAudioSessionForIOS();
 
+	// 学生端player创建
 	for (i = 0; i < 5; i++) player[i] = null;
 	for (i = 1; i <= 4; i++)
 		if (data.player[i].id == userid) mypos = i; //先获得自己的序号
@@ -156,12 +140,15 @@ function initclassroom(data) {
 		playerid[pos] = data.player[i].id;
 		playercoin[pos] = data.player[i].coin;
 		playervideo[pos] = data.player[i].video;
-		// todo test
+		// todo delete
 		// playervideo[pos] = "rtmp://47.114.84.56/live/" + userid;
 		playervideo[pos] = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 4) + ".mp4";
-		playerid[pos] = pos + 100;
-		playername[pos] = "tester" + pos;
-		playercoin[pos] = getRandom(0, 1000);
+		// if (pos <= 4) {
+		// 	playervideo[pos] = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 4) + ".mp4";
+		// 	playerid[pos] = pos + 100;
+		// 	playername[pos] = "tester" + pos;
+		// 	playercoin[pos] = getRandom(0, 1000);
+		// }
 
 		if (playername[pos] != "") {
 			tag = "#name" + pos;
@@ -188,11 +175,42 @@ function initclassroom(data) {
 		}
 	}
 
+	// 创建推流
+	initPusher(userid);
 	console.log("pusher.start();168");
 	startPusher(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
 	//在新的视频加入后，必须stop，然后再start pusher
 
 	// plus.device.setVolume(0.5);
+}
+
+function initPusher(userid) {
+	// pushurl = 'rtmp://47.241.111.251/live?vhost=rotate.localhost/' + userid;
+	pushurl2 = 'rtmp://47.114.84.56/live?vhost=rotate.localhost/' + userid; // 阿里
+	console.log("pushurl2:" + pushurl2);
+	pusher = new plus.video.LivePusher('pusherwin', {
+		url: pushurl2
+	});
+
+	// 监听状态变化事件
+	pusher.addEventListener("statechange", function(e) {
+		console.log('### pusher statechange: ' + JSON.stringify(e));
+	}, false);
+
+	pusher.addEventListener("error", function(e) {
+		console.log('### pusher error: ' + JSON.stringify(e));
+	}, false);
+
+	pusher.addEventListener("netstatus", function(e) {
+		console.log('### pusher netstatus: ' + JSON.stringify(e));
+	}, false);
+}
+
+// 暂停推流
+function pausePusher() {
+	if (!pusher) return;
+	console.log("pausePusher()");
+	pusher.pause();
 }
 
 // 继续推流
@@ -287,7 +305,6 @@ function muteplayer() {
 	ismuted = !ismuted;
 	if (ismuted) $("#pingbi").attr("class", "pingbi");
 	else $("#pingbi").attr("class", "nothing");
-
 }
 
 function createvideo(videoid, divid, url) {
@@ -310,7 +327,6 @@ function createvideo(videoid, divid, url) {
 
 
 function enterlesson() {
-
 	// check add 金币
 	incoin_t = setInterval(function() {
 		var coin = localStorage.getItem("incoin");
@@ -320,7 +336,6 @@ function enterlesson() {
 			addcoin();
 		}
 	}, 1000);
-
 
 	setInterval(pullmessage, 5000);
 	token = localStorage.getItem("token");
@@ -402,10 +417,13 @@ function playerleave(uid) {
 }
 
 function addplayer(uid, name, coin, url) {
-	onsole.log("addplayer - pusher.pause()406");
-	pusher.pause();
-
+	// onsole.log("addplayer - pusher.pause()406");
+	// pausePusher();
 	// pusher.stop();
+
+	// todo delete 
+	url = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 5) + ".mp4";
+
 	order = -1;
 	for (i = 1; i <= 4; i++)
 		if (playername[i] == "") {
@@ -426,23 +444,19 @@ function addplayer(uid, name, coin, url) {
 	player[order] = createvideo("v" + order, "v" + order, playervideo[order]);
 	player[order].play();
 
-
 	// pusher.stop();
 	// pusher.start();
 
-	// pusher.start();
-	resumePusher();
-	console.log("pusher.resyme();436");
+	// resumePusher();
+	// console.log("pusher.resume();436");
 
-	// console.log("pusher.start();370");
 	// plus.device.setVolume(0.5);
 }
 
 function startlesson(offset, url) {
 	if (player[0] != null) return;
-
-	console.log("pusher.pause();442");
-	pusher.pause();
+	// console.log("pusher.pause();442");
+	// pausePusher();
 
 	console.log("start lesson:" + url);
 	tag = "#vtarea";
@@ -455,29 +469,9 @@ function startlesson(offset, url) {
 	player[0].seek(testoffset);
 	player[0].play();
 
-	resumePusher();
-	console.log("pusher.resume();457");
+	// resumePusher();
+	// console.log("pusher.resume();457");
 	console.log("n#1");
-	//原型 [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
-	//调用说明 https://ask.dcloud.net.cn/article/88
-	//官方文档 https://www.html5plus.org/doc/zh_cn/ios.html
-
-	//	var AVAudioSession = plus.ios.importClass("AVAudioSession");
-	//	AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayback", null);
-
-	// var AVAudioSession = plus.ios.importClass("AVAudioSession");
-	// console.log("n#2");
-	// //(sharedInstance,"overrideOutputAudioPort:error:","spkr",null);  //方法1
-	// //console.log("n#2.1");
-	// //IOS 11? sharedInstance.setCategory("AVAudioSessionCategoryPlayAndRecord","AVAudioSessionModeDefault");
-	// console.log("n#2.2");
-	// //AVAudioSession.sharedInstance().setActive("YES", null);
-	// AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord", null);
-	// console.log("n#2.3");
-	// //AVAudioSession.sharedInstance().overrideOutputAudioPort("AVAudioSessionPortOverrideSpeaker", null); //方法2 调用出错
-	// console.log("n#3");
-	// plus.ios.deleteObject(AVAudioSession);
-	// console.log("n#4");
 }
 //第三方推流
 //https://github.com/zhenyan-chang/RTMP-LivePlay   支持横竖屏切换! 
@@ -491,9 +485,10 @@ function njsSetAudioSessionForIOS() {
 	// AVAudioSession * session = [AVAudioSession sharedInstance];
 	// [session setCategory: AVAudioSessionCategoryPlayAndRecord withOptions: AVAudioSessionCategoryOptionMixWithOthers error:nil];
 
-	// var AVAudioSession = plus.ios.importClass("AVAudioSession");
-	// AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord","AVAudioSessionCategoryOptionMixWithOthers", null);
-	// plus.ios.deleteObject(AVAudioSession);
+	var AVAudioSession = plus.ios.importClass("AVAudioSession");
+	AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord",
+		"AVAudioSessionCategoryOptionMixWithOthers", null);
+	plus.ios.deleteObject(AVAudioSession);
 }
 
 function docommand(cmds) {
