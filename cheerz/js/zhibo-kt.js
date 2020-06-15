@@ -107,15 +107,14 @@ function initclassroom(data) {
 	var top = odiv.getBoundingClientRect().top;
 	var width = odiv.getBoundingClientRect().width;
 	var height = odiv.getBoundingClientRect().height;
-	activeview = plus.webview.create('about:blank', 'active', {
-		top: top + 5, //把黑板的边框留一点出来
-		left: left + 10,
-		height: height - 10,
-		width: width - 20
-	});
-	activeview.hide();
+	// activeview = plus.webview.create('about:blank', 'active', {
+	// 	top: top + 5, //把黑板的边框留一点出来
+	// 	left: left + 10,
+	// 	height: height - 10,
+	// 	width: width - 20
+	// });
+	// activeview.hide();
 
-	// plus.device.setVolume(0.5);
 	lessondata = data.lessondata;
 	datacount = data.datacount;
 	userid = data.userid; //自己的uid
@@ -123,7 +122,6 @@ function initclassroom(data) {
 	// // 创建推流
 	// initPusher(userid);
 	// startPusher();
-
 
 	// 学生端player创建
 	for (i = 0; i < 5; i++) player[i] = null;
@@ -142,30 +140,30 @@ function initclassroom(data) {
 		playercoin[pos] = data.player[i].coin;
 		playervideo[pos] = data.player[i].video;
 		// todo delete
-		playervideo[pos] = "rtmp://47.114.84.56/live/" + userid;
-		console.log('playervideo[pos]:' + playervideo[pos]);
+		playervideo[pos] = "rtmp://47.114.84.56/live/" + data.player[i].id;
+		console.log(pos + 'playervideo[pos]:' + playervideo[pos]);
 		// playervideo[pos] = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 4) + ".mp4";
-		// if (pos <= 4) {
-		// 	playervideo[pos] = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 4) + ".mp4";
-		// 	playerid[pos] = pos + 100;
-		// 	playername[pos] = "tester" + pos;
-		// 	playercoin[pos] = getRandom(0, 1000);
+		// if (pos == 2) {
+			// playervideo[pos] = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 4) + ".mp4";
+			// playerid[pos] = pos + 100;
+			// playername[pos] = "tester" + pos;
+			// playercoin[pos] = getRandom(0, 1000);
 		// }
 
 		if (playername[pos] != "") {
+
 			tag = "#name" + pos;
 			$(tag).text(playername[pos]);
 			tag = "#coin" + pos;
 			$(tag).text(playercoin[pos]);
 			tag = "#v" + pos;
-			console.log("initclassroom - createvideo");
 			player[pos] = createvideo("v" + pos, "v" + pos, playervideo[pos]);
 			player[pos].play();
 			if (pos == 1) //自己始终静音
 			{
-				player[1].setStyles({
-					muted: true,
-				});
+				// player[1].setStyles({
+				// 	muted: true,
+				// });
 			}
 		} else {
 			tag = "#name" + pos;
@@ -177,12 +175,14 @@ function initclassroom(data) {
 		}
 	}
 
+	console.log("initclassroom end");
+
+
 	// 创建推流
 	initPusher(userid);
 	console.log("pusher.start();168");
 	startPusher(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
 
-	njsSetAudioSessionForIOS();
 	//在新的视频加入后，必须stop，然后再start pusher
 
 	// plus.device.setVolume(0.5);
@@ -213,12 +213,12 @@ function checklessondata(lastplaytime, currtime) {
 
 			// console.log(lessondata[i].url + ":game get gamepara :" + unescape_para);
 
-			activeview.loadURL(lessondata[i].url + ".html");
-			for (j = 1; j <= 4; j++) {
-				localStorage.setItem("playername" + j, playername[j]);
-				localStorage.setItem("playerid" + j, playerid[j]);
-			}
-			activeview.show();
+			// activeview.loadURL(lessondata[i].url + ".html");
+			// for (j = 1; j <= 4; j++) {
+			// 	localStorage.setItem("playername" + j, playername[j]);
+			// 	localStorage.setItem("playerid" + j, playerid[j]);
+			// }
+			// activeview.show();
 		}
 	}
 }
@@ -276,6 +276,7 @@ function createvideo(videoid, divid, url) {
 
 
 function enterlesson() {
+
 	// check add 金币
 	incoin_t = setInterval(function() {
 		var coin = localStorage.getItem("incoin");
@@ -310,6 +311,7 @@ function enterlesson() {
 		type: 'post',
 		timeout: 10000,
 		success: function(data) {
+
 			// 请求成功
 			if (data.rst == 0) {
 				mui.alert(data.msg);
@@ -367,11 +369,6 @@ function playerleave(uid) {
 
 function addplayer(uid, name, coin, url) {
 	pausePusher();
-	// stopPusher();
-	// pusher.stop();
-
-	// todo delete 
-	url = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 5) + ".mp4";
 
 	order = -1;
 	for (i = 1; i <= 4; i++)
@@ -393,18 +390,12 @@ function addplayer(uid, name, coin, url) {
 	player[order] = createvideo("v" + order, "v" + order, playervideo[order]);
 	player[order].play();
 
-	// pusher.stop();
-	// pusher.start();
-	// startPusher();
 	resumePusher();
-
-	// plus.device.setVolume(0.5);
 }
 
 function startlesson(offset, url) {
 	if (player[0] != null) return;
 	pausePusher();
-	// stopPusher();
 
 	console.log("start lesson:" + url);
 	tag = "#vtarea";
@@ -418,9 +409,6 @@ function startlesson(offset, url) {
 	player[0].play();
 
 	resumePusher();
-	// startPusher();
-	njsSetAudioSessionForIOS();
-	console.log("n#1");
 }
 //第三方推流
 //https://github.com/zhenyan-chang/RTMP-LivePlay   支持横竖屏切换! 
@@ -436,8 +424,7 @@ function initPusher(userid) {
 	pushurl2 = 'rtmp://47.114.84.56/live/' + userid; // 阿里
 	console.log("pushurl2:" + pushurl2);
 	pusher = new plus.video.LivePusher('pusher-box', {
-		url: pushurl2,
-		'mode': 'SD',
+		url: pushurl2
 		// 'muted': true,
 	});
 	// plus.webview.currentWebview().append(pusher);
@@ -475,22 +462,24 @@ var resuming = false;
 function resumePusher() {
 	if (!pusher) return;
 	console.log("resumePusher()");
-	setTimeout(function() {
-		pusher.resume();
-	}, 15000);
+	pusher.resume();
 
+	njsSetAudioSessionForIOS();
 }
 
 
 // 开始推流
 function startPusher() {
 	if (!pusher) return;
+
 	console.log("startPusher()");
 	pusher.start(function() {
 		console.log('Start pusher success!');
 	}, function(e) {
 		console.log('Start pusher failed: ' + JSON.stringify(e));
 	});
+
+	njsSetAudioSessionForIOS();
 }
 
 // 推流失败切换国内服务器
@@ -505,31 +494,14 @@ function updatePusher() {
 
 
 function njsSetAudioSessionForIOS() {
+	if (!mui.os.ios) return;
 	console.log("njsSetAudioSessionForIOS");
-	// AVAudioSession * session = [AVAudioSession sharedInstance];
-	// [session setCategory: AVAudioSessionCategoryPlayAndRecord withOptions: AVAudioSessionCategoryOptionMixWithOthers error:nil];
-
 	var AVAudioSession = plus.ios.importClass("AVAudioSession");
-	// AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord",
-	// 	"AVAudioSessionCategoryOptionMixWithOthers", null);
-	// AVAudioSessionCategoryOptionInterruptSpokenAudioAndMixWithOthers
-
-// AVAudioSessionCategoryOptionDefaultToSpeaker|AVAudioSessionCategoryOptionMixWithOther
-
-	// AVAudioSession.sharedInstance().setCategorywithOptionserror("AVAudioSessionCategoryPlayAndRecord",
-	// 	"AVAudioSessionModeVideoChat", "AVAudioSessionCategoryOptionDefaultToSpeaker", null);
-
-
-AVAudioSession.sharedInstance().setCategorywithOptionserror("AVAudioSessionCategoryPlayAndRecord",
-		"AVAudioSessionModeVideoChat", "AVAudioSessionCategoryOptionDefaultToSpeaker", null);
-		
+	AVAudioSession.sharedInstance().setCategorywithOptionserror("AVAudioSessionCategoryMultiRoute",
+		"AVAudioSessionCategoryOptionDefaultToSpeaker | AVAudioSessionCategoryOptionAllowBluetooth",
+		null);
+	AVAudioSession.sharedInstance().setModeerror("AVAudioSessionModeVideoRecording", null);
 	AVAudioSession.sharedInstance().setActiveerror("YES", null);
-	// AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord",
-	// 	"AVAudioSessionCategoryOptionInterruptSpokenAudioAndMixWithOthers", null);
-
-	// AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord", "AVAudioSessionModeVideoChat",
-	// 	null);
-
 	plus.ios.deleteObject(AVAudioSession);
 }
 
