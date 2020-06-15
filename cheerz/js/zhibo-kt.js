@@ -8,6 +8,7 @@ var playervideo = new Array(5);
 var token, lid;
 var lessondata, datacount;
 var activeview = null;
+
 var ismuted = false;
 var userid;
 var keepalive = null;
@@ -65,6 +66,7 @@ function quitlesson(backtofirstpage) {
 	if (activeview) activeview.close();
 	if (pusher) pusher.stop();
 	if (pusher) pusher.close();
+	activeview = null;
 	// plus.device.setVolume(0.5);
 	for (i = 0; i <= 4; i++)
 		if (player[i] != null) {
@@ -118,7 +120,7 @@ function initclassroom(data) {
 	datacount = data.datacount;
 	userid = data.userid; //自己的uid
 
-	// 创建推流 不能在此创建pusher
+	// // 创建推流
 	// initPusher(userid);
 	// startPusher();
 
@@ -141,6 +143,7 @@ function initclassroom(data) {
 		playervideo[pos] = data.player[i].video;
 		// todo delete
 		playervideo[pos] = "rtmp://47.114.84.56/live/" + userid;
+		console.log('playervideo[pos]:' + playervideo[pos]);
 		// playervideo[pos] = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 4) + ".mp4";
 		// if (pos <= 4) {
 		// 	playervideo[pos] = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 4) + ".mp4";
@@ -180,7 +183,6 @@ function initclassroom(data) {
 	startPusher(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
 
 	njsSetAudioSessionForIOS();
-
 	//在新的视频加入后，必须stop，然后再start pusher
 
 	// plus.device.setVolume(0.5);
@@ -364,8 +366,8 @@ function playerleave(uid) {
 }
 
 function addplayer(uid, name, coin, url) {
-	onsole.log("addplayer - pusher.pause()406");
 	pausePusher();
+	// stopPusher();
 	// pusher.stop();
 
 	// todo delete 
@@ -393,16 +395,14 @@ function addplayer(uid, name, coin, url) {
 
 	// pusher.stop();
 	// pusher.start();
-
+	// startPusher();
 	resumePusher();
-	console.log("pusher.resume();436");
 
 	// plus.device.setVolume(0.5);
 }
 
 function startlesson(offset, url) {
 	if (player[0] != null) return;
-	console.log("pusher.pause();442");
 	pausePusher();
 	// stopPusher();
 
@@ -417,8 +417,9 @@ function startlesson(offset, url) {
 	player[0].seek(testoffset);
 	player[0].play();
 
-	console.log("pusher.resume();457");
 	resumePusher();
+	// startPusher();
+	njsSetAudioSessionForIOS();
 	console.log("n#1");
 }
 //第三方推流
@@ -428,32 +429,29 @@ function startlesson(offset, url) {
 // 又拍云 七牛 阿里 腾讯等 也可以考虑接入,如果老板不在乎这点钱
 // 
 
+
+
 function initPusher(userid) {
 	// pushurl = 'rtmp://47.241.111.251/live?vhost=rotate.localhost/' + userid;
 	pushurl2 = 'rtmp://47.114.84.56/live/' + userid; // 阿里
 	console.log("pushurl2:" + pushurl2);
-	pusher = new plus.video.LivePusher('pusherwin', {
-		bottom: '0px',
-		right: '0px',
-		width: '200px',
-		height: '150px',
-		position: 'static',
+	pusher = new plus.video.LivePusher('pusher-box', {
 		url: pushurl2,
-		autofocus: false,
-		muted: true
+		'mode': 'SD',
+		// 'muted': true,
 	});
-	plus.webview.currentWebview().append(pusher);
+	// plus.webview.currentWebview().append(pusher);
 
 	// 监听状态变化事件
-	pusher.addEventListener("statechange", function onEvent(e) {
+	pusher.addEventListener("statechange", function(e) {
 		console.log('### pusher statechange: ' + JSON.stringify(e));
 	}, false);
 
-	pusher.addEventListener("error", function onEvent(e) {
+	pusher.addEventListener("error", function(e) {
 		console.log('### pusher error: ' + JSON.stringify(e));
 	}, false);
 
-	pusher.addEventListener("netstatus", function onEvent(e) {
+	pusher.addEventListener("netstatus", function(e) {
 		console.log('### pusher netstatus: ' + JSON.stringify(e));
 	}, false);
 }
@@ -477,7 +475,10 @@ var resuming = false;
 function resumePusher() {
 	if (!pusher) return;
 	console.log("resumePusher()");
-	pusher.resume();
+	setTimeout(function() {
+		pusher.resume();
+	}, 15000);
+
 }
 
 
@@ -511,8 +512,23 @@ function njsSetAudioSessionForIOS() {
 	var AVAudioSession = plus.ios.importClass("AVAudioSession");
 	// AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord",
 	// 	"AVAudioSessionCategoryOptionMixWithOthers", null);
-	AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord",
-		"AVAudioSessionCategoryOptionDuckOthers", null);
+	// AVAudioSessionCategoryOptionInterruptSpokenAudioAndMixWithOthers
+
+// AVAudioSessionCategoryOptionDefaultToSpeaker|AVAudioSessionCategoryOptionMixWithOther
+
+	// AVAudioSession.sharedInstance().setCategorywithOptionserror("AVAudioSessionCategoryPlayAndRecord",
+	// 	"AVAudioSessionModeVideoChat", "AVAudioSessionCategoryOptionDefaultToSpeaker", null);
+
+
+AVAudioSession.sharedInstance().setCategorywithOptionserror("AVAudioSessionCategoryPlayAndRecord",
+		"AVAudioSessionModeVideoChat", "AVAudioSessionCategoryOptionDefaultToSpeaker", null);
+		
+	AVAudioSession.sharedInstance().setActiveerror("YES", null);
+	// AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord",
+	// 	"AVAudioSessionCategoryOptionInterruptSpokenAudioAndMixWithOthers", null);
+
+	// AVAudioSession.sharedInstance().setCategoryerror("AVAudioSessionCategoryPlayAndRecord", "AVAudioSessionModeVideoChat",
+	// 	null);
 
 	plus.ios.deleteObject(AVAudioSession);
 }
