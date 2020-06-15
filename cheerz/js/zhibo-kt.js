@@ -107,13 +107,13 @@ function initclassroom(data) {
 	var top = odiv.getBoundingClientRect().top;
 	var width = odiv.getBoundingClientRect().width;
 	var height = odiv.getBoundingClientRect().height;
-	// activeview = plus.webview.create('about:blank', 'active', {
-	// 	top: top + 5, //把黑板的边框留一点出来
-	// 	left: left + 10,
-	// 	height: height - 10,
-	// 	width: width - 20
-	// });
-	// activeview.hide();
+	activeview = plus.webview.create('about:blank', 'active', {
+		top: top + 5, //把黑板的边框留一点出来
+		left: left + 10,
+		height: height - 10,
+		width: width - 20
+	});
+	activeview.hide();
 
 	lessondata = data.lessondata;
 	datacount = data.datacount;
@@ -144,10 +144,10 @@ function initclassroom(data) {
 		console.log(pos + 'playervideo[pos]:' + playervideo[pos]);
 		// playervideo[pos] = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 4) + ".mp4";
 		// if (pos == 2) {
-			// playervideo[pos] = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 4) + ".mp4";
-			// playerid[pos] = pos + 100;
-			// playername[pos] = "tester" + pos;
-			// playercoin[pos] = getRandom(0, 1000);
+		// playervideo[pos] = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 4) + ".mp4";
+		// playerid[pos] = pos + 100;
+		// playername[pos] = "tester" + pos;
+		// playercoin[pos] = getRandom(0, 1000);
 		// }
 
 		if (playername[pos] != "") {
@@ -157,14 +157,17 @@ function initclassroom(data) {
 			tag = "#coin" + pos;
 			$(tag).text(playercoin[pos]);
 			tag = "#v" + pos;
-			player[pos] = createvideo("v" + pos, "v" + pos, playervideo[pos]);
-			player[pos].play();
-			if (pos == 1) //自己始终静音
-			{
-				// player[1].setStyles({
-				// 	muted: true,
-				// });
+			// 自己使用用推流摄像头
+			if (pos > 1) {
+				player[pos] = createvideo("v" + pos, "v" + pos, playervideo[pos]);
+				player[pos].play();
 			}
+			// if (pos == 1) //自己始终静音
+			// {
+			// 	player[1].setStyles({
+			// 		muted: true,
+			// 	});
+			// }
 		} else {
 			tag = "#name" + pos;
 			$(tag).text("");
@@ -213,12 +216,12 @@ function checklessondata(lastplaytime, currtime) {
 
 			// console.log(lessondata[i].url + ":game get gamepara :" + unescape_para);
 
-			// activeview.loadURL(lessondata[i].url + ".html");
-			// for (j = 1; j <= 4; j++) {
-			// 	localStorage.setItem("playername" + j, playername[j]);
-			// 	localStorage.setItem("playerid" + j, playerid[j]);
-			// }
-			// activeview.show();
+			activeview.loadURL(lessondata[i].url + ".html");
+			for (j = 1; j <= 4; j++) {
+				localStorage.setItem("playername" + j, playername[j]);
+				localStorage.setItem("playerid" + j, playerid[j]);
+			}
+			activeview.show();
 		}
 	}
 }
@@ -424,7 +427,8 @@ function initPusher(userid) {
 	pushurl2 = 'rtmp://47.114.84.56/live/' + userid; // 阿里
 	console.log("pushurl2:" + pushurl2);
 	pusher = new plus.video.LivePusher('pusher-box', {
-		url: pushurl2
+		url: pushurl2,
+
 		// 'muted': true,
 	});
 	// plus.webview.currentWebview().append(pusher);
@@ -488,7 +492,8 @@ function updatePusher() {
 	pushurl2 = 'rtmp://47.114.84.56/live?vhost=rotate.localhost/' + userid; // 阿里
 	pusher.get
 	pusher.setStyles({
-		url: pushurl2
+		url: pushurl2,
+		aspect: "3:4"
 	});
 }
 
