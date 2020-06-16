@@ -177,6 +177,15 @@
 
 			document.addEventListener('plusready', plusReady, false);
 
+			document.addEventListener('pause', function() {
+				pausePusher();
+			}, false);
+
+			document.addEventListener('resume', function() {
+				// 视频返回重新设置音频环境
+				resumePusher();
+			}, false);
+
 			// 添加金币闪烁动画
 			var blink_t;
 

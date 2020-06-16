@@ -158,16 +158,16 @@ function initclassroom(data) {
 			$(tag).text(playercoin[pos]);
 			tag = "#v" + pos;
 			// 自己使用用推流摄像头
-			if (pos > 1) {
-				player[pos] = createvideo("v" + pos, "v" + pos, playervideo[pos]);
-				player[pos].play();
-			}
-			// if (pos == 1) //自己始终静音
-			// {
-			// 	player[1].setStyles({
-			// 		muted: true,
-			// 	});
+			// if (pos > 1) {
+			player[pos] = createvideo("v" + pos, "v" + pos, playervideo[pos]);
+			player[pos].play();
 			// }
+			if (pos == 1) //自己始终静音
+			{
+				player[1].setStyles({
+					muted: true,
+				});
+			}
 		} else {
 			tag = "#name" + pos;
 			$(tag).text("");
@@ -267,11 +267,11 @@ function createvideo(videoid, divid, url) {
 		left: left + 2,
 		width: width - 4,
 		height: height - 4,
+		direction: 90
 	});
 	player.addEventListener("error", function(e) {
 		console.log("video error " + JSON.stringify(e))
 	}, false);
-
 	plus.webview.currentWebview().append(player);
 	console.log("#### added video " + divid + " " + url);
 	return player;
@@ -340,7 +340,6 @@ function enterlesson() {
 			mui.alert("网络错误，请稍后再试");
 		}
 	});
-
 }
 
 function reenter() {
@@ -427,8 +426,10 @@ function initPusher(userid) {
 	pushurl2 = 'rtmp://47.114.84.56/live/' + userid; // 阿里
 	console.log("pushurl2:" + pushurl2);
 	pusher = new plus.video.LivePusher('pusher-box', {
-		url: pushurl2,
-
+		'url': pushurl2,
+		'aspect': '4:3',
+		'mode': 'SD'
+		// 'direction': '90'
 		// 'muted': true,
 	});
 	// plus.webview.currentWebview().append(pusher);
@@ -445,6 +446,8 @@ function initPusher(userid) {
 	pusher.addEventListener("netstatus", function(e) {
 		console.log('### pusher netstatus: ' + JSON.stringify(e));
 	}, false);
+
+	njsAdjustCameraForIOS();
 }
 
 // 暂停推流
@@ -508,6 +511,18 @@ function njsSetAudioSessionForIOS() {
 	AVAudioSession.sharedInstance().setModeerror("AVAudioSessionModeVideoRecording", null);
 	AVAudioSession.sharedInstance().setActiveerror("YES", null);
 	plus.ios.deleteObject(AVAudioSession);
+}
+
+function njsAdjustCameraForIOS() {
+	if (!mui.os.ios) return;
+
+	console.log("njsAdjustCameraForIOS");
+	// var h5ca = plus.ios.importClass("H5SetCamera");
+	// h5ca.setLanscapeCamera();
+	
+	var h5ca = plus.ios.newObject("H5SetCamera");
+	plus.ios.invoke(h5ca,"setLanscapeCamera");
+	plus.ios.deleteObject(h5ca);
 }
 
 function docommand(cmds) {
