@@ -182,6 +182,7 @@ function initclassroom(data) {
 
 
 	// 创建推流
+	// getCameraPara();
 	initPusher(userid);
 	console.log("pusher.start();168");
 	startPusher(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
@@ -423,11 +424,11 @@ function startlesson(offset, url) {
 
 function initPusher(userid) {
 	// pushurl = 'rtmp://47.241.111.251/live?vhost=rotate.localhost/' + userid;
-	pushurl2 = 'rtmp://47.114.84.56/live/' + userid; // 阿里
+	pushurl2 = 'rtmp://47.114.84.56:1935/live?vhost=rotate.localhost/' + userid; // 阿里
 	console.log("pushurl2:" + pushurl2);
 	pusher = new plus.video.LivePusher('pusher-box', {
 		'url': pushurl2,
-		'aspect': '4:3',
+		'aspect': '16:9',
 		'mode': 'SD'
 		// 'direction': '90'
 		// 'muted': true,
@@ -447,7 +448,26 @@ function initPusher(userid) {
 		console.log('### pusher netstatus: ' + JSON.stringify(e));
 	}, false);
 
-	njsAdjustCameraForIOS();
+	// njsAdjustCameraForIOS();
+}
+
+function getCameraPara() {
+	var cmr = plus.camera.getCamera(2);
+	console.log(JSON.stringify(cmr.supportedVideoResolutions));
+
+	var fmt = cmr.supportedVideoFormats[0];
+	console.log("Resolution: " + res + ", Format: " + fmt);
+	cmr.startVideoCapture(function(path) {
+			alert("Capture video success: " + path);
+		},
+		function(error) {
+			alert("Capture video failed: " + error.message);
+		}, {
+			resolution: res,
+			format: fmt
+		}
+	);
+
 }
 
 // 暂停推流
@@ -519,9 +539,9 @@ function njsAdjustCameraForIOS() {
 	console.log("njsAdjustCameraForIOS");
 	// var h5ca = plus.ios.importClass("H5SetCamera");
 	// h5ca.setLanscapeCamera();
-	
+
 	var h5ca = plus.ios.newObject("H5SetCamera");
-	plus.ios.invoke(h5ca,"setLanscapeCamera");
+	plus.ios.invoke(h5ca, "setLanscapeCamera");
 	plus.ios.deleteObject(h5ca);
 }
 
