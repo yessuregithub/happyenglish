@@ -27,7 +27,6 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-
 									</div>
 								</div>
 							</li>
@@ -35,7 +34,6 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-
 									</div>
 								</div>
 							</li>
@@ -43,7 +41,6 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-
 									</div>
 								</div>
 							</li>
@@ -51,7 +48,6 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-
 									</div>
 								</div>
 							</li>
@@ -59,7 +55,6 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-
 									</div>
 								</div>
 							</li>
@@ -67,7 +62,6 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-
 									</div>
 								</div>
 							</li>
@@ -75,7 +69,6 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-
 									</div>
 								</div>
 							</li>
@@ -83,7 +76,6 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-
 									</div>
 								</div>
 							</li>
@@ -91,7 +83,6 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-
 									</div>
 								</div>
 							</li>
@@ -99,7 +90,6 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-
 									</div>
 								</div>
 							</li>
@@ -107,7 +97,6 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-
 									</div>
 								</div>
 							</li>
@@ -115,7 +104,6 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-
 									</div>
 								</div>
 							</li>
@@ -123,7 +111,6 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-
 									</div>
 								</div>
 							</li>
@@ -131,7 +118,6 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-
 									</div>
 								</div>
 							</li>
@@ -139,7 +125,27 @@
 								<div class="item">
 									<div class="img-box">
 										<div class="tupian"></div>
-
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box">
+										<div class="tupian"></div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box">
+										<div class="tupian"></div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box">
+										<div class="tupian"></div>
 									</div>
 								</div>
 							</li>
@@ -177,6 +183,10 @@
 
 			function loadpage() {
 				startgame();
+
+				// 滚动
+				var xingHpx = rem2px(5.17);
+				initScroll(550, 18 * xingHpx);
 			}
 		</script>
 
@@ -221,16 +231,9 @@
 			// uc_01 ul 单选
 			var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
 			uc_01.click = function(index, item) {
-				// console.log('click', index, item.text() + "dui:" + $(item).find(".dui").length);
-				var dui = $(item).find(".dui").length;
-				if (dui > 0) {
-					rightCount++;
-				}
-				console.log('click:', index + " dui: " + dui + " | " + rightCount);
+				pro_result(index);
 			}
-			uc_01.change = function(index, item) {
-				// console.log('change', index, item.text())
-			}
+			uc_01.change = function(index, item) {}
 		</script>
 
 		<script>
@@ -253,8 +256,6 @@
 			// }
 			// eval(_InitScroll("A1", "A2", 550, 19 * 6, 15000));
 
-			// 滚动
-			initScroll(550, 19 * 6);
 
 			var marqueesHeightA1;
 			var stopscrollA1;
@@ -265,9 +266,9 @@
 			var leftElemA2;
 			var endscroll = false;
 			var gamesec = 15;
-			
+
 			function initScroll(width, heigh) {
-				marqueesHeightA1 = heigh;
+				marqueesHeightA1 = heigh * 2; // cloneNode
 				stopscrollA1 = false;
 				scrollElemA1 = document.getElementById('A1');
 
@@ -299,13 +300,16 @@
 
 			function scrollUpA1() {
 				if (endscroll) {
-					clearInterval(s_interval);
+					if (s_interval) {
+						clearInterval(s_interval);
+						s_interval = null;
+					}
 					return;
 				}
 				// if (stopscrollA1) {
 				// 	return;
 				// }
-				var step =2;
+				var step = 2;
 				currentTopA1 += step;
 				if (currentTopA1 == (marqueesHeightA1 + step)) {
 					stoptimeA1 += 1;
@@ -313,11 +317,13 @@
 					if (stoptimeA1 == gamesec) {
 						currentTopA1 = 0;
 						stoptimeA1 = 0;
+						endscroll = true;
 					}
 				} else {
 					preTopA1 = scrollElemA1.scrollTop;
 					scrollElemA1.scrollTop += step;
-					if (preTopA1 == scrollElemA1.scrollTop) {
+					if (preTopA1 == scrollElemA1.scrollTop * 2) {
+						console.log(scrollElemA1.scrollTop);
 						scrollElemA1.scrollTop = 0;
 						scrollElemA1.scrollTop += step;
 					}

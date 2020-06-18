@@ -6,12 +6,15 @@ var count15;
 var anw;
 var pic_url;
 var count15;
+var genOpts;
 var rightCount; // 答对次数
+var clickedOpts; // 已选中
+var rightOpts; // 已选中正确
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
 	//debug
-	json=JSON.parse(gamepara);
+	json = JSON.parse(gamepara);
 	//单词|第一图|第二图|第三图|答案
 
 	var word = json.word;
@@ -51,11 +54,12 @@ function startgame() {
 
 	// 选项设置
 	var itemCount = $("#A2").find(".item").length;
-	
-	rightCount = 0;
-	var opt = genopt(itemCount);
-	setQues(opt);
 
+	rightCount = 0;
+	genOpts = genopt(itemCount);
+	setQues(genOpts);
+	clickedOpts = new Array();
+	rightOpts = new Array();
 
 	// 设置游戏持续时间
 	var duration = 15 + 35;
@@ -75,7 +79,7 @@ function genopt(optcount) {
 		while (!found) {
 			found = true;
 			var val = (Math.round(Math.random() * 1000) % 3) + 1;
-			if (i > 0 ) {
+			if (i > 0) {
 				if (val == opt[i - 1]) {
 					found = false;
 					continue;
@@ -120,12 +124,28 @@ function setQues(opt) {
 		console.log(i + " : " + purl);
 
 		$(tupianlist[i]).append("<img class='dongimg' src=" + purl + ">");
-		if (anw == opt[i]) {
-			$(donglist[i]).append("<div class='dui'></div>");
-		}
 	}
 }
 
+function pro_result(index) {
+	if ($.inArray(index, clickedOpts) != -1) {
+		return;
+	}
+	clickedOpts.push(index);
+	var choice = genOpts[index];
+	
+	console.log('click:', index + " choice: " + choice + " | " + rightCount);
+	if (choice == anw) {
+		rightOpts.push(index);
+
+		rightCount++;
+		var donglist = $("#uc_01").find(".img-box");
+		if (donglist[index]) {
+			$(donglist[index]).append("<div class='dui'></div>");
+			console.log("添加 dui：" + index);
+		}
+	}
+}
 
 function endgame() {
 	$("#result").show();

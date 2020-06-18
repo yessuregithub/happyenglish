@@ -639,3 +639,13 @@ function unescape_quot(str) {
 	rst = str.replace(/#/g, "\""); //&quot;
 	return rst;
 }
+
+function rem2px(remval) {
+	var px = lib.flexible.rem2px(remval);
+	return px;
+}
+
+function px2rem(pxval) {
+	var remv = lib.flexible.px2rem(pxval);
+	return remv;
+}

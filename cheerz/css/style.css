@@ -473,10 +473,10 @@ input:-ms-input-placeholder {color: #666;}
 .dong-list li .item .img-box .tupian{ width:100%; background:#d9d9d9; height:2.54rem; overflow: hidden;}
 .dong-list li .item .img-box .tupian .dongimg{margin-top: 8%; width:90%; height: auto;}
 
-.dong-list li .item .dui{ background:url(../images/tm.png) repeat; width:100%; height:100%; position:absolute; left:0; top:0; display:none; }
-.dong-list li .item .dui:after{ background:url(../images/dui02.png) no-repeat; width:2.2rem; height:1.75rem; content:""; position:absolute; left:50%; top:50%;transform: translateY(-50%); margin-left:-1.1rem; background-size:100% 100%; display:none;}
-.dong-list li.selected .item .dui{ display:block;}
-.dong-list li.selected .item .dui:after{ display:block;}
+.dong-list li .item .dui{ background:url(../images/tm.png) repeat; width:100%; height:100%; position:absolute; left:0; top:0; display:block; }
+.dong-list li .item .dui:after{ background:url(../images/dui02.png) no-repeat; width:2.2rem; height:1.75rem; content:""; position:absolute; left:50%; top:50%;transform: translateY(-50%); margin-left:-1.1rem; background-size:100% 100%; display:block;}
+/* .dong-list li.selected .item .dui{ display:block;} */
+/* .dong-list li.selected .item .dui:after{ display:block;} */
 
 .donghua-box{ position:fixed; left:50%; width:4.25rem; height:5.21rem; margin-left:-2.12rem; bottom:30%;}
 

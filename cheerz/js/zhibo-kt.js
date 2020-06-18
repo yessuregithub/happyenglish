@@ -193,6 +193,10 @@ function initclassroom(data) {
 }
 
 function debuggoless() {
+	var para =
+		'{"word":"mouth","img1":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p1.jpg","img2":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p2.jpg","img3":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p3.jpg","img4":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p4.jpg","answer":1}';
+	var unescape_para = unescape(para);
+	localStorage.setItem("gpara", unescape_para);
 	activeview.loadURL("hudong-yidongxq.html"); // todo
 	for (j = 0; j < 4; j++) localStorage.setItem("playername" + (j + 1), playername[j]);
 	activeview.show();
@@ -325,7 +329,7 @@ function enterlesson() {
 			if (data.rst == 1) {
 				initclassroom(data);
 
-				//debuggoless(); // todo delete
+				// debuggoless(); // todo delete
 				return;
 			}
 			if (data.rst == 2) { //服务器认为已经在课堂，强制退出
@@ -424,7 +428,12 @@ function startlesson(offset, url) {
 
 function initPusher(userid) {
 	// pushurl = 'rtmp://47.241.111.251/live?vhost=rotate.localhost/' + userid;
-	pushurl2 = 'rtmp://47.114.84.56:1935/live?vhost=rotate.localhost/' + userid; // 阿里
+	if (mui.os.ios) {
+		pushurl2 = 'rtmp://47.114.84.56:1935/live?vhost=rotate.localhost/' + userid; // 阿里	
+	} else {
+		pushurl2 = 'rtmp://47.114.84.56:1935/live/' + userid; // 阿里
+	}
+
 	console.log("pushurl2:" + pushurl2);
 	pusher = new plus.video.LivePusher('pusher-box', {
 		'url': pushurl2,
