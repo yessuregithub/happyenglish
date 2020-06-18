@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div id="orientLayer">
+			<div class="wt-box">
+				<div class="wt-bg"><img src="images/huo-bg.jpg"></div>
+				<div id="huojian-jt" class="donghua-box">
+					<img src="images/huo-dong.png">
+				</div>
+			</div>
+
+			<div id="light" class="m-huo-tan" style="display:block;">
+				<div class="hudong-dui">
+					<div id="progress1" class="time mui-clearfix" style="display:none;">
+						<div class="name">TIME</div>
+						<div class="schedule">
+							<span id="timecount" style="width:80%;"></span>
+						</div>
+					</div>
+				</div>
+				<div class="dudong-img">
+					<div class="img-box"><img id="showimage" src="" /></div>
+				</div>
+				<div class="dudong-txt">
+					<p id="words1"></p>
+					<p id="words2"></p>
+				</div>
+				<ul class="dudong-btn ui-choose" id="uc_01" style="display:none;">
+					<li>
+						<span id="anwser1"></span>
+						<div class="dui"></div>
+						<div class="cuo" style=" display:none;"></div>
+					</li>
+					<li>
+						<span id="anwser2"></span>
+						<div class="dui" style=" display:none;"></div>
+						<div class="cuo"></div>
+					</li>
+				</ul>
+			</div>
+
+			<!-- 火箭动画 -->
+			<div id="huojian-mv" class="hd-danci-fullscreen">
+				<div id="huojian-st" class="huojian" style="top: -50%;"></div>
+				<div id="huojian-hy" class="huojian"></div>
+			</div>
+			
+			<!-- 最后奖励 -->
+			<div id="result" class="m-timu">
+				<div id="res_gj" class="movie">
+					<img src="movie/goodjob/5.png">
+				</div>
+				<div id="res_nt" class="movie">
+					<img src="movie/nicetry/5.png">
+				</div>
+			</div>
+		</div>
+
+		<div class="m-praise" style="display:none;">
+			<img src="images/m-praise.png">
+		</div>
+		<div class="m-encourage" style="display:none;">
+			<img src="images/m-encourage.png">
+		</div>
+		<!-- 灰底 -->
+		<div id="hd-huidi" class="m-timu2"></div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/seqframe.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/huodong-huojian.js"></script>
+		<script src="js/ui-choose.js"></script>
+		<script>
+			mui.init();
+			mui.ready(function() {
+				loadpage();
+			});
+
+			function loadpage() {
+				token = localStorage.getItem("token");
+				if (token == null || token == "" || typeof(token) == undefined) {
+					jump('login', 'dl.html');
+					return null;
+				}
+				startgame();
+			}
+
+			window.addEventListener("touchstart", function(event) {
+				if (stage != 1) return;
+				console.log(event);
+			})
+
+			$('.ui-choose').ui_choose();
+			var uc_01 = $('#uc_01').data('ui-choose');
+			uc_01.click = function(index, item) {
+				if (checked) return;
+				checked = true;
+				clearInterval(counter);
+				console.log('click', index, item.text())
+				if (index == answerindex) { //答对
+				} else { //答错
+				}
+				processanswer(index == answerindex);
+			}
+		</script>
+
+
+	</body>
+</html>
