@@ -107,7 +107,7 @@ function initclassroom(data) {
 	var top = odiv.getBoundingClientRect().top;
 	var width = odiv.getBoundingClientRect().width;
 	var height = odiv.getBoundingClientRect().height;
-	activeview = plus.webview.create('about:blank', 'active', {
+	activeview = plus.webview.create('blank.html', 'active', {
 		top: top + 5, //把黑板的边框留一点出来
 		left: left + 10,
 		height: height - 10,
@@ -182,6 +182,7 @@ function initclassroom(data) {
 }
 
 function debuggoless() {
+	return; 
 	var para =
 		'{"word":"mouth","img1":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p1.jpg","img2":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p2.jpg","img3":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p3.jpg","img4":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p4.jpg","answer":1}';
 	var unescape_para = unescape(para);
@@ -194,32 +195,6 @@ function debuggoless() {
 
 var lastplaytime = 0;
 
-function checklessondata(lastplaytime, currtime) {
-	for (i = 0; i < datacount; i++) {
-		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
-			// console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + " pop up " + lessondata[i].url);
-
-			var unescape_para = unescape(lessondata[i].para);
-			// unescape_para =
-			// 	'{"tuzi":[{"que":"Which is #mouth#?","anw":2,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p3.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p1.jpg"},{"que":"Which is #ear#?","anw":2,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p1.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg"},{"que":"Which is #eye#?","anw":2,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p2.jpg"},{"que":"Which is #nose#?","anw":1,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p3.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg"},{"que":"Which is #eye#?","anw":1,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p2.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg"}]}';
-			// lessondata[i].url = 'tuzi-youxi';
-
-			localStorage.setItem("gid", lessondata[i].id);
-			localStorage.setItem("ts", lessondata[i].ts);
-			localStorage.setItem("gpara", unescape_para);
-			localStorage.setItem("gurl", lessondata[i].url);
-
-			// console.log(lessondata[i].url + ":game get gamepara :" + unescape_para);
-
-			activeview.loadURL(lessondata[i].url + ".html");
-			for (j = 1; j <= 4; j++) {
-				localStorage.setItem("playername" + j, playername[j]);
-				localStorage.setItem("playerid" + j, playerid[j]);
-			}
-			activeview.show();
-		}
-	}
-}
 
 function timeupdate(e) {
 	//console.log('statechange: ' + JSON.stringify(e));
@@ -272,6 +247,32 @@ function createvideo(videoid, divid, url) {
 	return player;
 }
 
+function checklessondata(lastplaytime, currtime) {
+	for (i = 0; i < datacount; i++) {
+		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
+			// console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + " pop up " + lessondata[i].url);
+
+			var unescape_para = unescape(lessondata[i].para);
+			// unescape_para =
+			// 	'{"tuzi":[{"que":"Which is #mouth#?","anw":2,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p3.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p1.jpg"},{"que":"Which is #ear#?","anw":2,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p1.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg"},{"que":"Which is #eye#?","anw":2,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p2.jpg"},{"que":"Which is #nose#?","anw":1,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p3.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg"},{"que":"Which is #eye#?","anw":1,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p2.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg"}]}';
+			// lessondata[i].url = 'tuzi-youxi';
+
+			localStorage.setItem("gid", lessondata[i].id);
+			localStorage.setItem("ts", lessondata[i].ts);
+			localStorage.setItem("gpara", unescape_para);
+			localStorage.setItem("gurl", lessondata[i].url);
+
+			// console.log(lessondata[i].url + ":game get gamepara :" + unescape_para);
+
+			activeview.loadURL(lessondata[i].url + ".html");
+			for (j = 1; j <= 4; j++) {
+				localStorage.setItem("playername" + j, playername[j]);
+				localStorage.setItem("playerid" + j, playerid[j]);
+			}
+			activeview.show();
+		}
+	}
+}
 
 function enterlesson() {
 	// check add 金币
@@ -436,7 +437,7 @@ function initPusher(userid) {
 
 	// 监听状态变化事件
 	pusher.addEventListener("statechange", function(e) {
-		console.log('### pusher statechange: ' + JSON.stringify(e));
+		//console.log('### pusher statechange: ' + JSON.stringify(e));
 	}, false);
 
 	pusher.addEventListener("error", function(e) {
@@ -444,7 +445,7 @@ function initPusher(userid) {
 	}, false);
 
 	pusher.addEventListener("netstatus", function(e) {
-		console.log('### pusher netstatus: ' + JSON.stringify(e));
+		//console.log('### pusher netstatus: ' + JSON.stringify(e));
 	}, false);
 
 	// njsAdjustCameraForIOS();
