@@ -87,6 +87,8 @@
 
 			// 回看课程
 			function reviewkt() {
+				// 当前进入直播才加金币，互动不加
+				localStorage.setItem("isnowzhibo", false);
 				jump("回看课程", "zhibo-kt.html");
 			}
 

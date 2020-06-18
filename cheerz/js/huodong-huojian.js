@@ -8,10 +8,11 @@ var mv_st; // 火箭升天
 var mv_hy; // 火箭黑烟
 var mv_gj;
 var mv_nt;
+var rightCount;
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
-	json=JSON.parse(gamepara);
+	json = JSON.parse(gamepara);
 	$("#words1").text(json.word1);
 	$("#words2").text(json.word2);
 	$("#showimage").attr("src", json.image);
@@ -19,6 +20,7 @@ function startgame() {
 	$("#anwser2").text(json.answer2);
 	answerindex = parseInt(json.answer) - 1;
 	stage = 1;
+	rightCount = 0;
 	setTimeout(showselect, 15000);
 
 	// 欢喜最后一帧
@@ -96,4 +98,24 @@ function processanswer(correct) {
 		if (correct) $("#res_gj").show();
 		else $("#res_nt").show();
 	}, 1500);
+
+	// 加金币
+	if (correct) {
+		rightCount++;
+		if (rightCount == 1) {
+			addcoin(1);
+		}
+	}
+}
+
+function addcoin(coin) {
+	var iszhibo = localStorage.getItem("isnowzhibo");
+	if (iszhibo) {
+		// 加金币
+		var ts = new Date().getTime() / 1000;
+		var gurl = localStorage.getItem("gurl");
+		var cha = gurl + "_" + ts;
+		var memo = "_add" + coin;
+		addcointoserv(coin, cha, memo);
+	}
 }

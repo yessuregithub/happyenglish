@@ -3,6 +3,7 @@ var anw_rw; // 选对选错
 var mv_gj;
 var mv_nt;
 var count15;
+var rightCount;
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
@@ -14,7 +15,8 @@ function startgame() {
 		var sentence = unescape_quot(json.sentence);
 		anw_rw = json.answer;
 		var duration = json.duration; // todo
-
+		rightCount = 0;
+		
 		// 背景
 		$("#hd-yn-tuka").attr("src", cover);
 
@@ -35,7 +37,7 @@ function startgame() {
 			$("#hd-no").addClass("dui");
 			$("#hd-yes").addClass("cuo");
 		}
-		
+
 		// 加载欢喜动画
 		$("#result").hide();
 		$("#res_gj").hide();
@@ -76,8 +78,25 @@ function pro_result(click_rw) {
 	// setTimeout(endgame,2000);
 	if (click_rw == anw_rw) {
 		endgame(true);
+		
+		rightCount++;
+		if (rightCount == 1) {
+			addcoin(1);
+		}
 	} else {
 		endgame(false);
+	}
+}
+
+function addcoin(coin) {
+	var iszhibo = localStorage.getItem("isnowzhibo");
+	if (iszhibo) {
+		// 加金币
+		var ts = new Date().getTime() / 1000;
+		var gurl = localStorage.getItem("gurl");
+		var cha = gurl + "_" + ts;
+		var memo = "_add" + coin;
+		addcointoserv(coin, cha, memo);
 	}
 }
 

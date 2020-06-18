@@ -142,13 +142,6 @@ function initclassroom(data) {
 		// todo delete
 		playervideo[pos] = "rtmp://47.114.84.56/live/" + data.player[i].id;
 		console.log(pos + 'playervideo[pos]:' + playervideo[pos]);
-		// playervideo[pos] = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 4) + ".mp4";
-		// if (pos == 2) {
-		// playervideo[pos] = "http://ipdl.cheerz.cn/hpyy/video/c00" + getRandom(2, 4) + ".mp4";
-		// playerid[pos] = pos + 100;
-		// playername[pos] = "tester" + pos;
-		// playercoin[pos] = getRandom(0, 1000);
-		// }
 
 		if (playername[pos] != "") {
 
@@ -178,13 +171,9 @@ function initclassroom(data) {
 		}
 	}
 
-	console.log("initclassroom end");
-
-
 	// 创建推流
 	// getCameraPara();
 	initPusher(userid);
-	console.log("pusher.start();168");
 	startPusher(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
 
 	//在新的视频加入后，必须stop，然后再start pusher
@@ -218,6 +207,7 @@ function checklessondata(lastplaytime, currtime) {
 			localStorage.setItem("gid", lessondata[i].id);
 			localStorage.setItem("ts", lessondata[i].ts);
 			localStorage.setItem("gpara", unescape_para);
+			localStorage.setItem("gurl", lessondata[i].url);
 
 			// console.log(lessondata[i].url + ":game get gamepara :" + unescape_para);
 
@@ -284,8 +274,8 @@ function createvideo(videoid, divid, url) {
 
 
 function enterlesson() {
-
 	// check add 金币
+	// 2020.6.18 需要重新检测所有player金币变化
 	incoin_t = setInterval(function() {
 		var coin = localStorage.getItem("incoin");
 		if (coin != null && parseInt(coin) > 0) {

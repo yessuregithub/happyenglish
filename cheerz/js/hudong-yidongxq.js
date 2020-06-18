@@ -10,6 +10,7 @@ var genOpts;
 var rightCount; // 答对次数
 var clickedOpts; // 已选中
 var rightOpts; // 已选中正确
+var score = 0;
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
@@ -23,6 +24,8 @@ function startgame() {
 	pic_url[1] = json.img2;
 	pic_url[2] = json.img3;
 	anw = parseInt(json.answer);
+
+	score = 0;
 
 	$("#hd-yn-que").html(word);
 
@@ -133,17 +136,35 @@ function pro_result(index) {
 	}
 	clickedOpts.push(index);
 	var choice = genOpts[index];
-	
+
 	console.log('click:', index + " choice: " + choice + " | " + rightCount);
 	if (choice == anw) {
 		rightOpts.push(index);
 
 		rightCount++;
+		$('#score').html(rightCount);
+		if (rightCount == 1) {
+			addcoin(1);
+		} else if (rightCount == 10) {
+			addcoin(1);
+		}
 		var donglist = $("#uc_01").find(".img-box");
 		if (donglist[index]) {
 			$(donglist[index]).append("<div class='dui'></div>");
 			console.log("添加 dui：" + index);
 		}
+	}
+}
+
+function addcoin(coin) {
+	var iszhibo = localStorage.getItem("isnowzhibo");
+	if (iszhibo) {
+		// 加金币
+		var ts = new Date().getTime() / 1000;
+		var gurl = localStorage.getItem("gurl");
+		var cha = gurl + "_" + ts;
+		var memo = "_add" + coin;
+		addcointoserv(coin, cha, memo);
 	}
 }
 

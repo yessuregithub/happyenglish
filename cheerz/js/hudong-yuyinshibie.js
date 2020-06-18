@@ -121,12 +121,14 @@ function anlyvoice3(baiduresult) {
 		return;
 	} //没读
 	else if (errcode != 0) {
-		processscore(2);
+		// processscore(2);
+		processscore(0);
 		return;
 	} //没能解析
 	var resultcount = baiduresult.result.length;
 	if (resultcount == 0) {
-		processscore(3);
+		// processscore(3);
+		processscore(1); // 读了都给1分
 		return;
 	} //实在差得太多？
 	score = -1;
@@ -138,17 +140,33 @@ function anlyvoice3(baiduresult) {
 		if ((pos1 != -1 || pos2 != -1) && score == -1) score = 10 - i;
 	}
 	if (score == -1) score = 5; //读错了
-	processscore(score);
+	// processscore(score);
+	processscore(1); // 读了都给1分
+
 	// mui.alert("识别数：" + resultcount + " 子集：" + baiduresult.result + " 得:" + score + " 分");
 	// debug
 }
 
+
 function processscore(score) {
-	console.log("get score:" + score);
+	addcoin(score);
+	
 	// document.postMessage(addcoin, score);
-	if (score > 0) localStorage.setItem("incoin", score);
+	// if (score > 0) localStorage.setItem("incoin", score);
 	// localStorage.setItem("incoin", 10); debug
-	setTimeout(function() {
-		plus.webview.currentWebview().hide();
-	}, 5000);
+	// setTimeout(function() {
+	// 	plus.webview.currentWebview().hide();
+	// }, 5000);
+}
+
+function addcoin(coin) {
+	var iszhibo = localStorage.getItem("isnowzhibo");
+	if (iszhibo) {
+		// 加金币
+		var ts = new Date().getTime() / 1000;
+		var gurl = localStorage.getItem("gurl");
+		var cha = gurl + "_" + ts;
+		var memo = "_add" + coin;
+		addcointoserv(coin, cha, memo);
+	}
 }

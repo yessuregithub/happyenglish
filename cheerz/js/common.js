@@ -295,6 +295,8 @@ function listcurrlesson(token) {
 						link = 'qb-kc.html';
 					} else {
 						if (istoday && !isweekend) {
+							// 当前进入直播才加金币，互动不加
+							localStorage.setItem("isnowzhibo", true);
 							promptword = "进入教室";
 							link = 'zhibo-kt.html'
 						} else if (istoday && isweekend) {
@@ -449,6 +451,8 @@ function setgamescore(lid, url, gscore) {
 
 // 上传金币
 function addcointoserv(coin, cha, memo) {
+	console.log("add " + coin + " coin to server cha=" + cha);
+
 	var token = localStorage.getItem("token");
 	var verify = md5(token + coin + cha);
 

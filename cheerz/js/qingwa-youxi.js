@@ -143,6 +143,13 @@ function pro_result(overtime) {
 	if (click_yn == anw_yn && overtime == false) {
 		correct = true;
 		rightCount++;
+		
+		// 加金币
+		if (rightCount == 1) {
+			addcoin(1);
+		} else if (rightCount == 5) {
+			addcoin(1);
+		}
 	}
 
 	mui.ajax({
@@ -350,4 +357,16 @@ function endgame(correct) {
 	setTimeout(function() {
 		plus.webview.currentWebview().hide();
 	}, (5 * 1000));
+}
+
+function addcoin(coin) {
+	var iszhibo = localStorage.getItem("isnowzhibo");
+	if (iszhibo) {
+		// 加金币
+		var ts = new Date().getTime() / 1000;
+		var gurl = localStorage.getItem("gurl");
+		var cha = gurl + "_" + ts;
+		var memo = "_add" + coin;
+		addcointoserv(coin, cha, memo);
+	}
 }
