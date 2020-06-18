@@ -365,9 +365,9 @@ function endgame(correct) {
 
 function addcoin(coin) {
 	var iszhibo = localStorage.getItem("isnowzhibo");
-	if (iszhibo) {
+	if (iszhibo == 1) {
 		// 加金币
-		var ts = new Date().getTime() / 1000;
+		var ts = Math.round(new Date().getTime() / 1000);
 		var gurl = localStorage.getItem("gurl");
 		var cha = gurl + "_" + ts;
 		var memo = "_add" + coin;

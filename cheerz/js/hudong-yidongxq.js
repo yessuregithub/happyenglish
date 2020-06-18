@@ -124,7 +124,6 @@ function setQues(opt) {
 	if (donglist.length != opt.length) return;
 	for (var i = 0; i < donglist.length; i++) {
 		var purl = pic_url[opt[i] - 1];
-		console.log(i + " : " + purl);
 
 		$(tupianlist[i]).append("<img class='dongimg' src=" + purl + ">");
 	}
@@ -137,7 +136,7 @@ function pro_result(index) {
 	clickedOpts.push(index);
 	var choice = genOpts[index];
 
-	console.log('click:', index + " choice: " + choice + " | " + rightCount);
+	// console.log('click:', index + " choice: " + choice + " | " + rightCount);
 	if (choice == anw) {
 		rightOpts.push(index);
 
@@ -151,16 +150,15 @@ function pro_result(index) {
 		var donglist = $("#uc_01").find(".img-box");
 		if (donglist[index]) {
 			$(donglist[index]).append("<div class='dui'></div>");
-			console.log("添加 dui：" + index);
 		}
 	}
 }
 
 function addcoin(coin) {
 	var iszhibo = localStorage.getItem("isnowzhibo");
-	if (iszhibo) {
+	if (iszhibo == 1) {
 		// 加金币
-		var ts = new Date().getTime() / 1000;
+		var ts = Math.round(new Date().getTime() / 1000);
 		var gurl = localStorage.getItem("gurl");
 		var cha = gurl + "_" + ts;
 		var memo = "_add" + coin;

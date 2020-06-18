@@ -451,10 +451,20 @@ function setgamescore(lid, url, gscore) {
 
 // 上传金币
 function addcointoserv(coin, cha, memo) {
-	console.log("add " + coin + " coin to server cha=" + cha);
+	cha = cha.replace(/\./g, "");
+	cha = cha.replace(/\//g, "");
+	memo = memo.replace(/\./g, "");
+	memo = memo.replace(/\//g, "");
 
+	console.log("addcointoserv()")
 	var token = localStorage.getItem("token");
 	var verify = md5(token + coin + cha);
+
+	// console.log("token:" + token);
+	// console.log("coin:" + coin);
+	// console.log("cha:" + cha);
+	// console.log("memo:" + memo);
+	// console.log("verify:" + verify);
 
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_addcoin.html',
@@ -470,7 +480,7 @@ function addcointoserv(coin, cha, memo) {
 		type: 'post',
 		timeout: 10000,
 		success: function(data) {
-			console.log("add coin rst " + data.rst);
+			console.log("add coin rst " + JSON.stringify(data));
 			if (data.rst == 0) {} else if (data.rst == 1) {}
 		},
 		error: function(xhr, type, errorThrown) {
