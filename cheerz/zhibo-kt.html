@@ -186,28 +186,6 @@
 				resumePusher();
 			}, false);
 
-			// 添加金币闪烁动画
-			var blink_t;
-
-			function addcoin() {
-				console.log("addcoin event");
-				blinkcoin();
-				setTimeout(function() {
-					if (blink_t != null) {
-						clearTimeout(blink_t);
-						blink_t = null;
-					}
-				}, 800);
-			}
-
-			function blinkcoin() {
-				if ($("#coin1_img").is(":hidden"))
-					$("#coin1_img").show();
-				else
-					$("#coin1_img").hide();
-				blink_t = setTimeout('blinkcoin()', 100);
-				//test new computer commit 2
-			}
 		</script>
 
 	</body>

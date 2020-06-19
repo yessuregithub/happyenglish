@@ -296,7 +296,7 @@ function listcurrlesson(token) {
 					} else {
 						if (istoday && !isweekend) {
 							// 当前进入直播才加金币，互动不加
-							localStorage.setItem("isnowzhibo", true);
+							localStorage.setItem("isnowzhibo", 1);
 							promptword = "进入教室";
 							link = 'zhibo-kt.html'
 						} else if (istoday && isweekend) {
@@ -460,11 +460,11 @@ function addcointoserv(coin, cha, memo) {
 	var token = localStorage.getItem("token");
 	var verify = md5(token + coin + cha);
 
-	// console.log("token:" + token);
-	// console.log("coin:" + coin);
-	// console.log("cha:" + cha);
-	// console.log("memo:" + memo);
-	// console.log("verify:" + verify);
+	console.log("token:" + token);
+	console.log("coin:" + coin);
+	console.log("cha:" + cha);
+	console.log("memo:" + memo);
+	console.log("verify:" + verify);
 
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_addcoin.html',

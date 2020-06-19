@@ -16,7 +16,7 @@ function startgame() {
 		anw_rw = json.answer;
 		var duration = json.duration; // todo
 		rightCount = 0;
-		
+
 		// 背景
 		$("#hd-yn-tuka").attr("src", cover);
 
@@ -77,12 +77,11 @@ function pro_result(click_rw) {
 	clearInterval(count15);
 	// setTimeout(endgame,2000);
 	if (click_rw == anw_rw) {
-		endgame(true);
-		
 		rightCount++;
 		if (rightCount == 1) {
 			addcoin(1);
 		}
+		endgame(true);
 	} else {
 		endgame(false);
 	}

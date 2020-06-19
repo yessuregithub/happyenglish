@@ -5,7 +5,7 @@ var playername = new Array(5);
 var playerid = new Array(5);
 var playercoin = new Array(5);
 var playervideo = new Array(5);
-var playeraddcoin = new Array(5); // 增量金币
+var playeraddcoin = [0, 0, 0, 0, 0]; // 增量金币
 var token, lid;
 var lessondata, datacount;
 var activeview = null;
@@ -282,17 +282,6 @@ function checklessondata(lastplaytime, currtime) {
 }
 
 function enterlesson() {
-	// check add 金币
-	// 2020.6.18 需要重新检测所有player金币变化
-	incoin_t = setInterval(function() {
-		var coin = localStorage.getItem("incoin");
-		if (coin != null && parseInt(coin) > 0) {
-			console.log("get coin " + coin);
-			localStorage.removeItem("incoin");
-			addcoin();
-		}
-	}, 1000);
-
 	setInterval(pullmessage, 5000);
 	token = localStorage.getItem("token");
 	lid = localStorage.getItem("less_id");
@@ -414,15 +403,133 @@ function startlesson(offset, url) {
 
 	resumePusher();
 }
+
+// 更新直播间用户金币
+function updateplaycoin(args) {
+	console.log("updateplaycoin"+args);
+	var playcoin = JSON.parse(args);
+	for (i = 0; i < playcoin.length; i++) {
+		var id = playcoin[i].id;
+		var coin = playcoin[i].coin;
+		if (id == 0) continue;
+
+		var pos = getPlayPosById(id);
+		var old_coin = playcoin[pos];
+		if (coin <= old_coin) continue;
+
+		var add_coin = coin - old_coin;
+		playeraddcoin[pos] += add_coin;
+		playcoin[pos] = coin;
+		console.log("玩家" + pos + " 添加了" + add_coin + "个金币");
+
+		showaddcoin(pos);
+	}
+}
+
+// 添加金币闪烁动画
+var blink_t;
+
+// 展示添加金币
+function showaddcoin(pos) {
+	var mycoin = playercoin[pos];
+	$('#coin' + pos).text(mycoin);
+
+	var cointag = "#coin" + pos + "_img";
+	var _interv = setInterval(function() {
+		if ($(cointag).is(":hidden"))
+			$(cointag).show();
+		else
+			$(cointag).hide();
+	}, 100);
+	setTimeout(function() {
+		if (_interv) {
+			clearInterval(_interv);
+			_interv = null;
+		}
+		$(cointag).show();
+	}, 800);
+}
+
+function getPlayPosById(id) {
+	for (i = 1; i <= 4; i++) {
+		if (playerid[i] && playerid[i] != "") {
+			if (playerid[i] == id)
+				return i;
+		}
+	}
+	return -1;
+}
+
+function docommand(cmds) {
+	cmd = cmds[0];
+	if (cmd == "addplayer") addplayer(cmds[1], cmds[2], cmds[3], cmds[4]);
+	else if (cmd == "lessonstart") startlesson(cmds[1], cmds[2]);
+	else if (cmd == "leavelesson") playerleave(cmds[1]);
+	else if (cmd == "coinupdate") updateplaycoin(cmds[1]);
+}
+
+function pullmessage() {
+	token = localStorage.getItem("token");
+	lid = localStorage.getItem("less_id");
+
+	if (token == null || token == "" || typeof(token) == undefined) {
+		quitlesson(true);
+		return null;
+	}
+	if (lid == null || lid == "" || typeof(lid) == undefined) {
+		quitlesson(true);
+		return null;
+	}
+	mui.ajax({
+		url: 'http://47.241.5.29/Home_index_pullmessage.html',
+		async: true,
+		dataType: 'json',
+		data: {
+			token: token,
+			lid: lid
+		},
+		type: 'post',
+		timeout: 10000,
+		success: function(data) {
+			// 请求成功
+			if (data.rst == 0) {
+				mui.alert(data.msg);
+				quitlesson(true);
+				return;
+			}
+			if (data.rst == 1) {
+				// console.log(JSON.stringify(data));
+				commandcount = data.msgcount;
+				for (i = 0; i < commandcount; i++) {
+					//console.log("do cmd:" + data.cmd[i].cmd);
+					cmds = data.cmd[i].cmd.split("|");
+					docommand(cmds);
+				}
+				return;
+			}
+		},
+		error: function(xhr, type, errorThrown) {}
+	});
+
+}
+
+function askquit() {
+	var btnArray = ['No', 'Yes'];
+	mui.confirm('确定要离开教室(Yes/No)？', '确认', btnArray, function(e) {
+		if (e.index == 1) {
+			quitlesson(true);
+		}
+	});
+
+}
+
 //第三方推流
 //https://github.com/zhenyan-chang/RTMP-LivePlay   支持横竖屏切换! 
 //https://github.com/runner365/GPUImageRtmpPush   这个更有名
 //https://github.com/sandyCK/OpenLiveiOSPusher     这个似乎比较简单,全用第三库
 // 又拍云 七牛 阿里 腾讯等 也可以考虑接入,如果老板不在乎这点钱
 // 
-
-
-
+// 推流
 function initPusher(userid) {
 	// pushurl = 'rtmp://47.241.111.251/live?vhost=rotate.localhost/' + userid;
 	if (mui.os.ios) {
@@ -549,76 +656,4 @@ function njsAdjustCameraForIOS() {
 	var h5ca = plus.ios.newObject("H5SetCamera");
 	plus.ios.invoke(h5ca, "setLanscapeCamera");
 	plus.ios.deleteObject(h5ca);
-}
-
-function updateplayercoin(args) {
-	//
-}
-
-function docommand(cmds) {
-	cmd = cmds[0];
-	if (cmd == "addplayer") addplayer(cmds[1], cmds[2], cmds[3], cmds[4]);
-	else if (cmd == "lessonstart") startlesson(cmds[1], cmds[2]);
-	else if (cmd == "leavelesson") playerleave(cmds[1]);
-	else if (cmd == "coinupdate") updateplaycoin(cmds[1]);
-}
-
-function pullmessage() {
-	token = localStorage.getItem("token");
-	lid = localStorage.getItem("less_id");
-
-	if (token == null || token == "" || typeof(token) == undefined) {
-		quitlesson(true);
-		return null;
-	}
-	if (lid == null || lid == "" || typeof(lid) == undefined) {
-		quitlesson(true);
-		return null;
-	}
-	mui.ajax({
-		url: 'http://47.241.5.29/Home_index_pullmessage.html',
-		async: true,
-		dataType: 'json',
-		data: {
-			token: token,
-			lid: lid
-		},
-		type: 'post',
-		timeout: 10000,
-		success: function(data) {
-			// 请求成功
-			if (data.rst == 0) {
-				mui.alert(data.msg);
-				quitlesson(true);
-				return;
-			}
-			if (data.rst == 1) {
-				commandcount = data.msgcount;
-				for (i = 0; i < commandcount; i++) {
-					console.log(JSON.stringify(data));
-					//console.log("do cmd:" + data.cmd[i].cmd);
-					cmds = data.cmd[i].cmd.split("|");
-					docommand(cmds);
-				}
-				return;
-			}
-		},
-		error: function(xhr, type, errorThrown) {}
-	});
-
-}
-
-// 更新直播间用户金币
-function updateplaycoin(data) {
-	
-}
-
-function askquit() {
-	var btnArray = ['No', 'Yes'];
-	mui.confirm('确定要离开教室(Yes/No)？', '确认', btnArray, function(e) {
-		if (e.index == 1) {
-			quitlesson(true);
-		}
-	});
-
 }

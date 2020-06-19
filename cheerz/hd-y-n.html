@@ -58,6 +58,7 @@
 
 		<script src="js/mui.min.js"></script>
 		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/md5.js"></script>
 		<script src="js/rem.js"></script>
 		<script src="js/mui.js"></script>
 		<script src="js/seqframe.js"></script>
@@ -119,13 +120,11 @@
 				// uc_01 ul 单选
 				var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
 				uc_01.click = function(index, item) {
-					console.log('click', index, item.text())
 					// 0:yes 1:no
 					var rw = index == 0 ? 1 : 2;
 					pro_result(rw);
 				}
 				uc_01.change = function(index, item) {
-					console.log('change', index, item.text())
 				}
 			}
 		</script>
