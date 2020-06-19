@@ -182,7 +182,7 @@ function initclassroom(data) {
 }
 
 function debuggoless() {
-	return; 
+	return;
 	var para =
 		'{"word":"mouth","img1":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p1.jpg","img2":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p2.jpg","img3":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p3.jpg","img4":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p4.jpg","answer":1}';
 	var unescape_para = unescape(para);
@@ -545,11 +545,16 @@ function njsAdjustCameraForIOS() {
 	plus.ios.deleteObject(h5ca);
 }
 
+function updateplayercoin(args) {
+	//
+}
+
 function docommand(cmds) {
 	cmd = cmds[0];
 	if (cmd == "addplayer") addplayer(cmds[1], cmds[2], cmds[3], cmds[4]);
 	else if (cmd == "lessonstart") startlesson(cmds[1], cmds[2]);
 	else if (cmd == "leavelesson") playerleave(cmds[1]);
+	else if (cmd == "coinupdate") updateplaycoin(cmds[1]);
 }
 
 function pullmessage() {
