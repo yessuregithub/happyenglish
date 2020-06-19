@@ -5,6 +5,7 @@ var playername = new Array(5);
 var playerid = new Array(5);
 var playercoin = new Array(5);
 var playervideo = new Array(5);
+var playeraddcoin = new Array(5); // 增量金币
 var token, lid;
 var lessondata, datacount;
 var activeview = null;
@@ -101,6 +102,7 @@ function quitlesson(backtofirstpage) {
 
 function initclassroom(data) {
 	// console.log(JSON.stringify(data));
+	// console.log('classroom data:' + JSON.stringify(unescape(data)));
 
 	var odiv = document.getElementById("kt");
 	var left = odiv.getBoundingClientRect().left;
@@ -119,9 +121,9 @@ function initclassroom(data) {
 	datacount = data.datacount;
 	userid = data.userid; //自己的uid
 
-	// // 创建推流
-	// initPusher(userid);
-	// startPusher();
+	// 设置当前直播间lid
+	var lid = data.lessonid;
+	localStorage.setItem("zhibolid", lid);
 
 	// 学生端player创建
 	for (i = 0; i < 5; i++) player[i] = null;
@@ -139,9 +141,11 @@ function initclassroom(data) {
 		playerid[pos] = data.player[i].id;
 		playercoin[pos] = data.player[i].coin;
 		playervideo[pos] = data.player[i].video;
+		playeraddcoin[pos] = 0;
+
 		// todo delete
 		playervideo[pos] = "rtmp://47.114.84.56/live/" + data.player[i].id;
-		console.log(pos + 'playervideo[pos]:' + playervideo[pos]);
+		console.log(pos + 'player [' + pos + '] vurl:' + playervideo[pos]);
 
 		if (playername[pos] != "") {
 
@@ -160,6 +164,10 @@ function initclassroom(data) {
 				player[1].setStyles({
 					muted: true,
 				});
+			}
+			// 默认静音
+			else {
+
 			}
 		} else {
 			tag = "#name" + pos;
@@ -194,7 +202,6 @@ function debuggoless() {
 
 
 var lastplaytime = 0;
-
 
 function timeupdate(e) {
 	//console.log('statechange: ' + JSON.stringify(e));
@@ -319,7 +326,6 @@ function enterlesson() {
 			}
 			if (data.rst == 1) {
 				initclassroom(data);
-
 				// debuggoless(); // todo delete
 				return;
 			}
@@ -377,6 +383,7 @@ function addplayer(uid, name, coin, url) {
 	if (order == -1) return; //table full
 	playername[order] = name;
 	playercoin[order] = coin;
+	playeraddcoin[order] = 0;
 	playervideo[order] = url;
 	playerid[order] = uid;
 	tag = "#name" + order;
@@ -384,7 +391,6 @@ function addplayer(uid, name, coin, url) {
 	tag = "#coin" + order;
 	$(tag).text(playercoin[order]);
 	tag = "#v" + order;
-	console.log("addplayer - createvideo");
 	player[order] = createvideo("v" + order, "v" + order, playervideo[order]);
 	player[order].play();
 
@@ -441,7 +447,7 @@ function initPusher(userid) {
 	}, false);
 
 	pusher.addEventListener("error", function(e) {
-		console.log('### pusher error: ' + JSON.stringify(e));
+		// console.log('### pusher error: ' + JSON.stringify(e));
 	}, false);
 
 	pusher.addEventListener("netstatus", function(e) {
@@ -589,7 +595,7 @@ function pullmessage() {
 			if (data.rst == 1) {
 				commandcount = data.msgcount;
 				for (i = 0; i < commandcount; i++) {
-					//console.log(JSON.stringify(data));
+					console.log(JSON.stringify(data));
 					//console.log("do cmd:" + data.cmd[i].cmd);
 					cmds = data.cmd[i].cmd.split("|");
 					docommand(cmds);
@@ -600,6 +606,11 @@ function pullmessage() {
 		error: function(xhr, type, errorThrown) {}
 	});
 
+}
+
+// 更新直播间用户金币
+function updateplaycoin(data) {
+	
 }
 
 function askquit() {
