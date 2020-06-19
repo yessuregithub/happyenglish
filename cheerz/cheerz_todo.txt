@@ -1,4 +1,6 @@
 ---------PENDING--------------------
+zhibo-kt 跳转 kc-end.html 先对比 playeraddcoin 选出 mvp在进入.
+
 --->学习报告  课程结束(kc-end.html)
    *记录学习数据   http://47.241.5.29/Home_index_studyrecord.html  需要在课程结束前跳转到kc-end时记录,需用同步方式,确保先于kc-end执行
                                                                    金币数需要在子游戏中setitem维护累计值

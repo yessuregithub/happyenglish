@@ -458,7 +458,7 @@ function addcointoserv(coin, cha, memo) {
 
 	console.log("addcointoserv()")
 	var token = localStorage.getItem("token");
-	var verify = md5(token + coin + cha);
+	var verify = md5(token + coin + cha); // token+coin+cha
 
 	console.log("token:" + token);
 	console.log("coin:" + coin);

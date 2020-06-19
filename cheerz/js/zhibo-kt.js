@@ -212,7 +212,7 @@ function timeupdate(e) {
 
 function ended(e) {
 	quitlesson(false);
-	jump('ended', 'kc-end.html');
+	jump('ended', 'kc-end.html'); 
 }
 
 function muteplayer() {

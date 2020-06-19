@@ -67,7 +67,7 @@
 				this.multi = this.el.attr('multiple') ? !!this.el.attr('multiple') : this._opt.multi;
 			}
 
-			console.log("this.multi = " + this.multi);
+			// console.log("this.multi = " + this.multi);
 
 			// 根据不同的标签进行不同的元素组建
 			var _setFunc = this['_setHtml_' + this._tag];
