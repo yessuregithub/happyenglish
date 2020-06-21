@@ -58,17 +58,10 @@ function showtime(endtime) {
 }
 
 function quitlesson(backtofirstpage) {
-	// if (player[0] != null) {
-	// 	player[0].removeEventListener('timeupdate', timeupdate, false);
-	// }
-
-	//??? document.removeEventListener("addcoin");
-	// plus.device.setVolume(0.5);
 	if (activeview) activeview.close();
 	if (pusher) pusher.stop();
 	if (pusher) pusher.close();
 	activeview = null;
-	// plus.device.setVolume(0.5);
 	for (i = 0; i <= 4; i++)
 		if (player[i] != null) {
 			player[i].stop();
@@ -101,8 +94,6 @@ function quitlesson(backtofirstpage) {
 }
 
 function initclassroom(data) {
-	// console.log(JSON.stringify(data));
-	// console.log('classroom data:' + JSON.stringify(unescape(data)));
 
 	var odiv = document.getElementById("kt");
 	var left = odiv.getBoundingClientRect().left;
@@ -182,22 +173,7 @@ function initclassroom(data) {
 	// 创建推流
 	// getCameraPara();
 	initPusher(userid);
-	startPusher(); //搞不明白为什么必须放在player后面,否则就不能推流! 可能是音频设置会被player修改。
-
-	//在新的视频加入后，必须stop，然后再start pusher
-
-	// plus.device.setVolume(0.5);
-}
-
-function debuggoless() {
-	return;
-	var para =
-		'{"word":"mouth","img1":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p1.jpg","img2":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p2.jpg","img3":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p3.jpg","img4":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p4.jpg","answer":1}';
-	var unescape_para = unescape(para);
-	localStorage.setItem("gpara", unescape_para);
-	activeview.loadURL("hudong-yidongxq.html"); // todo
-	for (j = 0; j < 4; j++) localStorage.setItem("playername" + (j + 1), playername[j]);
-	activeview.show();
+	startPusher(); 
 }
 
 

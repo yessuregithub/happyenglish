@@ -1,19 +1,4 @@
 ---------PENDING--------------------
-zhibo-kt 跳转 kc-end.html 先对比 playeraddcoin 选出 mvp在进入.
-
---->学习报告  课程结束(kc-end.html)
-   *记录学习数据   http://47.241.5.29/Home_index_studyrecord.html  需要在课程结束前跳转到kc-end时记录,需用同步方式,确保先于kc-end执行
-                                                                   金币数需要在子游戏中setitem维护累计值
-																   单词数我不知道是什么意思,这个再议.
-	  入口参数:  token
-	            lid     课程id
-				coincount    本课获得的金币数
-				wordcount    本课学习的单词数
-				verify: md5(lid+coincount+wordcount) 
-	返回:
-	    rst: 0             token校验失败,需要跳至登录页 dl.html  
-			 1             其它所有情况
---->历史课程MVP处理
 --->回看课程
   修改课堂,取消学生间互动,以及不增加金币
 --->分享
@@ -83,3 +68,18 @@ zhibo-kt 跳转 kc-end.html 先对比 playeraddcoin 选出 mvp在进入.
 		       1             其它所有情况,虽然系统在msg中返回了处理情况,但实际应用应该无需判断
 --->移动星球应该四张图,json中增加了img4
 --->增加金币   ??都处理好了吗? 都处理好了拉去DONE
+zhibo-kt 跳转 kc-end.html 先对比 playeraddcoin 选出 mvp在进入.
+
+--->学习报告  课程结束(kc-end.html)
+   *记录学习数据   http://47.241.5.29/Home_index_studyrecord.html  需要在课程结束前跳转到kc-end时记录,需用同步方式,确保先于kc-end执行
+                                                                   金币数需要在子游戏中setitem维护累计值
+																   单词数我不知道是什么意思,这个再议.
+	  入口参数:  token
+	            lid     课程id
+				coincount    本课获得的金币数
+				wordcount    本课学习的单词数
+				verify: md5(lid+coincount+wordcount) 
+	返回:
+	    rst: 0             token校验失败,需要跳至登录页 dl.html  
+			 1             其它所有情况
+--->历史课程MVP处理
