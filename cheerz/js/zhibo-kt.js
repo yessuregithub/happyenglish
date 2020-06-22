@@ -13,6 +13,7 @@ var activeview = null;
 var ismuted = false;
 var userid;
 var keepalive = null;
+var iszhibo = 1; // 是否为直播 1:直播，2:回看课程
 
 var classid; //课堂编号
 var kt_starttime_interval = null;
@@ -59,13 +60,15 @@ function showtime(endtime) {
 
 function quitlesson(backtofirstpage) {
 	if (activeview) activeview.close();
-	if (pusher) pusher.stop();
-	if (pusher) pusher.close();
+	stopPusher();
+	closePusher();
+	pusher = null;
 	activeview = null;
 	for (i = 0; i <= 4; i++)
 		if (player[i] != null) {
 			player[i].stop();
 			player[i].close();
+			player[i] = null;
 		}
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_quitlesson.html',
@@ -81,20 +84,40 @@ function quitlesson(backtofirstpage) {
 			// 请求成功
 			if (data.rst == 0) {}
 			if (data.rst == 1) {}
-			if (backtofirstpage) jump('index', 'index.html');
+			if (backtofirstpage) {
+				if (iszhibo == 1) {
+					jump('index', 'index.html');
+				} else {
+					jump('xq', 'kcxq.html');
+				}
+			}
+
 
 		},
 		error: function(xhr, type, errorThrown) {
 			// 请求失败
 			console.log("logout http fail");
-			if (backtofirstpage) jump('index', 'index.html');
-
+			if (backtofirstpage) {
+				if (iszhibo == 1) {
+					jump('index', 'index.html');
+				} else {
+					jump('xq', 'kcxq.html');
+				}
+			}
 		}
 	});
 }
 
-function initclassroom(data) {
+function initzhibo() {
+	iszhibo = localStorage.getItem("isnowzhibo"); // 回看，不显示推流不显示学生视频
+	// 回看隐藏视频
+	if (iszhibo == 0) {
+		$('#zhibo-list').hide();
+		$('#pusher-box').hide();
+	}
+}
 
+function initclassroom(data) {
 	var odiv = document.getElementById("kt");
 	var left = odiv.getBoundingClientRect().left;
 	var top = odiv.getBoundingClientRect().top;
@@ -112,12 +135,13 @@ function initclassroom(data) {
 	datacount = data.datacount;
 	userid = data.userid; //自己的uid
 
-	// 设置当前直播间lid
-	var lid = data.lessonid;
-	localStorage.setItem("zhibolid", lid);
-
 	// 学生端player创建
 	for (i = 0; i < 5; i++) player[i] = null;
+
+	// 回看则不显示学生端
+	if (iszhibo == 0) {
+		return;
+	}
 	for (i = 1; i <= 4; i++)
 		if (data.player[i].id == userid) mypos = i; //先获得自己的序号
 	for (i = 1; i <= 4; i++) { //重排序号
@@ -146,19 +170,17 @@ function initclassroom(data) {
 			$(tag).text(playercoin[pos]);
 			tag = "#v" + pos;
 			// 自己使用用推流摄像头
-			// if (pos > 1) {
-			player[pos] = createvideo("v" + pos, "v" + pos, playervideo[pos]);
-			player[pos].play();
-			// }
-			if (pos == 1) //自己始终静音
-			{
-				player[1].setStyles({
-					muted: true,
-				});
-			}
-			// 默认静音
-			else {
-
+			if (pos == 1 && mui.os.android) {
+				// 显示自己的摄像头
+			} else {
+				player[pos] = createvideo("v" + pos, "v" + pos, playervideo[pos]);
+				player[pos].play();
+				if (pos == 1) //自己始终静音
+				{
+					player[1].setStyles({
+						muted: true,
+					});
+				}
 			}
 		} else {
 			tag = "#name" + pos;
@@ -173,7 +195,13 @@ function initclassroom(data) {
 	// 创建推流
 	// getCameraPara();
 	initPusher(userid);
-	startPusher(); 
+	setTimeout(function() {
+		if (pusher) {
+			// pusher.preview();
+			// pusher.switchCamera();
+			startPusher();
+		}
+	}, 500);
 }
 
 
@@ -188,7 +216,12 @@ function timeupdate(e) {
 
 function ended(e) {
 	quitlesson(false);
-	jump('ended', 'kc-end.html'); 
+	var iszhibo = localStorage.getItem("isnowzhibo");
+	if (iszhibo == 1) {
+		jump('ended', 'kc-end.html');
+	} else {
+		jump('xq', 'kcxq.html');
+	}
 }
 
 function muteplayer() {
@@ -206,28 +239,6 @@ function muteplayer() {
 	ismuted = !ismuted;
 	if (ismuted) $("#pingbi").attr("class", "pingbi");
 	else $("#pingbi").attr("class", "nothing");
-}
-
-function createvideo(videoid, divid, url) {
-	var odiv = document.getElementById(divid);
-	var left = odiv.getBoundingClientRect().left;
-	var top = odiv.getBoundingClientRect().top;
-	var width = odiv.getBoundingClientRect().width;
-	var height = odiv.getBoundingClientRect().height;
-	var player = plus.video.createVideoPlayer(videoid, {
-		src: url, //留点边框
-		top: top + 2,
-		left: left + 2,
-		width: width - 4,
-		height: height - 4,
-		direction: 90
-	});
-	player.addEventListener("error", function(e) {
-		console.log("video error " + JSON.stringify(e))
-	}, false);
-	plus.webview.currentWebview().append(player);
-	console.log("#### added video " + divid + " " + url);
-	return player;
 }
 
 function checklessondata(lastplaytime, currtime) {
@@ -321,6 +332,7 @@ function playerleave(uid) {
 			break;
 		}
 	if (pos == 0) return;
+	if (!player[pos]) return;
 	player[pos].stop();
 	player[pos].close();
 	player[pos] = null;
@@ -382,7 +394,7 @@ function startlesson(offset, url) {
 
 // 更新直播间用户金币
 function updateplaycoin(args) {
-	console.log("updateplaycoin"+args);
+	console.log("updateplaycoin" + args);
 	var playcoin = JSON.parse(args);
 	for (i = 0; i < playcoin.length; i++) {
 		var id = playcoin[i].id;
@@ -438,10 +450,10 @@ function getPlayPosById(id) {
 
 function docommand(cmds) {
 	cmd = cmds[0];
-	if (cmd == "addplayer") addplayer(cmds[1], cmds[2], cmds[3], cmds[4]);
+	if (cmd == "addplayer" && iszhibo == 1) addplayer(cmds[1], cmds[2], cmds[3], cmds[4]);
 	else if (cmd == "lessonstart") startlesson(cmds[1], cmds[2]);
-	else if (cmd == "leavelesson") playerleave(cmds[1]);
-	else if (cmd == "coinupdate") updateplaycoin(cmds[1]);
+	else if (cmd == "leavelesson" && iszhibo == 1) playerleave(cmds[1]);
+	else if (cmd == "coinupdate" && iszhibo == 1) updateplaycoin(cmds[1]);
 }
 
 function pullmessage() {
@@ -499,6 +511,32 @@ function askquit() {
 
 }
 
+function createvideo(videoid, divid, url) {
+	var odiv = document.getElementById(divid);
+	var left = odiv.getBoundingClientRect().left;
+	var top = odiv.getBoundingClientRect().top;
+	var width = odiv.getBoundingClientRect().width;
+	var height = odiv.getBoundingClientRect().height;
+	left = left + 2;
+	top = top + 2;
+	width = width - 4;
+	height = height - 4;
+
+	var player = plus.video.createVideoPlayer(videoid, {
+		src: url, //留点边框
+		top: top + 'px',
+		left: left + 'px',
+		width: width + 'px',
+		height: height + 'px'
+	});
+	player.addEventListener("error", function(e) {
+		console.log("video error " + JSON.stringify(e))
+	}, false);
+	plus.webview.currentWebview().append(player);
+	console.log("#### added video " + divid + " " + url);
+	return player;
+}
+
 //第三方推流
 //https://github.com/zhenyan-chang/RTMP-LivePlay   支持横竖屏切换! 
 //https://github.com/runner365/GPUImageRtmpPush   这个更有名
@@ -515,26 +553,43 @@ function initPusher(userid) {
 	}
 
 	console.log("pushurl2:" + pushurl2);
+
+	var odiv = document.getElementById('v1');
+	var left = odiv.getBoundingClientRect().left;
+	var top = odiv.getBoundingClientRect().top;
+	var width = odiv.getBoundingClientRect().width;
+	var height = odiv.getBoundingClientRect().height;
+	left = left + 2;
+	top = top + 2;
+	width = width - 4;
+	height = height - 4;
+
 	pusher = new plus.video.LivePusher('pusher-box', {
 		'url': pushurl2,
 		'aspect': '16:9',
-		'mode': 'SD'
-		// 'direction': '90'
+		'mode': 'SD',
+		top: top + 'px',
+		left: left + 'px',
+		width: width + 'px',
+		height: height + 'px'
 		// 'muted': true,
 	});
-	// plus.webview.currentWebview().append(pusher);
+	if (mui.os.android) {
+		plus.webview.currentWebview().append(pusher);
+	}
+
 
 	// 监听状态变化事件
 	pusher.addEventListener("statechange", function(e) {
-		//console.log('### pusher statechange: ' + JSON.stringify(e));
+		console.log('### pusher statechange: ' + JSON.stringify(e));
 	}, false);
 
 	pusher.addEventListener("error", function(e) {
-		// console.log('### pusher error: ' + JSON.stringify(e));
+		console.log('### pusher error: ' + JSON.stringify(e));
 	}, false);
 
 	pusher.addEventListener("netstatus", function(e) {
-		//console.log('### pusher netstatus: ' + JSON.stringify(e));
+		console.log('### pusher netstatus: ' + JSON.stringify(e));
 	}, false);
 
 	// njsAdjustCameraForIOS();
@@ -572,6 +627,12 @@ function stopPusher() {
 	pusher.stop();
 }
 
+function closePusher() {
+	if (!pusher) return;
+	console.log("closePusher()");
+	pusher.close();
+}
+
 // 继续推流
 var resuming = false;
 
@@ -599,13 +660,16 @@ function startPusher() {
 }
 
 // 推流失败切换国内服务器
-function updatePusher() {
-	pushurl = 'rtmp://47.241.111.251/live?vhost=rotate.localhost/' + userid;
-	pushurl2 = 'rtmp://47.114.84.56/live?vhost=rotate.localhost/' + userid; // 阿里
-	pusher.get
+function updatePusher(pushurl) {
+	if (mui.os.ios) {
+		pushurl = pushurl + '/live?vhost=rotate.localhost/' + userid; // 阿里	
+	} else {
+		pushurl = pushurl + '/live/' + userid; // 阿里
+	}
+
+	if (!pusher) return;
 	pusher.setStyles({
-		url: pushurl2,
-		aspect: "3:4"
+		url: pushurl
 	});
 }
 

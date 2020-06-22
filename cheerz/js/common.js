@@ -464,7 +464,8 @@ function addcointoserv(coin, cha, memo) {
 	console.log("coin:" + coin);
 	console.log("cha:" + cha);
 	console.log("memo:" + memo);
-	console.log("verify:" + verify);
+	console.log("verify:" + token + coin + cha);
+	console.log("md5:" + verify);
 
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_addcoin.html',

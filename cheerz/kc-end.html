@@ -48,21 +48,21 @@
 			</div>
 		</div>
 
-
-
-		<script src="js/mui.min.js"></script>
+		<script src="js/mui.js"></script>
 		<script src="js/jquery-1.8.3.min.js"></script>
 		<script src="js/rem.js"></script>
+		<script src="js/md5.js"></script>
 		<script src="js/common.js"></script>
 		<script src="js/kc-end.js"></script>
 	</body>
 	<script>
 		var token;
+
 		function leavepage() {
 			comefrom = document.referrer;
-			if (comefrom.indexOf("zhibo-kt.html")!=-1) returnlink="index.html";
-			else returnlink="kcxq.html";
-			jump('back',returnlink);
+			if (comefrom.indexOf("zhibo-kt.html") != -1) returnlink = "index.html";
+			else returnlink = "kcxq.html";
+			jump('back', returnlink);
 		}
 
 		function loadpage() {
@@ -72,9 +72,18 @@
 			initdata(lid);
 		}
 
-
 		mui.ready(function() {
-			loadpage();
+			
 		});
+		
+		document.addEventListener('plusready', plusReady, false);
+		
+		function plusReady() {
+		   loadpage();
+		}
+		
+		mui.back = function() { //禁止android返回
+			console.log("detected back, ignore");
+		}
 	</script>
 </html>

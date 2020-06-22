@@ -6,6 +6,12 @@
 		<title>哈彼英语</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/style.css" rel="stylesheet" />
+		
+		<script src="js/mui.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/seqframe.js"></script>
 	</head>
 	<body>
 		<div id="gyroContain">
@@ -39,12 +45,6 @@
 		</div>
 		<div id=nouse></div>
 
-
-		<script src="js/mui.min.js"></script>
-		<script src="js/jquery-1.8.3.min.js"></script>
-		<script src="js/rem.js"></script>
-		<script src="js/common.js"></script>
-		<script src="js/seqframe.js"></script>
 		<script>
 			var token;
 
@@ -62,7 +62,6 @@
 
 			}
 
-
 			mui.ready(function() {
 				loadpage();
 			});
@@ -73,6 +72,21 @@
 
 			document.addEventListener('plusready', plusReady, false);
 
+			var backButtonPress = 0;
+			// 安卓退出应用
+			$.back = function(event) {
+				if (!mui.os.android) return;
+				backButtonPress++;
+				if (backButtonPress > 1) {
+					plus.runtime.quit();
+				} else {
+					plus.nativeUI.toast('再按一次退出应用');
+				}
+				setTimeout(function() {
+					backButtonPress = 0;
+				}, 1000);
+				return false;
+			};
 
 			function coincheck() {
 				mui.ajax({
@@ -89,8 +103,7 @@
 							$("#coin").text(data.coin);
 						}
 					},
-					error: function(xhr, type, errorThrown) {
-					}
+					error: function(xhr, type, errorThrown) {}
 				});
 
 			}

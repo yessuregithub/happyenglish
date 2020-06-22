@@ -1,15 +1,18 @@
 function initdata(lid) {
 	comefrom = document.referrer;
-	if (comefrom.indexOf("zhibo-kt.html")!=-1) fromtype=1;
-	else fromtype=2;
-	
-	else returnlink="kcxq.html";
+	if (comefrom.indexOf("zhibo-kt.html") != -1) {
+		fromtype = 1;
+	} else {
+		fromtype = 2;
+		returnlink = "kcxq.html";
+	}
+
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_getstudyrecord.html',
 		data: {
 			token: token,
 			lid: lid,
-			type: fromtype   
+			type: fromtype
 		},
 		async: true,
 		dataType: 'json',
@@ -24,11 +27,11 @@ function initdata(lid) {
 				$("#lessonname").text(data.lessonname);
 				$("#nickname").text(data.nickname);
 				$("#coincount").text(data.coincount);
-				$("#wordcount").text(data.wordcount); 
+				$("#wordcount").text(data.wordcount);
 				$("#order").text(data.order);
 				$("#lessoncount").text(data.lessoncount);
-				$norder=parseInt(data.order);
-				if ($norder!=1) $("#mvp").html("");
+				$norder = parseInt(data.order);
+				if ($norder != 1) $("#mvp").html("");
 			}
 		},
 		error: function(xhr, type, errorThrown) {
