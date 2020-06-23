@@ -14,10 +14,6 @@ function startgame() {
 			plus.webview.currentWebview().hide();
 		}, (duration * 1000));
 	}
-
-	// console.log(plus.webview.getLaunchWebview().evalJS('zb_test_str("xxxxxxxxxxxxxxxxx~~~~")'));
-
-
 }
 
 function endgame() {
