@@ -38,7 +38,7 @@ function setQues() {
 	var rightdata = getDataByNo(rightno);
 	// 贴题目	
 	var tuka = rightdata.wpic2;
-	$("#hd-yn-tuka").attr("src", tuka)
+	$("#hd-yn-tuka").attr("src", tuka);
 
 	// 帖选项
 	var eles = $("#uc_01").find(".word-img");
@@ -274,7 +274,7 @@ function leftsec(sec) {
 function addcoin(lid, url) {
 	// 加金币
 	var starttime = localStorage.getItem("gstart");
-	if(!starttime) return;
+	if (!starttime) return;
 	var cha = url + "_lid" + lid + "_" + starttime;
 	var coin = 20;
 	var memo = "_add" + coin;

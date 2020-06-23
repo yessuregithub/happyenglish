@@ -37,9 +37,11 @@
 						<div id="chicuo"></div>
 						<img src="images/donghua.png">
 					</div>
-					<div class="yx-cika">
+					<div class="yx-cika" id="yx_tuka">
 						<div class="img-box">
-							<img id="hd-yn-tuka" src="images/2.png">
+							<a href="javascript:click_cika();">
+								<img id="hd-yn-tuka" src="images/2.png">
+							</a>
 						</div>
 					</div>
 
@@ -99,12 +101,20 @@
 		<script src="js/seqframe.js"></script>
 		<script src="js/ui-choose.js"></script>
 		<script src="js/common.js"></script>
-		<script src="js/zhoumo-yx.js"></script>
+		<script src="js/zhoumo-yx-hehl.js"></script>
 		<script src="js/md5.js"></script>
 
 		<script>
 			// 音频
 			var s_wrong = null;
+			
+			// 点击此卡发音
+			function click_cika() {
+				var wdata = getDataByNo(rightno);
+				var surl = wdata.sound;
+				console.log(surl);
+				play_wordsound(surl);
+			}
 		</script>
 
 		<script>
@@ -114,6 +124,8 @@
 				}
 			});
 			mui.ready(function() {
+				w_sound_objs = new Array();
+				w_sounds = new Array();
 				loadpage();
 			});
 
@@ -126,7 +138,40 @@
 			});
 
 			function close_game() {
+				close_wsound();
 				close_wrong();
+			}
+
+			var w_sounds;
+			var w_sound_objs;
+
+			function play_wordsound(surl) {
+				var pos = $.inArray(surl, w_sounds);
+				var sound;
+				if (pos == -1) {
+					sound = plus.audio.createPlayer(surl);
+					w_sounds.push(surl);
+					w_sound_objs.push(sound);
+
+				} else {
+					sound = w_sound_objs[pos];
+					sound.stop();
+				}
+				if (sound) {
+					sound.play();
+				}
+			}
+
+			function close_wsound() {
+				if (w_sound_objs) {
+					for (i = 0; i < w_sound_objs.length; i++) {
+						w_sound_objs[i].stop();
+						w_sound_objs[i].close();
+						w_sound_objs[i] = null;
+					}
+					w_sound_objs = null;
+					w_sounds = null;
+				}
 			}
 
 			function play_wrong() {
