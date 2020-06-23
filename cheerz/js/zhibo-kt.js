@@ -18,6 +18,13 @@ var iszhibo = 1; // 是否为直播 1:直播，2:回看课程
 var classid; //课堂编号
 var kt_starttime_interval = null;
 
+// 课程内部音效
+var s_wrong = null;
+
+function zb_test_str(str) {
+	console.log("zhibo-kt.html test string :" + str);
+}
+
 function kt_setstarttime() {
 	var starttime_ts = localStorage.getItem("less_starttime");
 	if (starttime_ts == null) return;
@@ -60,6 +67,7 @@ function showtime(endtime) {
 
 function quitlesson(backtofirstpage) {
 	if (activeview) activeview.close();
+	close_wrong();
 	stopPusher();
 	closePusher();
 	pusher = null;
@@ -118,6 +126,11 @@ function initzhibo() {
 }
 
 function initclassroom(data) {
+
+	// 加载音效
+	s_wrong = plus.audio.createPlayer("audio/wrong.mp3");
+
+	// 加载互动子页面
 	var odiv = document.getElementById("kt");
 	var left = odiv.getBoundingClientRect().left;
 	var top = odiv.getBoundingClientRect().top;
@@ -257,7 +270,8 @@ function checklessondata(lastplaytime, currtime) {
 			localStorage.setItem("gurl", lessondata[i].url);
 
 			// console.log(lessondata[i].url + ":game get gamepara :" + unescape_para);
-
+			// 提前执行前个页面离开函数
+			activeview.evalJS('if (typeof(leaveURL) != "undefined") (leaveURL())');
 			activeview.loadURL(lessondata[i].url + ".html");
 			for (j = 1; j <= 4; j++) {
 				localStorage.setItem("playername" + j, playername[j]);
@@ -395,19 +409,20 @@ function startlesson(offset, url) {
 // 更新直播间用户金币
 function updateplaycoin(args) {
 	console.log("updateplaycoin" + args);
-	var playcoin = JSON.parse(args);
-	for (i = 0; i < playcoin.length; i++) {
-		var id = playcoin[i].id;
-		var coin = playcoin[i].coin;
+	var now_playercoin = JSON.parse(args);
+	for (i = 0; i < now_playercoin.length; i++) {
+		var id = parseInt(now_playercoin[i].id);
+		var coin = parseInt(now_playercoin[i].coin);
 		if (id == 0) continue;
 
 		var pos = getPlayPosById(id);
-		var old_coin = playcoin[pos];
+		var old_coin = playercoin[pos];
+
 		if (coin <= old_coin) continue;
 
 		var add_coin = coin - old_coin;
 		playeraddcoin[pos] += add_coin;
-		playcoin[pos] = coin;
+		playercoin[pos] = coin;
 		console.log("玩家" + pos + " 添加了" + add_coin + "个金币");
 
 		showaddcoin(pos);
@@ -696,4 +711,22 @@ function njsAdjustCameraForIOS() {
 	var h5ca = plus.ios.newObject("H5SetCamera");
 	plus.ios.invoke(h5ca, "setLanscapeCamera");
 	plus.ios.deleteObject(h5ca);
+}
+
+// 音频
+function play_wrong() {
+	if (s_wrong) {
+		// console.log("play wrong sound");
+		s_wrong.stop();
+		s_wrong.play();
+	}
+}
+
+function close_wrong() {
+	if (s_wrong != null) {
+		console.log("s_wrong close");
+		s_wrong.stop();
+		s_wrong.close();
+		s_wrong = null;
+	}
 }

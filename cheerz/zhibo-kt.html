@@ -40,7 +40,7 @@
 								<!-- <a href="javascript:void(0)" onclick="document.getElementById('light-kf').style.display='block';document.getElementById('fade').style.display='block'"
 								 class="kf">
 								 </a> -->
-								<a href="" class="kf"></a> 
+								<a href="" class="kf"></a>
 							</div>
 							<div class="laoshi-sp">
 								<div id="vtarea" style="width:100%;height:100%;background-color:#1fffff;margin:1px 1px 1px 1px">
@@ -166,13 +166,10 @@
 				console.log("detected back, ignore");
 			}
 
-			document.addEventListener('plusready', plusReady, false);
-
-			function plusReady() {
-				// plus.screen.lockOrientation("landscape-primary");
+			mui.plusReady(function() {
 				setTimeout(laterdo, 1000); //让页面框架更快加载完成，耗cpu资源的推送和视频播放押后
 				return;
-			}
+			})
 
 			function laterdo() {
 				enterlesson();

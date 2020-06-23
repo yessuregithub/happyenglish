@@ -51,7 +51,7 @@
 				<div id="huojian-st" class="huojian" style="top: -50%;"></div>
 				<div id="huojian-hy" class="huojian"></div>
 			</div>
-			
+
 			<!-- 最后奖励 -->
 			<div id="result" class="m-timu">
 				<div id="res_gj" class="movie">
@@ -95,6 +95,21 @@
 				startgame();
 			}
 
+			function leaveURL() {
+				console.log("离开火箭");
+				close_game();
+			}
+
+			mui.plusReady(function() {});
+
+			function close_game() {}
+
+			function play_wrong() {
+				plus.webview.getLaunchWebview().evalJS('play_wrong()');
+			}
+		</script>
+
+		<script>
 			window.addEventListener("touchstart", function(event) {
 				if (stage != 1) return;
 				console.log(event);

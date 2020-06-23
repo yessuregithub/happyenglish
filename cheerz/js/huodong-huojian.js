@@ -105,6 +105,8 @@ function processanswer(correct) {
 		if (rightCount == 1) {
 			addcoin(1);
 		}
+	} else {
+		play_wrong();
 	}
 }
 

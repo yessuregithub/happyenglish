@@ -6,7 +6,7 @@
 		<title>哈彼英语</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/style.css" rel="stylesheet" />
-		
+
 		<script src="js/mui.js"></script>
 		<script src="js/jquery-1.8.3.min.js"></script>
 		<script src="js/rem.js"></script>
@@ -66,11 +66,9 @@
 				loadpage();
 			});
 
-			function plusReady() {
-				//plus.screen.lockOrientation("landscape");
-			}
+			mui.plusReady(function() {
 
-			document.addEventListener('plusready', plusReady, false);
+			});
 
 			var backButtonPress = 0;
 			// 安卓退出应用

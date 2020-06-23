@@ -145,13 +145,15 @@ function pro_result(overtime) {
 	if (click_yn == anw_yn && overtime == false) {
 		correct = true;
 		rightCount++;
-		
+
 		// 加金币
 		if (rightCount == 1) {
 			addcoin(1);
 		} else if (rightCount == 5) {
 			addcoin(1);
 		}
+	} else {
+		play_wrong();
 	}
 
 	mui.ajax({

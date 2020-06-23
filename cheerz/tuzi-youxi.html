@@ -217,6 +217,19 @@
 				$("#hd-time").hide();
 				startgame();
 			}
+
+			function leaveURL() {
+				console.log("离开兔子");
+				close_game();
+			}
+
+			mui.plusReady(function() {});
+
+			function close_game() {}
+
+			function play_wrong() {
+				plus.webview.getLaunchWebview().evalJS('play_wrong()');
+			}
 		</script>
 
 		<script>
@@ -239,10 +252,10 @@
 
 			function countdown() {
 				second -= 0.1;
-				
+
 				var length = Math.round((second * 100) / totalseconds);
 				$("#progress1").attr("style", "width:" + length + "%");
-				
+
 				if (second < 0.1 && stage == 1) { //等待开始界面
 					clearInterval(count15);
 					// 开启选项
@@ -274,7 +287,7 @@
 				// 答题界面 5 秒
 				else if (stage == 3) {
 					// $("#hd-time").hide();
-					
+
 					if (second < 0.1) {
 						if (!choosed) {
 							choosed = true;

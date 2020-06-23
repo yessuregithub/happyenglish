@@ -2,7 +2,7 @@
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
-	
+
 	if (gamepara != null) {
 		json = JSON.parse(gamepara);
 		var duration = json.duration;
@@ -14,7 +14,10 @@ function startgame() {
 			plus.webview.currentWebview().hide();
 		}, (duration * 1000));
 	}
-	
+
+	// console.log(plus.webview.getLaunchWebview().evalJS('zb_test_str("xxxxxxxxxxxxxxxxx~~~~")'));
+
+
 }
 
 function endgame() {

@@ -151,6 +151,8 @@ function pro_result(index) {
 		if (donglist[index]) {
 			$(donglist[index]).append("<div class='dui'></div>");
 		}
+	} else {
+		play_wrong();
 	}
 }
 

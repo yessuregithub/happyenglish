@@ -209,6 +209,19 @@
 				$("#hd-time").hide();
 				startgame();
 			}
+
+			function leaveURL() {
+				console.log("离开青蛙");
+				close_game();
+			}
+
+			mui.plusReady(function() {});
+
+			function close_game() {}
+
+			function play_wrong() {
+				plus.webview.getLaunchWebview().evalJS('play_wrong()');
+			}
 		</script>
 
 		<script>

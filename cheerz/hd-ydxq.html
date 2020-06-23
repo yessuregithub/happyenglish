@@ -177,6 +177,7 @@
 		<script>
 			mui.init();
 			mui.ready(function() {
+				console.log("mui.ready");
 				loadpage();
 			});
 
@@ -186,6 +187,19 @@
 				// 滚动
 				var xingHpx = rem2px(5.17);
 				initScroll(550, 18 * xingHpx);
+			}
+
+			function leaveURL() {
+				console.log("离开移动星球");
+				close_game();
+			}
+
+			mui.plusReady(function() {});
+
+			function close_game() {}
+
+			function play_wrong() {
+				plus.webview.getLaunchWebview().evalJS('play_wrong()');
 			}
 		</script>
 

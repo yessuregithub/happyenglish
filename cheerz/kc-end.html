@@ -73,15 +73,13 @@
 		}
 
 		mui.ready(function() {
-			
+
 		});
-		
-		document.addEventListener('plusready', plusReady, false);
-		
-		function plusReady() {
-		   loadpage();
-		}
-		
+
+		mui.plusReady(function() {
+			loadpage();
+		});
+
 		mui.back = function() { //禁止android返回
 			console.log("detected back, ignore");
 		}
