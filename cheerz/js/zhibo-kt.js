@@ -178,7 +178,7 @@ function initclassroom(data) {
 		playeraddcoin[pos] = 0;
 
 		// todo delete
-		playervideo[pos] = "rtmp://47.114.84.56/live/" + data.player[i].id;
+		// playervideo[pos] = "rtmp://47.114.84.56/live/" + data.player[i].id;
 		console.log(pos + 'player [' + pos + '] vurl:' + playervideo[pos]);
 
 		if (playername[pos] != "") {
@@ -402,6 +402,7 @@ function playerleave(uid) {
 }
 
 function addplayer(uid, name, coin, url) {
+
 	pausePusher();
 
 	order = -1;
@@ -415,7 +416,6 @@ function addplayer(uid, name, coin, url) {
 	playercoin[order] = coin;
 	playeraddcoin[order] = 0;
 	playervideo[order] = url;
-	// playervideo[order] = 'http://ipdl.cheerz.cn/hpyy/video/c003.mp4';
 	playerid[order] = uid;
 	tag = "#name" + order;
 	$(tag).text(playername[order]);
@@ -423,12 +423,8 @@ function addplayer(uid, name, coin, url) {
 	$(tag).text(playercoin[order]);
 	tag = "#v" + order;
 	player[order] = createvideo("v" + order, "v" + order, playervideo[order], order);
-	// player[order].play();
 	if (order > 1) {
 		if (isotherplay) {
-			// player[order].setStyles({
-			// 	muted: ismuted,
-			// });
 			player[order].play();
 		} else {
 			// player[order].pause();
@@ -441,7 +437,6 @@ function startlesson(offset, url) {
 	if (player[0] != null) return;
 	pausePusher();
 
-	console.log("start lesson:" + url);
 	tag = "#vtarea";
 	$(tag).html("<div id=\"vt\" style=\"width:100%;height:100%;background-color:#000000\"></div>"); //准备视频区域
 	player[0] = createvideo("vt", "vt", url, 0);
@@ -602,16 +597,16 @@ function createvideo(videoid, divid, url, pos) {
 		height: height + 'px',
 		muted: is_videomuted
 	});
-	player.addEventListener("error", function(e) {
-		console.log("video error " + JSON.stringify(e))
-	}, false);
+	// player.addEventListener("error", function(e) {
+	// 	console.log("video error " + JSON.stringify(e))
+	// }, false);
 
-	player.addEventListener('waiting', function(e) {
-		console.log("video waiting " + JSON.stringify(e));
-	}, false);
+	// player.addEventListener('waiting', function(e) {
+	// 	console.log("video waiting " + JSON.stringify(e));
+	// }, false);
 
 	plus.webview.currentWebview().append(player);
-	console.log("#### added video " + pos + " " + url);
+	// console.log("#### added video " + pos + " " + url);
 	return player;
 }
 
@@ -630,7 +625,7 @@ function initPusher(userid) {
 		pushurl2 = 'rtmp://47.114.84.56:1935/live/' + userid; // 阿里
 	}
 
-	console.log("pushurl2:" + pushurl2);
+	console.log("pushurl:" + pushurl2);
 
 	var odiv = document.getElementById('v1');
 	var left = odiv.getBoundingClientRect().left;
@@ -689,7 +684,6 @@ function getCameraPara() {
 			format: fmt
 		}
 	);
-
 }
 
 // 暂停推流
@@ -754,7 +748,7 @@ function updatePusher(pushurl) {
 
 function njsSetAudioSessionForIOS() {
 	if (!mui.os.ios) return;
-	console.log("njsSetAudioSessionForIOS");
+	// console.log("njsSetAudioSessionForIOS");
 	var AVAudioSession = plus.ios.importClass("AVAudioSession");
 	AVAudioSession.sharedInstance().setCategorywithOptionserror("AVAudioSessionCategoryMultiRoute",
 		"AVAudioSessionCategoryOptionDefaultToSpeaker | AVAudioSessionCategoryOptionAllowBluetooth",
@@ -767,7 +761,7 @@ function njsSetAudioSessionForIOS() {
 function njsAdjustCameraForIOS() {
 	if (!mui.os.ios) return;
 
-	console.log("njsAdjustCameraForIOS");
+	// console.log("njsAdjustCameraForIOS");
 	// var h5ca = plus.ios.importClass("H5SetCamera");
 	// h5ca.setLanscapeCamera();
 
