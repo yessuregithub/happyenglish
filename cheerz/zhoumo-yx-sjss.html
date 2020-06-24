@@ -80,7 +80,9 @@
 						<div id="xiong"><img src="images/donghua-xiong.png"></div>
 					</div>
 					<div class="lupai">
-						<div class="word-img"><img id="word-img"></div>
+						<a href="javascript:click_cika();" class="word-img">
+							<img id="word-img">
+						</a>
 					</div>
 
 				</div>
@@ -110,11 +112,21 @@
 		<script>
 			// 音频
 			var s_wrong = null;
+
+			// 点击此卡发音
+			function click_cika() {
+				var wdata = getDataByNo(rightno);
+				var surl = wdata.sound;
+				// console.log(surl);
+				play_wordsound(surl);
+			}
 		</script>
 
 		<script>
 			mui.init();
 			mui.ready(function() {
+				w_sound_objs = new Array();
+				w_sounds = new Array();
 				loadpage();
 			});
 
@@ -128,7 +140,42 @@
 			});
 
 			function close_game() {
+				close_wsound();
 				close_wrong();
+			}
+
+			// 单词音频
+			var w_sounds;
+			var w_sound_objs;
+
+			function play_wordsound(surl) {
+				var pos = $.inArray(surl, w_sounds);
+				var sound;
+				if (pos == -1) {
+					sound = plus.audio.createPlayer(surl);
+					w_sounds.push(surl);
+					w_sound_objs.push(sound);
+
+				} else {
+					sound = w_sound_objs[pos];
+					sound.stop();
+				}
+				if (sound) {
+					sound.play();
+				}
+			}
+
+			function close_wsound() {
+				if (w_sound_objs) {
+					for (i = 0; i < w_sound_objs.length; i++) {
+						w_sound_objs[i].stop();
+						w_sound_objs[i].close();
+						w_sound_objs[i] = null;
+					}
+					w_sound_objs = null;
+					w_sounds = null;
+					console.log("close sound");
+				}
 			}
 
 			function play_wrong() {

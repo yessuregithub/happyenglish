@@ -112,7 +112,7 @@
 			function click_cika() {
 				var wdata = getDataByNo(rightno);
 				var surl = wdata.sound;
-				console.log(surl);
+				// console.log(surl);
 				play_wordsound(surl);
 			}
 		</script>
@@ -142,6 +142,7 @@
 				close_wrong();
 			}
 
+			// 单词音频
 			var w_sounds;
 			var w_sound_objs;
 
@@ -171,6 +172,7 @@
 					}
 					w_sound_objs = null;
 					w_sounds = null;
+					console.log("close sound");
 				}
 			}
 

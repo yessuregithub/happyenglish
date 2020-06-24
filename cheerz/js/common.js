@@ -460,12 +460,12 @@ function addcointoserv(coin, cha, memo) {
 	var token = localStorage.getItem("token");
 	var verify = md5(token + coin + cha); // token+coin+cha
 
-	console.log("token:" + token);
-	console.log("coin:" + coin);
-	console.log("cha:" + cha);
-	console.log("memo:" + memo);
-	console.log("verify:" + token + coin + cha);
-	console.log("md5:" + verify);
+	// console.log("token:" + token);
+	// console.log("coin:" + coin);
+	// console.log("cha:" + cha);
+	// console.log("memo:" + memo);
+	// console.log("verify:" + token + coin + cha);
+	// console.log("md5:" + verify);
 
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_addcoin.html',
