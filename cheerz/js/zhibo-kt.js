@@ -595,7 +595,13 @@ function createvideo(videoid, divid, url, pos) {
 		left: left + 'px',
 		width: width + 'px',
 		height: height + 'px',
-		muted: is_videomuted
+		muted: is_videomuted,
+		'controls': true, // todo delete 测试完关闭控制
+		'show-progress': true, // todo delete 测试完关闭控制
+		'enable-progress-gesture': true, // todo delete 测试完关闭控制
+		'show-fullscreen-btn': false,
+		'show-play-btn': false,
+		'show-center-play-btn': false,
 	});
 	// player.addEventListener("error", function(e) {
 	// 	console.log("video error " + JSON.stringify(e))
