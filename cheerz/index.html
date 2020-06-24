@@ -67,22 +67,21 @@
 			});
 
 			mui.plusReady(function() {
-
+				plus.device.setWakelock(true); // 常亮
 			});
 
-			var backButtonPress = 0;
+			var clickNum = 0;
 			// 安卓退出应用
-			$.back = function(event) {
-				if (!mui.os.android) return;
-				backButtonPress++;
-				if (backButtonPress > 1) {
+			mui.back = function(event) {
+				clickNum++;
+				if (clickNum > 1) {
 					plus.runtime.quit();
 				} else {
-					plus.nativeUI.toast('再按一次退出应用');
+					mui.toast("再按一次退出应用");
 				}
 				setTimeout(function() {
-					backButtonPress = 0;
-				}, 1000);
+					clickNum = 0
+				}, 2000);
 				return false;
 			};
 

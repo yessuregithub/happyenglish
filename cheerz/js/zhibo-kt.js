@@ -10,7 +10,8 @@ var token, lid;
 var lessondata, datacount;
 var activeview = null;
 
-var ismuted = false;
+var ismuted = true; // 是否静音
+var isotherplay = false; // 是否开放其他用户
 var userid;
 var keepalive = null;
 var iszhibo = 1; // 是否为直播 1:直播，2:回看课程
@@ -130,6 +131,11 @@ function initclassroom(data) {
 	// 加载音效
 	s_wrong = plus.audio.createPlayer("audio/wrong.mp3");
 
+	if (ismuted) $("#pingbivoice").attr("class", "pingbi");
+	else $("#pingbivoice").attr("class", "nothing");
+	if (isotherplay) $("#pingbivideo").attr("class", "nothing");
+	else $("#pingbivideo").attr("class", "pingbi");
+
 	// 加载互动子页面
 	var odiv = document.getElementById("kt");
 	var left = odiv.getBoundingClientRect().left;
@@ -186,12 +192,29 @@ function initclassroom(data) {
 			if (pos == 1 && mui.os.android) {
 				// 显示自己的摄像头
 			} else {
-				player[pos] = createvideo("v" + pos, "v" + pos, playervideo[pos]);
-				player[pos].play();
-				if (pos == 1) //自己始终静音
-				{
+				player[pos] = createvideo("v" + pos, "v" + pos, playervideo[pos], pos);
+
+				if (pos > 1) {
+					if (isotherplay) {
+						// player[pos].setStyles({
+						// 	muted: ismuted,
+						// });
+						player[pos].play();
+					} else {
+						// player[pos].pause();
+					}
+				} else if (pos == 1) {
+					player[pos].play();
+				}
+
+				// 静音操作
+				if (pos == 1) {
 					player[1].setStyles({
 						muted: true,
+					});
+				} else if (pos > 1) {
+					player[pos].setStyles({
+						muted: ismuted,
 					});
 				}
 			}
@@ -238,7 +261,7 @@ function ended(e) {
 }
 
 function muteplayer() {
-	for (i = 1; i <= 4; i++) {
+	for (i = 2; i <= 4; i++) {
 		if (player[i] == null) continue;
 		console.log("mute " + i + "before");
 		player[i].setStyles({
@@ -250,8 +273,24 @@ function muteplayer() {
 		console.log("mute after");
 	}
 	ismuted = !ismuted;
-	if (ismuted) $("#pingbi").attr("class", "pingbi");
-	else $("#pingbi").attr("class", "nothing");
+	if (ismuted) $("#pingbivoice").attr("class", "pingbi");
+	else $("#pingbivoice").attr("class", "nothing");
+}
+
+function stopotherplayer() {
+	pausePusher();
+	isotherplay = !isotherplay;
+	for (i = 2; i <= 4; i++) {
+		if (player[i] == null) continue;
+		if (isotherplay) {
+			player[i].play();
+		} else {
+			player[i].stop();
+		}
+	}
+	if (isotherplay) $("#pingbivideo").attr("class", "nothing");
+	else $("#pingbivideo").attr("class", "pingbi");
+	resumePusher();
 }
 
 function checklessondata(lastplaytime, currtime) {
@@ -376,15 +415,25 @@ function addplayer(uid, name, coin, url) {
 	playercoin[order] = coin;
 	playeraddcoin[order] = 0;
 	playervideo[order] = url;
+	// playervideo[order] = 'http://ipdl.cheerz.cn/hpyy/video/c003.mp4';
 	playerid[order] = uid;
 	tag = "#name" + order;
 	$(tag).text(playername[order]);
 	tag = "#coin" + order;
 	$(tag).text(playercoin[order]);
 	tag = "#v" + order;
-	player[order] = createvideo("v" + order, "v" + order, playervideo[order]);
-	player[order].play();
-
+	player[order] = createvideo("v" + order, "v" + order, playervideo[order], order);
+	// player[order].play();
+	if (order > 1) {
+		if (isotherplay) {
+			// player[order].setStyles({
+			// 	muted: ismuted,
+			// });
+			player[order].play();
+		} else {
+			// player[order].pause();
+		}
+	}
 	resumePusher();
 }
 
@@ -395,8 +444,7 @@ function startlesson(offset, url) {
 	console.log("start lesson:" + url);
 	tag = "#vtarea";
 	$(tag).html("<div id=\"vt\" style=\"width:100%;height:100%;background-color:#000000\"></div>"); //准备视频区域
-	console.log("startlesson - createvideo");
-	player[0] = createvideo("vt", "vt", url);
+	player[0] = createvideo("vt", "vt", url, 0);
 	player[0].addEventListener('timeupdate', timeupdate, false);
 	player[0].addEventListener('ended', ended, false);
 	testoffset = 0; //debug 
@@ -408,7 +456,7 @@ function startlesson(offset, url) {
 
 // 更新直播间用户金币
 function updateplaycoin(args) {
-	console.log("updateplaycoin" + args);
+	// console.log("updateplaycoin" + args);
 	var now_playercoin = JSON.parse(args);
 	for (i = 0; i < now_playercoin.length; i++) {
 		var id = parseInt(now_playercoin[i].id);
@@ -526,7 +574,7 @@ function askquit() {
 
 }
 
-function createvideo(videoid, divid, url) {
+function createvideo(videoid, divid, url, pos) {
 	var odiv = document.getElementById(divid);
 	var left = odiv.getBoundingClientRect().left;
 	var top = odiv.getBoundingClientRect().top;
@@ -537,18 +585,33 @@ function createvideo(videoid, divid, url) {
 	width = width - 4;
 	height = height - 4;
 
+	var is_videomuted = false;
+	if (pos == 0) {
+		is_videomuted = false;
+	} else if (pos == 1) {
+		is_videomuted = true;
+	} else {
+		is_videomuted = ismuted;
+	}
+
 	var player = plus.video.createVideoPlayer(videoid, {
 		src: url, //留点边框
 		top: top + 'px',
 		left: left + 'px',
 		width: width + 'px',
-		height: height + 'px'
+		height: height + 'px',
+		muted: is_videomuted
 	});
 	player.addEventListener("error", function(e) {
 		console.log("video error " + JSON.stringify(e))
 	}, false);
+
+	player.addEventListener('waiting', function(e) {
+		console.log("video waiting " + JSON.stringify(e));
+	}, false);
+
 	plus.webview.currentWebview().append(player);
-	console.log("#### added video " + divid + " " + url);
+	console.log("#### added video " + pos + " " + url);
 	return player;
 }
 
@@ -595,17 +658,17 @@ function initPusher(userid) {
 
 
 	// 监听状态变化事件
-	pusher.addEventListener("statechange", function(e) {
-		console.log('### pusher statechange: ' + JSON.stringify(e));
-	}, false);
+	// pusher.addEventListener("statechange", function(e) {
+	// 	console.log('### pusher statechange: ' + JSON.stringify(e));
+	// }, false);
 
-	pusher.addEventListener("error", function(e) {
-		console.log('### pusher error: ' + JSON.stringify(e));
-	}, false);
+	// pusher.addEventListener("error", function(e) {
+	// 	console.log('### pusher error: ' + JSON.stringify(e));
+	// }, false);
 
-	pusher.addEventListener("netstatus", function(e) {
-		console.log('### pusher netstatus: ' + JSON.stringify(e));
-	}, false);
+	// pusher.addEventListener("netstatus", function(e) {
+	// 	console.log('### pusher netstatus: ' + JSON.stringify(e));
+	// }, false);
 
 	// njsAdjustCameraForIOS();
 }
