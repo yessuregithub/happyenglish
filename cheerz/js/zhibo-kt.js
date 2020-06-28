@@ -66,7 +66,7 @@ function showtime(endtime) {
 	return lefth + ":" + leftm + ":" + lefts; //返回倒计时的字符串
 }
 
-function quitlesson(backtofirstpage) {
+function quitlesson(backtofirstpage, serverlogout) {
 	if (activeview) activeview.close();
 	close_wrong();
 	stopPusher();
@@ -79,6 +79,7 @@ function quitlesson(backtofirstpage) {
 			player[i].close();
 			player[i] = null;
 		}
+	if (!serverlogout) return;
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_quitlesson.html',
 		async: true,
@@ -251,7 +252,7 @@ function timeupdate(e) {
 }
 
 function ended(e) {
-	quitlesson(false);
+	quitlesson(false,false);
 	var iszhibo = localStorage.getItem("isnowzhibo");
 	if (iszhibo == 1) {
 		jump('ended', 'kc-end.html');
@@ -360,7 +361,7 @@ function enterlesson() {
 			}
 			if (data.rst == 2) { //服务器认为已经在课堂，强制退出
 				console.log("server report duplication session");
-				quitlesson(false);
+				quitlesson(false,true);
 				setTimeout(reenter, 2000);
 				return;
 			}
@@ -519,11 +520,11 @@ function pullmessage() {
 	lid = localStorage.getItem("less_id");
 
 	if (token == null || token == "" || typeof(token) == undefined) {
-		quitlesson(true);
+		quitlesson(true,true);
 		return null;
 	}
 	if (lid == null || lid == "" || typeof(lid) == undefined) {
-		quitlesson(true);
+		quitlesson(true,true);
 		return null;
 	}
 	mui.ajax({
@@ -540,7 +541,7 @@ function pullmessage() {
 			// 请求成功
 			if (data.rst == 0) {
 				mui.alert(data.msg);
-				quitlesson(true);
+				quitlesson(true,true);
 				return;
 			}
 			if (data.rst == 1) {
@@ -563,7 +564,7 @@ function askquit() {
 	var btnArray = ['No', 'Yes'];
 	mui.confirm('确定要离开教室(Yes/No)？', '确认', btnArray, function(e) {
 		if (e.index == 1) {
-			quitlesson(true);
+			quitlesson(true,true);
 		}
 	});
 
