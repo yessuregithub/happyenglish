@@ -411,6 +411,7 @@ function loadbestscore(lid, url, tag) {
 		type: 'post',
 		timeout: 10000,
 		success: function(data) {
+			console.log("loadbestscore()" + JSON.stringify(data));
 			if (data.rst == 0) {} else if (data.rst == 1) {
 				bestscore = data.score;
 				$(tag).text(bestscore);
@@ -456,16 +457,16 @@ function addcointoserv(coin, cha, memo) {
 	memo = memo.replace(/\./g, "");
 	memo = memo.replace(/\//g, "");
 
-	console.log("addcointoserv()")
+	console.log("addcointoserv()" + coin)
 	var token = localStorage.getItem("token");
 	var verify = md5(token + coin + cha); // token+coin+cha
 
-	// console.log("token:" + token);
-	// console.log("coin:" + coin);
-	// console.log("cha:" + cha);
-	// console.log("memo:" + memo);
-	// console.log("verify:" + token + coin + cha);
-	// console.log("md5:" + verify);
+	console.log("token:" + token);
+	console.log("coin:" + coin);
+	console.log("cha:" + cha);
+	console.log("memo:" + memo);
+	console.log("verify:" + token + coin + cha);
+	console.log("md5:" + verify);
 
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_addcoin.html',

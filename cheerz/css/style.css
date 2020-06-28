@@ -343,8 +343,8 @@ input:-ms-input-placeholder {color: #666;}
 .laoshi-list a.yin{ background:url(../images/ls-01.png) no-repeat; background-size:100% 100%;}
 .laoshi-list a.yin:hover{ background:url(../images/ls-01-hover.png) no-repeat; background-size:100% 100%;}
 
-.laoshi-list a.shua{ background:url(../images/ls-02.png) no-repeat; background-size:100% 100%;}
-.laoshi-list a.shua:hover{ background:url(../images/ls-02-hover.png) no-repeat; background-size:100% 100%;}
+.laoshi-list a.camera{ background:url(../images/ls-02.png) no-repeat; background-size:100% 100%;}
+.laoshi-list a.camera:hover{ background:url(../images/ls-02-hover.png) no-repeat; background-size:100% 100%;}
 
 
 .laoshi-list a.ce{ background:url(../images/ls-03.png) no-repeat; background-size:100% 100%;}
