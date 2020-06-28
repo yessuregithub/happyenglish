@@ -379,16 +379,18 @@ function loadweekendlist() {
 				$("#cover2").attr("src", data.data.weekendpic2);
 				$("#time1").text("开启时间 " + data.data.starttime + " " + ts);
 				$("#time2").text("开启时间 " + data.data.starttime + " " + ts);
-				$("#coin1").text(data.data.coin);
-				$("#coin2").text(data.data.coin);
+				//$("#coin1").text(data.data.coin);
+				//$("#coin2").text(data.data.coin);
 				weekenddata = data;
-				loadbestscore(weekenddata.data.id, weekenddata.data.weekendurl1, "#bestscore1");
-				loadbestscore(weekenddata.data.id, weekenddata.data.weekendurl2, "#bestscore2");
+				loadbestscore(weekenddata.data.id, weekenddata.data.weekendurl1, "#bestscore1","#coin1");
+				loadbestscore(weekenddata.data.id, weekenddata.data.weekendurl2, "#bestscore2","#coin2");
+/*
 				if (data.data.first == 0) {
 					$("#coin1").text("0");
 					$("#coin2").text("0");
 
 				}
+	*/
 			}
 		},
 		error: function(xhr, type, errorThrown) {
@@ -397,7 +399,7 @@ function loadweekendlist() {
 	});
 }
 
-function loadbestscore(lid, url, tag) {
+function loadbestscore(lid, url, tag,tag1) {
 
 	var token = localStorage.getItem("token");
 	mui.ajax({
@@ -416,6 +418,7 @@ function loadbestscore(lid, url, tag) {
 			if (data.rst == 0) {} else if (data.rst == 1) {
 				bestscore = data.score;
 				$(tag).text(bestscore);
+				$(tag1).text(data.coin);
 			}
 		},
 		error: function(xhr, type, errorThrown) {
