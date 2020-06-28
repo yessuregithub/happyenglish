@@ -1,4 +1,5 @@
 ---------PENDING--------------------
+--->Home_index_getstudyrecord 返回rst:2
 --->Home_index_enterlesson.html 得到的名称都要英文名
 --->ios字体变黑体
 --->界面的适配
