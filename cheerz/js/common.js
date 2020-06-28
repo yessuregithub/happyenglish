@@ -30,7 +30,8 @@ function fetchuserinfo(token) {
 				return;
 			}
 			if (data.rst == 1) {
-				$("#nickname").text(data.nickname);
+				// console.log("fetchuserinfo()" + JSON.stringify(data));
+				$("#nickname").text(data.engname);
 				$("#coin").text(data.coin);
 				timesele = data.timesele;
 				if (data.avata != "")
