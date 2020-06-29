@@ -31,7 +31,11 @@ function fetchuserinfo(token) {
 			}
 			if (data.rst == 1) {
 				// console.log("fetchuserinfo()" + JSON.stringify(data));
-				$("#nickname").text(data.engname);
+				if (data.engname == null || data.engname == undefined || data.engname == "") {
+					$("#nickname").text(data.nickname);
+				} else {
+					$("#nickname").text(data.engname);
+				}
 				$("#coin").text(data.coin);
 				timesele = data.timesele;
 				if (data.avata != "")
@@ -382,15 +386,15 @@ function loadweekendlist() {
 				//$("#coin1").text(data.data.coin);
 				//$("#coin2").text(data.data.coin);
 				weekenddata = data;
-				loadbestscore(weekenddata.data.id, weekenddata.data.weekendurl1, "#bestscore1","#coin1");
-				loadbestscore(weekenddata.data.id, weekenddata.data.weekendurl2, "#bestscore2","#coin2");
-/*
-				if (data.data.first == 0) {
-					$("#coin1").text("0");
-					$("#coin2").text("0");
+				loadbestscore(weekenddata.data.id, weekenddata.data.weekendurl1, "#bestscore1", "#coin1");
+				loadbestscore(weekenddata.data.id, weekenddata.data.weekendurl2, "#bestscore2", "#coin2");
+				/*
+								if (data.data.first == 0) {
+									$("#coin1").text("0");
+									$("#coin2").text("0");
 
-				}
-	*/
+								}
+					*/
 			}
 		},
 		error: function(xhr, type, errorThrown) {
@@ -399,7 +403,7 @@ function loadweekendlist() {
 	});
 }
 
-function loadbestscore(lid, url, tag,tag1) {
+function loadbestscore(lid, url, tag, tag1) {
 
 	var token = localStorage.getItem("token");
 	mui.ajax({
@@ -438,6 +442,7 @@ function setgamescore(lid, url, gscore) {
 			token: token,
 			lid: lid,
 			gurl: url,
+			coin: 20,
 			score: gscore,
 			verify: verify
 		},
