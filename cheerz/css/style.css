@@ -1,28 +1,41 @@
 @charset "utf-8";
 /* CSS Document */
 ul:after,.row:after{content: "";clear: both;display: table;line-height: 0;height: 0;}
-html {  font-family: sans-serif;  -ms-text-size-adjust: 100%;  -webkit-text-size-adjust: 100%; font-size:62.5%;  width: 100%;
+html {  -ms-text-size-adjust: 100%;  -webkit-text-size-adjust: 100%; font-size:62.5%;  width: 100%;
   height: 100%;
   overflow: hidden;
 }
 body{color:#666; font-family:"Source Han Sans CN"; background:#3d2086; overflow:hidden; width:100%; height:100vh;  position: fixed;   left: 0;  top: 0; padding-bottom:3rem;}
 
-@font-face {
-	font-family:zihun23hao; /*这里是说明调用来的字体名字*/
-	src:url(../fonts/SourceHanSansCN-Regular.otf); /*这里是字体文件路径*/
-} 
-@font-face {
-	font-family:zihun23hao; /*这里是说明调用来的字体名字*/
-	src:url(../fonts/zihun23hao.ttf); /*这里是字体文件路径*/
-} 
-@font-face {
-	font-family:zihun59hao; /*这里是说明调用来的字体名字*/
-	src:url(../fonts/zihun59hao.ttf); /*这里是字体文件路径*/
-} 
-@font-face {
-	font-family:HuniArizona; /*这里是说明调用来的字体名字*/
-	src:url(../fonts/HuniArizona.TTF); /*这里是字体文件路径*/
-} 
+
+
+/* @font-face {
+	font-family:zihun23hao; 
+	src:url(../fonts/SourceHanSansCN-Regular.otf);
+} */
+/* @font-face {
+	font-family:zihun23hao; 
+	src:url(../fonts/zihun23hao.ttf);
+} */ 
+/* @font-face {
+	font-family:PingFangSC-Regular, sans-serif; 
+} */
+/* @font-face {
+	font-family:zihun59hao,PingFangSC-Regular, sans-serif; 
+	src:url(../fonts/zihun59hao.ttf);
+} */
+/* @font-face {
+	font-family:HuniArizona;
+	src:url(../fonts/HuniArizona.TTF); 
+} */
+
+html {
+	font-family: -apple-system,Roboto,system-ui, BlinkMacSystemFont, "PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif;
+}
+
+body {
+	font-family: -apple-system,Roboto,system-ui, BlinkMacSystemFont, "PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif;
+}
 
 a{outline:none;cursor:pointer;color:#666;}
 a:link,a:visited{text-decoration:none;}
