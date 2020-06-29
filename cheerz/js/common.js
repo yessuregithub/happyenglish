@@ -369,13 +369,15 @@ function loadweekendlist() {
 				timestamp = Math.floor(datetime / 1000);
 				if (timetranssimple(timestamp) == data.data.starttime) istoday = true;
 				else istoday = false;
-				if (istoday) {
-					$("#operation1").show();
-					$("#operation2").show();
-				} else {
-					$("#operation1").hide();
-					$("#operation2").hide();
-				}
+				// if (istoday) {
+				// 	$("#operation1").show();
+				// 	$("#operation2").show();
+				// } else {
+				// 	$("#operation1").hide();
+				// 	$("#operation2").hide();
+				// }
+				$("#operation1").show();
+				$("#operation2").show(); 
 				var timesele = localStorage.getItem('timesele');
 				if (timesele == "1") ts = "19:30";
 				else ts = "20:00";
