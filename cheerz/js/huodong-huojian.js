@@ -12,12 +12,13 @@ var rightCount;
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
+	console.log("huojian:"+gamepara);
 	json = JSON.parse(gamepara);
 	$("#words1").text(json.word1);
 	$("#words2").text(json.word2);
 	$("#showimage").attr("src", json.image);
-	$("#anwser1").text(json.answer1);
-	$("#anwser2").text(json.answer2);
+	$("#anwser1").attr("src",json.answer1);
+	$("#anwser2").attr("src",json.answer2);
 	answerindex = parseInt(json.answer) - 1;
 	stage = 1;
 	rightCount = 0;

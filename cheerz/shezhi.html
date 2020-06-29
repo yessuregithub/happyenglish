@@ -22,7 +22,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="javascript:jump('kcsz','kcsz.html')" class="item">
+								<a href="javascript:gotokcsz()" class="item">
 									<img src="images/sz02.png">
 									<span>课程设置</span>
 								</a>
@@ -81,27 +81,10 @@
 		<script src="js/rem.js"></script>
 		<script src="js/common.js"></script>
 		<script>
-			function horizontalScreen(className) {
-				// transform 强制横屏
-				var conW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-				var conH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-				// transform: rotate(90deg); width: 667px; height: 375px;transform-origin:28% 50%;
-				//var iosTopHe = 0;//若有其他样式判断，写于此
-
-				$(className).css({
-					"transform": "rotate(90deg) translate(" + ((conH - conW) / 2) + "px," + ((conH - conW) / 2) + "px)",
-					"width": conH + "px",
-					"height": conW + "px",
-					//"margin-top":iosTopHe+"px",
-					// "border-left":iosTopHe+"px solid #000",
-					"transform-origin": "center center",
-					"-webkit-transform-origin": "center center"
-				});
-			}
-
 			var token = checklogin();
-			if (token == null) return;
-			fetchuserinfo(token);
+			if (token != null) {
+				fetchuserinfo(token);
+			}
 		</script>
 
 		<script>
@@ -116,20 +99,28 @@
 				$('#logout').on('click', function() {
 					localStorage.setItem("token", "");
 					//jump('dl', 'dl.html');
-					window.location.href="dl.html";
+					window.location.href = "dl.html";
 					return;
 				});
 			}
 
 			mui.ready(function() {
 				loadpage();
-
-
 			});
 			mui.plusReady(function() {
-				plus.screen.lockOrientation("landscape");
-
+				// plus.screen.lockOrientation("landscape");
 			});
+
+			function gotokcsz() {
+				var currtime = new Date();
+				console.log("当前时间：" + currtime.getHours());
+				var h = parseInt(currtime.getHours());
+				if (h >= 18 && h <= 21) {
+					mui.alert("18点~21点无法修改上课时间哦");
+					return;
+				}
+				jump('kcsz', 'kcsz.html');
+			}
 		</script>
 
 	</body>

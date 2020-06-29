@@ -19,9 +19,9 @@ function initdata(lid) {
 		type: 'post',
 		timeout: 10000,
 		success: function(data) {
-			
-			console.log("getstudyrecord" + JSON.stringify(data));
-			
+
+			console.log("getstudyrecord() " + "lid:" + lid + JSON.stringify(data));
+
 			if (data.rst == 0) {
 				jump('login', 'dl.html');
 			} else if (data.rst == 2) {
