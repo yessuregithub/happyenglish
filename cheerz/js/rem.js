@@ -16,7 +16,11 @@
     var tid;
     var flexible = lib.flexible || (lib.flexible = {});
     var designPixel = 1920;//设计稿件尺寸
-    
+    if(mui.os.ipad) {
+		console.log("is ipad");
+		designPixel = 1920;
+	}
+	
     if (metaEl) { 
         //console.warn('将根据已有的meta标签来设置缩放比例');       
         var match = metaEl.getAttribute('content').match(/initial\-scale=([\d\.]+)/);
@@ -71,15 +75,28 @@
         }
     }
 
-    function refreshRem(){
-        var width = docEl.getBoundingClientRect().width;
-        if (width / dpr > designPixel) {    //如果分辨率不是1，那么获取的物理宽度应该乘以分辨率，才是最终可用的width
-            width = width * dpr;
-        }
-        var rem = width / (designPixel/100); //计算最终还原到设计图上的比例，从而设置到文档上
-        docEl.style.fontSize = rem + 'px';
-        flexible.rem = win.rem = rem;
-    }
+    // function refreshRem(){
+    //     var width = docEl.getBoundingClientRect().width;
+    //     if (width / dpr > designPixel) {    //如果分辨率不是1，那么获取的物理宽度应该乘以分辨率，才是最终可用的width
+    //         width = width * dpr;
+    //     }
+    //     var rem = width / (designPixel/100); //计算最终还原到设计图上的比例，从而设置到文档上
+    //     docEl.style.fontSize = rem + 'px';
+    //     flexible.rem = win.rem = rem;
+    // }
+	
+	function refreshRem(){
+	    var width = docEl.getBoundingClientRect().width;
+	    if (width / dpr > designPixel) {    //如果分辨率不是1，那么获取的物理宽度应该乘以分辨率，才是最终可用的width
+	        width = width * dpr;
+	    }
+	    var rem = width / (designPixel/100); //计算最终还原到设计图上的比例，从而设置到文档上
+		if(mui.os.ipad) {
+			rem *= 1.33;
+		}
+	    docEl.style.fontSize = rem + 'px';
+	    flexible.rem = win.rem = rem;
+	}
 
     win.addEventListener('resize', function() {
         clearTimeout(tid);
