@@ -23,10 +23,7 @@ function fetchuserinfo(token) {
 			// 请求成功
 			if (data.rst == 0) {
 				localStorage.setItem("token", "");
-				mui.openWindow({
-					id: 'login',
-					url: 'dl.html'
-				});
+				jump('login','dl.html');
 				return;
 			}
 			if (data.rst == 1) {
@@ -78,10 +75,7 @@ function fetchuserinfo1(token) {
 			// 请求成功
 			if (data.rst == 0) {
 				localStorage.setItem("token", "");
-				mui.openWindow({
-					id: 'login',
-					url: 'dl.html'
-				});
+				jump('login','dl.html');
 				return;
 			}
 			if (data.rst == 1) {
@@ -119,10 +113,7 @@ function listalllesson() {
 			// 请求成功
 			if (data.rst == 0) {
 				localStorage.setItem("token", "");
-				mui.openWindow({
-					id: 'login',
-					url: 'dl.html'
-				});
+				jump('login','dl.html');
 				return;
 			}
 			if (data.rst == 1) {
