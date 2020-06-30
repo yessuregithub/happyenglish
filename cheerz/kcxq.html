@@ -44,7 +44,7 @@
 
 					</div>
 				</div>
-				<a href="kc-end.html" class="xu-btn"></a>
+				<a href="javascript"gokcend()" class="xu-btn"></a>
 			</div>
 			<div id="video"></div>
 		</div>
@@ -58,6 +58,10 @@
 		<script>
 			var pbooklink;
 			var video;
+
+			function gokcend() {
+				localStorage.setItem("referer", "kcxq.html");
+			}
 
 			function backpage() {
 				url = localStorage.getItem('referer');

@@ -1,12 +1,13 @@
 function initdata(lid) {
-	comefrom = document.referrer;
+	comefrom = localStorage.getItem("referer");
+	console.log("comefrom="+comefrom);
 	if (comefrom.indexOf("zhibo-kt.html") != -1) {
 		fromtype = 1;
 	} else {
 		fromtype = 2;
 		returnlink = "kcxq.html";
 	}
-
+    console.log("fromtype="+fromtype);
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_getstudyrecord.html',
 		data: {

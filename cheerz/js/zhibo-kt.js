@@ -255,6 +255,8 @@ function ended(e) {
 	quitlesson(false,false);
 	var iszhibo = localStorage.getItem("isnowzhibo");
 	if (iszhibo == 1) {
+		localStorage.setItem("referer","zhibo-kt.html");
+
 		jump('ended', 'kc-end.html');
 	} else {
 		jump('xq', 'kcxq.html');
