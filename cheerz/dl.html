@@ -69,7 +69,7 @@
 			$('#login').on('click', function() {
 				var mobile = $("#mobile").val();
 				var verify = $("#verify").val();
-				if (mobile.length != 11 || verify.length != 6) {
+				if (mobile.length != 11 || verify.length != 4) {
 					mui.alert('请输入 正确的手机号和验证码');
 					return;
 				}
