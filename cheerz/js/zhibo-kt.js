@@ -138,16 +138,22 @@ function initclassroom(data) {
 	else $("#pingbivideo").attr("class", "pingbi");
 
 	// 加载互动子页面
-	var odiv = document.getElementById("kt");
+	var odiv = document.getElementById("kt_content");
 	var left = odiv.getBoundingClientRect().left;
 	var top = odiv.getBoundingClientRect().top;
 	var width = odiv.getBoundingClientRect().width;
 	var height = odiv.getBoundingClientRect().height;
+	// activeview = plus.webview.create('blank.html', 'active', {
+	// 	top: top + 5, //把黑板的边框留一点出来
+	// 	left: left + 10,
+	// 	height: height - 10,
+	// 	width: width - 20
+	// });
 	activeview = plus.webview.create('blank.html', 'active', {
-		top: top + 5, //把黑板的边框留一点出来
-		left: left + 10,
-		height: height - 10,
-		width: width - 20
+		top: top, //把黑板的边框留一点出来
+		left: left,
+		height: height,
+		width: width
 	});
 	activeview.hide();
 
@@ -223,7 +229,7 @@ function initclassroom(data) {
 			tag = "#name" + pos;
 			$(tag).text("");
 			tag = "#coin" + pos;
-			$(tag).text("-");
+			$(tag).text("0");
 			tag = "#v" + pos;
 			$(tag).html("<img src=\"images/wsx.jpg\">"); //显示未上线
 		}
@@ -252,10 +258,10 @@ function timeupdate(e) {
 }
 
 function ended(e) {
-	quitlesson(false,false);
+	quitlesson(false, false);
 	var iszhibo = localStorage.getItem("isnowzhibo");
 	if (iszhibo == 1) {
-		localStorage.setItem("referer","zhibo-kt.html");
+		localStorage.setItem("referer", "zhibo-kt.html");
 
 		jump('ended', 'kc-end.html');
 	} else {
@@ -301,12 +307,7 @@ function checklessondata(lastplaytime, currtime) {
 		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
 			// console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + " pop up " + lessondata[i].url);
 
-			var unescape_para = unescape(lessondata[i].para);
-			// unescape_para =
-			// 	'{"tuzi":[{"que":"Which is #mouth#?","anw":2,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p3.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p1.jpg"},{"que":"Which is #ear#?","anw":2,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p1.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg"},{"que":"Which is #eye#?","anw":2,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p2.jpg"},{"que":"Which is #nose#?","anw":1,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p3.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg"},{"que":"Which is #eye#?","anw":1,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p2.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg"}]}';
-			// lessondata[i].url = 'tuzi-youxi';
-
-			localStorage.setItem("gid", lessondata[i].id);
+			var unescape_para = unescape(lessondata[i].para);			localStorage.setItem("gid", lessondata[i].id);
 			localStorage.setItem("ts", lessondata[i].ts);
 			localStorage.setItem("gpara", unescape_para);
 			localStorage.setItem("gurl", lessondata[i].url);
@@ -337,7 +338,7 @@ function enterlesson() {
 		jump('index', 'index.html');
 		return null;
 	}
-	$("#vtarea").html("<img src='" + cover + "'>");
+	$("#vcover").html("<img src='" + cover + "'>");
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_enterlesson.html',
 		async: true,
@@ -363,7 +364,7 @@ function enterlesson() {
 			}
 			if (data.rst == 2) { //服务器认为已经在课堂，强制退出
 				console.log("server report duplication session");
-				quitlesson(false,true);
+				quitlesson(false, true);
 				setTimeout(reenter, 2000);
 				return;
 			}
@@ -440,9 +441,8 @@ function startlesson(offset, url) {
 	if (player[0] != null) return;
 	pausePusher();
 
-	tag = "#vtarea";
-	$(tag).html("<div id=\"vt\" style=\"width:100%;height:100%;background-color:#000000\"></div>"); //准备视频区域
-	player[0] = createvideo("vt", "vt", url, 0);
+	console.log('start video:'+offset);
+	player[0] = createvideo("vt", "vtarea", url, 0);
 	player[0].addEventListener('timeupdate', timeupdate, false);
 	player[0].addEventListener('ended', ended, false);
 	testoffset = 0; //debug 
@@ -522,11 +522,11 @@ function pullmessage() {
 	lid = localStorage.getItem("less_id");
 
 	if (token == null || token == "" || typeof(token) == undefined) {
-		quitlesson(true,true);
+		quitlesson(true, true);
 		return null;
 	}
 	if (lid == null || lid == "" || typeof(lid) == undefined) {
-		quitlesson(true,true);
+		quitlesson(true, true);
 		return null;
 	}
 	mui.ajax({
@@ -543,7 +543,7 @@ function pullmessage() {
 			// 请求成功
 			if (data.rst == 0) {
 				mui.alert(data.msg);
-				quitlesson(true,true);
+				quitlesson(true, true);
 				return;
 			}
 			if (data.rst == 1) {
@@ -566,7 +566,7 @@ function askquit() {
 	var btnArray = ['No', 'Yes'];
 	mui.confirm('确定要离开教室(Yes/No)？', '确认', btnArray, function(e) {
 		if (e.index == 1) {
-			quitlesson(true,true);
+			quitlesson(true, true);
 		}
 	});
 
@@ -578,10 +578,11 @@ function createvideo(videoid, divid, url, pos) {
 	var top = odiv.getBoundingClientRect().top;
 	var width = odiv.getBoundingClientRect().width;
 	var height = odiv.getBoundingClientRect().height;
-	left = left + 2;
-	top = top + 2;
-	width = width - 4;
-	height = height - 4;
+	console.log('create refer:' + divid + ',left:' + left + ',top:' + top + ',width:' + width + ',height:' + height);
+	// left = left + 2;
+	// top = top + 2;
+	// width = width - 4;
+	// height = height - 4;
 
 	var is_videomuted = false;
 	if (pos == 0) {
