@@ -9,6 +9,11 @@ function checklogin() {
 
 var timesele;
 
+function maskmobile(mobile) {
+	mask= mobile;
+	mask=mask.substr(0, 3) + '**' + mask.substr(8, 11);
+	return mask;
+	}
 function fetchuserinfo(token) {
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_userinfo.html',
@@ -27,9 +32,9 @@ function fetchuserinfo(token) {
 				return;
 			}
 			if (data.rst == 1) {
-				// console.log("fetchuserinfo()" + JSON.stringify(data));
 				if (data.engname == null || data.engname == undefined || data.engname == "") {
-					$("#nickname").text(data.nickname);
+					if (data.nickname=="") $("#nickname").text(maskmobile(data.mobile));
+					else $("#nickname").text(data.nickname);
 				} else {
 					$("#nickname").text(data.engname);
 				}
