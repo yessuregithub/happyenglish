@@ -1,5 +1,4 @@
 ---------PENDING--------------------
---->接入短信平台
 --->界面4:3尺寸适配,16:9尺寸两个适配
 --->分享
  生成截图、微信、朋友圈、微信SDK接入
@@ -105,3 +104,5 @@ zhibo-kt 跳转 kc-end.html 先对比 playeraddcoin 选出 mvp在进入.
 --->添加金币 addcointoserv() 验证失败
 --->Home_index_enterlesson.html 得到的名称都要英文名
 --->Home_index_getstudyrecord 返回rst:2
+--->接入短信平台
+
