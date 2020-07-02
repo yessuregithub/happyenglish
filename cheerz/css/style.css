@@ -55,10 +55,10 @@ input:-ms-input-placeholder {color: #666;}
 
 .iphone_center {position: absolute;left: 0;top: 0; display:flex;align-items: center;justify-content: center; flex-wrap: nowrap; width: 100%;height:100%;}
 /* 为了适配  长宽比:2.166的长屏手机 内容控制在890px像素里面 */ 
-/* background-color: #fec61a; */
-.wt-box{position:relative; width:19.2rem;height:8.8rem;background-color: #fec61a88;} 
+/*background-color: #fec61a88; */
+.wt-box{position:relative; width:19.2rem;height:8.8rem;} 
 
-.hd-box{position:relative; width:100%;height:100%;background-color: #fec61a88;} 
+.hd-box{position:relative; width:100%;height:100%;} 
 
 .index-bg{ position:fixed; left:0; top:0; width:100%; height:100%;}
 .index-bg img{ width:100%; height:auto;}
@@ -294,7 +294,7 @@ input:-ms-input-placeholder {color: #666;}
 .ck-title{ text-align:center; position:relative;}
 .ck-title h4{ color:#ffffff; font-size:.28rem; line-height:1.8;}
 .ck-title span{ position:absolute; right:-.1rem; top:-.1rem; width:1.53rem; height:.99rem;}
-.kc-left .img-box{ background:url(../images/kc-ds.png) no-repeat; width:7.65rem; height:4.81rem; padding:.16rem; position:relative;}
+.kc-left .img-box{ background:url(../images/kc-ds.png) no-repeat;background-size: 100% 100%; width:7.65rem; height:4.81rem; padding:.16rem; position:relative;}
 .kc-left .img-box img{ width:100%; height:4.49rem;}
 .kc-btn{ padding:0px .3rem;}
 
@@ -381,7 +381,7 @@ input:-ms-input-placeholder {color: #666;}
 .zhibo-list {position: absolute;left: 1.5rem; top: 5.52rem;width: 100%; display: block;}
 .zhibo-list li {position: relative; background:url(../images/sp-list.png) no-repeat; width:3.91rem;height: 3.24rem; background-size:100% 100%;  margin-right:.18rem; float:left;}
 .zhibo-list li .name{ position:absolute;left: 0.255rem; top: 0.25rem; color:#000000; font-size:.24rem; line-height:.30rem;}
-.zhibo-list li .jin{ position:absolute;right: 0.23rem; top: 0.25rem;float:right;}
+.zhibo-list li .jin{ position:absolute;right: 0.23rem; top: 0.22rem;float:right;}
 .zhibo-list li .jin img{ width:.3rem; height:.3rem; margin-right:10px; float:left;}
 .zhibo-list li .jin span{ float:left; color:#000000; font-size:.23rem; display:block; line-height:.3rem; height:.3rem;}
 .zhibo-list li .img-box{ background:#d5d5d5;width:3.4rem; height:2.55rem; position:absolute;left: 0.255rem; top: 0.57rem; overflow:hidden;}
@@ -564,7 +564,7 @@ input:-ms-input-placeholder {color: #666;}
 .fen-box-right ul li a{ display:block;}
 .fen-box-right ul li a img{ width:1.51rem; height:1.51rem;}
 .fen-box-right ul li a span{ display:block; text-align:center; color:#ffffff; font-size:.28rem; margin-top:.15rem;}
-.game-box { position:absolute; z-index:9; top:50%; left:0; width:100%;transform: translateY(-50%);}
+.game-box { position:absolute; z-index:9; top:50%; left:0; width:100%;height: 100%; transform: translateY(-50%);}
 .game-box .game-list{ border-bottom:2px dashed #ffffff; width:100%; padding:.25rem;}
 .game-box .game-list:last-child{ border-bottom:0;}
 .game-box .game-list li{ float:left; width:2.5rem; min-height:2.3rem; margin-left:.3rem; position:relative;}

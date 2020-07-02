@@ -95,11 +95,14 @@ function quitlesson(backtofirstpage, serverlogout) {
 			if (data.rst == 0) {}
 			if (data.rst == 1) {}
 			if (backtofirstpage) {
-				if (iszhibo == 1) {
-					jump('index', 'index.html');
-				} else {
-					jump('xq', 'kcxq.html');
-				}
+				// 延迟推迟等待播放器关闭
+				setTimeout(function() {
+					if (iszhibo == 1) {
+						jump('index', 'index.html');
+					} else {
+						jump('xq', 'kcxq.html');
+					}
+				}, 1000);
 			}
 
 
@@ -108,11 +111,13 @@ function quitlesson(backtofirstpage, serverlogout) {
 			// 请求失败
 			console.log("logout http fail");
 			if (backtofirstpage) {
-				if (iszhibo == 1) {
-					jump('index', 'index.html');
-				} else {
-					jump('xq', 'kcxq.html');
-				}
+				setTimeout(function() {
+					if (iszhibo == 1) {
+						jump('index', 'index.html');
+					} else {
+						jump('xq', 'kcxq.html');
+					}
+				}, 1000);
 			}
 		}
 	});
@@ -307,7 +312,8 @@ function checklessondata(lastplaytime, currtime) {
 		if (lastplaytime < lessondata[i].ts && currtime >= lessondata[i].ts) {
 			// console.log("lasttime:" + lastplaytime + ",currtime:" + currtime + " pop up " + lessondata[i].url);
 
-			var unescape_para = unescape(lessondata[i].para);			localStorage.setItem("gid", lessondata[i].id);
+			var unescape_para = unescape(lessondata[i].para);
+			localStorage.setItem("gid", lessondata[i].id);
 			localStorage.setItem("ts", lessondata[i].ts);
 			localStorage.setItem("gpara", unescape_para);
 			localStorage.setItem("gurl", lessondata[i].url);
@@ -441,7 +447,7 @@ function startlesson(offset, url) {
 	if (player[0] != null) return;
 	pausePusher();
 
-	console.log('start video:'+offset);
+	console.log('start video:' + offset);
 	player[0] = createvideo("vt", "vtarea", url, 0);
 	player[0].addEventListener('timeupdate', timeupdate, false);
 	player[0].addEventListener('ended', ended, false);

@@ -60,6 +60,8 @@ function scene_init() {
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
+	// debug
+	// gamepara = '{"tuzi":[{"que":"Which is #mouth#?","anw":2,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p3.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p1.jpg"},{"que":"Which is #ear#?","anw":2,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p1.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg"},{"que":"Which is #eye#?","anw":2,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p2.jpg"},{"que":"Which is #nose#?","anw":1,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p3.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg"},{"que":"Which is #eye#?","anw":1,"pic1":"http://ipdl.cheerz.cn/hpyy/pic/p2.jpg","pic2":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg"}]}';
 	gameDatas = JSON.parse(gamepara).tuzi;
 	queCount = gameDatas.length;
 
