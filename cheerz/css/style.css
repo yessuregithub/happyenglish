@@ -53,15 +53,24 @@ input::-moz-placeholder {color: #666;opacity: 1;}
 /* Internet Explorer 10+ */
 input:-ms-input-placeholder {color: #666;}
 
-.iphone_center {position: absolute;left: 0;top: 0; display:flex;align-items: center;flex-wrap: nowrap; width: 100%;height:100%;}
+.iphone_center {position: absolute;left: 0;top: 0; display:flex;align-items: center;justify-content: center; flex-wrap: nowrap; width: 100%;height:100%;}
 /* 为了适配  长宽比:2.166的长屏手机 内容控制在890px像素里面 */ 
-.wt-box{position:relative; width: 100%;height:8.9rem;} 
-.wt-bg{ position:fixed;top: 0;left: 0; width: 100%;height:auto; background-size: 100% auto;}
-.wt-bg img{ width:100%; height:auto;}
+/* background-color: #fec61a; */
+.wt-box{position:relative; width:19.2rem;height:8.8rem;background-color: #fec61a88;} 
+
 .index-bg{ position:fixed; left:0; top:0; width:100%; height:100%;}
 .index-bg img{ width:100%; height:auto;}
+
+.wt-bg{ position:fixed;top: 0;left: 0; width: 100%;height:auto; background-size: 100% auto;background-color: #fec61a;}
+.wt-bg img{ width:100%; height:auto;}
+
 .wt-return{ position:fixed; left:.3rem; top:.25rem; width:1.1rem; height:1.1rem; z-index:999999; background:url(../images/fh.png) no-repeat; background-size:100% 100%;}
 .wt-return:hover{ background:url(../images/fhon.png) no-repeat; background-size:100% 100%;}
+
+.yx-return{ position:fixed; left:.3rem; top:.25rem; width:1.1rem; height:1.1rem; z-index:999999; background:url(../images/yx-fh.png) no-repeat; background-size:100% 100%;}
+.yx-return:hover{ background:url(../images/yx-fh-hover.png) no-repeat; background-size:100% 100%;}
+
+
 .wt-title{ position:absolute; left:50%; top:-1.2rem; width:3.98rem; margin-left:-1.99rem;}
 .wt-auto{width:10.64rem; background:url(../images/wh-bg.png) no-repeat; position:relative; margin:0 auto; margin-top:1rem; padding:.3rem; background-size:100% 100%; min-height:6.7rem;}
 .wt-list{ height:6.16rem; overflow:auto;}
@@ -237,9 +246,6 @@ input:-ms-input-placeholder {color: #666;}
 .zhoum-btn .fenx:hover{ background:url(../images/fx-hover.png) no-repeat;line-height:1.12rem; width:1.12rem; height:1.12rem; background-size:100% 100%;}
 
 
-.yx-return{ position:fixed; left:.3rem; top:.25rem; width:1.1rem; height:1.1rem; z-index:9; background:url(../images/yx-fh.png) no-repeat; background-size:100% 100%;}
-.yx-return:hover{ background:url(../images/yx-fh-hover.png) no-repeat; background-size:100% 100%;}
-
 .black_overlay {display:none;position:fixed;top:0%;left:0%;width:100%;height:100%;background-color:black;z-index:1001;-moz-opacity:0.6;opacity:.60;filter:alpha(opacity=66);}
 .white_content {display:none;position:fixed;top:50%; left:50%; margin-left:-3.5rem; width:7rem; height:3rem;z-index:1002;border-radius:20px; border:.15rem solid #fee345; background:#fff; padding:15px; overflow:hidden; transform: translateY(-50%); text-align:center;-moz-box-shadow:0px 0px 12px #000000; -webkit-box-shadow:0px 0px 12px #000000; box-shadow:0px 0px 12px #000000;}
 .white_content h4{ color:#000000; font-size:.30rem; line-height:.5rem; padding:.4rem 0px;}
@@ -272,7 +278,7 @@ input:-ms-input-placeholder {color: #666;}
 
 
 .donghua{ position:fixed; left:50%; bottom:2.3rem; width:3.57rem; height:5.35rem; margin-left:-1.78rem;}
-.yx-cika{width:4.81rem; height:3.26rem; background:rgba(255,255,255,1);  border-radius:.2rem; position:fixed; right:.5rem; top:1.3rem;-moz-box-shadow:0px 0px 8px #000000; -webkit-box-shadow:0px 0px 8px #000000; box-shadow:0px 0px 8px #000000; padding:.12rem;}
+.yx-cika{width:4.81rem; height:3.26rem; background:rgba(255,255,255,1);  border-radius:.2rem; position:absolute; right:.5rem; top:1.3rem;-moz-box-shadow:0px 0px 8px #000000; -webkit-box-shadow:0px 0px 8px #000000; box-shadow:0px 0px 8px #000000; padding:.12rem;}
 .yx-cika .img-box{width:4.57rem; height:3.02rem; background:rgba(217,217,217,1); position:relative; line-height:3.02rem; text-align:center;}
 .yx-cika .img-box img{ vertical-align:middle;}
 .yx-footer-list li.selected .item .dui{height:0.95rem; background:rgba(0,0,0,0.5); width:100%; position:absolute; left:0; top:0;}
@@ -343,15 +349,15 @@ input:-ms-input-placeholder {color: #666;}
 .lupai img{ width:100%;}
 .lupai .word-img {width: 3.465rem;height: 1.1rem;position: absolute;left: 0.15rem; top:0.27rem;}
 .lupai .word-img img{ display:inline-block; margin:0 auto; max-width:100%; height:auto; vertical-align:middle}
-
+/* background-color: #ffd209; */
 .zhibo-box{ position:absolute; left:0; top:50%;transform: translateY(-50%); padding:0; width:100%;height: 100%;}
-.zhibo-top .kt{ background:url(../images/hd-bg.png) no-repeat; background-size:100% 100%; width:9.9rem; height:5.42rem; position:absolute;left:1.47rem;top:0.13rem;}
+.zhibo-top .kt{ background:url(../images/hd-bg.png) no-repeat; background-size:100% 100%; width:9.9rem; height:5.42rem; position:absolute;left:1.47rem;top:0.05rem;}
 .zhibo-top .kt .kt_content{ position: absolute;left: 0.4rem;top:0.15rem; width: 9.1rem; height:5.12rem; display:block;}
 .zhibo-top .kt img{ width: 100%;height: 100%;}
 .zhibo-top .kt .txt-box{ text-align:center; position:absolute; left:0; bottom:1.15rem; text-align:center; width:100%;}
 .zhibo-top .kt .txt-box h4{ color:#ffffff; font-size:.38rem; font-weight:bold; margin-bottom:.2rem;}
 .zhibo-top .kt .txt-box span{ color:#ffffff; font-size:1.18rem; font-weight:bold; line-height:1.2;}
-.laoshi-btn{ width:6.21rem; position: absolute;left: 15.0rem;top:0.27rem;}
+.laoshi-btn{ width:6.21rem; position: absolute;left: 15.0rem;top:0.2rem;}
 .laoshi-list{}
 .laoshi-list a{ float:left; width:1.01rem; height:.76rem; display:block; margin-left:.3rem; position:relative;}
 .laoshi-list a.yin{ background:url(../images/ls-01.png) no-repeat; background-size:100% 100%;}
@@ -368,9 +374,9 @@ input:-ms-input-placeholder {color: #666;}
 .laoshi-list a.kf:hover{ background:url(../images/ls-04-hover.png) no-repeat; background-size:100% 100%;}
 .laoshi-list a .pingbi{ background:url(../images/pb.png) no-repeat; position:absolute; top:.22rem; left:.55rem; width:.34rem; height:.34rem; background-size:100% 100%;}
 
-.laoshi-sp{ position: absolute;left: 11.54rem; top: 1.25rem; width:6.21rem; height:4.25rem; background:url(../images/hd-bg.png) no-repeat;  background-size:100% 100%;}
+.laoshi-sp{ position: absolute;left: 11.54rem; top: 1.18rem; width:6.21rem; height:4.25rem; background:url(../images/hd-bg.png) no-repeat;  background-size:100% 100%;}
 .laoshi-sp .img-box{ position: absolute;left: 0.545rem; top: 0.175rem; width:5.12rem; height:3.86rem; background:#000;}
-.zhibo-list {position: absolute;left: 1.5rem; top: 5.65rem;width: 100%; display: block;}
+.zhibo-list {position: absolute;left: 1.5rem; top: 5.52rem;width: 100%; display: block;}
 .zhibo-list li {position: relative; background:url(../images/sp-list.png) no-repeat; width:3.91rem;height: 3.24rem; background-size:100% 100%;  margin-right:.18rem; float:left;}
 .zhibo-list li .name{ position:absolute;left: 0.255rem; top: 0.25rem; color:#000000; font-size:.24rem; line-height:.30rem;}
 .zhibo-list li .jin{ position:absolute;right: 0.23rem; top: 0.25rem;float:right;}

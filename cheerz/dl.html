@@ -6,14 +6,13 @@
 		<title>哈彼英语</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/style.css" rel="stylesheet" />
-
 	</head>
 	<body>
+		<div class="dl-bg"><img src="images/dl-bg.png"></div>
+		<a href="" class="dl-lgoo"><img src="images/logo.png"></a>
+
 		<div class="iphone_center">
 			<div class="wt-box">
-				<div class="dl-bg"><img src="images/dl-bg.png"></div>
-				<a href="" class="dl-lgoo"><img src="images/logo.png"></a>
-
 				<div class="dl-box">
 					<form>
 						<div class="dl-list">
@@ -31,7 +30,6 @@
 				</div>
 			</div>
 		</div>
-
 
 		<script src="js/mui.min.js"></script>
 		<script src="js/jquery-1.8.3.min.js"></script>
@@ -92,7 +90,7 @@
 						if (data.rst == 1) {
 							var token = data.token;
 							localStorage.setItem("token", token);
-							jump('index','index.html');
+							jump('index', 'index.html');
 						}
 					},
 					error: function(xhr, type, errorThrown) {
@@ -134,7 +132,7 @@
 			mui.plusReady(function() {
 				// plus.screen.lockOrientation("landscape");
 			});
-			
+
 			// 安卓退出应用
 			var clickNum = 0;
 			mui.back = function(event) {
@@ -150,6 +148,6 @@
 				return false;
 			};
 		</script>
-		
+
 	</body>
 </html>

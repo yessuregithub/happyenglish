@@ -8,10 +8,11 @@
 		<link href="css/style.css" rel="stylesheet" />
 	</head>
 	<body>
+		<div class="wt-bg"><img src="images/sz-bg.png"></div>
+		<a href="javascript:mui.back()" class="wt-return"></a>
+
 		<div class="iphone_center">
 			<div class="wt-box">
-				<div class="wt-bg"><img src="images/sz-bg.png"></div>
-				<a href="javascript:mui.back()" class="wt-return"></a>
 				<div class="wt-box">
 					<div class="wt-auto">
 						<div class="wt-title"><img src="images/t3.png"></div>
@@ -73,12 +74,12 @@
 			});
 
 			$("#dochange").on("click", function() {
-				if ($('#timesele1').attr('class')=="selected") timesele=1;
-				else timesele=2;
+				if ($('#timesele1').attr('class') == "selected") timesele = 1;
+				else timesele = 2;
 				mui.ajax({
 					url: 'http://47.241.5.29/Home_index_settimesele.html',
 					data: {
-						'timesele':timesele,
+						'timesele': timesele,
 						'token': token,
 					},
 					async: true,
