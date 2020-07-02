@@ -19,10 +19,11 @@ function startgame() {
 	//单词|第一图|第二图|第三图|答案
 
 	var word = json.word;
-	pic_url = new Array(3);
+	pic_url = new Array(4);
 	pic_url[0] = json.img1;
 	pic_url[1] = json.img2;
 	pic_url[2] = json.img3;
+	pic_url[3] = json.img4;
 	anw = parseInt(json.answer);
 
 	score = 0;
@@ -75,13 +76,13 @@ function startgame() {
 // 生成一轮选项
 function genopt(optcount) {
 	var opt = new Array();
-	var opt_opt_count = optcount / 3;
-	c1 = c2 = c3 = 0;
+	var opt_opt_count = optcount / 4;
+	c1 = c2 = c3 = c4 = 0;
 	for (var i = 0; i < optcount; i++) {
 		var found = false;
 		while (!found) {
 			found = true;
-			var val = (Math.round(Math.random() * 1000) % 3) + 1;
+			var val = (Math.round(Math.random() * 1000) % 4) + 1;
 			if (i > 0) {
 				if (val == opt[i - 1]) {
 					found = false;
@@ -104,6 +105,12 @@ function genopt(optcount) {
 					continue;
 				} else {
 					c3++;
+				}
+				if (val == 4 && c4 == opt_opt_count) {
+					found = false;
+					continue;
+				} else {
+					c4++;
 				}
 			}
 			opt[i] = val;
