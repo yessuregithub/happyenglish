@@ -155,7 +155,9 @@ function pro_result(overtime) {
 			addcoin(1);
 		}
 	} else {
-		play_wrong();
+		if (overtime) {
+			play_wrong();
+		}
 	}
 
 	mui.ajax({

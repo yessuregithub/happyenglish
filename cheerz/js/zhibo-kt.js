@@ -344,7 +344,7 @@ function enterlesson() {
 		jump('index', 'index.html');
 		return null;
 	}
-	$("#vcover").html("<img src='" + cover + "'>");
+	// $("#vcover").html("<img src='" + cover + "'>");
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_enterlesson.html',
 		async: true,
@@ -761,6 +761,9 @@ function updatePusher(pushurl) {
 	});
 }
 
+function repaireIOS() {
+	njsSetAudioSessionForIOS();
+}
 
 function njsSetAudioSessionForIOS() {
 	if (!mui.os.ios) return;

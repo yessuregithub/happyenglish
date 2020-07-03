@@ -7,7 +7,7 @@ var rightCount;
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
-	//gamepara = "https://www.fangjial.com/uploads/allimg/200216/1K33I406-0.jpg|Have you something hard?|1"; //debug
+	// gamepara = '{"cover":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg","sentence":"Does this picture show #ear#?","answer":1,"duration":27}';
 
 	if (gamepara != null) {
 		json = JSON.parse(gamepara);

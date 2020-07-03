@@ -323,7 +323,11 @@
 					choosed = true;
 					var yn = index == 0 ? 1 : 2;
 					click_yn = yn;
-					// pro_result(yn, false);
+					// pro_result(yn, false); 
+					// 先发音
+					if(yn != anw_yn) {
+						play_wrong();
+					}
 				}
 				uc_01.change = function(index, item) {}
 			}

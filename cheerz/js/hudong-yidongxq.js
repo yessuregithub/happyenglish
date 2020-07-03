@@ -14,6 +14,7 @@ var score = 0;
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
+	// gamepara = '{"word":"ear","img1":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p1.jpg","img2":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p2.jpg","img3":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p3.jpg","img4":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p4.jpg","answer":4}';
 	//debug
 	json = JSON.parse(gamepara);
 	//单词|第一图|第二图|第三图|答案
