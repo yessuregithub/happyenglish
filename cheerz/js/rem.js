@@ -92,10 +92,10 @@ if (!window.Zepto && !window.jQuery) {
 			width = width * dpr;
 		}
 		var rem = width / (designPixel / 100); //计算最终还原到设计图上的比例，从而设置到文档上
-		rem *= 1.33; // todo test
-		// if (mui.os.ipad) {
-		// 	rem *= 1.33;
-		// }
+		// rem *= 1.33; // todo test
+		if (mui.os.ipad) {
+			rem *= 1.33;
+		}
 		console.log('rem = ' + rem+' bw='+docEl.getBoundingClientRect().width+'bh='+docEl.getBoundingClientRect().height);
 		docEl.style.fontSize = rem + 'px';
 		flexible.rem = win.rem = rem;
