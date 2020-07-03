@@ -211,13 +211,13 @@ input:-ms-input-placeholder {color: #666;}
 .goum-list li .item .gm-btn:hover{ background:url(../images/gm-btn-hover.png) no-repeat; background-size:100% 100%; color:#fff;}
 
 
-.qbkc-box{ background:url(../images/qb-bg.png) no-repeat; width:17.43rem; height:8.25rem; background-size:100% 100%; position:absolute; z-index:99; right:0.35rem;padding:.5rem 1rem .4rem .7rem; top:50%;transform: translateY(-50%);}
-.qbkc-list{ height:7rem; overflow:auto; width:100%;}
-.qbkc-list li{ float:left; width:5.21rem; }
-.qbkc-list li .item{ position:relative;background:url(../images/list-bg.png) no-repeat; width:5.21rem; height:3.32rem; background-size:100% 100%; padding:.16rem; display:block;}
-.qbkc-list li img{ width:100%; height:3rem;}
+.qbkc-box{ background:url(../images/qb-bg.png) no-repeat; width:12.75rem; height:9.85rem; background-size:100% 100%; position:absolute; z-index:99; left:1.35rem;padding:0.5rem 0.65rem 0.215rem .54rem; top:50%;transform: translateY(-50%);}
+.qbkc-list{ height:9.42rem; overflow:auto; width:100%;}
+.qbkc-list li{ float:left; width:3.82rem; }
+.qbkc-list li .item{ position:relative;background:url(../images/list-bg.png) no-repeat; width:3.82rem; height:2.42rem; background-size:100% 100%; padding:.105rem; display:block;}
+.qbkc-list li img{ width:100%; height:2.21rem;}
 .qbkc-list li .mvp{ background:url(../images/mvp.png) no-repeat; width:1.09rem; height:.6rem; position:absolute; left:.3rem; top:.16rem;font-size:0.38rem; font-family:HuniArizona;  font-weight:bold; font-style:italic; color:rgba(255,255,255,1); text-align:center; line-height:.6rem;}
-.qbkc-list li .name{width:4.6rem; height:0.54rem; background:rgba(0,0,0,.6);border-radius:.25rem; bottom:.3rem; left:50%; margin-left:-2.3rem; position:absolute; text-align:center; line-height:.54rem;font-size:0.32rem; color:#fff;}
+.qbkc-list li .name{width:3.39rem; height:0.39rem; background:rgba(0,0,0,.6);border-radius:.25rem; top:1.82rem; left:0.2rem; position:absolute; text-align:center; line-height:.39rem;font-size:0.26rem; color:#fff;}
 
 .zhoumo-box{ background:url(../images/zm-bg.png) no-repeat; background-size:100% 100%; width:17.28rem; height:8.36rem; position:absolute; right:0.4rem; z-index:99; top:50%;transform: translateY(-50%); padding:.6rem .8rem .3rem .4rem;}
 .zhoumo-box .item { width:7.65rem;}

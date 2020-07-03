@@ -13,11 +13,9 @@
 		<script>
 			function loadcss() {
 				if (mui.os.ipad) {
-					// document.write('<link href="css/style.css" rel="stylesheet" />');
 					document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
 				} else {
-					// document.write('<link href="css/style.css" rel="stylesheet" />');
-					document.write('<link href="css/style-ipad.css" rel="stylesheet" />'); // todo test web client
+					document.write('<link href="css/style.css" rel="stylesheet" />');
 				}
 			}
 			loadcss();
@@ -26,7 +24,6 @@
 	<body>
 		<div class="wt-bg"><img src="images/index-bg.png"></div>
 		<a href="javascript:backpage()" class="wt-return"></a>
-
 		<div class="iphone_center">
 			<div class="wt-box">
 				<div class="kcyx-box-pa">
@@ -80,8 +77,6 @@
 
 			mui.ready(function() {
 				loadpage();
-
-
 			});
 			mui.plusReady(function() {
 				plus.screen.lockOrientation("landscape");
