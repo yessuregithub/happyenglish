@@ -10,10 +10,11 @@ function checklogin() {
 var timesele;
 
 function maskmobile(mobile) {
-	mask= mobile;
-	mask=mask.substr(0, 3) + '**' + mask.substr(8, 11);
+	mask = mobile;
+	mask = mask.substr(0, 3) + '**' + mask.substr(8, 11);
 	return mask;
-	}
+}
+
 function fetchuserinfo(token) {
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_userinfo.html',
@@ -28,12 +29,12 @@ function fetchuserinfo(token) {
 			// 请求成功
 			if (data.rst == 0) {
 				localStorage.setItem("token", "");
-				jump('login','dl.html');
+				jump('login', 'dl.html');
 				return;
 			}
 			if (data.rst == 1) {
 				if (data.engname == null || data.engname == undefined || data.engname == "") {
-					if (data.nickname=="") $("#nickname").text(maskmobile(data.mobile));
+					if (data.nickname == "") $("#nickname").text(maskmobile(data.mobile));
 					else $("#nickname").text(data.nickname);
 				} else {
 					$("#nickname").text(data.engname);
@@ -80,7 +81,7 @@ function fetchuserinfo1(token) {
 			// 请求成功
 			if (data.rst == 0) {
 				localStorage.setItem("token", "");
-				jump('login','dl.html');
+				jump('login', 'dl.html');
 				return;
 			}
 			if (data.rst == 1) {
@@ -118,7 +119,7 @@ function listalllesson() {
 			// 请求成功
 			if (data.rst == 0) {
 				localStorage.setItem("token", "");
-				jump('login','dl.html');
+				jump('login', 'dl.html');
 				return;
 			}
 			if (data.rst == 1) {
@@ -318,12 +319,9 @@ function listcurrlesson(token) {
 					index_go_link[i] = link;
 
 					$("#lessons ul").append(
-						// "<li><div class='sliding-title'>" + title + "</div><div class='img-box'><img src='" + data.lesson[i].coverurl +
-						// "'></div><div class='txt-box'><span>" + starttimetrans(data.lesson[i].starttime, istoday) +
-						// "</span><a href='" + link + "' class='jinru'>" + promptword + "</a></div></li>"
-
-						"<li><div class='sliding-title'>" + title + "</div><div class='img-box'><img src='" + data.lesson[i].coverurl +
-						"'></div><div class='txt-box'><span>" + starttimetrans(data.lesson[i].starttime, istoday) +
+						"<li><div class='sliding-title'>" + title + "</div><a href='javascript:clickedlesson(" + i +
+						")'><div class='img-box'><img src='" + data.lesson[i].coverurl +
+						"'></div></a><div class='txt-box'><span>" + starttimetrans(data.lesson[i].starttime, istoday) +
 						"</span><a href='javascript:clickedlesson(" + i + ")' class='jinru'>" + promptword +
 						"</a></div></li>"
 					);
@@ -373,7 +371,7 @@ function loadweekendlist() {
 				// 	$("#operation2").hide();
 				// }
 				$("#operation1").show();
-				$("#operation2").show(); 
+				$("#operation2").show();
 				var timesele = localStorage.getItem('timesele');
 				if (timesele == "1") ts = "19:30";
 				else ts = "20:00";

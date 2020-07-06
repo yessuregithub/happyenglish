@@ -261,6 +261,7 @@ input:-ms-input-placeholder {color: #666;}
 .yx-box-top .xing h5{font-size:0.24rem; position:absolute; outline:.55trm;top:50%; transform: translateY(-50%); left:.9rem; font-weight:bold; color:#ffffff; z-index:91}
 .yx-box-top .xin{ float:left;}
 .yx-box-top .xin li{ background:url(../images/hsx.png) no-repeat;  width:.78rem; height:.67rem; background-size:100% 100%; float:left; margin-left:.25rem;}
+.yx-box-top .xin li img{width: 100%;height: 100%;}
 .yx-box-top .time{ float:right; height:.75rem;}
 .yx-box-top .time .name{ float:left; width:.91rem; height:.36rem; margin-top:.20rem;}
 .yx-box-top .time .name img{ width:100%;}

@@ -2,7 +2,7 @@
  * minimobile.js v0.0.1 by chenyaowen 
  * 在保留作者签名的情况下，允许使用与商业用途
  */
-var usePadDesign = false;
+// var usePadDesign = false;
 if (!window.Zepto && !window.jQuery) {
 	console.log("minimobile 是基于Zepto.js 或者 jQuery.js 的，请检查页面是否已在miniMobile之前引入！")
 };
@@ -96,8 +96,9 @@ if (!window.Zepto && !window.jQuery) {
 		}
 		var rem = width / (designPixel / 100); //计算最终还原到设计图上的比例，从而设置到文档上
 		// rem *= 1.33; // todo test
-		console.log("usePadDesign = "+this.usePadDesign);
-		if (mui.os.ipad && this.usePadDesign) {
+		// console.log("usePadDesign = "+usePadDesign);
+		// mui.os.ipad &&
+		if (typeof usePadDesign != 'undefined' && usePadDesign) {
 			rem *= 1.33;
 			console.log('use pad design');
 		}
@@ -146,7 +147,8 @@ if (!window.Zepto && !window.jQuery) {
 		return val;
 	}
 	flexible.usePadFit = function(touse) {
-		this.usePadDesign = touse;
+		if(typeof usePadDesign == 'undefined') return;
+		usePadDesign = touse;
 		console.log('usePadFit=' + touse);
 		this.refreshRem();
 	}

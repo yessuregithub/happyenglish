@@ -17,9 +17,9 @@ function startgame() {
 	addcoin(glid, gurl);
 
 	// console.log("神箭手彼德 json string :", gamepara);
-	
+
 	var json = JSON.parse(gamepara);
-	if(json) {
+	if (json) {
 		worddatas = json;
 		wordcount = worddatas.length;
 	}
@@ -184,16 +184,16 @@ function endgame() {
 
 	// 每周记录一周新纪录
 	var game_score = correctCount * 10;
-	
+
 	var hisscore = localStorage.getItem("gbscore");
 	console.log("lid:" + glid + " record " + gurl + " 历史最高分：" + hisscore + " 本次得分：" + game_score);
-	
+
 	// 本次记录
 	localStorage.setItem("game_score", game_score);
-	
+
 	// 上传本次记录
 	setgamescore(glid, gurl, game_score);
-	
+
 	// 历史记录
 	if (parseInt(hisscore) < game_score) {
 		console.log("刷新纪录老" + hisscore + " 新" + game_score);
@@ -260,7 +260,7 @@ function leftsec(sec) {
 function addcoin(lid, url) {
 	// 加金币
 	var starttime = localStorage.getItem("gstart");
-	if(!starttime) return;
+	if (!starttime) return;
 	var cha = url + "_lid" + lid + "_" + starttime;
 	var coin = 20;
 	var memo = "_add" + coin;

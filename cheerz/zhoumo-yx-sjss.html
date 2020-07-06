@@ -6,14 +6,32 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>哈彼英语</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
-		<link href="css/style.css" rel="stylesheet" />
+		<script src="js/mui.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<!-- 使用iPad布局 -->
+		<script>
+			var usePadDesign = true;
+		</script>
+		<script src="js/rem.js"></script>
+		<!-- 区分css -->
+		<script>
+			function loadcss() {
+				if (mui.os.ipad) {
+					document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				} else {
+					document.write('<link href="css/style.css" rel="stylesheet" />');
+					// document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				}
+			}
+			loadcss();
+		</script>
 	</head>
 	<body>
 		<div class="wt-bg"><img src="images/zm-bg03.jpg"></div>
 		<a href="javascript:close_game();jump('xq', 'zhoumo-xq.html');" class="yx-return"></a>
-		 
+
 		<div class="iphone_center">
-			<div class="wt-box">		
+			<div class="hd-box">
 				<div class="yx-box">
 					<div class="yx-box-top mui-clearfix">
 						<div class="xing">
@@ -75,9 +93,8 @@
 					</ul>
 
 					<div class="donghua-xiong">
-						<div id="xiong-dong"></div>
-						<!-- <div id="xiongcuo"></div> -->
-						<div id="xiong"><img src="images/donghua-xiong.png"></div>
+						<div id="xiong-dong" class="xiong"></div>
+						<div id="xiong" class="xiong"><img src="images/donghua-xiong.png"></div>
 					</div>
 					<div class="lupai">
 						<a href="javascript:click_cika();" class="word-img">

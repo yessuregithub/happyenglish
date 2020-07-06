@@ -1,18 +1,37 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<!-- 魔法对对碰 -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>哈彼英语</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
-		<link href="css/style.css" rel="stylesheet" />
+		<script src="js/mui.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<!-- 使用iPad布局 -->
+		<script>
+			var usePadDesign = true;
+		</script>
+		<script src="js/rem.js"></script>
+		<!-- 区分css -->
+		<script>
+			function loadcss() {
+				if (mui.os.ipad) {
+					document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				} else {
+					document.write('<link href="css/style.css" rel="stylesheet" />');
+					// document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				}
+			}
+			loadcss();
+		</script>
 	</head>
 	<body>
 		<div class="wt-bg"><img src="images/zm-bg01.jpg"></div>
 		<a href="javascript:close_game();jump('xq', 'zhoumo-xq.html');" class="yx-return"></a>
 		
 		<div class="iphone_center">
-			<div class="wt-box">
+			<div class="hd-box">
 				<div class="yx-box">
 					<div class="yx-box-top mui-clearfix">
 						<div class="xing">
@@ -94,11 +113,6 @@
 			</div>
 		</div>
 		<!---在线审核-end--->
-
-
-		<script src="js/mui.min.js"></script>
-		<script src="js/jquery-1.8.3.min.js"></script>
-		<script src="js/rem.js"></script>
 		<script src="js/ui-choose.js"></script>
 		<script src="js/seqframe.js"></script>
 		<script src="js/md5.js"></script>
