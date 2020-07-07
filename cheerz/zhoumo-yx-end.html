@@ -5,9 +5,27 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>哈彼英语</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
-		<link href="css/style.css" rel="stylesheet" />
+		<script src="js/mui.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<!-- 使用iPad布局 -->
+		<script>
+			var usePadDesign = true;
+		</script>
+		<script src="js/rem.js"></script>
+		<!-- 区分css -->
+		<script>
+			function loadcss() {
+				if (mui.os.ipad) {
+					document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				} else {
+					// document.write('<link href="css/style.css" rel="stylesheet" />');
+					document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				}
+			}
+			loadcss();
+		</script>
 	</head>
-	<body style="background:#333333;">
+	<body style="background:#000;">
 		<div class="wt-bg"><img src="images/end-bg.jpg"></div>
 		<a href="javascript:jump('xq', 'zhoumo-xq.html');" class="yx-return"></a>
 		
@@ -50,15 +68,15 @@
 					<ul class="fen-sank mui-clearfix">
 						<li>
 							<h4>共获得金币</h4>
-							<span>3705</span>
+							<span>1234</span>
 						</li>
 						<li>
 							<h4>共学习课次</h4>
-							<span>52</span>
+							<span>12</span>
 						</li>
 						<li>
 							<h4>共学习单词</h4>
-							<span>320</span>
+							<span>123</span>
 						</li>
 					</ul>
 					<div class="fen-box-left-img">
@@ -117,15 +135,15 @@
 					<ul class="fen-sank mui-clearfix">
 						<li>
 							<h4>共获得金币</h4>
-							<span>3705</span>
+							<span>1234</span>
 						</li>
 						<li>
 							<h4>共学习课次</h4>
-							<span>52</span>
+							<span>12</span>
 						</li>
 						<li>
 							<h4>共学习单词</h4>
-							<span>320</span>
+							<span>123</span>
 						</li>
 					</ul>
 					<div class="fen-box-left-img">

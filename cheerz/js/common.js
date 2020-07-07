@@ -33,12 +33,18 @@ function fetchuserinfo(token) {
 				return;
 			}
 			if (data.rst == 1) {
+				var nickshow = "";
 				if (data.engname == null || data.engname == undefined || data.engname == "") {
-					if (data.nickname == "") $("#nickname").text(maskmobile(data.mobile));
-					else $("#nickname").text(data.nickname);
+					if (data.nickname == "") {
+						nickshow = maskmobile(data.mobile);
+					} else {
+						nickshow = data.nickname;
+					}
 				} else {
-					$("#nickname").text(data.engname);
+					nickshow = data.engname;
 				}
+				$("#nickname").text(nickshow);
+				localStorage.setItem('nickshow', nickshow);
 				$("#coin").text(data.coin);
 				timesele = data.timesele;
 				if (data.avata != "")

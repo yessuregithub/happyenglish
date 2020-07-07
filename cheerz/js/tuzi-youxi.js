@@ -14,24 +14,27 @@ var toolate = false;
 var playername = new Array(5); //为统一编号，把0留空
 var playerid = new Array(5);
 var lid;
+var iszhibo = 0;
 
 lid = localStorage.getItem("less_id")
 for (i = 1; i <= 4; i++) {
 	playername[i] = localStorage.getItem("playername" + i);
 	//console.log("get "+i+":"+playername[i]);
-	if (playername[i] == "undefined") playername[i] = "";
+	if (playername[i] == "undefined") playername[i] = "offline";
 	playerid[i] = localStorage.getItem("playerid" + i);
-	if (playerid[i] == "undefined") playername[i] = 0;
+	if (playerid[i] == "undefined") playername[i] = "offline";
 }
 var gamestarttime = parseInt(localStorage.getItem("ts"));
 var lessonstarttime = localStorage.getItem("less_starttime"); //游戏起始时间
 
 
 function scene_init() {
+	iszhibo = localStorage.getItem("isnowzhibo");
+
 	for (i = 1; i <= 4; i++) {
 		playerpos[i] = 0;
 		tag = "#frame" + i;
-		if (playername[i] == "" || playername[i] == undefined)
+		if (iszhibo == 1 && (playername[i] == "" || playername[i] == undefined))
 			$(tag).attr("style", "display:none");
 		else {
 			tag = "#name" + i;
@@ -39,6 +42,13 @@ function scene_init() {
 			$(tag).text(playername[i]);
 		}
 	}
+	// 回看仅显示我的赛道
+	if (iszhibo != 1) {
+		$('#frame2').attr("style", "display:block");
+		var nickshow = localStorage.getItem('nickshow');
+		$('#name2').text(nickshow);
+	}
+
 	currtime = Date.parse(new Date()) / 1000; //计算进入游戏的时间
 	waittime = 15; //debug 规则讲解
 	console.log("lessonstarttime " + lessonstarttime + "gamestarttime " + gamestarttime + "currtime " + currtime +
@@ -135,12 +145,14 @@ function setupGame(index) {
 		$("#hd-no").addClass("dui");
 		$("#hd-yes").addClass("cuo");
 	}
-
-
 }
 
 var click_yn = -1; // 选中后暂时不处理，作答时间到了处理
 function pro_result(overtime) {
+	if (iszhibo != 1) {
+		pro_result_huikan(overtime);
+		return;
+	}
 	console.log("click:" + click_yn + ", anw:" + anw_yn);
 
 	var correct = false;
@@ -198,6 +210,30 @@ function pro_result(overtime) {
 	// 	// 处理兔子跑
 	// 	tuziRun();
 	// }, 1500);
+}
+
+function pro_result_huikan(overtime) {
+	var correct = false;
+	if (click_yn == anw_yn && overtime == false) {
+		correct = true;
+		rightCount++;
+	} else {
+		if (overtime) {
+			play_wrong();
+		}
+	}
+
+	// 清除选中状态
+	rmselected();
+
+	hideQue();
+
+	// 处理兔子跑
+	// 位置对比
+	if (playerpos[2] != rightCount) {
+		tuziRunToPos(2, rightCount);
+		playerpos[2] = rightCount;
+	}
 }
 
 function tuziRun() {
