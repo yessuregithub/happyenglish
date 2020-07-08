@@ -166,6 +166,14 @@ function initclassroom(data) {
 	datacount = data.datacount;
 	userid = data.userid; //自己的uid
 
+	// 创建推流
+	initPusher(userid);
+	setTimeout(function() {
+		if (pusher) {
+			startPusher();
+		}
+	}, 500);
+
 	// 学生端player创建
 	for (i = 0; i < 5; i++) player[i] = null;
 
@@ -240,16 +248,13 @@ function initclassroom(data) {
 		}
 	}
 
-	// 创建推流
-	// getCameraPara();
-	initPusher(userid);
-	setTimeout(function() {
-		if (pusher) {
-			// pusher.preview();
-			// pusher.switchCamera();
-			startPusher();
-		}
-	}, 500);
+	// // 创建推流
+	// initPusher(userid);
+	// setTimeout(function() {
+	// 	if (pusher) {
+	// 		startPusher();
+	// 	}
+	// }, 500);
 }
 
 
@@ -729,7 +734,10 @@ function resumePusher() {
 	console.log("resumePusher()");
 	pusher.resume();
 
-	njsSetAudioSessionForIOS();
+	setTimeout(function() {
+		njsSetAudioSessionForIOS();
+	}, 500)
+
 }
 
 

@@ -5,13 +5,15 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>哈彼英语</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
-		
+
 		<script src="js/jquery-1.8.3.min.js"></script>
 		<script src="js/mui.min.js"></script>
 		<!-- 使用iPad布局 -->
-		<script> var usePadDesign = true;</script>
+		<script>
+			var usePadDesign = true;
+		</script>
 		<script src="js/rem.js"></script>
-		
+
 		<!-- 区分css -->
 		<script>
 			function loadcss() {
@@ -62,7 +64,9 @@
 				</div>
 				<a href="javascript" gokcend()" class="xu-btn"></a>
 			</div>
-			<div id="video"></div>
+			<video id='video' src="" width="0" height="0" poster=""></video>
+			<!-- <div id="video"></div> -->
+			<!-- <div id="video-return"><a href="" class="vd-return"></a></div> -->
 		</div>
 		<script src="js/common.js"></script>
 		<script>
@@ -78,8 +82,13 @@
 				jump('back', url);
 			}
 
+			mui.init({
+
+			})
+
 			mui.ready(function() {
 				loadpage();
+				// $('#video-return').hide();
 			});
 			mui.plusReady(function() {
 				plus.screen.lockOrientation("landscape");
@@ -87,14 +96,19 @@
 
 			function playpbook() {
 				if (pbooklink == "") return;
-				video = new plus.video.VideoPlayer('video', {
-					src: pbooklink
-				});
-				video.addEventListener('ended', function(e) {
-					video.close();
-				}, false);
+				$('#video-return').show();
+				var video = document.getElementById("video");
+				video.src = pbooklink;
 				video.play();
-				video.requestFullScreen();
+				// video = new plus.video.VideoPlayer('video', {
+				// 	src: pbooklink,
+				// 	'show-fullscreen-btn': false
+				// });
+				// video.addEventListener('ended', function(e) {
+				// 	video.close();
+				// }, false);
+				// video.play();
+				// video.requestFullScreen();
 			}
 
 			// 回看课程
