@@ -97,14 +97,15 @@ if (!window.Zepto && !window.jQuery) {
 		var rem = width / (designPixel / 100); //计算最终还原到设计图上的比例，从而设置到文档上
 		// rem *= 1.33; // todo test
 		// console.log("usePadDesign = "+usePadDesign);
-		// mui.os.ipad &&
-		if (typeof usePadDesign != 'undefined' && usePadDesign) {
+		// 
+		if (mui.os.ipad && typeof usePadDesign != 'undefined' && usePadDesign) {
 			rem *= 1.33;
-			// console.log('use pad design');
+			console.log('use pad design');
 		} else {
-			// console.log('use phone design');
+			console.log('use phone design');
 		}
-		console.log('rem = ' + rem + ' bw=' + docEl.getBoundingClientRect().width + 'bh=' + docEl.getBoundingClientRect().height);
+		console.log('dpr = ' + dpr + ' rem = ' + rem + ' bw=' + docEl.getBoundingClientRect().width + 'bh=' + docEl.getBoundingClientRect()
+			.height);
 		docEl.style.fontSize = rem + 'px';
 		flexible.rem = win.rem = rem;
 	}
@@ -130,7 +131,6 @@ if (!window.Zepto && !window.jQuery) {
 	refreshRem();
 
 	flexible.dpr = win.dpr = dpr;
-	console.log('dpr = ' + dpr);
 	flexible.refreshRem = refreshRem;
 	flexible.rem2px = function(d) {
 		var val = parseFloat(d) * this.rem;

@@ -166,7 +166,6 @@ function pro_result(overtime) {
 		} else if (rightCount == 5) {
 			addcoin(1);
 		}
-		play_good();
 	} else {
 		if (overtime) {
 			play_wrong();
@@ -218,7 +217,6 @@ function pro_result_huikan(overtime) {
 	if (click_yn == anw_yn && overtime == false) {
 		correct = true;
 		rightCount++;
-		play_good();
 	} else {
 		if (overtime) {
 			play_wrong();

@@ -14,7 +14,7 @@ var score = 0;
 
 function startgame() {
 	var gamepara = localStorage.getItem("gpara");
-	// gamepara = '{"word":"ear","img1":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p1.jpg","img2":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p2.jpg","img3":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p3.jpg","img4":"http:\/\/ipdl.cheerz.cn\/hpyy\/pic\/p4.jpg","answer":4}';
+	// gamepara = '{"word":"ear","img1":"http://ipdl.cheerz.cn/hpyy/pic/p1.jpg","img2":"http://ipdl.cheerz.cn/hpyy/pic/p2.jpg","img3":"http://ipdl.cheerz.cn/hpyy/pic/p3.jpg","img4":"http://ipdl.cheerz.cn/hpyy/pic/p4.jpg","answer":4}';
 	//debug
 	json = JSON.parse(gamepara);
 	//单词|第一图|第二图|第三图|答案
@@ -59,6 +59,7 @@ function startgame() {
 
 	// 选项设置
 	var itemCount = $("#A2").find(".item").length;
+	console.log('option count = ' + itemCount);
 
 	rightCount = 0;
 	genOpts = genopt(itemCount);
@@ -77,21 +78,29 @@ function startgame() {
 // 生成一轮选项
 function genopt(optcount) {
 	var opt = new Array();
-	var opt_opt_count = Math.round(optcount / 4);
+	var opt_opt_count = Math.floor(optcount / 4);
 	// var w_opt_count = opt_opt_count - 2;
 	// var r_opt_count = optcount - 3 * w_opt_count;
-	var w_opt_count = opt_opt_count;
-	var r_opt_count = opt_opt_count + 3;
+	var w_opt_count = opt_opt_count - 1;
+	var r_opt_count = optcount - w_opt_count * 3;
+	console.log('right c=' + r_opt_count + 'wrong c=' + w_opt_count);
 	c1 = c2 = c3 = c4 = 0;
 	for (var i = 0; i < optcount; i++) {
 		var found = false;
 		var val, opt_count;
+		var total_w = 0;
 		while (!found) {
 			found = true;
 			val = (Math.round(Math.random() * 1000) % 4) + 1;
+			if (val == anw) {
+				opt_count = r_opt_count;
+			} else {
+				opt_count = w_opt_count;
+				total_w++;
+			}
 			opt_count = (val == anw) ? r_opt_count : w_opt_count;
 			if (i > 0) {
-				if (val == opt[i - 1]) {
+				if (val == opt[i - 1] && (total_w < w_opt_count * 3)) {
 					found = false;
 					continue;
 				}

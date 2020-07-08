@@ -130,69 +130,6 @@
 									</div>
 								</div>
 							</li>
-							<li>
-								<div class="item">
-									<div class="img-box">
-										<div class="tupian"></div>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="item">
-									<div class="img-box">
-										<div class="tupian"></div>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="item">
-									<div class="img-box">
-										<div class="tupian"></div>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="item">
-									<div class="img-box">
-										<div class="tupian"></div>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="item">
-									<div class="img-box">
-										<div class="tupian"></div>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="item">
-									<div class="img-box">
-										<div class="tupian"></div>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="item">
-									<div class="img-box">
-										<div class="tupian"></div>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="item">
-									<div class="img-box">
-										<div class="tupian"></div>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="item">
-									<div class="img-box">
-										<div class="tupian"></div>
-									</div>
-								</div>
-							</li>
 
 						</ul>
 					</div>
@@ -226,14 +163,17 @@
 			});
 
 			function loadpage() {
-				startgame();
-
 				// 滚动
 				var xingHpx = rem2px(5.17);
 				var xingCount = 24; // 3的倍数
-				console.log('xingxing=' + $('#uc_01').find('.item').length);
+
 				xingCount = $('#uc_01').find('.item').length;
-				initScroll(550, xingCount / 3 * xingHpx); // 24个 行需/3
+				initScroll(550); // 24个 行需/3
+
+				console.log('xingxing=' + $('#uc_01').find('.item').length);
+				initChoose();
+
+				startgame();
 			}
 
 			function leaveURL() {
@@ -261,10 +201,11 @@
 
 			var second;
 			var stage = 1;
+			var start_wait = 15;
 
 			function countdown() {
 				second -= 0.1;
-				if (stage == 1) totalseconds = 15;
+				if (stage == 1) totalseconds = start_wait;
 				else totalseconds = 15;
 				var length = Math.round((second * 100) / totalseconds);
 				$("#progress1").attr("style", "width:" + length + "%");
@@ -284,43 +225,25 @@
 				}
 			}
 
-			second = 15;
+			second = start_wait;
 			count15 = setInterval(countdown, 100);
 		</script>
 		<script src="js/ui-choose.js"></script>
 		<script>
-			// 将所有.ui-choose实例化
-			$('.ui-choose').ui_choose();
+			function initChoose() {
+				// 将所有.ui-choose实例化
+				$('.ui-choose').ui_choose();
 
-			// uc_01 ul 单选
-			var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
-			uc_01.click = function(index, item) {
-				pro_result(index);
+				// uc_01 ul 单选
+				var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
+				uc_01.click = function(index, item) {
+					pro_result(index);
+				}
+				uc_01.change = function(index, item) {}
 			}
-			uc_01.change = function(index, item) {}
 		</script>
 
 		<script>
-			// function _InitScroll(_S1, _S2, _W, _H, _T) {
-			// 	var _jsCode = "var marqueesHeight" + _S1 + "=" + _H + ";var stopscroll" + _S1 + "=false;var scrollElem" + _S1 +
-			// 		"=document.getElementById('" + _S1 + "');with(scrollElem" + _S1 + "){style.width=" + _W +
-			// 		";style.height=marqueesHeight" + _S1 + ";style.overflow='hidden';noWrap=true;}scrollElem" + _S1 +
-			// 		".onmousedown=new Function('stopscroll" + _S1 + "=true');scrollElem" + _S1 +
-			// 		".onmouseup=new Function('stopscroll" + _S1 + "=false');var preTop" + _S1 + "=0; var currentTop" + _S1 +
-			// 		"=0; var stoptime" + _S1 + "=0;var leftElem" + _S2 + "=document.getElementById('" + _S2 + "');scrollElem" + _S1 +
-			// 		".appendChild(leftElem" + _S2 + ".cloneNode(false));setTimeout(function(){init_srolltext" + _S1 + "();}," + _T +
-			// 		");function init_srolltext" + _S1 + "(){scrollElem" + _S1 + ".scrollTop=0;setInterval('scrollUp" + _S1 +
-			// 		"()',50);}function scrollUp" + _S1 + "(){if(stopscroll" + _S1 + "){return;}currentTop" + _S1 + "+=1;if(currentTop" +
-			// 		_S1 + "==(marqueesHeight" + _S1 + "+1)) {stoptime" + _S1 + "+=1;currentTop" + _S1 + "-=1;if(stoptime" + _S1 + "==" +
-			// 		_T / 50 + ") {currentTop" + _S1 + "=0;stoptime" + _S1 + "=0;}}else{preTop" + _S1 + "=scrollElem" + _S1 +
-			// 		".scrollTop;scrollElem" + _S1 + ".scrollTop +=1;if(preTop" + _S1 + "==scrollElem" + _S1 + ".scrollTop){scrollElem" +
-			// 		_S1 + ".scrollTop=0;scrollElem" + _S1 + ".scrollTop +=1;}}}";
-			// 	console.log(_jsCode);
-			// 	return _jsCode;
-			// }
-			// eval(_InitScroll("A1", "A2", 550, 19 * 6, 15000));
-
-
 			var marqueesHeightA1;
 			var stopscrollA1;
 			var scrollElemA1;
@@ -331,10 +254,20 @@
 			var endscroll = false;
 			var gamesec = 15;
 
-			function initScroll(width, heigh) {
-				marqueesHeightA1 = heigh * 2; // cloneNode
+			function initScroll(width) {
+				// 先拷贝
+				leftElemA2 = document.getElementById('uc_01');
+				var li_len = leftElemA2.children.length;
+				var li = 0;
+				while (li < li_len) {
+					var li_ele = leftElemA2.lastElementChild.cloneNode(true);
+					leftElemA2.appendChild(li_ele);
+					li++;
+				}
+
 				stopscrollA1 = false;
 				scrollElemA1 = document.getElementById('A1');
+				marqueesHeightA1 = scrollElemA1.scrollHeight; // cloneNode
 
 				with(scrollElemA1) {
 					style.width = width;
@@ -345,14 +278,11 @@
 				scrollElemA1.onmousedown = new Function('stopscrollA1=true');
 				scrollElemA1.onmouseup = new Function('stopscrollA1=false');
 
-				leftElemA2 = document.getElementById('A2');
-				scrollElemA1.appendChild(leftElemA2.cloneNode(false));
-
 				$('#time_bar').hide();
 				setTimeout(function() {
 					$('#time_bar').show();
 					init_srolltextA1();
-				}, 15000);
+				}, start_wait * 1000);
 			}
 
 			var s_interval = null;
@@ -374,10 +304,11 @@
 				// 	return;
 				// }
 				// var step = lib.flexible.pos2px(3);
-				var pageHeight = marqueesHeightA1 / 2;
+				var pageHeight = marqueesHeightA1;
 				var step = Math.round(pageHeight / (15 * 1000 / 50));
-				// console.log('scrollElemA1.scrollTop=' + scrollElemA1.scrollTop + 'step = ' + step + 'currentTopA1:' + currentTopA1 +
-				// 	' pageHeight:' + pageHeight);
+				// console.log('scrollElemA1.scrollTop=' + scrollElemA1.scrollTop + ' ,scrollElemA1.scrollHeight=' + scrollElemA1.scrollHeight +
+				// 	',step=' + step + ' ,currentTopA1:' + currentTopA1 +
+				// 	' ,pageHeight=' + pageHeight);
 				currentTopA1 += step;
 				if (currentTopA1 >= (pageHeight + step)) {
 					stoptimeA1 += 1;
@@ -388,7 +319,7 @@
 						endscroll = true;
 					}
 				} else {
-					preTopA1 = scrollElemA1.scrollTop;
+					// preTopA1 = scrollElemA1.scrollTop;
 					scrollElemA1.scrollTop += step;
 					// console.log(preTopA1 + ',' + scrollElemA1.scrollTop * 2);
 					// if (preTopA1 >= scrollElemA1.scrollTop * 2) {
