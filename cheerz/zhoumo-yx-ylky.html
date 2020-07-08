@@ -178,6 +178,8 @@
 		<script>
 			// 音频
 			var s_wrong = null;
+			var s_good = null;
+			
 		</script>
 
 		<script>
@@ -193,6 +195,7 @@
 			mui.plusReady(function() {
 				console.log("mui plusReady");
 				s_wrong = plus.audio.createPlayer("audio/wrong.mp3");
+				s_good = plus.audio.createPlayer("audio/good1.mp3");
 			});
 
 			function close_game() {
@@ -206,13 +209,27 @@
 					s_wrong.play();
 				}
 			}
-
+			
+			function play_good() {
+				if (s_good) {
+					// console.log("play s_good sound");
+					s_good.stop();
+					s_good.play();
+				}
+			}
+			
 			function close_wrong() {
 				if (s_wrong != null) {
 					console.log("s_wrong close");
 					s_wrong.stop();
 					s_wrong.close();
 					s_wrong = null;
+				}
+				if (s_good != null) {
+					console.log("s_good close");
+					s_good.stop();
+					s_good.close();
+					s_good = null;
 				}
 			}
 		</script>

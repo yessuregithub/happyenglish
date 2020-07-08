@@ -20,9 +20,9 @@ lid = localStorage.getItem("less_id")
 for (i = 1; i <= 4; i++) {
 	playername[i] = localStorage.getItem("playername" + i);
 	//console.log("get "+i+":"+playername[i]);
-	if (playername[i] == "undefined") playername[i] = "offline";
+	if (playername[i] == "undefined") playername[i] = "";
 	playerid[i] = localStorage.getItem("playerid" + i);
-	if (playerid[i] == "undefined") playername[i] = "offline";
+	if (playerid[i] == "undefined") playername[i] = "";
 }
 var gamestarttime = parseInt(localStorage.getItem("ts"));
 var lessonstarttime = localStorage.getItem("less_starttime"); //游戏起始时间
@@ -34,7 +34,7 @@ function scene_init() {
 	for (i = 1; i <= 4; i++) {
 		playerpos[i] = 0;
 		tag = "#frame" + i;
-		if (iszhibo == 1 && (playername[i] == "" || playername[i] == undefined))
+		if (playername[i] == "" || playername[i] == undefined)
 			$(tag).attr("style", "display:none");
 		else {
 			tag = "#name" + i;
@@ -44,9 +44,9 @@ function scene_init() {
 	}
 	// 回看仅显示我的赛道
 	if (iszhibo != 1) {
-		$('#frame2').attr("style", "display:block");
+		$('#frame1').attr("style", "display:block");
 		var nickshow = localStorage.getItem('nickshow');
-		$('#name2').text(nickshow);
+		$('#name1').text(nickshow);
 	}
 
 	currtime = Date.parse(new Date()) / 1000; //计算进入游戏的时间
@@ -166,6 +166,7 @@ function pro_result(overtime) {
 		} else if (rightCount == 5) {
 			addcoin(1);
 		}
+		play_good();
 	} else {
 		if (overtime) {
 			play_wrong();
@@ -217,6 +218,7 @@ function pro_result_huikan(overtime) {
 	if (click_yn == anw_yn && overtime == false) {
 		correct = true;
 		rightCount++;
+		play_good();
 	} else {
 		if (overtime) {
 			play_wrong();
@@ -230,9 +232,9 @@ function pro_result_huikan(overtime) {
 
 	// 处理兔子跑
 	// 位置对比
-	if (playerpos[2] != rightCount) {
-		tuziRunToPos(2, rightCount);
-		playerpos[2] = rightCount;
+	if (playerpos[1] != rightCount) {
+		tuziRunToPos(1, rightCount);
+		playerpos[1] = rightCount;
 	}
 }
 
@@ -356,7 +358,7 @@ function tuziRunToPos(no, pos) {
 	}
 	// 动画
 	else {
-		var html = '<div id="tuzi-mov' + no + '" class="tuzi-tu" style="width:4.895rem;height:2.67rem" ></div>';
+		var html = '<div class="item"></div><div id="tuzi-mov' + no + '" class="tuzi-tu" style="width:4.895rem;height:2.67rem" ></div>';
 		$(posItem[pos - 1]).html(html);
 		new seqframe({
 			container: document.getElementById("tuzi-mov" + no),
@@ -400,7 +402,7 @@ function endgame(correct) {
 		mv_nt.play();
 	}
 	setTimeout(function() {
-		plus.webview.currentWebview().hide();
+		// plus.webview.currentWebview().hide();  // 不要hide再show会导致跳帧
 	}, (5 * 1000));
 }
 

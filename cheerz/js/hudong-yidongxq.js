@@ -70,50 +70,72 @@ function startgame() {
 	var duration = 15 + 35;
 	setTimeout(function() {
 		clearInterval(count15);
-		plus.webview.currentWebview().hide();
+		// plus.webview.currentWebview().hide();  // 不要hide再show会导致跳帧
 	}, (duration * 1000));
 }
 
 // 生成一轮选项
 function genopt(optcount) {
 	var opt = new Array();
-	var opt_opt_count = optcount / 4;
+	var opt_opt_count = Math.round(optcount / 4);
+	// var w_opt_count = opt_opt_count - 2;
+	// var r_opt_count = optcount - 3 * w_opt_count;
+	var w_opt_count = opt_opt_count;
+	var r_opt_count = opt_opt_count + 3;
 	c1 = c2 = c3 = c4 = 0;
 	for (var i = 0; i < optcount; i++) {
 		var found = false;
+		var val, opt_count;
 		while (!found) {
 			found = true;
-			var val = (Math.round(Math.random() * 1000) % 4) + 1;
+			val = (Math.round(Math.random() * 1000) % 4) + 1;
+			opt_count = (val == anw) ? r_opt_count : w_opt_count;
 			if (i > 0) {
 				if (val == opt[i - 1]) {
 					found = false;
 					continue;
 				}
-				if (val == 1 && c1 == opt_opt_count) {
-					found = false;
-					continue;
-				} else {
-					c1++;
+				if (val == 1) {
+					if (c1 == opt_count) {
+						found = false;
+						continue;
+
+					} else {
+						c1++;
+					}
 				}
-				if (val == 2 && c2 == opt_opt_count) {
-					found = false;
-					continue;
-				} else {
-					c2++;
+
+				if (val == 2) {
+					if (c2 == opt_count) {
+						found = false;
+						continue;
+
+					} else {
+						c2++;
+					}
 				}
-				if (val == 3 && c3 == opt_opt_count) {
-					found = false;
-					continue;
-				} else {
-					c3++;
+
+				if (val == 3) {
+					if (c3 == opt_count) {
+						found = false;
+						continue;
+
+					} else {
+						c3++;
+					}
 				}
-				if (val == 4 && c4 == opt_opt_count) {
-					found = false;
-					continue;
-				} else {
-					c4++;
+
+				if (val == 4) {
+					if (c4 == opt_count) {
+						found = false;
+						continue;
+
+					} else {
+						c4++;
+					}
 				}
 			}
+			// console.log('opt val = ' + val + ' opt_count=' + opt_count + ' cccc: ' + c1 + ', ' + c2 + ', ' + c3 + ', ' + c4);
 			opt[i] = val;
 		}
 		// console.log(opt[i]);
@@ -152,13 +174,14 @@ function pro_result(index) {
 		$('#score').html(rightCount);
 		if (rightCount == 1) {
 			addcoin(1);
-		} else if (rightCount == 10) {
+		} else if (rightCount == 3) {
 			addcoin(1);
 		}
 		var donglist = $("#uc_01").find(".img-box");
 		if (donglist[index]) {
 			$(donglist[index]).append("<div class='dui'></div>");
 		}
+		play_good();
 	} else {
 		play_wrong();
 	}

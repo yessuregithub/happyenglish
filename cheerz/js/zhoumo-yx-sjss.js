@@ -131,6 +131,7 @@ function pro_result(click_index) {
 	if (correct) {
 		mv_jiandui.resetContainer($("#xiong-dong")[0]);
 		mv_jiandui.play();
+		play_good();
 	} else {
 		mv_jiancuo.resetContainer($("#xiong-dong")[0]);
 		mv_jiancuo.play();

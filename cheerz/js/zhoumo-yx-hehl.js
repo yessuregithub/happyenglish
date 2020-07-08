@@ -153,6 +153,8 @@ function pro_result(click_index) {
 	disable_choose();
 
 	if (correct) {
+		play_good();
+		
 		$("#chidui").show();
 		mv_chidui.play();
 	} else {

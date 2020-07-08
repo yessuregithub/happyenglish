@@ -67,7 +67,7 @@ function startgame() {
 		// 设置游戏持续时间
 		setTimeout(function() {
 			clearInterval(count15);
-			plus.webview.currentWebview().hide();
+			// plus.webview.currentWebview().hide();  // 不要hide再show会导致跳帧
 		}, (duration * 1000));
 	}
 }
@@ -82,8 +82,10 @@ function pro_result(click_rw) {
 			addcoin(1);
 		}
 		endgame(true);
+		play_good();
 	} else {
 		endgame(false);
+		play_wrong();
 	}
 }
 

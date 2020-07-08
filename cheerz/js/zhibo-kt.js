@@ -21,6 +21,7 @@ var kt_starttime_interval = null;
 
 // 课程内部音效
 var s_wrong = null;
+var s_good = null;
 
 function zb_test_str(str) {
 	console.log("zhibo-kt.html test string :" + str);
@@ -104,8 +105,6 @@ function quitlesson(backtofirstpage, serverlogout) {
 					}
 				}, 1000);
 			}
-
-
 		},
 		error: function(xhr, type, errorThrown) {
 			// 请求失败
@@ -136,6 +135,7 @@ function initclassroom(data) {
 
 	// 加载音效
 	s_wrong = plus.audio.createPlayer("audio/wrong.mp3");
+	s_good = plus.audio.createPlayer("audio/good1.mp3");
 
 	if (ismuted) $("#pingbivoice").attr("class", "pingbi");
 	else $("#pingbivoice").attr("class", "nothing");
@@ -798,11 +798,25 @@ function play_wrong() {
 	}
 }
 
+function play_good() {
+	if (s_good) {
+		// console.log("play good sound");
+		s_good.stop();
+		s_good.play();
+	}
+}
+
 function close_wrong() {
 	if (s_wrong != null) {
 		console.log("s_wrong close");
 		s_wrong.stop();
 		s_wrong.close();
 		s_wrong = null;
+	}
+	if (s_good != null) {
+		console.log("s_good close");
+		s_good.stop();
+		s_good.close();
+		s_good = null;
 	}
 }

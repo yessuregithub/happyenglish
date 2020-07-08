@@ -14,8 +14,8 @@ function startgame() {
 	var gamepara = localStorage.getItem("gpara");
 	console.log("huojian:"+gamepara);
 	json = JSON.parse(gamepara);
-	$("#words1").text(json.word1);
-	$("#words2").text(json.word2);
+	$("#words1").text(json.words1);
+	$("#words2").text(json.words2);
 	$("#showimage").attr("src", json.image);
 	$("#anwser1").attr("src",json.answer1);
 	$("#anwser2").attr("src",json.answer2);
@@ -106,6 +106,7 @@ function processanswer(correct) {
 		if (rightCount == 1) {
 			addcoin(1);
 		}
+		play_good();
 	} else {
 		play_wrong();
 	}

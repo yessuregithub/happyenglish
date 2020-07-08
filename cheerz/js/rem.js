@@ -17,7 +17,7 @@ if (!window.Zepto && !window.jQuery) {
 	var tid;
 	var flexible = lib.flexible || (lib.flexible = {});
 	var designPixel = 1920; //设计稿件尺寸
-	
+
 
 	if (mui.os.ipad) {
 		console.log("is ipad");
@@ -100,10 +100,9 @@ if (!window.Zepto && !window.jQuery) {
 		// mui.os.ipad &&
 		if (typeof usePadDesign != 'undefined' && usePadDesign) {
 			rem *= 1.33;
-			console.log('use pad design');
-		}
-		else {
-			console.log('use phone design');
+			// console.log('use pad design');
+		} else {
+			// console.log('use phone design');
 		}
 		console.log('rem = ' + rem + ' bw=' + docEl.getBoundingClientRect().width + 'bh=' + docEl.getBoundingClientRect().height);
 		docEl.style.fontSize = rem + 'px';
@@ -131,6 +130,7 @@ if (!window.Zepto && !window.jQuery) {
 	refreshRem();
 
 	flexible.dpr = win.dpr = dpr;
+	console.log('dpr = ' + dpr);
 	flexible.refreshRem = refreshRem;
 	flexible.rem2px = function(d) {
 		var val = parseFloat(d) * this.rem;
@@ -146,8 +146,14 @@ if (!window.Zepto && !window.jQuery) {
 		}
 		return val;
 	}
+
+	flexible.pos2px = function(pos) {
+		var val = dpr * pos;
+		return val;
+	}
+
 	flexible.usePadFit = function(touse) {
-		if(typeof usePadDesign == 'undefined') return;
+		if (typeof usePadDesign == 'undefined') return;
 		usePadDesign = touse;
 		console.log('usePadFit=' + touse);
 		this.refreshRem();

@@ -147,6 +147,7 @@ function pro_result(index) {
 		for (var i = 0; i < wordMatch.length; i++) {
 			if (!wordMatch[i]) finish = false;
 		}
+		play_good();
 	}
 	// 答错
 	else {

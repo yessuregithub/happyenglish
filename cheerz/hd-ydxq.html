@@ -151,6 +151,48 @@
 									</div>
 								</div>
 							</li>
+							<li>
+								<div class="item">
+									<div class="img-box">
+										<div class="tupian"></div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box">
+										<div class="tupian"></div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box">
+										<div class="tupian"></div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box">
+										<div class="tupian"></div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box">
+										<div class="tupian"></div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box">
+										<div class="tupian"></div>
+									</div>
+								</div>
+							</li>
 
 						</ul>
 					</div>
@@ -188,7 +230,10 @@
 
 				// 滚动
 				var xingHpx = rem2px(5.17);
-				initScroll(550, 18 * xingHpx);
+				var xingCount = 24; // 3的倍数
+				console.log('xingxing=' + $('#uc_01').find('.item').length);
+				xingCount = $('#uc_01').find('.item').length;
+				initScroll(550, xingCount / 3 * xingHpx); // 24个 行需/3
 			}
 
 			function leaveURL() {
@@ -202,6 +247,10 @@
 
 			function play_wrong() {
 				plus.webview.getLaunchWebview().evalJS('play_wrong()');
+			}
+
+			function play_good() {
+				plus.webview.getLaunchWebview().evalJS('play_good()');
 			}
 		</script>
 
@@ -324,9 +373,13 @@
 				// if (stopscrollA1) {
 				// 	return;
 				// }
-				var step = 2;
+				// var step = lib.flexible.pos2px(3);
+				var pageHeight = marqueesHeightA1 / 2;
+				var step = Math.round(pageHeight / (15 * 1000 / 50));
+				// console.log('scrollElemA1.scrollTop=' + scrollElemA1.scrollTop + 'step = ' + step + 'currentTopA1:' + currentTopA1 +
+				// 	' pageHeight:' + pageHeight);
 				currentTopA1 += step;
-				if (currentTopA1 == (marqueesHeightA1 + step)) {
+				if (currentTopA1 >= (pageHeight + step)) {
 					stoptimeA1 += 1;
 					currentTopA1 -= step;
 					if (stoptimeA1 == gamesec) {
@@ -337,11 +390,12 @@
 				} else {
 					preTopA1 = scrollElemA1.scrollTop;
 					scrollElemA1.scrollTop += step;
-					if (preTopA1 == scrollElemA1.scrollTop * 2) {
-						console.log(scrollElemA1.scrollTop);
-						scrollElemA1.scrollTop = 0;
-						scrollElemA1.scrollTop += step;
-					}
+					// console.log(preTopA1 + ',' + scrollElemA1.scrollTop * 2);
+					// if (preTopA1 >= scrollElemA1.scrollTop * 2) {
+					// 	console.log(scrollElemA1.scrollTop);
+					// 	scrollElemA1.scrollTop = 0;
+					// 	scrollElemA1.scrollTop += step;
+					// }
 				}
 			}
 		</script>
