@@ -28,7 +28,7 @@
 	</head>
 	<body>
 		<div class="wt-bg"><img src="images/index-bg.png"></div>
-		<a href="javascript:backpage()" class="wt-return"></a>
+		<a href="javascript:backpage()" id="wt-return" class="wt-return"></a>
 		<div class="iphone_center">
 			<div class="wt-box">
 				<div class="kcyx-box-pa">
@@ -62,20 +62,18 @@
 
 					</div>
 				</div>
-				<a href="javascript" gokcend()" class="xu-btn"></a>
-
-				<!-- <video id='video' controls ></video> -->
-				<div class="kt_video_box">
-					<div class="vt">
-						<div id="vt_content" class="vt_content">
-							<div id="video"></div>
-						</div>
-					</div>
-					<a class="vd-return" id="video-return" href="javascript:closeVideo()"></a>
-				</div>
+				<a href="javascript:gokcend()" id="xu-btn" class="xu-btn"></a>
 
 			</div>
 
+			<div id="kt_video_box" class="kt_video_box">
+				<div class="vt">
+					<div id="vt_content" class="vt_content">
+						<div id="video"></div>
+					</div>
+					<a class="vd-return" id="video-return" href="javascript:closeVideo()"></a>
+				</div>
+			</div>
 		</div>
 		<script src="js/common.js"></script>
 		<script>
@@ -91,13 +89,11 @@
 				jump('back', url);
 			}
 
-			mui.init({
-
-			})
+			mui.init({})
 
 			mui.ready(function() {
+				$('#kt_video_box').hide();
 				loadpage();
-				// $('#video-return').hide();
 			});
 			mui.plusReady(function() {
 				plus.screen.lockOrientation("landscape");
@@ -107,8 +103,10 @@
 
 			function playpbook() {
 				if (pbooklink == "") return;
-				console.log(pbooklink);
-				$('#video-return').show();
+				// console.log(pbooklink);
+				$('#kt_video_box').show();
+				enable_ui_btn(false);
+
 				video = createvideo("vt_content", "video", pbooklink);
 				video.addEventListener('fullscreenclick', function(e) {
 					console.log(JSON.stringify(e));
@@ -125,6 +123,8 @@
 					video.close();
 					video = null;
 				}
+				$('#kt_video_box').hide();
+				enable_ui_btn(true);
 			}
 
 			function createvideo(videoid, divid, url) {
@@ -141,17 +141,11 @@
 					width: width + 'px',
 					height: height + 'px',
 					autoplay: true,
-					'controls': true, // todo delete 测试完关闭控制
-					'show-progress': true, // todo delete 测试完关闭控制
-					'enable-progress-gesture': true, // todo delete 测试完关闭控制
-					'show-fullscreen-btn': false,
-					'show-play-btn': false,
-					'show-center-play-btn': false,
+					controls: true
 				});
 				plus.webview.currentWebview().append(player);
 				return player;
 			}
-
 
 			// 回看课程
 			function reviewkt() {
@@ -179,6 +173,16 @@
 				}, function(e) {
 					// alert("Audio play error: " + e.message);
 				});
+			}
+
+			function enable_ui_btn(enable) {
+				if (enable) {
+					$('#wt-return').css('pointer-events', 'auto');
+					$('#xu-btn').css('pointer-events', 'auto');
+				} else {
+					$('#wt-return').css('pointer-events', 'none');
+					$('#xu-btn').css('pointer-events', 'none');
+				}
 			}
 		</script>
 	</body>

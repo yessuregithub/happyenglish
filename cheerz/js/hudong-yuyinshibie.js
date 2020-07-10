@@ -8,7 +8,6 @@ var endrecorder;
 function startgame() {
 
 	var gamepara = localStorage.getItem("gpara");
-	//debug
 	json = JSON.parse(gamepara);
 	$("#pict").attr("src", json.image);
 	words = json.word;
@@ -18,8 +17,10 @@ function startgame() {
 		samplerate: "16000",
 		channels: "mono",
 	}, function(fn) {
-		anlyvoice(fn);
-		//alert("Audio " + fn + " record success!");
+		console.log("get voice fn:" + fn);
+		// anlyvoice(fn); // 由于时间太短，等不到百度识别就切场景了，暂时不使用百度语音
+		mui.alert("录到声音了！");
+		addcoin(1);
 	}, function(e) {
 		mui.alert("请在系统设置中允许APP使用麦克风");
 		return;
@@ -43,6 +44,7 @@ function endrecord() {
 function anlyvoice(fn) { //第一步，获得token
 	// TODO: 先弹出来一个动画，转圈之类
 	//获得acess_token
+	console.log('baidu acess_token');
 	mui.ajax({
 		url: 'https://aip.baidubce.com/oauth/2.0/token',
 		data: {
@@ -55,10 +57,13 @@ function anlyvoice(fn) { //第一步，获得token
 		type: 'post',
 		timeout: 10000,
 		success: function(data) {
+			console.log('baidu:' + JSON.stringify(data));
+			mui.alert("baidu response=" + JSON.stringify(data));
 			baidu_token = data.access_token;
 			anlyvoice1(fn, baidu_token);
 		},
 		error: function(xhr, type, errorThrown) {
+			console.log('baidu:' + JSON.stringify(xhr));
 			mui.alert("呀，现在网络有点问题，下次再试试!");
 		}
 	});
@@ -108,7 +113,7 @@ function anlyvoice2(fn, token, base64, filesize) { //进行识别
 			anlyvoice3(data);
 		},
 		Error: function(xhr, error, exception) {
-			alert(exception.toString());
+			mui.alert(exception.toString());
 		}
 	});
 }
@@ -143,7 +148,7 @@ function anlyvoice3(baiduresult) {
 	// processscore(score);
 	processscore(1); // 读了都给1分
 
-	// mui.alert("识别数：" + resultcount + " 子集：" + baiduresult.result + " 得:" + score + " 分");
+	mui.alert("errcode:" + errcode + "识别数：" + resultcount + " 子集：" + baiduresult.result + " 得:" + score + " 分");
 	// debug
 }
 

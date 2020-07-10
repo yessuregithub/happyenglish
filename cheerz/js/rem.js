@@ -100,12 +100,12 @@ if (!window.Zepto && !window.jQuery) {
 		// 
 		if (mui.os.ipad && typeof usePadDesign != 'undefined' && usePadDesign) {
 			rem *= 1.33;
-			console.log('use pad design');
+			// console.log('use pad design');
 		} else {
-			console.log('use phone design');
+			// console.log('use phone design');
 		}
-		console.log('dpr = ' + dpr + ' rem = ' + rem + ' bw=' + docEl.getBoundingClientRect().width + 'bh=' + docEl.getBoundingClientRect()
-			.height);
+		// console.log('dpr = ' + dpr + ' rem = ' + rem + ' bw=' + docEl.getBoundingClientRect().width + 'bh=' + docEl.getBoundingClientRect()
+		// 	.height);
 		docEl.style.fontSize = rem + 'px';
 		flexible.rem = win.rem = rem;
 	}

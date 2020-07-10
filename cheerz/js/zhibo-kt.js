@@ -16,6 +16,8 @@ var userid;
 var keepalive = null;
 var iszhibo = 1; // 是否为直播 1:直播，2:回看课程
 
+var default_volume = 1; // 系统本身音量
+
 var classid; //课堂编号
 var kt_starttime_interval = null;
 
@@ -128,7 +130,18 @@ function initzhibo() {
 	if (iszhibo == 0) {
 		$('#zhibo-list').hide();
 		$('#pusher-box').hide();
+
+		// 设置播放框位置
+		// $('#kt').css({
+		// 	"transform": "translateY(-50%)",
+		// 	"top": "50%"
+		// });
+		// $('#laoshi-btn').css({
+		// 	"transform": "translateY(-50%)",
+		// 	"top": "50%"
+		// });
 	}
+
 }
 
 function initclassroom(data) {
@@ -166,6 +179,11 @@ function initclassroom(data) {
 	datacount = data.datacount;
 	userid = data.userid; //自己的uid
 
+	// 回看则不推流不显示学生端
+	if (iszhibo != 1) {
+		return;
+	}
+
 	// 创建推流
 	initPusher(userid);
 	setTimeout(function() {
@@ -177,10 +195,7 @@ function initclassroom(data) {
 	// 学生端player创建
 	for (i = 0; i < 5; i++) player[i] = null;
 
-	// 回看则不显示学生端
-	if (iszhibo == 0) {
-		return;
-	}
+
 	for (i = 1; i <= 4; i++)
 		if (data.player[i].id == userid) mypos = i; //先获得自己的序号
 	for (i = 1; i <= 4; i++) { //重排序号
@@ -337,6 +352,15 @@ function checklessondata(lastplaytime, currtime) {
 }
 
 function enterlesson() {
+	default_volume = plus.device.getVolume();
+	console.log('enterless');
+	console.log('default volume=' + default_volume);
+	if (default_volume < 0.5) {
+		default_volume = 0.7;
+		plus.device.setVolume(default_volume);
+		console.log('reset volume=' + default_volume);
+	}
+
 	setInterval(pullmessage, 5000);
 	token = localStorage.getItem("token");
 	lid = localStorage.getItem("less_id");
@@ -417,7 +441,6 @@ function playerleave(uid) {
 }
 
 function addplayer(uid, name, coin, url) {
-
 	pausePusher();
 
 	order = -1;
@@ -445,7 +468,9 @@ function addplayer(uid, name, coin, url) {
 			// player[order].pause();
 		}
 	}
+
 	resumePusher();
+	plus.device.setVolume(default_volume);
 }
 
 function startlesson(offset, url) {
@@ -461,6 +486,7 @@ function startlesson(offset, url) {
 	player[0].play();
 
 	resumePusher();
+	plus.device.setVolume(default_volume);
 }
 
 // 更新直播间用户金币
@@ -771,6 +797,8 @@ function updatePusher(pushurl) {
 
 function repaireIOS() {
 	njsSetAudioSessionForIOS();
+	plus.device.setVolume(1.0);
+	default_volume = 1.0;
 }
 
 function njsSetAudioSessionForIOS() {
@@ -816,13 +844,11 @@ function play_good() {
 
 function close_wrong() {
 	if (s_wrong != null) {
-		console.log("s_wrong close");
 		s_wrong.stop();
 		s_wrong.close();
 		s_wrong = null;
 	}
 	if (s_good != null) {
-		console.log("s_good close");
 		s_good.stop();
 		s_good.close();
 		s_good = null;

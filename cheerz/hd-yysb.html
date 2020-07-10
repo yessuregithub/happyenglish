@@ -39,7 +39,13 @@
 		<script>
 			mui.init();
 			mui.ready(function() {
+				console.log("loadpage");
 				loadpage();
+			});
+
+			mui.plusReady(function() {
+				console.log("声音识别 mui.plusReady");
+				startgame();
 			});
 
 			function loadpage() {
@@ -51,7 +57,7 @@
 				var circleSize = lib.flexible.rem2px(1.48);
 				var thicknessSize = lib.flexible.rem2px(0.15);
 				$('.second.circle').circleProgress({
-					animation: false,	
+					animation: false,
 					value: 0,
 					emptyFill: "#bfbfbf",
 					fill: {
@@ -64,7 +70,7 @@
 				}).on('circle-animation-progress', function(event, progress) {
 					$(this).find('strong').html(parseInt(100 * progress) + '<i>%</i>');
 				});
-				startgame();
+
 			}
 		</script>
 	</body>

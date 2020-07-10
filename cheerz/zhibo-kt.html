@@ -39,7 +39,7 @@
 		<div class="iphone_center">
 			<div class="wt-box">
 				<div class="zhibo-box">
-					<div class="zhibo-top mui-clearfix">
+					<div id="zhibo-top" class="zhibo-top mui-clearfix">
 						<div id="kt" class="kt">
 							<div class="kt_content" id="kt_content">
 								<img src="images/hb.jpg">
@@ -49,7 +49,7 @@
 								<span id="id_starttime"></span>
 							</div>
 						</div>
-						<div class="laoshi-btn">
+						<div id="laoshi-btn" class="laoshi-btn">
 							<div class="laoshi-list mui-clearfix">
 								<a href="javascript:muteplayer()" class="yin"><span class="pingbi" id="pingbivoice"></span></a>
 								<a href="javascript:stopotherplayer()" class="camera"><span class="pingbi" id="pingbivideo"></span></a>
@@ -187,6 +187,7 @@
 			}
 
 			mui.plusReady(function() {
+				console.log('zhibo-kt plusReady');
 				plus.device.setWakelock(true); // 常亮
 				setTimeout(laterdo, 1000); //让页面框架更快加载完成，耗cpu资源的推送和视频播放押后
 				return;
