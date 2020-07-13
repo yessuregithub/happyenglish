@@ -186,13 +186,13 @@ function initclassroom(data) {
 		return;
 	}
 
-	// 创建推流
-	initPusher(userid);
-	setTimeout(function() {
-		if (pusher) {
-			startPusher();
-		}
-	}, 500);
+	// // 创建推流
+	// initPusher(userid);
+	// setTimeout(function() {
+	// 	if (pusher) {
+	// 		startPusher();
+	// 	}
+	// }, 500);
 
 	// 学生端player创建
 	for (i = 0; i < 5; i++) player[i] = null;
@@ -265,8 +265,9 @@ function initclassroom(data) {
 		}
 	}
 
-	// // 创建推流
-	// initPusher(userid);
+	// 创建推流
+	initPusher(userid);
+	startPusher();
 	// setTimeout(function() {
 	// 	if (pusher) {
 	// 		startPusher();
