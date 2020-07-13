@@ -58,11 +58,11 @@ input:-ms-input-placeholder {color: #666;}
 /*background-color: #fec61a88; */
 .wt-box{position:relative; width:19.2rem;height:8.8rem;} 
 
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape){
+@media only screen and (min-width : 768px) and (max-width : 1024px) and (orientation : landscape){
 	.wt-box{position:relative; width:14.4rem;height:10.8rem;}
 }
 
-@media only screen and (min-device-width : 1024px) and (max-device-width : 1366px) and (orientation : landscape){
+@media only screen and (min-width : 1024px) and (max-width : 1366px) and (orientation : landscape){
 	.wt-box{position:relative; width:13.66rem;height:10.24rem;}
 }
 

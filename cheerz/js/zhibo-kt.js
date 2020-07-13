@@ -181,6 +181,8 @@ function initclassroom(data) {
 
 	// 回看则不推流不显示学生端
 	if (iszhibo != 1) {
+		$('#pingbivoice').hide();
+		$('#pingbivideo').hide();
 		return;
 	}
 

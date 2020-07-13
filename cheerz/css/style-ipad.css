@@ -614,23 +614,8 @@ input:-ms-input-placeholder {color: #666;}
 .tow-xuan .item .cuo:after{ position:absolute; left:50%; margin-left:-1.3rem; top:50%; width:2.6rem; height:2.6rem;content:""; background:url(../images/cuo03.png) no-repeat; background-size:100% 100%; transform: translateY(-50%); display:none;}
 
 
-@media screen and (orientation: portrait) {
-    html{
-        width : 100vmin;
-        height : 100vmax;
-    }
-    body{
-        width : 100vmin;
-        height : 100vmax;
-    }
-    /* #gyroContain{
-        width : 100vmax;
-        height : 100vmin;
-        transform-origin: top left;
-        transform: rotate(90deg) translate(0,-100vmin);
-    } */
-  }
-@media screen and (orientation: landscape) {
+
+/* @media screen and (orientation: landscape) {
     html{
         width : 100vmax;
         height : 100vmin;
@@ -643,7 +628,7 @@ input:-ms-input-placeholder {color: #666;}
         width : 100vmax;
         height : 100vmin;
     }
-}
+} */
 
 /***竖屏***
 @media screen and (orientation:portrait) {

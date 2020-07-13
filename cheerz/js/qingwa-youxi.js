@@ -30,7 +30,7 @@ var lessonstarttime = localStorage.getItem("less_starttime"); //游戏起始时�
 
 function scene_init() {
 	iszhibo = localStorage.getItem("isnowzhibo");
-	
+
 	for (i = 1; i <= 4; i++) {
 		playerpos[i] = 0;
 		tag = "#frame" + i;
@@ -48,7 +48,7 @@ function scene_init() {
 		var nickshow = localStorage.getItem('nickshow');
 		$('#name1').text(nickshow);
 	}
-	
+
 	currtime = Date.parse(new Date()) / 1000; //计算进入游戏的时间
 	waittime = 15; //debug 规则讲解
 	console.log("lessonstarttime " + lessonstarttime + "gamestarttime " + gamestarttime + "currtime " + currtime +
@@ -277,6 +277,48 @@ function inquireotherplayer() {
 	});
 }
 
+
+// 兔子跑动画
+function tuziRunAction(data) {
+	// mui.alert(JSON.stringify(data));
+	for (i = 1; i <= 4; i++) {
+		switch (i) {
+			case 1:
+				uid = data.posdata.p1;
+				pos = data.posdata.p1p;
+				break;
+			case 2:
+				uid = data.posdata.p2;
+				pos = data.posdata.p2p;
+				break;
+			case 3:
+				uid = data.posdata.p3;
+				pos = data.posdata.p3p;
+				break;
+			case 4:
+				uid = data.posdata.p4;
+				pos = data.posdata.p4p;
+				break;
+			default:
+				uid = data.posdata.p4;
+				pos = data.posdata.p4p;
+				break;
+
+		}
+		lane = getlanebyid(uid);
+		if (lane == 0) {
+			// 离线
+			continue;
+		}
+
+		if (playerpos[lane] != pos) {
+			tuziRunToPos(lane, pos);
+			playerpos[lane] = pos;
+		}
+	}
+}
+
+
 function checkotherplayer() {
 	checkcounter++;
 	if (checkcounter == 5) {
@@ -304,42 +346,6 @@ function tuziRunEnd() {
 	}
 }
 
-// 兔子跑动画
-function tuziRunAction(data) {
-	for (i = 1; i <= 4; i++) {
-		switch (i) {
-			case 1:
-				uid = data.posdata.p1;
-				pos = data.posdata.p1p;
-				break;
-			case 2:
-				uid = data.posdata.p2;
-				pos = data.posdata.p2p;
-				break;
-			case 3:
-				uid = data.posdata.p3;
-				pos = data.posdata.p3p;
-				break;
-			case 4:
-				uid = data.posdata.p4;
-				pos = data.posdata.p4p;
-				break;
-			default:
-				uid = data.posdata.p4;
-				pos = data.posdata.p4p;
-				break;
-
-		}
-		lane = getlanebyid(uid);
-		if (lane == 0) continue;
-
-		if (playerpos[lane] != pos) {
-			tuziRunToPos(lane, pos);
-			playerpos[lane] = pos;
-		}
-	}
-}
-
 function tuziRunToPos(no, pos) {
 	console.log("tuzi run " + no + " to " + pos);
 	// 删除青蛙
@@ -353,7 +359,8 @@ function tuziRunToPos(no, pos) {
 	}
 	// 动画
 	else {
-		var html = '<div class="item"></div><div id="qingwa-mov' + no + '" class="qingwa-tu" style="width:4.9rem;height:2.75rem" ></div>';
+		var html = '<div class="item"></div><div id="qingwa-mov' + no +
+			'" class="qingwa-tu" style="width:4.9rem;height:2.75rem" ></div>';
 		$(posItem[pos - 1]).html(html);
 		new seqframe({
 			container: document.getElementById("qingwa-mov" + no),
