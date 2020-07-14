@@ -25,6 +25,9 @@ var kt_starttime_interval = null;
 var s_wrong = null;
 var s_good = null;
 
+// 防止二次退出
+var isquitlesson = false;
+
 function zb_test_str(str) {
 	console.log("zhibo-kt.html test string :" + str);
 }
@@ -70,18 +73,22 @@ function showtime(endtime) {
 }
 
 function quitlesson(backtofirstpage, serverlogout) {
-	if (activeview) activeview.close();
+	if (isquitlesson) return;
+	isquitlesson = true;
 	close_wrong();
 	stopPusher();
 	closePusher();
 	pusher = null;
-	activeview = null;
-	for (i = 0; i <= 4; i++)
+	for (i = 0; i <= 4; i++) {
 		if (player[i] != null) {
 			player[i].stop();
 			player[i].close();
 			player[i] = null;
 		}
+	}
+	if (activeview) activeview.close();
+	activeview = null;
+	
 	if (!serverlogout) return;
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_quitlesson.html',
@@ -355,6 +362,7 @@ function checklessondata(lastplaytime, currtime) {
 }
 
 function enterlesson() {
+	isquitlesson = false;
 	default_volume = plus.device.getVolume();
 	console.log('enterless');
 	console.log('default volume=' + default_volume);
@@ -391,7 +399,7 @@ function enterlesson() {
 
 			// 请求成功
 			if (data.rst == 0) {
-				mui.alert(data.msg);
+				mui.alert('进入直播间', data.msg);
 				jump('index', 'index.html');
 				return;
 			}
@@ -582,7 +590,8 @@ function pullmessage() {
 		success: function(data) {
 			// 请求成功
 			if (data.rst == 0) {
-				mui.alert(data.msg);
+				// mui.alert('获取信息', data.msg);
+				console.log('pullmessage(),rst=0,---> '+data.msg)
 				quitlesson(true, true);
 				return;
 			}

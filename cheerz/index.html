@@ -64,18 +64,25 @@
 		<script>
 			var token;
 
-			$('#ustx').on('click', function() {
-				jump('grxx', 'grxx.html');
-				return;
-			});
-
 			function loadpage() {
 				token = checklogin();
 				if (token == null) return;
+				console.log('index.html loadpage()');
 				fetchuserinfo(token);
 				listcurrlesson(token);
 				setInterval(coincheck, 10000);
+				
+				$('#ustx').on('click', function() {
+					jump('grxx', 'grxx.html');
+					return;
+				});
 			}
+
+			document.addEventListener('resume', function() {
+				console.log('index.html resume()');
+				// loadpage();
+				window.location.reload();
+			}, false);
 
 			mui.ready(function() {
 				loadpage();
