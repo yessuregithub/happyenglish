@@ -88,7 +88,7 @@ function quitlesson(backtofirstpage, serverlogout) {
 	}
 	if (activeview) activeview.close();
 	activeview = null;
-	
+
 	if (!serverlogout) return;
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_quitlesson.html',
@@ -152,10 +152,8 @@ function initzhibo() {
 }
 
 function initclassroom(data) {
-
 	// 加载音效
-	s_wrong = plus.audio.createPlayer("audio/wrong.mp3");
-	s_good = plus.audio.createPlayer("audio/good1.mp3");
+	load_wrong();
 
 	if (ismuted) $("#pingbivoice").attr("class", "pingbi");
 	else $("#pingbivoice").attr("class", "nothing");
@@ -492,6 +490,10 @@ function startlesson(offset, url) {
 	player[0] = createvideo("vt", "vtarea", url, 0);
 	player[0].addEventListener('timeupdate', timeupdate, false);
 	player[0].addEventListener('ended', ended, false);
+	player[0].addEventListener('error', function(e) {
+		mui.alert('video err' + JSON.stringify(e));
+		plus.device.setVolume(default_volume);
+	}, false);
 	testoffset = 0; //debug 
 	player[0].seek(testoffset);
 	player[0].play();
@@ -591,7 +593,7 @@ function pullmessage() {
 			// 请求成功
 			if (data.rst == 0) {
 				// mui.alert('获取信息', data.msg);
-				console.log('pullmessage(),rst=0,---> '+data.msg)
+				console.log('pullmessage(),rst=0,---> ' + data.msg)
 				quitlesson(true, true);
 				return;
 			}
@@ -809,8 +811,13 @@ function updatePusher(pushurl) {
 
 function repaireIOS() {
 	njsSetAudioSessionForIOS();
-	plus.device.setVolume(1.0);
-	default_volume = 1.0;
+	plus.device.setVolume(0.9);
+	default_volume = 0.9;
+
+	setTimeout(function() {
+		close_wrong();
+		load_wrong();
+	}, 1000);
 }
 
 function njsSetAudioSessionForIOS() {
@@ -835,6 +842,12 @@ function njsAdjustCameraForIOS() {
 	var h5ca = plus.ios.newObject("H5SetCamera");
 	plus.ios.invoke(h5ca, "setLanscapeCamera");
 	plus.ios.deleteObject(h5ca);
+}
+
+// 加载音效
+function load_wrong() {
+	s_wrong = plus.audio.createPlayer("audio/wrong.mp3");
+	s_good = plus.audio.createPlayer("audio/good1.mp3");
 }
 
 // 音频
