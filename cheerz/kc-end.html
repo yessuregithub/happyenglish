@@ -7,13 +7,13 @@
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/style.css" rel="stylesheet" />
 	</head>
-	<body style="background:#333333;">
-		<div class="wt-bg"><img src="images/kc-end.png"></div>
+	<body style="background:#333;">
+		<div class="wt-bg" style="background:#333;"><img src="images/kc-end.png"></div>
 		<!-----
 		<a href=""class="yx-return"></a>
 		<!----->
 
-		<div class="iphone_center">
+		<div class="iphone_center" style="background:#333;">
 			<div class="wt-box">
 				<div class="end-box">
 					<div class="kc-end-img">
@@ -60,10 +60,12 @@
 		var token;
 
 		function leavepage() {
-			comefrom = document.referrer;
-			if (comefrom.indexOf("zhibo-kt.html") != -1) returnlink = "index.html";
-			else returnlink = "kcxq.html";
-			jump('back', returnlink);
+			iszhibo = localStorage.getItem("isnowzhibo");
+			if (iszhibo == 1) {
+				jump('index', 'index.html');
+			} else {
+				jump('xq', 'kcxq.html');
+			}
 		}
 
 		function loadpage() {

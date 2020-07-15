@@ -71,7 +71,7 @@ input:-ms-input-placeholder {color: #666;}
 .index-bg{ position:fixed; left:0; top:0; width:100%; height:100%;}
 .index-bg img{ width:100%; height:auto;}
 
-.wt-bg{ position:fixed;top: 0;left: 0; width: 100%;height:auto; background-size: 100% auto;background-color: #2e0f72;}
+.wt-bg{ position:fixed;top: 50%;left: 0; width: 100%;height:auto; background-size: 100% auto;background-color: #2e0f72; transform:translateY(-50%) ;}
 .wt-bg img{ width:100%; height:auto;}
 
 .wt-return{ position:fixed; left:.3rem; top:.25rem; width:1.1rem; height:1.1rem; z-index:9999; background:url(../images/fh.png) no-repeat; background-size:100% 100%;}
@@ -116,12 +116,12 @@ input:-ms-input-placeholder {color: #666;}
 .index-title .jinbi img{ width:.74rem; height:.77rem; z-index:99; position:absolute; top:50%; transform: translateY(-50%); left:0; }
 .index-title .jinbi span{background:url(../images/tm.png) repeat; padding-left:.7rem; padding-right:.5rem; height:.55rem;border-radius:.25rem; display:block; line-height:.55rem; color:#ffffff; font-size:.28rem; text-align:center;position:absolute; top:50%; transform: translateY(-50%); z-index:9;}
 .index-title .icon{ width:1.07rem; height:1.39rem; display:block; float:right; margin-left:.6rem;}
-.index-title .icon01{ background:url(../images/gm.png) no-repeat; background-size:100% 100%;}
-.index-title .icon02{ background:url(../images/dh.png) no-repeat; background-size:100% 100%;}
+.index-title .icon01{ background:url(../images/dh.png) no-repeat; background-size:100% 100%;}
+.index-title .icon02{ background:url(../images/sc.png) no-repeat; background-size:100% 100%;}
 .index-title .icon03{ background:url(../images/sz.png) no-repeat; background-size:100% 100%;}
 
-.index-title .icon01:hover{ background:url(../images/gm-hover.png) no-repeat; background-size:100% 100%;}
-.index-title .icon02:hover{ background:url(../images/dh-hover.png) no-repeat; background-size:100% 100%;}
+.index-title .icon01:hover{ background:url(../images/dh-hover.png) no-repeat; background-size:100% 100%;}
+.index-title .icon02:hover{ background:url(../images/sc-hover.png) no-repeat; background-size:100% 100%;}
 .index-title .icon03:hover{ background:url(../images/sz-hover.png) no-repeat; background-size:100% 100%;}
 .index-boxa{ padding-top:4.5rem 0rem 4.5rem 9rem;}
 .quanbu-kc{ background:url(../images/qbkc.png) no-repeat; width:2.45rem; height:3.71rem; background-size:100% 100%; float:left; margin-left:.9rem; margin-top:.7rem;}
@@ -208,6 +208,15 @@ input:-ms-input-placeholder {color: #666;}
 .chebei-wan li{ width:33.33%; float:left; text-align:center;}
 .chebei-wan li .yes{ background:url(../images/dui.png) no-repeat; width:.95rem; height:.80rem; background-size:100% 100%; margin:0 auto; display:block; margin-top:.25rem;}
 .chebei-wan li .no{ background:url(../images/cuo.png) no-repeat; width:.80rem; height:.80rem; background-size:100% 100%; margin:0 auto; display:block; margin-top:.25rem;}
+
+.dh-box { background:url(../images/dh-kuang.png) no-repeat; width:17.17rem; height:8.15rem; margin:0 auto; background-size:100% 100%; position:absolute;z-index:999; top:50%;transform: translateY(-50%); left:50%; margin-left:-8.15rem; padding:1.5rem 1.15rem 2rem 5.2rem;}
+
+.dh-list { padding-top:.2rem;}
+.dh-list .item{ position:relative; width:7.1rem; margin:0 auto; margin-top:.4rem;}
+.dh-list .item .text{ width:100%; height:.75rem; line-height:.75rem; padding:0px .32rem; font-size:.28rem;text-align: center;text-transform:uppercase;}
+.dh-list .submit{ width:3.55rem; height:.69rem; display:block; margin:0 auto; background:url(../images/login-btn.png) no-repeat; border:0; font-size:.34rem;padding-bottom: 0.04rem;  margin-top:.6rem; background-size:100% 100%; line-height:1.5;}
+.dh-list .submit:hover{ background:url(../images/login-btn-hover.png) no-repeat; height:.69rem; background-size:100% 100%;}
+
 
 .goum-box{ background:url(../images/gou-kuang.png) no-repeat; width:17.18rem; height:8.94rem; margin:0 auto; background-size:100% 100%; position:absolute;z-index:999; top:50%;transform: translateY(-50%); left:50%; margin-left:-8.95rem; padding:1.5rem 1.15rem 2rem 5.2rem;}
 .goum-box .img-box{ width:100%; height:1.6rem;}
@@ -406,10 +415,7 @@ input:-ms-input-placeholder {color: #666;}
 .zhibo-list li .img-box{ background:#d5d5d5;width:3.4rem; height:2.55rem; position:absolute;left: 0.255rem; top: 0.57rem; overflow:hidden;}
 .zhibo-list li .img-box img{ width:100%;}
 
-.end-box{ position:fixed; z-index:3; left:50%; width:6.2rem; top:50%;transform: translateY(-50%); margin-left:-3.1rem;}
-.end-box .praise{ width:4.92rem; height:3.77rem; margin:0 auto;}
-.end-box .praise img{ width:4.92rem; height:3.77rem;}
-
+.end-box{ position:fixed; z-index:3; width:6.2rem;left:50%; top:55%;transform: translate(-50%,-50%);}
 .end-box .praise{ width:4.92rem; height:3.40rem; margin:0 auto;}
 .end-box .praise img{ width:4.92rem; height:3.40rem;}
 .end-box .txt-box{ background:url(../images/score.png) no-repeat; width:3.65rem; height:1.47rem; margin:0 auto; position:relative; background-size:100% 100%; margin-top:.4rem; padding-top:.3rem;}
@@ -425,7 +431,7 @@ input:-ms-input-placeholder {color: #666;}
 .end-btn a.xy{ background:url(../images/h-btn.png) no-repeat; width:2.36rem; height:.7rem; background-size:100% 100%;font-size:0.38rem;font-family:zihun59hao;color:rgba(255,255,255,1); text-align:center; line-height:.7rem; float:right;}
 .end-btn a.xy:hover{ background:url(../images/h-btn-hover.png) no-repeat; background-size:100% 100%; color:#fff;}
 .kc-end-img{ text-align:center;}
-.kc-end-img .end-tit{ width:4.96rem; height:1.33rem; margin:0 auto;}
+.kc-end-img .end-tit{ width:5.58rem; height:1.5rem; margin:0 auto;}
 .kc-end-img .end-tit img{ width:100%;}
 .kc-end-img .end-nema { text-align:center;  line-height:.4rem; display:inline-block;}
 .kc-end-img .end-nema span{color:#ffffff; font-size:.33rem; font-weight:bold; padding:0px .3rem;}
