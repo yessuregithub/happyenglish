@@ -2,7 +2,7 @@
 /* CSS Document */
 ul:after,.row:after{content: "";clear: both;display: table;line-height: 0;height: 0;}
 html {-ms-text-size-adjust: 100%;  -webkit-text-size-adjust: 100%; font-size:62.5%;  width: 100%;height:100%;overflow: hidden;}
-body{color:#666; font-family:"Source Han Sans CN"; background:#3d2086; overflow:hidden; width:100%; height:100vh;  position: fixed;   left: 0;  top: 0; padding-bottom:3rem;}
+body{color:#666; font-family:"Source Han Sans CN"; overflow:hidden; width:100%; height:100%;  position: fixed;   left: 0;  top: 0;}
 
 
 
@@ -71,8 +71,12 @@ input:-ms-input-placeholder {color: #666;}
 .index-bg{ position:fixed; left:0; top:0; width:100%; height:100%;}
 .index-bg img{ width:100%; height:auto;}
 
+/* 2e0f72 */
 .wt-bg{ position:fixed;top: 50%;left: 0; width: 100%;height:auto; background-size: 100% auto;background-color: #2e0f72; transform:translateY(-50%) ;}
 .wt-bg img{ width:100%; height:auto;}
+
+.hd-bg{ position:absolute;top: 0;left: 0; width: 100%;height:100%; background-size: 100% 100%;background-color: #FFFFFF;}
+.hd-bg img{position:absolute;top: 0;left: 0; width:100%; height:100%;}
 
 .wt-return{ position:fixed; left:.3rem; top:.25rem; width:1.1rem; height:1.1rem; z-index:9999; background:url(../images/fh.png) no-repeat; background-size:100% 100%;}
 .wt-return:hover{ background:url(../images/fhon.png) no-repeat; background-size:100% 100%;}
@@ -382,9 +386,9 @@ input:-ms-input-placeholder {color: #666;}
 /* background-color: #ffd209; */
 .zhibo-box{ position:absolute; left:0; top:50%;transform: translateY(-50%); padding:0; width:100%;height: 100%;}
 .zhibo-top .kt{ background:url(../images/hd-bg.png) no-repeat; background-size:100% 100%; width:9.9rem; height:5.42rem; position:absolute;left:1.47rem;top:0.05rem;}
-.zhibo-top .kt .kt_content{ position: absolute;left: 0.4rem;top:0.15rem; width: 9.1rem; height:5.12rem; display:block;}
+.zhibo-top .kt .kt_content{ position: absolute;left: 0.45rem;top:0.18rem; width: 9rem; height:5.06rem; display:block;}
 .zhibo-top .kt img{ width: 100%;height: 100%;}
-.zhibo-top .kt .txt-box{ text-align:center; position:absolute; left:0; bottom:1.15rem; text-align:center; width:100%;}
+.zhibo-top .kt .txt-box { text-align:center; position:absolute; left:0; bottom:1.15rem; text-align:center; width:100%;}
 .zhibo-top .kt .txt-box h4{ color:#ffffff; font-size:.38rem; font-weight:bold; margin-bottom:.2rem;}
 .zhibo-top .kt .txt-box span{ color:#ffffff; font-size:1.18rem; font-weight:bold; line-height:1.2;}
 .laoshi-btn{ width:6.21rem; position: absolute;left: 13.6rem;top:0.2rem;}
@@ -413,7 +417,7 @@ input:-ms-input-placeholder {color: #666;}
 .zhibo-list li .jin img{ width:.3rem; height:.3rem; margin-right:10px; float:left;}
 .zhibo-list li .jin span{ float:left; color:#000000; font-size:.23rem; display:block; line-height:.3rem; height:.3rem;}
 .zhibo-list li .img-box{ background:#d5d5d5;width:3.4rem; height:2.55rem; position:absolute;left: 0.255rem; top: 0.57rem; overflow:hidden;}
-.zhibo-list li .img-box img{ width:100%;}
+.zhibo-list li .img-box img{ width:100%;height: 100%;}
 
 .end-box{ position:fixed; z-index:3; width:6.2rem;left:50%; top:55%;transform: translate(-50%,-50%);}
 .end-box .praise{ width:4.92rem; height:3.40rem; margin:0 auto;}

@@ -19,7 +19,7 @@ function startgame() {
 	}, function(fn) {
 		console.log("get voice fn:" + fn);
 		// anlyvoice(fn); // 由于时间太短，等不到百度识别就切场景了，暂时不使用百度语音
-		mui.alert("录到声音了！");
+		// mui.alert("录到声音了！");
 		addcoin(1);
 	}, function(e) {
 		mui.alert("请在系统设置中允许APP使用麦克风");
