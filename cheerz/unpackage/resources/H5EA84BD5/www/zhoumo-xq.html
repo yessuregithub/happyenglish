@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		
+		<!-- 使用iPad布局 -->
+		<script> var usePadDesign = true;</script>
+		<script src="js/rem.js"></script>
+		
+		<!-- 区分css -->
+		<script>
+			function loadcss() {
+				if (mui.os.ipad) {
+					document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				} else {
+					document.write('<link href="css/style.css" rel="stylesheet" />');
+					// document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				}
+			}
+			loadcss();
+		</script>
+	</head>
+	<body>
+		<div class="wt-bg"><img src="images/index-bg.png"></div>
+		<a href="javascript:backpage()" class="wt-return"></a>
+
+		<div class="iphone_center">
+			<div class="wt-box">
+				<div class="zhoumo-box">
+					<div class="item mui-pull-left">
+						<div class="img-box">
+							<img id=cover1 src="">
+							<span id=time1></span>
+						</div>
+						<div class="zhoumo-erk mui-clearfix">
+							<div class="neng">
+								<img src="images/jibi.png">
+								<span id=coin1></span>
+							</div>
+							<div class="xing">
+								<img src="images/xin.png">
+								<span id="bestscore1">0</span>
+								<h5>BEST SCORE</h5>
+							</div>
+						</div>
+						<div id="operation1" class="zhoum-btn">
+							<!-- debug -->
+							<a href="javascript:starttz(1)" class="ks">开始挑战</a>
+							<a href="" class="wks" style="display:none;">未开始</a>
+							<a href="" class="fenx">分享</a>
+						</div>
+					</div>
+					<div class="item mui-pull-right">
+						<div class="img-box">
+							<img id=cover2 src="">
+							<span id=time2></span>
+						</div>
+						<div class="zhoumo-erk mui-clearfix">
+							<div class="neng">
+								<img src="images/jibi.png">
+								<span id=coin2></span>
+							</div>
+							<div class="xing">
+								<img src="images/xin.png">
+								<span id="bestscore2">0</span>
+								<h5>BEST SCORE</h5>
+							</div>
+						</div>
+						<div id="operation2" class="zhoum-btn">
+							<!-- debug -->
+							<a href="javascript:starttz(2)" class="ks">开始挑战</a>
+							<a href="" class="wks" style="display:none;">未开始</a>
+							<a href="" class="fenx">分享</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/ui-choose.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/common.js"></script>
+
+		<script>
+			var token;
+
+			function backpage() {
+				url = localStorage.getItem("referer");
+				jump('back', url);
+			}
+
+			function loadpage() {
+				token = checklogin();
+				if (token == null) return;
+				loadweekendlist();
+			}
+
+			mui.ready(function() {
+				loadpage();
+			});
+
+			function starttz(order) {
+				mui.ajax({
+					url: 'http://47.241.5.29/Home_index_lessonenterrecord.html',
+					data: {
+						token: token,
+						lid: weekenddata.data.id,
+					},
+					async: true,
+					dataType: 'json',
+					type: 'post',
+					timeout: 10000,
+					success: function(data) {
+						if (data.rst == 0) {
+							mui.alert(data.msg);
+						} else if (data.rst == 1) {
+							starttz1(order);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.alert('网络错误,请稍后再试');
+					}
+				});
+
+			}
+
+			function starttz1(order) {
+				// 历史分数
+				var bscore = 0;
+				var gurl = "";
+				var lid = weekenddata.data.id;
+				var starttime = weekenddata.data.starttime;
+
+				if (order == 1) {
+					link = weekenddata.data.weekendurl1 + ".html";
+					gpara = weekenddata.data.weekendpara1;
+					gurl = weekenddata.data.weekendurl1;
+					bscore = parseInt($('#bestscore1').text());
+				} else {
+					link = weekenddata.data.weekendurl2 + ".html";
+					gpara = weekenddata.data.weekendpara2;
+					gurl = weekenddata.data.weekendurl2;
+					bscore = parseInt($('#bestscore2').text());
+				}
+
+				// 跳转
+				localStorage.setItem("gstart", starttime);
+				localStorage.setItem("gpara", unescape(gpara));
+				localStorage.setItem("glid", lid);
+				localStorage.setItem("gurl", gurl);
+				localStorage.setItem("gbscore", bscore);
+				jump('weekend', link);
+			}
+		</script>
+
+	</body>
+</html>

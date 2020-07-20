@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="dl-bg"><img src="images/dl-bg.png"></div>
+		<a href="" class="dl-lgoo"><img src="images/logo.png"></a>
+
+		<div class="iphone_center">
+			<div class="wt-box">
+				<div class="dl-box">
+					<form>
+						<div class="dl-list">
+							<div class="item">
+								<input name="" type="text" class="text" id=mobile placeholder="请输入手机号">
+							</div>
+							<div class="item">
+								<input id=verify name="" type="text" class="text" placeholder="请输入验证码">
+								<button type="button" class="yanzhengma">发送验证码</button>
+							</div>
+							<button type="button" class="submit" id="login">登录 / 注册</button>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/common.js"></script>
+		<script>
+			var times = 60;
+
+			function roof() {
+				if (times == 0) {
+					$('.yanzhengma').text('发送验证码(' + times + 's)');
+					$('.yanzhengma').prop('disabled', false);
+					$('.yanzhengma').text('发送验证码');
+					times = 60;
+					return
+				}
+				$('.yanzhengma').text('发送验证码(' + times + 's)');
+				times--;
+				setTimeout(roof, 1000);
+			}
+			$('.yanzhengma').on('click', function() {
+
+				var mobile = $("#mobile").val();
+				if (mobile.length != 11) {
+					mui.alert('请输入 正确的手机号和验证码');
+					return;
+				}
+				$(this).prop('disabled', true);
+				roof();
+				sendverifycode();
+
+			});
+
+
+			$('#login').on('click', function() {
+				var mobile = $("#mobile").val();
+				var verify = $("#verify").val();
+				if (mobile.length != 11 || verify.length != 4) {
+					mui.alert('请输入 正确的手机号和验证码');
+					return;
+				}
+				mui.ajax({
+					url: 'http://47.241.5.29/Home_index_login.html',
+					data: {
+						mobile: mobile,
+						verify: verify,
+					},
+					async: true,
+					dataType: 'json',
+					type: 'post',
+					timeout: 10000,
+					success: function(data) {
+						// 请求成功
+						if (data.rst == 0) {
+							mui.alert(data.msg);
+							return;
+						}
+						if (data.rst == 1) {
+							var token = data.token;
+							localStorage.setItem("token", token);
+							jump('index', 'index.html');
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						// 请求失败  
+						mui.alert("网络错误，请稍后再试");
+					}
+				});
+			});
+
+			function sendverifycode() {
+				var mobilenumber = $("#mobile").val();
+				if (mobilenumber.length != 11) {
+					mui.alert('请输入正确的手机号');
+					return;
+				}
+				mui.ajax({
+					url: 'http://47.241.5.29/Home_index_sendsms.html',
+					data: {
+						mobile: mobilenumber,
+					},
+					async: true,
+					dataType: 'json',
+					type: 'post',
+					timeout: 10000,
+					success: function(data) {
+						// 请求成功
+						mui.toast(data.msg);
+					},
+					error: function(xhr, type, errorThrown) {
+						// 请求失败  
+						mui.alert("网络错误，请稍后再试");
+					}
+				});
+			}
+
+			mui.ready(function() {
+
+			});
+			mui.plusReady(function() {
+				// plus.screen.lockOrientation("landscape");
+			});
+
+			// 安卓退出应用
+			var clickNum = 0;
+			mui.back = function(event) {
+				clickNum++;
+				if (clickNum > 1) {
+					plus.runtime.quit();
+				} else {
+					mui.toast("再按一次退出应用");
+				}
+				setTimeout(function() {
+					clickNum = 0
+				}, 2000);
+				return false;
+			};
+		</script>
+
+	</body>
+</html>

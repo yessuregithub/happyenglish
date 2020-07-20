@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- 眼力大考验 -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<!-- 使用iPad布局 -->
+		<script>
+			var usePadDesign = true;
+		</script>
+		<script src="js/rem.js"></script>
+		<!-- 区分css -->
+		<script>
+			function loadcss() {
+				if (mui.os.ipad) {
+					document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				} else {
+					document.write('<link href="css/style.css" rel="stylesheet" />');
+					// document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				}
+			}
+			loadcss();
+		</script>
+	</head>
+	<body>
+		<div class="wt-bg"><img src="images/zm-bg02.jpg"></div>
+		<a href="javascript:close_game();jump('xq', 'zhoumo-xq.html');" class="yx-return"></a>
+		
+		<div class="iphone_center">
+			<div class="hd-box">
+				<div class="yx-box">
+					<div class="yx-box-top mui-clearfix">
+						<div class="xing">
+							<img src="images/xin.png">
+							<span id="score">0</span>
+							<h5>SCORE</h5>
+						</div>
+						<div class="time mui-clearfix">
+							<div class="name"><img src="images/time01.png"></div>
+							<div class="schedule">
+								<div id="progress1" class="charts" style="width:100%;"></div>
+							</div>
+							<span id="lefttime" class="count-down">3:00</span>
+						</div>
+					</div>
+					<div class="ylky-box">
+						<ul id="target-word" class="ylky-box-tab">
+							<!-- <li class="selected"><span>eye</span></li>
+							<li><span>mouth</span></li>
+							<li><span>flower</span></li> -->
+						</ul>
+
+						<ul class="youxi-list mui-clearfix ui-choose" id="uc_01">
+							<li>
+								<div class="item">
+									<div class="img-box"><img src="images/zb.jpg"></div>
+									<div class="dui">
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<div class="img-box"></div>
+								</div>
+							</li>
+
+						</ul>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!---在线审核--->
+		<div id="light" class="white_content">
+			<h4>确定要退出挑战吗？</h4>
+			<div class="tan-box">
+				<a class="close" href="javascript:void(0)" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">取消</a>
+				<a href="">确定</a>
+			</div>
+		</div>
+		<!---在线审核-end--->
+
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/ui-choose.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/zhoumo-yx-ylky.js"></script>
+
+		<script>
+			// 音频
+			var s_wrong = null;
+			var s_good = null;
+			
+		</script>
+
+		<script>
+			mui.init();
+			mui.ready(function() {
+				loadpage();
+			});
+
+			function loadpage() {
+				startgame();
+			}
+
+			mui.plusReady(function() {
+				console.log("mui plusReady");
+				s_wrong = plus.audio.createPlayer("audio/wrong.mp3");
+				s_good = plus.audio.createPlayer("audio/good1.mp3");
+			});
+
+			function close_game() {
+				close_wrong();
+			}
+
+			function play_wrong() {
+				if (s_wrong) {
+					// console.log("play wrong sound");
+					s_wrong.stop();
+					s_wrong.play();
+				}
+			}
+			
+			function play_good() {
+				if (s_good) {
+					// console.log("play s_good sound");
+					s_good.stop();
+					s_good.play();
+				}
+			}
+			
+			function close_wrong() {
+				if (s_wrong != null) {
+					console.log("s_wrong close");
+					s_wrong.stop();
+					s_wrong.close();
+					s_wrong = null;
+				}
+				if (s_good != null) {
+					console.log("s_good close");
+					s_good.stop();
+					s_good.close();
+					s_good = null;
+				}
+			}
+		</script>
+
+		<script>
+			var second;
+			var stage = 1;
+
+			function countdown() {
+				second -= 0.1;
+				if (stage == 1) totalseconds = 60;
+				var length = Math.round((second * 100) / totalseconds);
+				$("#progress1").attr("style", "width:" + length + "%");
+
+				// 显示时间
+				$("#lefttime").html(leftsec(Math.round(second)));
+				if (second < 0.1 && stage == 1) {
+					stage = 2;
+					endgame();
+					return;
+				}
+			}
+
+			second = 60;
+			count15 = setInterval(countdown, 100);
+		</script>
+
+		<script>
+			function disable_choose() {
+				$("#uc_01").find("li").addClass("disabled");
+			}
+
+			function enable_choose() {
+				$("#uc_01").find("li").removeClass("disabled");
+			}
+
+			function rmselected() {
+				$("#uc_01").find("li").removeClass("selected");
+			}
+
+			// 将所有.ui-choose实例化
+			$('.ui-choose').ui_choose();
+
+			// uc_01 ul 单选
+			var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
+			uc_01.click = function(index, item) {
+				// console.log("click "+index);
+				pro_result(index);
+			}
+			uc_01.change = function(index, item) {}
+		</script>
+	</body>
+</html>

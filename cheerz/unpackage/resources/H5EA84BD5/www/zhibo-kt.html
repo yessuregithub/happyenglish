@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<!-- <link href="css/style.css" rel="stylesheet" /> -->
+
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<!-- 使用iPad布局 -->
+		<script>
+			var usePadDesign = true;
+		</script>
+		<script src="js/rem.js"></script>
+
+		<!-- 区分css -->
+		<script>
+			function loadcss() {
+				if (mui.os.ipad) {
+					// document.write('<link href="css/style.css" rel="stylesheet" />');
+					document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				} else {
+					document.write('<link href="css/style.css" rel="stylesheet" />');
+				}
+			}
+			loadcss();
+		</script>
+	</head>
+	<body>
+		<!-- 浮动界面 -->
+		<div class="wt-bg"><img src="images/zb-bg.png"></div>
+		<a href="javascript:void(0)" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'"
+		 class="wt-return"></a>
+		<a href="javascript:askquit()" class="wt-return"></a>
+
+		<!-- 出血内容 -->
+		<div class="iphone_center">
+			<div class="wt-box">
+				<div class="zhibo-box">
+					<div id="zhibo-top" class="zhibo-top mui-clearfix">
+						<div id="kt" class="kt">
+							<div class="kt_content" id="kt_content">
+								<img src="images/hudong-bg.png">
+							</div>
+							<div class="txt-box">
+								<h4 id="id_starttime_title">距离-上课还有</h4>
+								<span id="id_starttime"></span>
+							</div>
+						</div>
+						<div id="laoshi-btn" class="laoshi-btn">
+							<div class="laoshi-list mui-clearfix">
+								<a href="javascript:muteplayer()" class="yin"><span class="pingbi" id="pingbivoice"></span></a>
+								<a href="javascript:stopotherplayer()" class="camera"><span class="pingbi" id="pingbivideo"></span></a>
+								<a href="javascript:repaireIOS()" class="repaire"></a>
+								<!-- <a href="javascript:void(0)" onclick="document.getElementById('light-kf').style.display='block';document.getElementById('fade').style.display='block'"
+								 class="kf">
+								 </a> -->
+								<!-- <a href="" class="kf"></a> -->
+							</div>
+						</div>
+
+						<div class="laoshi-sp">
+							<div id="vtarea" class="img-box">
+								<div id="vcover" style="width: 100%;height: 100%;"></div>
+								<div id="vt"></div>
+							</div>
+						</div>
+					</div>
+
+					<ul id="zhibo-list" class="zhibo-list mui-clearfix">
+						<li>
+							<div class="mui-clearfix">
+								<div id="name1" class="name">name1</div>
+								<div class="jin"><img id="coin1_img" src="images/jibi.png"><span id="coin1">0</span></div>
+							</div>
+
+							<div class="img-box">
+								<div id="v1" style="width:100%;height:100%;background-color:#000000;">
+									<img src="images/wsx.jpg">
+								</div>
+								<span class="shexiangtou"></span>
+							</div>
+						</li>
+						<li>
+							<div class="mui-clearfix">
+								<div id="name2" class="name">name2</div>
+								<div class="jin" id="pusher"><img id="coin2_img" src="images/jibi.png"><span id="coin2">0</span></div>
+							</div>
+							<div class="img-box">
+								<div id="v2" style="width:100%;height:100%;background-color:#000000;">
+									<img src="images/wsx.jpg">
+								</div>
+								<span class="shexiangtou"></span>
+							</div>
+						</li>
+						<li>
+							<div class="mui-clearfix">
+								<div id="name3" class="name">name3</div>
+								<div class="jin"><img id="coin3_img" src="images/jibi.png"><span id="coin3">0</span></div>
+							</div>
+							<div class="img-box">
+								<div id="v3" style="width:100%;height:100%;background-color:#000000">
+									<img src="images/wsx.jpg">
+								</div>
+								<span class="shexiangtou"></span>
+							</div>
+						</li>
+						<li>
+							<div class="mui-clearfix">
+								<div id="name4" class="name">name4</div>
+								<div class="jin"><img id="coin4_img" src="images/jibi.png"><span id="coin4">0</span></div>
+							</div>
+							<div class="img-box">
+								<div id="v4" style="width:100%;height:100%;background-color:#000000">
+									<img src="images/pingbi.jpg">
+								</div>
+								<span class="shexiangtou"><img src="images/pb.png"></span>
+							</div>
+							<!-- <div id=pusherwin style="width:1px,height:1px"></div> -->
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="pusher-box" id="pusher-box" style="background-color: #000; position: absolute;bottom: 10px;right: 10px;width: 200px;height: 150px;"> -->
+		</div>
+		<div id="light" class="white_content">
+			<h4>确定要退出挑战吗？</h4>
+			<div class="tan-box">
+				<a class="close" href="javascript:void(0)" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">取消</a>
+				<a href="">确定</a>
+			</div>
+		</div>
+		<div id="light-kf" class="kf-tan">
+			<div class="img-box"> </div>
+			<span>识别二维码联系客服</span>
+		</div>
+
+		<div class="tishi-tan">
+			<p>已屏蔽其他学生声音</p>
+		</div>
+
+		<div class="tishi-tan">
+			<p>已打开其他学生声音</p>
+		</div>
+
+		<div class="tishi-tan">
+			<p>已屏蔽其他学生影像</p>
+		</div>
+
+		<div class="tishi-tan">
+			<p>已打开其他学生影像</p>
+		</div>
+		<!---已打开其他学生影像-end--->
+
+		<script src="js/md5.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/zhibo-kt.js"></script>
+
+		<script>
+			var r, player2;
+			var fn;
+
+			mui.init();
+			mui.ready(function() {
+				initzhibo();
+				loadpage();
+			});
+
+			function loadpage() {
+				kt_setstarttime(); // 设置课程倒计时时间
+				//enterlesson(); //debug
+
+				// todo delete
+				var odiv = document.getElementById('vt');
+				var left = odiv.getBoundingClientRect().left;
+				var top = odiv.getBoundingClientRect().top;
+				var width = odiv.getBoundingClientRect().width;
+				var height = odiv.getBoundingClientRect().height;
+				console.log('create refer:' + vt + ',left:' + left + ',top:' + top + ',width:' + width + ',height:' + height);
+			}
+
+			mui.back = function() { //禁止android返回
+				console.log("detected back, ignore");
+			}
+
+			mui.plusReady(function() {
+				console.log('zhibo-kt plusReady');
+				plus.device.setWakelock(true); // 常亮
+				setTimeout(laterdo, 1000); //让页面框架更快加载完成，耗cpu资源的推送和视频播放押后
+				return;
+			})
+
+			function laterdo() {
+				enterlesson();
+				// addcoin(); // debug 金币闪烁
+			}
+
+			document.addEventListener('pause', function() {
+				pausePusher();
+			}, false);
+
+			document.addEventListener('resume', function() {
+				// 视频返回重新设置音频环境
+				resumePusher();
+			}, false);
+		</script>
+
+	</body>
+</html>

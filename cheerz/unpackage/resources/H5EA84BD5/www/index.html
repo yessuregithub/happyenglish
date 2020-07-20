@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+
+		<script src="js/mui.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<!-- 使用iPad布局 -->
+		<script>
+			var usePadDesign = true;
+		</script>
+		<script src="js/rem.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/seqframe.js"></script>
+		<!-- 区分css -->
+		<script>
+			function loadcss() {
+				if (mui.os.ipad) {
+					// document.write('<link href="css/style.css" rel="stylesheet" />');
+					document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				} else {
+					document.write('<link href="css/style.css" rel="stylesheet" />');
+				}
+			}
+			loadcss();
+		</script>
+	</head>
+	<body>
+		<div id="gyroContain">
+			<div class="index-bg"><img src="images/index-bg.png"></div>
+			<div class="index-box">
+				<div class="index-title mui-clearfix">
+					<div class="mui-row">
+						<div class="mui-col-sm-6 mui-col-xs-6 mui-clearfix">
+							<div class="item">
+								<div id=ustx class="ustx"></div>
+								<span id=nickname>-</span>
+							</div>
+							<div id="jinbi" class="jinbi">
+								<img src="images/jibi.png">
+								<span id=coin>-</span>
+							</div>
+						</div>
+						<div class="mui-col-sm-6 mui-col-xs-6 mui-clearfix">
+							<a href="javascript:jump('shezhi','shezhi.html')" class="icon icon03"></a>
+							<a href="javascript:mui.alert('暂未开放，敬请期待')" class="icon icon02"></a>
+							<a href="javascript:jump('duihuan','duihuan.html')" class="icon icon01"></a>
+						</div>
+					</div>
+				</div>
+				<div id="lessons" class="index-boxb mui-clearfix">
+					<a href="javascript:jump('qbkc','qb-kc.html')" id=qbkc class="quanbu-kc"></a>
+					<ul class="sliding-list">
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id=nouse></div>
+
+
+		<script>
+			var token;
+
+			function loadpage() {
+				token = checklogin();
+				if (token == null) return;
+				console.log('index.html loadpage()');
+				fetchuserinfo(token);
+				listcurrlesson(token);
+				setInterval(coincheck, 10000);
+				
+				$('#ustx').on('click', function() {
+					jump('grxx', 'grxx.html');
+					return;
+				});
+			}
+
+			document.addEventListener('resume', function() {
+				console.log('index.html resume()');
+				// loadpage();
+				window.location.reload();
+			}, false);
+
+			mui.ready(function() {
+				loadpage();
+			});
+
+			mui.plusReady(function() {
+				plus.device.setWakelock(true); // 常亮
+			});
+
+			// 安卓退出应用
+			var clickNum = 0;
+			mui.back = function(event) {
+				clickNum++;
+				if (clickNum > 1) {
+					plus.runtime.quit();
+				} else {
+					mui.toast("再按一次退出应用");
+				}
+				setTimeout(function() {
+					clickNum = 0
+				}, 2000);
+				return false;
+			};
+
+			function coincheck() {
+				mui.ajax({
+					url: 'http://47.241.5.29/Home_index_getcoin.html',
+					data: {
+						token: token,
+					},
+					async: true,
+					dataType: 'json',
+					type: 'post',
+					timeout: 10000,
+					success: function(data) {
+						if (data.rst == 1) {
+							$("#coin").text(data.coin);
+						}
+					},
+					error: function(xhr, type, errorThrown) {}
+				});
+
+			}
+		</script>
+	</body>
+</html>

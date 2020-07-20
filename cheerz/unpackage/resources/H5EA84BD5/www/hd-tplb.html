@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- 图片轮播 -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/rem.js"></script>
+
+		<!-- 区分css -->
+		<script>
+			function loadcss() {
+				if (mui.os.ipad) {
+					// document.write('<link href="css/style.css" rel="stylesheet" />');
+					document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				} else {
+					document.write('<link href="css/style.css" rel="stylesheet" />');
+				}
+			}
+			loadcss();
+		</script>
+	</head>
+	<body>
+		<div class="hd-bg" style="background-color: #FFFFFF;">
+			<img id="lunbo-bg" style="background-color: #FFFFFF;" src="images/loading.jpg">
+		</div>
+		<!-- <div class="iphone_center">
+			<div class="hd-box">
+
+			</div>
+		</div> -->
+
+		<script src="js/md5.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/mui.js"></script>
+		<script src="js/hudong-tplb.js"></script>
+
+		<script>
+			mui.init();
+			mui.ready(function() {
+				loadpage();
+			});
+
+			mui.plusReady(function() {
+				// console.log("mui.plusReady");
+			});
+
+			function loadpage() {
+				startgame();
+			}
+
+			function leaveURL() {
+				console.log("离开图片轮播");
+			}
+		</script>
+	</body>
+</html>

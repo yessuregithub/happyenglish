@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<!-- 使用iPad布局 -->
+		<script>
+			var usePadDesign = true;
+		</script>
+		<script src="js/rem.js"></script>
+
+		<!-- 区分css -->
+		<script>
+			function loadcss() {
+				if (mui.os.ipad) {
+					document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				} else {
+					document.write('<link href="css/style.css" rel="stylesheet" />');
+				}
+			}
+			loadcss();
+		</script>
+	</head>
+	<body>
+		<div class="wt-bg"><img src="images/index-bg.png"></div>
+		<a href="javascript:backpage()" id="wt-return" class="wt-return"></a>
+		<div class="iphone_center">
+			<div class="wt-box">
+				<div class="kcyx-box-pa">
+					<div class="kcyx-box mui-clearfix">
+						<div class="kc-left">
+							<div id="title" class="ck-title">
+							</div>
+							<div class="img-box"><img id="cover" src="" /></div>
+							<div class="kc-btn">
+								<div class="mui-clearfix">
+									<div class="jinbi">
+										<img src="images/jibi.png">
+										<span id="coin"></span>
+									</div>
+									<div class="time">
+										上课时间 <span id="time"></span>
+									</div>
+								</div>
+								<div class="kcbtn-box fix">
+									<a href="javascript:reviewkt()" class="lsbtn">回看课程</a>
+									<a href="" class="hsbtn" style="display:none;">未开课</a>
+									<a href="" class="hsbtn" style="display:none;">回看课程</a>
+									<a href="javascript:playpbook()" class="lsbtn">阅读绘本</a>
+								</div>
+							</div>
+						</div>
+						<div id="words" class="kc-right">
+							<ul>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+				<a href="javascript:gokcend()" id="xu-btn" class="xu-btn"></a>
+
+			</div>
+
+			<div id="kt_video_box" class="kt_video_box">
+				<div class="vt">
+					<div id="vt_content" class="vt_content">
+						<div id="video"></div>
+					</div>
+					<a class="vd-return" id="video-return" href="javascript:closeVideo()"></a>
+				</div>
+			</div>
+		</div>
+		<script src="js/common.js"></script>
+		<script>
+			var pbooklink;
+
+			function gokcend() {
+				// localStorage.setItem("referer", "kcxq.html");
+				// 跳转学习报告
+			}
+
+			function backpage() {
+				url = localStorage.getItem('referer');
+				jump('back', url);
+			}
+
+			mui.init({})
+
+			mui.ready(function() {
+				$('#kt_video_box').hide();
+				loadpage();
+			});
+			mui.plusReady(function() {
+				plus.screen.lockOrientation("landscape");
+			});
+
+			var video = null;
+
+			function playpbook() {
+				if (pbooklink == "") return;
+				// console.log(pbooklink);
+				$('#kt_video_box').show();
+				enable_ui_btn(false);
+
+				video = createvideo("vt_content", "video", pbooklink);
+				video.addEventListener('fullscreenclick', function(e) {
+					console.log(JSON.stringify(e));
+				});
+				video.addEventListener('ended', function(e) {
+					closeVideo();
+				}, false);
+			}
+
+			function closeVideo() {
+				console.log("closeVideo");
+				if (video != null) {
+					video.stop();
+					video.close();
+					video = null;
+				}
+				$('#kt_video_box').hide();
+				enable_ui_btn(true);
+			}
+
+			function createvideo(videoid, divid, url) {
+				var odiv = document.getElementById(videoid);
+				var left = odiv.getBoundingClientRect().left;
+				var top = odiv.getBoundingClientRect().top;
+				var width = odiv.getBoundingClientRect().width;
+				var height = odiv.getBoundingClientRect().height;
+
+				var player = plus.video.createVideoPlayer(divid, {
+					src: url,
+					top: top + 'px',
+					left: left + 'px',
+					width: width + 'px',
+					height: height + 'px',
+					autoplay: true,
+					controls: true
+				});
+				plus.webview.currentWebview().append(player);
+				return player;
+			}
+
+			// 回看课程
+			function reviewkt() {
+				// 当前进入直播才加金币，互动不加
+				// todo test 回看课程不添加金币 正式版改0
+				localStorage.setItem("isnowzhibo", 0);
+				console.log("回看课程");
+				jump("回看课程", "zhibo-kt.html");
+			}
+
+			function loadpage() {
+				var lid = localStorage.getItem("value");
+				if (lid == null || lid == "" || typeof(lid) == undefined) {
+					jump('index', 'index.html');
+					return null;
+				}
+				localStorage.setItem("less_id", lid);
+				lessondetail(lid);
+			}
+
+			function playvoice(url) {
+				p = plus.audio.createPlayer(url);
+				p.play(function() {
+					// alert("Audio play success!");
+				}, function(e) {
+					// alert("Audio play error: " + e.message);
+				});
+			}
+
+			function enable_ui_btn(enable) {
+				if (enable) {
+					$('#wt-return').css('pointer-events', 'auto');
+					$('#xu-btn').css('pointer-events', 'auto');
+				} else {
+					$('#wt-return').css('pointer-events', 'none');
+					$('#xu-btn').css('pointer-events', 'none');
+				}
+			}
+		</script>
+	</body>
+</html>

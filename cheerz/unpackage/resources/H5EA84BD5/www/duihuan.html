@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- 兑换课程 -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="wt-bg"><img src="images/index-bg.png"></div>
+		<a href="javascript:jump('index','index.html')" class="wt-return"></a>
+
+		<div class="iphone_center">
+			<div class="wt-box">
+				<div class="dh-box">
+					<form>
+						<div class="dh-list">
+							<div class="item">
+								<input name="" type="text" class="text" id="duihuanma" placeholder="请输入课程兑换码">
+							</div>
+							<button type="button" class="submit" id="duihuan">兑&nbsp;&nbsp;换</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/ui-choose.js"></script>
+		<script src="js/common.js"></script>
+		<script>
+			$('#duihuan').on('click', function() {
+				var duihuanma = $("#duihuanma").val();
+				if (duihuanma.length == 0) {
+					mui.alert('请输入兑换码');
+					return;
+				}
+				// mui.ajax({
+				// 	url: '',
+				// 	data: {
+				// 		duihuanma: duihuanma
+				// 	},
+				// 	async: true,
+				// 	dataType: 'json',
+				// 	type: 'post',
+				// 	timeout: 10000,
+				// 	success: function(data) {
+				// 		// 请求成功
+				// 		if (data.rst == 0) {
+				// 			mui.alert(data.msg);
+				// 			return;
+				// 		}
+				// 		if (data.rst == 1) {
+				// 			// 兑换成功
+				// 		}
+				// 	},
+				// 	error: function(xhr, type, errorThrown) {
+				// 		// 请求失败  
+				// 		mui.alert("网络错误，请稍后再试");
+				// 	}
+				// });
+			});
+		</script>
+
+	</body>
+</html>

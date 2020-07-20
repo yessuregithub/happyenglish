@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="wt-bg"><img src="images/sz-bg.png"></div>
+		<a href="javascript:jump('index','index.html')" class="wt-return"></a>
+
+		<div class="iphone_center">
+			<div class="wt-box">
+				<div class="wt-box-pa">
+					<div class="she-zhi">
+						<ul class="shezhi-list mui-clearfix">
+							<li>
+								<a href="javascript:jump('grxx','grxx.html')" class="item">
+									<img src="images/sz01.png">
+									<span>个人信息</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:gotokcsz()" class="item">
+									<img src="images/sz02.png">
+									<span>课程设置</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:jump('sbjc','shebei-jc.html')" class="item">
+									<img src="images/sz03.png">
+									<span>设备检测</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:jump('cjwt','wt-list.html')" class="item">
+									<img src="images/sz04.png">
+									<span>常见问题</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:jump('gywm','gywm.html')" class="item">
+									<img src="images/sz05.png">
+									<span>关于我们</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:jump('wlcx','wlcx.html')" class="item">
+									<img src="images/sz06.png">
+									<span>物流查询</span>
+								</a>
+							</li>
+							<li>
+								<a href="#" id="logout" class="item">
+									<img src="images/sz07.png">
+									<span>退出登录</span>
+								</a>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!---竖屏提示--->
+		<div class="mod-orient-layer">
+			<div class="mod-orient-layer__content">
+				<div class="mod-orient-layer__icon-orient">
+				</div>
+				<span>为了更好的体验，请使用横屏浏览</span>
+			</div>
+		</div>
+
+
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/common.js"></script>
+		<script>
+			var token = checklogin();
+			if (token != null) {
+				fetchuserinfo(token);
+			}
+		</script>
+
+		<script>
+			function loadpage() {
+				var token = localStorage.getItem("token");
+				if (token == null || token == "") {
+					jump('dl', 'dl.html');
+					return;
+				}
+
+
+				$('#logout').on('click', function() {
+					localStorage.setItem("token", "");
+					//jump('dl', 'dl.html');
+					window.location.href = "dl.html";
+					return;
+				});
+			}
+
+			mui.ready(function() {
+				loadpage();
+			});
+			mui.plusReady(function() {
+				// plus.screen.lockOrientation("landscape");
+			});
+
+			function gotokcsz() {
+				var currtime = new Date();
+				console.log("当前时间：" + currtime.getHours());
+				var h = parseInt(currtime.getHours());
+				if (h >= 18 && h <= 21) {
+					mui.alert("18点~21点无法修改上课时间哦");
+					return;
+				}
+				jump('kcsz', 'kcsz.html');
+			}
+		</script>
+
+	</body>
+</html>

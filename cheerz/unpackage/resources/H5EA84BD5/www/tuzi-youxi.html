@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body style="background:#9ec255;">
+		<div class="wt-bg" style="background:#9ec255;"><img src="images/tz-bg.png"></div>
+
+		<div class="iphone_center">
+			<div class="hd-box">
+				<div class="game-box">
+					<ul id=frame1 class="game-list mui-clearfix">
+						<li class="mui-clearfix">
+							<div id=name1 class="name">name1</div>
+							<div class="tuzi-tu" style="left:2.8rem;">
+								<img src="images/tz.png">
+							</div>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+					</ul>
+					<ul id=frame2 class="game-list mui-clearfix">
+						<li class="mui-clearfix">
+							<div id=name2 class="name">name2</div>
+							<div class="tuzi-tu" style="left:2.8rem;"><img src="images/tz.png"></div>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+					</ul>
+					<ul id=frame3 class="game-list mui-clearfix">
+						<li class="mui-clearfix">
+							<div id=name3 class="name">name3</div>
+							<div class="tuzi-tu" style="left:2.8rem;"><img src="images/tz.png"></div>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+					</ul>
+					<ul id=frame4 class="game-list mui-clearfix">
+						<li class="mui-clearfix">
+							<div id=name4 class="name">name4</div>
+							<div class="tuzi-tu" style="left:2.8rem;"><img src="images/tz.png"></div>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+						<li>
+							<a href="" class="item">
+								<img src="images/luobo.png">
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div id="hudong-dui" class="hudong-dui">
+
+			<!-- 倒计时 -->
+			<div id="hd-time" class="time mui-clearfix" style="position: relative; z-index: 10;">
+				<div class="schedule">
+					<span id="progress1" style="width:100%;"></span>
+				</div>
+			</div>
+
+			<!-- 灰色底图 -->
+			<div id="hd-huidi" style="display:none;" class="m-timu2"></div>
+
+			<!-- 问题图 -->
+			<div id="hd-danci" class="hd-danci-fullscreen" style="display:none;">
+				<ul id="uc_01" class="hd-danci-list1 ui-choose">
+					<li class="hd-opt">
+						<span><img id=pic1 src="" /></span>
+						<div id="hd-yes"></div>
+						<div class="opt-tag"><img src="images/a.png"></div>
+					</li>
+					<li class="hd-opt">
+						<span><img id=pic2 src="" /></span>
+						<div id="hd-no"></div>
+						<div class="opt-tag"><img src="images/b.png"></div>
+					</li>
+				</ul>
+			</div>
+
+			<!-- 问题句子 -->
+			<div id="ads" class="m-timu">
+				<span id="hd-yn-que"></span>
+			</div>
+
+			<div id="result" class="m-timu">
+				<div id="res_gj" class="movie"></div>
+				<div id="res_nt" class="movie"></div>
+			</div>
+
+		</div>
+
+
+		<div class="m-praise" style="display:none;">
+			<img src="images/m-praise.png">
+		</div>
+		<div class="m-encourage" style="display:none;">
+			<img src="images/m-encourage.png">
+		</div>
+		<div class="end-overlay" style="display:none;">
+			<img src="images/end-tan.png"></div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/mui.js"></script>
+		<script src="js/seqframe.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/tuzi-youxi.js"></script>
+		<script src="js/ui-choose.js"></script>
+
+		<script>
+			mui.init();
+			mui.ready(function() {
+				loadpage();
+			});
+
+			function loadpage() {
+				token = localStorage.getItem("token");
+				if (token == null || token == "" || typeof(token) == undefined) {
+					jump('login', 'dl.html');
+					return null;
+				}
+				$("#hd-time").hide();
+				startgame();
+			}
+
+			function leaveURL() {
+				console.log("离开兔子");
+				close_game();
+			}
+
+			mui.plusReady(function() {});
+
+			function close_game() {}
+
+			function play_wrong() {
+				plus.webview.getLaunchWebview().evalJS('play_wrong()');
+			}
+
+			function play_good() {
+				plus.webview.getLaunchWebview().evalJS('play_good()');
+			}
+		</script>
+
+		<script>
+			function closeAds() {
+				document.getElementById('ads').style.display = "none";
+				document.getElementById('hd-danci').style.display = "block";
+				document.getElementById('hd-huidi').style.display = "block";
+			}
+
+			function openAds() {
+				document.getElementById('ads').style.display = "block";
+				document.getElementById('hd-danci').style.display = "none";
+				document.getElementById('hd-huidi').style.display = "none";
+
+				$("#progress1").attr("style", "width: 100%");
+			}
+
+			var second;
+			var stage = 1;
+
+			function countdown() {
+				second -= 0.1;
+
+				var length = Math.round((second * 100) / totalseconds);
+				$("#progress1").attr("style", "width:" + length + "%");
+
+				if (second < 0.1 && stage == 1) { //等待开始界面
+					clearInterval(count15);
+					// 开启选项
+					$("#progress1").attr("style", "width: 100%");
+
+					if (queIndex == 0) {
+						enableclick();
+					}
+					second = 15; //题目显示时间
+					totalseconds = 15;
+					stage = 2;
+					setupGame(0);
+					openAds();
+					count15 = setInterval(countdown, 100);
+				}
+				// stage =2 提问时间
+				else if (second < 0.1 && stage == 2) {
+					closeAds();
+					$("#hd-time").show();
+					$("#hd-danci").show();
+
+					clearInterval(count15);
+					stage = 3;
+					second = 5; //答题
+					totalseconds = 5;
+					count15 = setInterval(countdown, 100);
+					console.log("stage 答题");
+				}
+				// 答题界面 5 秒
+				else if (stage == 3) {
+					// $("#hd-time").hide();
+
+					if (second < 0.1) {
+						if (!choosed) {
+							choosed = true;
+							click_yn = -1
+							pro_result(true);
+						} else {
+							pro_result(false);
+						}
+
+						// 讲解 + 跳
+						clearInterval(count15);
+						stage = 4;
+						second = 9;
+						totalseconds = 9;
+						count15 = setInterval(countdown, 100);
+						console.log("stage 讲解");
+					}
+				}
+				// 讲解时间 5秒
+				else if (stage == 4) {
+					if (second < 0.1) {
+						console.log("stage 换题");
+						clearInterval(count15);
+						stage = 2;
+						second = 15;
+						totalseconds = 15;
+						count15 = setInterval(countdown, 100);
+
+						// 换新题目 
+						tuziRunEnd();
+					}
+				}
+			}
+
+			function rmselected() {
+				$('.hd-opt').removeClass("selected");
+			}
+
+			function enableclick() {
+				$('.ui-choose').ui_choose();
+				var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
+				uc_01.click = function(index, item) {
+					if (choosed) return; //必须防止连点
+					choosed = true;
+					var yn = index == 0 ? 1 : 2;
+					click_yn = yn;
+					// pro_result(yn, false);
+					// 先发音
+					if (click_yn != anw_yn) {
+						play_wrong();
+					} else {
+						play_good();
+					}
+				}
+				uc_01.change = function(index, item) {}
+			}
+		</script>
+	</body>
+</html>

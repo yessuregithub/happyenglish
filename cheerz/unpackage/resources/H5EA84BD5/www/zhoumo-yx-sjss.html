@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- 神箭手彼德 -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<!-- 使用iPad布局 -->
+		<script>
+			var usePadDesign = true;
+		</script>
+		<script src="js/rem.js"></script>
+		<!-- 区分css -->
+		<script>
+			function loadcss() {
+				if (mui.os.ipad) {
+					document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				} else {
+					document.write('<link href="css/style.css" rel="stylesheet" />');
+					// document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				}
+			}
+			loadcss();
+		</script>
+	</head>
+	<body>
+		<div class="wt-bg"><img src="images/zm-bg03.jpg"></div>
+		<a href="javascript:close_game();jump('xq', 'zhoumo-xq.html');" class="yx-return"></a>
+
+		<div class="iphone_center">
+			<div class="hd-box">
+				<div class="yx-box">
+					<div class="yx-box-top mui-clearfix">
+						<div class="xing">
+							<img src="images/xin.png">
+							<span id="score">0</span>
+							<h5>SCORE</h5>
+						</div>
+						<ul class="xin mui-clearfix">
+							<li><img src="images/hx.png"></li>
+							<li><img src="images/hx.png"></li>
+							<li><img src="images/hx.png"></li>
+						</ul>
+						<div class="time mui-clearfix">
+							<div class="name"><img src="images/time01.png"></div>
+							<div class="schedule">
+								<div id="progress1" class="charts" style="width:100%;"></div>
+							</div>
+							<span id="lefttime" class="count-down">3:00</span>
+						</div>
+					</div>
+					<ul class="daba ui-choose" id="uc_01">
+						<li>
+							<div class="ba-img"><img src="images/ba.png"></div>
+							<div class="cika">
+								<div class="img-box">
+									<img id="tuka-1" src="images/p1.jpg">
+								</div>
+								<div class="hsbg">
+									<div class="dui"></div>
+									<div class="jian"></div>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="ba-img"><img src="images/ba.png"></div>
+							<div class="cika">
+								<div class="img-box">
+									<img id="tuka-2" src="images/p2.jpg">
+								</div>
+								<div class="hsbg">
+									<div class="dui"></div>
+									<div class="jian"></div>
+								</div>
+							</div>
+
+						</li>
+						<li>
+							<div class="ba-img"><img src="images/ba.png"></div>
+							<div class="cika">
+								<div class="img-box">
+									<img id="tuka-3" src="images/p3.jpg">
+								</div>
+								<div class="hsbg">
+									<div class="dui"></div>
+									<div class="jian"></div>
+								</div>
+							</div>
+						</li>
+					</ul>
+
+					<div class="donghua-xiong">
+						<div id="xiong-dong" class="xiong"></div>
+						<div id="xiong" class="xiong"><img src="images/donghua-xiong.png"></div>
+					</div>
+					<div class="lupai">
+						<a href="javascript:click_cika();" class="word-img">
+							<img id="word-img">
+						</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
+		<!---在线审核--->
+		<div id="light" class="white_content">
+			<h4>确定要退出挑战吗？</h4>
+			<div class="tan-box">
+				<a class="close" href="javascript:void(0)" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">取消</a>
+				<a href="">确定</a>
+			</div>
+		</div>
+
+		<!---在线审核-end--->
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/ui-choose.js"></script>
+		<script src="js/seqframe.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/zhoumo-yx-sjss.js"></script>
+
+		<script>
+			// 音频
+			var s_wrong = null;
+			var s_good = null;
+
+			// 点击此卡发音
+			function click_cika() {
+				var wdata = getDataByNo(rightno);
+				var surl = wdata.sound;
+				// console.log(surl);
+				play_wordsound(surl);
+			}
+		</script>
+
+		<script>
+			mui.init();
+			mui.ready(function() {
+				w_sound_objs = new Array();
+				w_sounds = new Array();
+				loadpage();
+			});
+
+			function loadpage() {
+				startgame();
+			}
+
+			mui.plusReady(function() {
+				console.log("mui plusReady");
+				s_wrong = plus.audio.createPlayer("audio/wrong.mp3");
+				s_good = plus.audio.createPlayer("audio/good1.mp3");
+			});
+
+			function close_game() {
+				close_wsound();
+				close_wrong();
+			}
+
+			// 单词音频
+			var w_sounds;
+			var w_sound_objs;
+
+			function play_wordsound(surl) {
+				var pos = $.inArray(surl, w_sounds);
+				var sound;
+				if (pos == -1) {
+					sound = plus.audio.createPlayer(surl);
+					w_sounds.push(surl);
+					w_sound_objs.push(sound);
+
+				} else {
+					sound = w_sound_objs[pos];
+					sound.stop();
+				}
+				if (sound) {
+					sound.play();
+				}
+			}
+
+			function close_wsound() {
+				if (w_sound_objs) {
+					for (i = 0; i < w_sound_objs.length; i++) {
+						w_sound_objs[i].stop();
+						w_sound_objs[i].close();
+						w_sound_objs[i] = null;
+					}
+					w_sound_objs = null;
+					w_sounds = null;
+					console.log("close sound");
+				}
+			}
+
+			function play_wrong() {
+				if (s_wrong) {
+					// console.log("play wrong sound");
+					s_wrong.stop();
+					s_wrong.play();
+				}
+			}
+			
+			function play_good() {
+				if (s_good) {
+					// console.log("play s_good sound");
+					s_good.stop();
+					s_good.play();
+				}
+			}
+			
+			function close_wrong() {
+				if (s_wrong != null) {
+					console.log("s_wrong close");
+					s_wrong.stop();
+					s_wrong.close();
+					s_wrong = null;
+				}
+				if (s_good != null) {
+					console.log("s_good close");
+					s_good.stop();
+					s_good.close();
+					s_good = null;
+				}
+			}
+		</script>
+
+		<script>
+			var second;
+			var stage = 1;
+
+			function countdown() {
+				second -= 0.1;
+				if (stage == 1) totalseconds = 120;
+				var length = Math.round((second * 100) / totalseconds);
+				$("#progress1").attr("style", "width:" + length + "%");
+
+				// 显示时间
+				$("#lefttime").html(leftsec(Math.round(second)));
+				if (second < 0.1 && stage == 1) {
+					stage = 2;
+					endgame();
+					return;
+				}
+			}
+
+			//var countDown = setInterval(countDown, 100)
+			second = 120;
+			count15 = setInterval(countdown, 100);
+		</script>
+
+		<script>
+			function disable_choose() {
+				$("#uc_01").find("li").addClass("disabled");
+			}
+
+			function enable_choose() {
+				$("#uc_01").find("li").removeClass("disabled");
+			}
+
+			function rmselected() {
+				$("#uc_01").find("li").removeClass("selected");
+			}
+
+			// 将所有.ui-choose实例化
+			$('.ui-choose').ui_choose();
+
+			// uc_01 ul 单选
+			var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
+			uc_01.click = function(index, item) {
+				pro_result(index);
+			}
+			uc_01.change = function(index, item) {}
+		</script>
+	</body>
+</html>

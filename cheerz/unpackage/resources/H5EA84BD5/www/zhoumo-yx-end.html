@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<!-- 使用iPad布局 -->
+		<script>
+			var usePadDesign = true;
+		</script>
+		<script src="js/rem.js"></script>
+		<!-- 区分css -->
+		<script>
+			function loadcss() {
+				if (mui.os.ipad) {
+					document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				} else {
+					// document.write('<link href="css/style.css" rel="stylesheet" />');
+					document.write('<link href="css/style-ipad.css" rel="stylesheet" />');
+				}
+			}
+			loadcss();
+		</script>
+	</head>
+	<body style="background:#000;">
+		<div class="wt-bg"><img src="images/end-bg.jpg"></div>
+		<a href="javascript:jump('xq', 'zhoumo-xq.html');" class="yx-return"></a>
+		
+		<div class="iphone_center">
+			<div class="wt-box">
+				<div class="end-box">
+					<div class="img-box">
+						<div class="praise"><img src="images/praise.png"></div>
+						<div class="encourage" style="display:none;"><img src="images/encourage.png"></div>
+					</div>
+					<div class="txt-box">
+						<span id="score"></span>
+						<div id="xinjilu" class="xinjilu"></div>
+					</div>
+					<div class="end-btn">
+						<a href="javascript:jump_back()" class="tz">重新挑战</a>
+						<a href="" class="xy" style="display:none">炫耀一下</a>
+						<a href="javascript:void(0)" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'"
+						 class="fx">分享</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<!--mvp弹窗--->
+		<div id="light" class="fen-box-tan">
+			<a href="javascript:void(0)" class="close" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'"></a>
+			<div class="fen-box-tow mui-clearfix">
+				<div class="fen-box-left">
+					<div class="fen-mvp">
+						<div class="ustx mui-clearfix">
+							<div class="img-box"><img src="images/tx.png"></div>
+							<div class="name">name</div>
+						</div>
+						<p>正在学习哈彼英语</p>
+						<p>课堂表现出色，夺得第一名！</p>
+						<div class="mvpt"><img src="images/end-mvp.png"></div>
+					</div>
+					<ul class="fen-sank mui-clearfix">
+						<li>
+							<h4>共获得金币</h4>
+							<span>1234</span>
+						</li>
+						<li>
+							<h4>共学习课次</h4>
+							<span>12</span>
+						</li>
+						<li>
+							<h4>共学习单词</h4>
+							<span>123</span>
+						</li>
+					</ul>
+					<div class="fen-box-left-img">
+
+					</div>
+					<div class="fen-gzh mui-clearfix">
+						<div class="img-box"></div>
+						<div class="txt-box">
+							<img src="images/gy-logo.png">
+							<p>长按二维码关注公号 领取免费试听课</p>
+						</div>
+					</div>
+				</div>
+				<div class="fen-box-right">
+					<h3>分享学习报告</h3>
+					<div class="img-box"></div>
+					<ul class="mui-clearfix">
+						<li>
+							<a href="">
+								<img src="images/wx.png">
+								<span>微信</span>
+							</a>
+						</li>
+						<li>
+							<a href="">
+								<img src="images/pyq.png">
+								<span>朋友圈</span>
+							</a>
+						</li>
+						<li>
+							<a href="">
+								<img src="images/bd.png">
+								<span>保存到本地</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+		<div id="fade" class="black_overlay"></div>
+
+		<!--未获得mvp弹窗--->
+		<div id="light" class="fen-box-tan">
+			<a href="javascript:void(0)" class="close" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'"></a>
+			<div class="fen-box-tow mui-clearfix">
+				<div class="fen-box-left">
+					<div class="fen-mvp">
+						<div class="ustx mui-clearfix">
+							<div class="img-box"><img src="images/tx.png"></div>
+							<div class="name">name</div>
+						</div>
+						<p>正在学习哈彼英语</p>
+						<p>快来和我们一起学习吧！</p>
+					</div>
+					<ul class="fen-sank mui-clearfix">
+						<li>
+							<h4>共获得金币</h4>
+							<span>1234</span>
+						</li>
+						<li>
+							<h4>共学习课次</h4>
+							<span>12</span>
+						</li>
+						<li>
+							<h4>共学习单词</h4>
+							<span>123</span>
+						</li>
+					</ul>
+					<div class="fen-box-left-img">
+
+					</div>
+					<div class="fen-gzh mui-clearfix">
+						<div class="img-box"></div>
+						<div class="txt-box">
+							<img src="images/gy-logo.png">
+							<p>长按二维码关注公号 领取免费试听课</p>
+						</div>
+					</div>
+				</div>
+				<div class="fen-box-right">
+					<h3>分享学习报告</h3>
+					<div class="img-box"></div>
+					<ul class="mui-clearfix">
+						<li>
+							<a href="">
+								<img src="images/wx.png">
+								<span>微信</span>
+							</a>
+						</li>
+						<li>
+							<a href="">
+								<img src="images/pyq.png">
+								<span>朋友圈</span>
+							</a>
+						</li>
+						<li>
+							<a href="">
+								<img src="images/bd.png">
+								<span>保存到本地</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+		<div id="fade" class="black_overlay"></div>
+
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/zhoumo-yx-end.js"></script>
+
+		<script>
+			mui.init();
+
+			mui.ready(function() {
+				setui();
+			});
+		</script>
+	</body>
+</html>

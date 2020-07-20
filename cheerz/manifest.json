@@ -1,6 +1,6 @@
 {
     "@platforms" : [ "android", "iPhone", "iPad" ],
-    "id" : "czapp.hbyy",
+    "id" : "H5EA84BD5",
     /*应用的标识，创建应用时自动生成，勿手动修改*/
     "name" : "哈彼英语",
     /*应用名称，程序桌面图标名称*/
@@ -21,7 +21,7 @@
         /*开发者名称*/
         "email" : "",
         /*开发者邮箱地址*/
-        "url" : "http://www.dcloud.io"
+        "url" : "85741950@qq.com"
     },
     "permissions" : {
         "Cache" : {
@@ -111,7 +111,9 @@
                     "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
-                ]
+                ],
+                "schemes" : "cn.cheerz.hbyy",
+                "minSdkVersion" : 19
             },
             "orientation" : [
                 // "portrait-primary",
@@ -231,7 +233,7 @@
                     /*高分屏启动图片，分辨率：480x762*/
                     "xhdpi" : "",
                     /*720P高分屏启动图片，分辨率：720x1242*/
-                    "xxhdpi" : ""
+                    "xxhdpi" : "/Users/user/Desktop/splash.png"
                 }
             },
             "plugins" : {

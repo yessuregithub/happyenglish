@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body style="background:#333;">
+		<div class="wt-bg" style="background:#333;"><img src="images/kc-end.png"></div>
+		<!-----
+		<a href=""class="yx-return"></a>
+		<!----->
+
+		<div class="iphone_center" style="background:#333;">
+			<div class="wt-box">
+				<div class="end-box">
+					<div class="kc-end-img">
+						<div class="end-tit"><img src="images/end.png"></div>
+						<div class="end-nema"><img src="images/xx.png"><span id="nickname"></span><img src="images/xx.png"></div>
+						<p>恭喜你，完成了<span id="lessonname"></span>的学习<br>你已成功战胜其他小伙伴，夺得第<span id="order"></span>名！</p>
+						<p style="display:none;">恭喜你，完成了《课程英文名》的学习，<br>表现很棒哦！</p>
+					</div>
+					<ul class="end-list">
+						<li>
+							<img src="images/end-01.png">
+							<h6>获得金币</h6>
+							<span id="coincount"></span>
+						</li>
+						<li>
+							<img src="images/end-02.png">
+							<h6>学习单词</h6>
+							<span id="wordcount"></span>
+						</li>
+						<li>
+							<img src="images/end-03.png">
+							<h6>学习课程</h6>
+							<span id="lessoncount"></span>
+						</li>
+					</ul>
+					<div class="end-btn">
+						<a href="javascript:leavepage()" class="tz">离开教室</a>
+						<a href="" class="xy">炫耀 一下</a>
+						<a href="" class="fx" style="display:none">分享</a>
+					</div>
+					<div id="mvp" class="end-mvp"><img src="images/end-mvp.png"></div>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/mui.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/kc-end.js"></script>
+	</body>
+	<script>
+		var token;
+
+		function leavepage() {
+			iszhibo = localStorage.getItem("isnowzhibo");
+			if (iszhibo == 1) {
+				jump('index', 'index.html');
+			} else {
+				jump('xq', 'kcxq.html');
+			}
+		}
+
+		function loadpage() {
+			token = checklogin();
+			if (token == null) return;
+			lid = localStorage.getItem("less_id");
+			initdata(lid);
+		}
+
+		mui.ready(function() {
+
+		});
+
+		mui.plusReady(function() {
+			loadpage();
+		});
+
+		mui.back = function() { //禁止android返回
+			console.log("detected back, ignore");
+		}
+	</script>
+</html>

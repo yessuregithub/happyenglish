@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<!-- 语音识别 -->
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>哈彼英语</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="wt-bg" style="background-color: #FFFFFF;"><img id="pict" src=""></div>
+		<div class="iphone_center">
+			<div class="hd-box">
+				<div class="hudong-yuyin">
+					<img src="images/mkf.png">
+					<ul>
+						<li><span></span></li>
+						<li><span></span></li>
+						<li><span></span></li>
+						<li><span></span></li>
+						<li><span></span></li>
+					</ul>
+					<div style="position: absolute;width:1.48rem; height:1.48rem;top:.19rem;left:.18rem" class="second circle"></div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/rem.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/hudong-yuyinshibie.js"></script>
+		<script src="js/jquery-circle-progress.js"></script>
+		<script src="js/jquery-json.js"></script>
+		<script>
+			mui.init();
+			mui.ready(function() {
+				console.log("loadpage");
+				loadpage();
+			});
+
+			mui.plusReady(function() {
+				console.log("声音识别 mui.plusReady");
+				startgame();
+			});
+
+			function loadpage() {
+				token = localStorage.getItem("token");
+				if (token == null || token == "" || typeof(token) == undefined) {
+					jump('login', 'dl.html');
+					return null;
+				}
+				var circleSize = lib.flexible.rem2px(1.48);
+				var thicknessSize = lib.flexible.rem2px(0.15);
+				$('.second.circle').circleProgress({
+					animation: false,
+					value: 0,
+					emptyFill: "#bfbfbf",
+					fill: {
+						color: "#3493E4"
+						// gradient: ["#46ccf2", "#3493E4"]
+					},
+					size: circleSize,
+					startAngle: -Math.PI / 2,
+					thickness: thicknessSize
+				}).on('circle-animation-progress', function(event, progress) {
+					$(this).find('strong').html(parseInt(100 * progress) + '<i>%</i>');
+				});
+
+			}
+		</script>
+	</body>
+</html>
