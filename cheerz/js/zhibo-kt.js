@@ -74,6 +74,7 @@ function showtime(endtime) {
 
 function quitlesson(backtofirstpage, serverlogout) {
 	if (isquitlesson) return;
+	plus.nativeUI.showWaiting();
 	isquitlesson = true;
 	close_wrong();
 	stopPusher();
@@ -107,12 +108,13 @@ function quitlesson(backtofirstpage, serverlogout) {
 			if (backtofirstpage) {
 				// 延迟推迟等待播放器关闭
 				setTimeout(function() {
+					plus.nativeUI.closeWaiting();
 					if (iszhibo == 1) {
 						jump('index', 'index.html');
 					} else {
 						jump('xq', 'kcxq.html');
 					}
-				}, 1000);
+				}, 2000);
 			}
 		},
 		error: function(xhr, type, errorThrown) {
@@ -121,11 +123,12 @@ function quitlesson(backtofirstpage, serverlogout) {
 			if (backtofirstpage) {
 				setTimeout(function() {
 					if (iszhibo == 1) {
+						plus.nativeUI.closeWaiting();
 						jump('index', 'index.html');
 					} else {
 						jump('xq', 'kcxq.html');
 					}
-				}, 1000);
+				}, 2000);
 			}
 		}
 	});
@@ -152,6 +155,8 @@ function initzhibo() {
 }
 
 function initclassroom(data) {
+	plus.nativeUI.showWaiting();
+
 	// 加载音效
 	load_wrong();
 
@@ -242,7 +247,13 @@ function initclassroom(data) {
 						// 	muted: ismuted,
 						// });
 						player[pos].play();
+						$('#v' + pos).show();
+						$('#v' + pos + '_wsx').hide();
+						$('#v' + pos + '_pingbi').hide();
 					} else {
+						$('#v' + pos).hide();
+						$('#v' + pos + '_wsx').hide();
+						$('#v' + pos + '_pingbi').show();
 						// player[pos].pause();
 					}
 				} else if (pos == 1) {
@@ -278,6 +289,8 @@ function initclassroom(data) {
 	// 		startPusher();
 	// 	}
 	// }, 500);
+
+	plus.nativeUI.closeWaiting();
 }
 
 
@@ -325,14 +338,26 @@ function stopotherplayer() {
 	for (i = 2; i <= 4; i++) {
 		if (player[i] == null) continue;
 		if (isotherplay) {
+			$('#v' + i).show();
+			$('#v' + i + '_wsx').hide();
+			$('#v' + i + '_pingbi').hide();
+			console.log('#v' + i + '_wsx.hide');
+
 			player[i].play();
 		} else {
 			player[i].stop();
+
+			console.log('#v' + i + '_pingbi.show');
+			// 隐藏视频
+			$('#v' + i).hide();
+			$('#v' + i + '_wsx').hide();
+			$('#v' + i + '_pingbi').show();
 		}
 	}
 	if (isotherplay) $("#pingbivideo").attr("class", "nothing");
 	else $("#pingbivideo").attr("class", "pingbi");
 	resumePusher();
+
 }
 
 function checklessondata(lastplaytime, currtime) {
@@ -443,6 +468,7 @@ function playerleave(uid) {
 	$(tag).text("");
 	tag = "#coin" + pos;
 	$(tag).text("-");
+	$('#v' + pos + '_wsx').show();
 
 	// pusher.stop();
 	// pusher.start();
@@ -473,7 +499,14 @@ function addplayer(uid, name, coin, url) {
 	if (order > 1) {
 		if (isotherplay) {
 			player[order].play();
+			$('#v' + order).show();
+			$('#v' + order + '_wsx').hide();
+			$('#v' + order + '_pingbi').hide();
+
 		} else {
+			$('#v' + order).hide();
+			$('#v' + order + '_wsx').hide();
+			$('#v' + order + '_pingbi').show();
 			// player[order].pause();
 		}
 	}
@@ -693,15 +726,15 @@ function initPusher(userid) {
 	var top = odiv.getBoundingClientRect().top;
 	var width = odiv.getBoundingClientRect().width;
 	var height = odiv.getBoundingClientRect().height;
-	left = left + 2;
-	top = top + 2;
-	width = width - 4;
-	height = height - 4;
+	left = left;
+	top = top;
+	width = width;
+	height = height;
 
 	pusher = new plus.video.LivePusher('pusher-box', {
 		'url': pushurl2,
 		'aspect': '16:9',
-		'mode': 'SD',
+		'mode': 'HD',
 		top: top + 'px',
 		left: left + 'px',
 		width: width + 'px',
