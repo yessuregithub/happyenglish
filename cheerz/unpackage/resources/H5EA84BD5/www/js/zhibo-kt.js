@@ -74,8 +74,8 @@ function showtime(endtime) {
 
 function quitlesson(backtofirstpage, serverlogout) {
 	if (isquitlesson) return;
+	plus.nativeUI.showWaiting();
 	isquitlesson = true;
-	close_wrong();
 	stopPusher();
 	closePusher();
 	pusher = null;
@@ -84,11 +84,13 @@ function quitlesson(backtofirstpage, serverlogout) {
 			player[i].stop();
 			player[i].close();
 			player[i] = null;
+			console.log('close player +' + i);
 		}
 	}
+
 	if (activeview) activeview.close();
 	activeview = null;
-
+	close_wrong();
 	if (!serverlogout) return;
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_quitlesson.html',
@@ -107,12 +109,13 @@ function quitlesson(backtofirstpage, serverlogout) {
 			if (backtofirstpage) {
 				// 延迟推迟等待播放器关闭
 				setTimeout(function() {
+					plus.nativeUI.closeWaiting();
 					if (iszhibo == 1) {
 						jump('index', 'index.html');
 					} else {
 						jump('xq', 'kcxq.html');
 					}
-				}, 1000);
+				}, 2000);
 			}
 		},
 		error: function(xhr, type, errorThrown) {
@@ -121,11 +124,12 @@ function quitlesson(backtofirstpage, serverlogout) {
 			if (backtofirstpage) {
 				setTimeout(function() {
 					if (iszhibo == 1) {
+						plus.nativeUI.closeWaiting();
 						jump('index', 'index.html');
 					} else {
 						jump('xq', 'kcxq.html');
 					}
-				}, 1000);
+				}, 2000);
 			}
 		}
 	});
@@ -152,6 +156,8 @@ function initzhibo() {
 }
 
 function initclassroom(data) {
+	plus.nativeUI.showWaiting();
+
 	// 加载音效
 	load_wrong();
 
@@ -234,19 +240,27 @@ function initclassroom(data) {
 			if (pos == 1 && mui.os.android) {
 				// 显示自己的摄像头
 			} else {
-				player[pos] = createvideo("v" + pos, "v" + pos, playervideo[pos], pos);
+				player[pos] = createvideo("vp" + pos, "v" + pos, playervideo[pos], pos);
 
 				if (pos > 1) {
 					if (isotherplay) {
 						// player[pos].setStyles({
 						// 	muted: ismuted,
 						// });
+						player[pos].show();
 						player[pos].play();
+						preview_wsx(pos, false);
+						preview_pingbi(pos, false);
 					} else {
+						player[pos].hide();
+						preview_wsx(pos, false);
+						preview_pingbi(pos, true);
 						// player[pos].pause();
 					}
 				} else if (pos == 1) {
 					player[pos].play();
+					preview_wsx(pos, false);
+					preview_pingbi(pos, false);
 				}
 
 				// 静音操作
@@ -265,8 +279,8 @@ function initclassroom(data) {
 			$(tag).text("");
 			tag = "#coin" + pos;
 			$(tag).text("0");
-			tag = "#v" + pos;
-			$(tag).html("<img src=\"images/wsx.jpg\">"); //显示未上线
+			// tag = "#v" + pos;
+			// $(tag).html("<img src=\"images/wsx.jpg\">"); //显示未上线
 		}
 	}
 
@@ -278,8 +292,29 @@ function initclassroom(data) {
 	// 		startPusher();
 	// 	}
 	// }, 500);
+
+	plus.nativeUI.closeWaiting();
 }
 
+function preview_wsx(pos, show) {
+	var tag = "#v" + pos + "_wsx";
+	if (show) {
+		$(tag).show();
+	} else {
+		$(tag).hide();
+	}
+	console.log('video ' + pos + '(wsx):' + show);
+}
+
+function preview_pingbi(pos, show) {
+	var tag = "#v" + pos + "_pingbi";
+	if (show) {
+		$(tag).show();
+	} else {
+		$(tag).hide();
+	}
+	console.log('video ' + pos + '(pingbi):' + show);
+}
 
 var lastplaytime = 0;
 
@@ -317,22 +352,6 @@ function muteplayer() {
 	ismuted = !ismuted;
 	if (ismuted) $("#pingbivoice").attr("class", "pingbi");
 	else $("#pingbivoice").attr("class", "nothing");
-}
-
-function stopotherplayer() {
-	pausePusher();
-	isotherplay = !isotherplay;
-	for (i = 2; i <= 4; i++) {
-		if (player[i] == null) continue;
-		if (isotherplay) {
-			player[i].play();
-		} else {
-			player[i].stop();
-		}
-	}
-	if (isotherplay) $("#pingbivideo").attr("class", "nothing");
-	else $("#pingbivideo").attr("class", "pingbi");
-	resumePusher();
 }
 
 function checklessondata(lastplaytime, currtime) {
@@ -444,6 +463,9 @@ function playerleave(uid) {
 	tag = "#coin" + pos;
 	$(tag).text("-");
 
+	preview_wsx(pos, true);
+	preview_pingbi(pos, false);
+
 	// pusher.stop();
 	// pusher.start();
 	// console.log("pusher.start();346");
@@ -469,17 +491,24 @@ function addplayer(uid, name, coin, url) {
 	tag = "#coin" + order;
 	$(tag).text(playercoin[order]);
 	tag = "#v" + order;
-	player[order] = createvideo("v" + order, "v" + order, playervideo[order], order);
+	player[order] = createvideo("vp" + order, "v" + order, playervideo[order], order);
 	if (order > 1) {
 		if (isotherplay) {
+			player[order].show();
 			player[order].play();
+			preview_wsx(order, false);
+			preview_pingbi(order, false);
 		} else {
+			// player[order].stop();
+			player[order].hide();
+			preview_wsx(order, false);
+			preview_pingbi(order, true);
 			// player[order].pause();
 		}
 	}
 
-	resumePusher();
 	plus.device.setVolume(default_volume);
+	resumePusher();
 }
 
 function startlesson(offset, url) {
@@ -498,8 +527,40 @@ function startlesson(offset, url) {
 	player[0].seek(testoffset);
 	player[0].play();
 
-	resumePusher();
 	plus.device.setVolume(default_volume);
+	resumePusher();
+}
+
+var touch_stopotherplayer = false;
+
+function stopotherplayer() {
+	// 屏蔽狂点
+	if (touch_stopotherplayer) return;
+	touch_stopotherplayer = true;
+	setTimeout(function() {
+		touch_stopotherplayer = false;
+	}, 5000);
+
+	pausePusher();
+	isotherplay = !isotherplay;
+	for (i = 2; i <= 4; i++) {
+		if (player[i] == null) continue;
+		if (isotherplay) {
+			player[i].show();
+			player[i].play();
+
+			preview_wsx(i, false);
+			preview_pingbi(i, false);
+		} else {
+			player[i].hide();
+			player[i].stop();
+			preview_wsx(i, false);
+			preview_pingbi(i, true);
+		}
+	}
+	if (isotherplay) $("#pingbivideo").attr("class", "nothing");
+	else $("#pingbivideo").attr("class", "pingbi");
+	resumePusher();
 }
 
 // 更新直播间用户金币
@@ -520,7 +581,6 @@ function updateplaycoin(args) {
 		playeraddcoin[pos] += add_coin;
 		playercoin[pos] = coin;
 		console.log("玩家" + pos + " 添加了" + add_coin + "个金币");
-
 		showaddcoin(pos);
 	}
 }
@@ -650,6 +710,7 @@ function createvideo(videoid, divid, url, pos) {
 		left: left + 'px',
 		width: width + 'px',
 		height: height + 'px',
+		position: 'absolute',
 		muted: is_videomuted,
 		'controls': true, // todo delete 测试完关闭控制
 		'show-progress': true, // todo delete 测试完关闭控制
@@ -693,10 +754,10 @@ function initPusher(userid) {
 	var top = odiv.getBoundingClientRect().top;
 	var width = odiv.getBoundingClientRect().width;
 	var height = odiv.getBoundingClientRect().height;
-	left = left + 2;
-	top = top + 2;
-	width = width - 4;
-	height = height - 4;
+	left = left;
+	top = top;
+	width = width;
+	height = height;
 
 	pusher = new plus.video.LivePusher('pusher-box', {
 		'url': pushurl2,
@@ -777,7 +838,6 @@ function resumePusher() {
 	setTimeout(function() {
 		njsSetAudioSessionForIOS();
 	}, 500)
-
 }
 
 
@@ -811,9 +871,10 @@ function updatePusher(pushurl) {
 
 function repaireIOS() {
 	njsSetAudioSessionForIOS();
-	plus.device.setVolume(0.9);
-	default_volume = 0.9;
+	plus.device.setVolume(0.7);
+	default_volume = 0.7;
 
+	resumePusher();
 	setTimeout(function() {
 		close_wrong();
 		load_wrong();
