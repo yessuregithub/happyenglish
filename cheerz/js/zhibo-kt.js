@@ -537,8 +537,10 @@ function stopotherplayer() {
 	// 屏蔽狂点
 	if (touch_stopotherplayer) return;
 	touch_stopotherplayer = true;
+	plus.nativeUI.showWaiting();
 	setTimeout(function() {
 		touch_stopotherplayer = false;
+		plus.nativeUI.closeWaiting();
 	}, 5000);
 
 	pausePusher();
