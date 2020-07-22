@@ -41,13 +41,84 @@
 					</ul>
 					<div class="end-btn">
 						<a href="javascript:leavepage()" class="tz">离开教室</a>
-						<a href="" class="xy">炫耀 一下</a>
-						<a href="" class="fx" style="display:none">分享</a>
+						<!-- <a href="" class="xy">炫耀一下</a> -->
+						<a href="javascript:void(0)" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'"
+						 class="xy">炫耀一下</a>
+						<!-- <a href="" class="fx" style="display:none">分享</a> -->
 					</div>
 					<div id="mvp" class="end-mvp"><img src="images/end-mvp.png"></div>
 				</div>
 			</div>
 		</div>
+
+		<!--未获得mvp弹窗--->
+		<div id="light" class="fen-box-tan">
+			<a href="javascript:void(0)" class="close" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'"></a>
+			<div class="fen-box-tow mui-clearfix">
+				<div class="fen-box-left">
+					<div class="fen-mvp">
+						<div class="ustx mui-clearfix">
+							<div class="img-box" id='ustx'></div>
+							<div id="fx_nickname" class="name"></div>
+						</div>
+						<p>正在学习哈彼英语</p>
+						<p>快来和我们一起学习吧！</p>
+					</div>
+					<ul class="fen-sank mui-clearfix">
+						<li>
+							<h4>共获得金币</h4>
+							<span id="fx_coincount"></span>
+						</li>
+						<li>
+							<h4>共学习课次</h4>
+							<span id="fx_lessoncount"></span>
+						</li>
+						<li>
+							<h4>共学习单词</h4>
+							<span id="fx_wordcount"></span>
+						</li>
+					</ul>
+
+					<div class="fen-box-left-img">
+						<img id="cover" src="" />
+					</div>
+					<div class="fen-gzh mui-clearfix">
+						<div class="img-box"></div>
+						<div class="txt-box">
+							<img src="images/gy-logo.png">
+							<p>长按二维码关注公号 领取免费试听课</p>
+						</div>
+					</div>
+				</div>
+				<div class="fen-box-right">
+					<h3>分享学习报告</h3>
+					<div class="img-box"></div>
+					<ul class="mui-clearfix">
+						<li>
+							<a href="">
+								<img src="images/wx.png">
+								<span>微信</span>
+							</a>
+						</li>
+						<li>
+							<a href="">
+								<img src="images/pyq.png">
+								<span>朋友圈</span>
+							</a>
+						</li>
+						<li>
+							<a href="">
+								<img src="images/bd.png">
+								<span>保存到本地</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+
+		<div id="fade" class="black_overlay"></div>
 
 		<script src="js/mui.js"></script>
 		<script src="js/jquery-1.8.3.min.js"></script>

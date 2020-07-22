@@ -73,7 +73,9 @@ input:-ms-input-placeholder {color: #666;}
 .wt-return{ position:fixed; left:.3rem; top:.4rem; width:0.85rem; height:0.85rem; z-index:99999; background:url(../images/fh.png) no-repeat; background-size:100% 100%;}
 .wt-return:hover{ background:url(../images/fhon.png) no-repeat; background-size:100% 100%;}
 .wt-title{ position:absolute; left:50%; top:-1.2rem; width:3.98rem; margin-left:-1.99rem;}
-.wt-auto{width:10.64rem; background:url(../images/wh-bg.png) no-repeat; position:relative; margin:0 auto; margin-top:1rem; padding:.3rem; background-size:100% 100%; min-height:6.7rem;}
+.wt-box-pa{ position:absolute; z-index:9; left:0; top:52%; width:100%;transform: translateY(-50%); }
+.wt-auto{width:11rem; min-height:7.6rem; background:url(../images/wh-bg.png) no-repeat; position:relative; margin:0 auto;background-size:100% 100%;}
+.wt_content{position: absolute;left: 0.6rem;top:0.3rem; width: 9.8rem; height:7rem; display:block;background-color: #FFFFFF;}
 .wt-list{ height:6.16rem; overflow:auto;}
 .wt-list li{ border-bottom:0.03rem dashed #d9d9d9;}
 .wt-list li a{ display:block; line-height:.85rem; height:.85rem; color:#000000; font-size:.28rem; padding:0px .25rem;}
@@ -94,7 +96,7 @@ input:-ms-input-placeholder {color: #666;}
 .dl-list .yanzhengma{ position:absolute; right:.13rem; top:.13rem; height:.5rem; background:rgba(217,217,217,1); border-radius:.24rem; font-size:.23rem; color:#000000; padding:0px .15rem; border:0;}
 .dl-list .submit{ width:3.55rem; height:.69rem; display:block; margin:0 auto; background:url(../images/login-btn.png) no-repeat; border:0; font-size:.34rem; margin-top:.6rem; background-size:100% 100%; line-height:.60rem; font-family:zihun59hao;}
 .dl-list .submit:hover{ background:url(../images/login-btn-hover.png) no-repeat; height:.63rem; background-size:100% 100%;}
-.wt-box-pa{ position:absolute; z-index:9; left:0; top:50%; width:100%;transform: translateY(-50%); }
+
 .index-boxb{ position:absolute; z-index:9; left:0; top:3rem; width:100%;}
 .index-title { padding:.3rem 0.82rem; }
 .index-title .item{ height:1.3rem; float:left; position:relative; padding-left:1.2rem; width:3.2rem; margin-right:.5rem;}

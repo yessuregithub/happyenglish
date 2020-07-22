@@ -72,7 +72,7 @@ function showtime(endtime) {
 	return lefth + ":" + leftm + ":" + lefts; //返回倒计时的字符串
 }
 
-function quitlesson(backtofirstpage, serverlogout) {
+function quitlesson(backtofirstpage, serverlogout, goend) {
 	if (isquitlesson) return;
 	plus.nativeUI.showWaiting();
 	isquitlesson = true;
@@ -91,7 +91,19 @@ function quitlesson(backtofirstpage, serverlogout) {
 	if (activeview) activeview.close();
 	activeview = null;
 	close_wrong();
-	if (!serverlogout) return;
+	if (!serverlogout) {
+		setTimeout(function() {
+			console.log('goto end')
+			plus.nativeUI.closeWaiting();
+			if (iszhibo == 1) {
+				if (goend) {
+					localStorage.setItem("referer", "zhibo-kt.html");
+					jump('ended', 'kc-end.html');
+				}
+			}
+		}, 2000);
+		return;
+	}
 	mui.ajax({
 		url: 'http://47.241.5.29/Home_index_quitlesson.html',
 		async: true,
@@ -326,15 +338,17 @@ function timeupdate(e) {
 }
 
 function ended(e) {
-	quitlesson(false, false);
-	var iszhibo = localStorage.getItem("isnowzhibo");
-	if (iszhibo == 1) {
-		localStorage.setItem("referer", "zhibo-kt.html");
-
-		jump('ended', 'kc-end.html');
-	} else {
-		jump('xq', 'kcxq.html');
-	}
+	console.log('player end');
+	quitlesson(false, false, true);
+	// quitlesson(false, false, true);
+	// var iszhibo = localStorage.getItem("isnowzhibo");
+	// plus.nativeUI.closeWaiting();
+	// if (iszhibo == 1) {
+	// 	localStorage.setItem("referer", "zhibo-kt.html");
+	// 	jump('ended', 'kc-end.html');
+	// } else {
+	// 	jump('xq', 'kcxq.html');
+	// }
 }
 
 function muteplayer() {
@@ -427,8 +441,9 @@ function enterlesson() {
 			}
 			if (data.rst == 2) { //服务器认为已经在课堂，强制退出
 				console.log("server report duplication session");
-				quitlesson(false, true);
-				setTimeout(reenter, 2000);
+				quitlesson(true, true, false);
+				// quitlesson(false, true, false);
+				// setTimeout(reenter, 2000);
 				return;
 			}
 			//
@@ -512,6 +527,7 @@ function addplayer(uid, name, coin, url) {
 }
 
 function startlesson(offset, url) {
+	if (isquitlesson) return;
 	if (player[0] != null) return;
 	pausePusher();
 
@@ -634,11 +650,11 @@ function pullmessage() {
 	lid = localStorage.getItem("less_id");
 
 	if (token == null || token == "" || typeof(token) == undefined) {
-		quitlesson(true, true);
+		quitlesson(true, true, false);
 		return null;
 	}
 	if (lid == null || lid == "" || typeof(lid) == undefined) {
-		quitlesson(true, true);
+		quitlesson(true, true, false);
 		return null;
 	}
 	mui.ajax({
@@ -656,7 +672,7 @@ function pullmessage() {
 			if (data.rst == 0) {
 				// mui.alert('获取信息', data.msg);
 				console.log('pullmessage(),rst=0,---> ' + data.msg)
-				quitlesson(true, true);
+				quitlesson(true, true, false);
 				return;
 			}
 			if (data.rst == 1) {
@@ -679,7 +695,7 @@ function askquit() {
 	var btnArray = ['No', 'Yes'];
 	mui.confirm('确定要离开教室(Yes/No)？', '确认', btnArray, function(e) {
 		if (e.index == 1) {
-			quitlesson(true, true);
+			quitlesson(true, true, false);
 		}
 	});
 
