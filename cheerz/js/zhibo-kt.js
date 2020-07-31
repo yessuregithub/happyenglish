@@ -206,6 +206,7 @@ function initclassroom(data) {
 	if (iszhibo != 1) {
 		$('#pingbivoice').hide();
 		$('#pingbivideo').hide();
+		plus.nativeUI.closeWaiting();
 		return;
 	}
 

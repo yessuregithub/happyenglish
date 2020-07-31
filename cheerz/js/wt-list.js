@@ -8,23 +8,26 @@ function initwtcontent() {
 	var width = odiv.getBoundingClientRect().width;
 	var height = odiv.getBoundingClientRect().height;
 
-	var wturl = 'http://www.cheerz.cn/characternew.htm';
+	// var wturl = 'http://www.cheerz.cn/characternew.htm';
+	var wturl = 'http://ipdl.cheerz.cn/hpyy/web/qalist.html?' + Math.round((Math.random() * 10000000));
 	wtview = plus.webview.create(wturl, 'active', {
 		top: top,
 		left: left,
 		height: height,
-		width: width
+		width: width,
+		cachemode: 'noCache',
+		backButtonAutoControl: 'close'
 	});
-	
+
 	plus.nativeUI.showWaiting();
 	wtview.addEventListener('loading', function(e) {
 		plus.nativeUI.showWaiting();
 	}, false);
-	
+
 	wtview.addEventListener('loaded', function(e) {
 		plus.nativeUI.closeWaiting();
 	}, false);
-	
+
 	wtview.show(); // 显示窗口
 	// wtview.loadURL(wturl);
 }

@@ -48,7 +48,7 @@
         "LivePusher" : {},
         "VideoPlayer" : {},
         "Speech" : {},
-        "Payment" : {}
+        "Share" : {}
     },
     "plus" : {
         "allowsInlineMediaPlayback" : true,
@@ -233,7 +233,7 @@
                     /*高分屏启动图片，分辨率：480x762*/
                     "xhdpi" : "",
                     /*720P高分屏启动图片，分辨率：720x1242*/
-                    "xxhdpi" : "/Users/user/Desktop/splash.png"
+                    "xxhdpi" : "images/splash.png"
                 }
             },
             "plugins" : {
@@ -241,9 +241,12 @@
                     "ifly" : {}
                 },
                 "ad" : {},
-                "payment" : {
-                    "appleiap" : {},
-                    "alipay" : {}
+                "payment" : {},
+                "share" : {
+                    "weixin" : {
+                        "appid" : "",
+                        "UniversalLinks" : ""
+                    }
                 }
             }
         },
