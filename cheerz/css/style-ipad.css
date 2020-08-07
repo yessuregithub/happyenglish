@@ -560,8 +560,9 @@ input:-ms-input-placeholder {color: #666;}
 .fen-box-tan{ position:fixed; z-index:1003; width:100%; height:100%; left:0; top:0; display:none;}
 .fen-box-tan .close{ background:url(../images/close.png) no-repeat; background-size:100% 100%; width:.76rem; height:.76rem; position:absolute; right:.45rem; top:.35rem;}
 .fen-box-tan .close:hover{ background:url(../images/close-hover.png) no-repeat; background-size:100% 100%;}
-.fen-box-tow{ width:8.80rem; position:absolute; left:50%; margin-left:-4.4rem; top:50%;transform: translateY(-50%);}
-.fen-box-left{ width:4.9rem; background:#431c97; padding:.1rem 0px; float:left;}
+.fen-box-tow{ width:8.80rem; position:absolute; left:50%; top:50%;transform: translate(-50%,-50%);}
+.fen-box-left{float: left; width:4.9rem; background:#431c97; padding:.1rem 0px;}
+
 .fen-mvp{ position:relative; padding:.05rem .25rem;}
 .fen-mvp .ustx { margin-bottom:.1rem;}
 .fen-mvp .ustx .img-box{ width:.95rem; height:.95rem; background:url(../images/tx.png) no-repeat; background-size:100% 100%; float:left;}

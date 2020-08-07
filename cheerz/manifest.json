@@ -48,7 +48,8 @@
         "LivePusher" : {},
         "VideoPlayer" : {},
         "Speech" : {},
-        "Share" : {}
+        "Share" : {},
+        "SQLite" : {}
     },
     "plus" : {
         "allowsInlineMediaPlayback" : true,
@@ -244,8 +245,8 @@
                 "payment" : {},
                 "share" : {
                     "weixin" : {
-                        "appid" : "",
-                        "UniversalLinks" : ""
+                        "appid" : "wxe38261d308ebf4b7",
+                        "UniversalLinks" : "https://www.aliceland.cn/hbyy/"
                     }
                 }
             }

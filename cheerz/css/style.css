@@ -564,8 +564,11 @@ input:-ms-input-placeholder {color: #666;}
 .fen-box-tan{ position:fixed; z-index:1003; width:100%; height:100%; left:0; top:0; display:none;}
 .fen-box-tan .close{ background:url(../images/close.png) no-repeat; background-size:100% 100%; width:.76rem; height:.76rem; position:absolute; right:.45rem; top:.35rem;}
 .fen-box-tan .close:hover{ background:url(../images/close-hover.png) no-repeat; background-size:100% 100%;}
-.fen-box-tow{ width:8.80rem; position:absolute; left:50%; margin-left:-4.4rem; top:50%;transform: translateY(-50%);}
-.fen-box-left{ width:4.9rem; background:#431c97; padding:.1rem 0px; float:left;}
+
+
+.fen-box-tow{ width:8.80rem; position:absolute; left:50%; top:50%;transform: translate(-50%,-50%);}
+.fen-box-left{float: left;width:4.9rem; background:#431c97; padding:.1rem 0px;}
+
 .fen-mvp{ position:relative; padding:.05rem .25rem;}
 .fen-mvp .ustx { margin-bottom:.1rem;}
 .fen-mvp .ustx .img-box{ width:.95rem; height:.95rem; background:url(../images/tx.png) no-repeat; background-size:100% 100%; float:left;}
@@ -586,12 +589,13 @@ input:-ms-input-placeholder {color: #666;}
 .fen-gzh .txt-box{ width:3.3rem; text-align:right; float:right;}
 .fen-gzh .txt-box img{ width:2rem;}
 .fen-gzh .txt-box p{ color:#000000; font-size:.18rem; line-height:1.2; width:100%;}
-.fen-box-right{ width:auto; float:right; text-align:center;}
+
+.fen-box-right{ width:auto; position: absolute;right: 0px;top: 0px; text-align:center;}
 .fen-box-right h3{ color:#ffffff; font-size:.4rem; text-align:center; line-height:1rem; font-weight:bold;}
 
 .fen-box-right ul li{ margin-top:.5rem;}
 .fen-box-right ul li a{ display:block;}
-.fen-box-right ul li a img{ width:1.51rem; height:1.51rem;}
+.fen-box-right ul li a img{ width:1.3rem; height:1.3rem;}
 .fen-box-right ul li a span{ display:block; text-align:center; color:#ffffff; font-size:.28rem; margin-top:.15rem;}
 .game-box { position:absolute; z-index:9; top:50%; left:0; width:100%;height: 100%; transform: translateY(-50%);}
 .game-box .game-list{ border-bottom:2px dashed #ffffff; width:100%; padding:.25rem;}
