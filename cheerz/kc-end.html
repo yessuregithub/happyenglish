@@ -177,6 +177,7 @@
 		mui.plusReady(function() {
 			updateSerivces();
 			loadpage();
+			ws = plus.webview.currentWebview();
 		});
 
 		mui.back = function() { //禁止android返回

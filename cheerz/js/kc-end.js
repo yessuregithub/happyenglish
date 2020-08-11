@@ -67,63 +67,94 @@ function share_div(share_type) {
 }
 
 // 截图
+var ws; // 当前窗口
 function clipDomImage(domID, fileName, showScreen, save_doc, share_type) {
 	console.log("clipDomImage");
 	var odiv = document.getElementById(domID);
 	if (!odiv) return;
-	
+
 	plus.nativeUI.showWaiting();
-	
+
+
 	var left = odiv.getBoundingClientRect().left;
 	var top = odiv.getBoundingClientRect().top;
 	var width = odiv.getBoundingClientRect().width;
 	var height = odiv.getBoundingClientRect().height;
 
+	left = left.toFixed(2);
+	top = top.toFixed(2);
+	width = width.toFixed(2);
+	height = height.toFixed(2);
+
+
 	var clipregin = {
-		top: top + 'px',
-		left: left + 'px',
-		width: width + 'px',
-		height: height + 'px'
+		'top': top + 'px',
+		'left': left + 'px',
+		'width': width + 'px',
+		'height': height + 'px'
 	};
+
+	var wsclip = {
+		top: '0px',
+		left: '0px',
+		width: '100%',
+		height: '100%'
+	};
+	if (mui.os.ios) {
+		wsclip = clipregin;
+	}
 
 	console.log('clipregin:' + JSON.stringify(clipregin));
 
 	var bitmap = new plus.nativeObj.Bitmap('bitmap');
 
-	var ws = plus.webview.currentWebview();
+	var save_succ = false;
 	ws.draw(bitmap, function() {
 		console.log('截屏绘制图片成功');
-	}, function(e) {
-		console.log('截屏绘制图片失败：' + JSON.stringify(e));
-	}, {
-		clip: clipregin
-	});
+		save_succ = true;
 
-	// 显示到屏幕上
-	if (showScreen) {
-		var img = new Image();
-		img.src = bitmap.toBase64Data();
-		if (document.getElementById('show_box')) {
-			document.getElementById('show_box').appendChild(img);
+		// 显示到屏幕上
+		console.log('save_succ' + save_succ);
+		if (showScreen && save_succ) {
+			var img = new Image();
+			img.src = bitmap.toBase64Data();
+			if (document.getElementById('show_box')) {
+				document.getElementById('show_box').appendChild(img);
+			}
 		}
-	}
 
-	// 保存相册
-	if (save_doc) {
-		save_share(bitmap, fileName, share_type);
-	} else {
-		bitmap.clear();
-	}
-	
-	plus.nativeUI.closeWaiting();
+		// 保存相册
+		if (save_doc && save_succ) {
+			save_share(bitmap, clipregin, fileName, share_type);
+		} else {
+			bitmap.clear();
+		}
+		plus.nativeUI.closeWaiting();
+	}, function(e) {
+		save_succ = false;
+		console.log('截屏绘制图片失败：' + JSON.stringify(e));
+		plus.nativeUI.closeWaiting();
+	}, {
+		clip: wsclip
+	});
 }
 
 
-function save_share(bitmap, filename, share_type) {
+function save_share(bitmap, clipregin, filename, share_type) {
 	var savealbum = false;
+	var clip = {
+		top: '0px',
+		left: '0px',
+		width: '100%',
+		height: '100%'
+	}; 
+	if(mui.os.android) {
+		clip = clipregin;
+	}
 	bitmap.save(
 		"_doc/" + filename, {
-			overwrite: true
+			overwrite: true,
+			clip: clip
 		},
 		function(i) {
 			//保存到系统相册
@@ -134,7 +165,7 @@ function save_share(bitmap, filename, share_type) {
 					bitmap.clear();
 					savealbum = true;
 					console.log("保存图片到相册成功");
-					
+
 					// 分享
 					if (share_type != -1) {
 						var path = "file://" + plus.io.convertLocalFileSystemURL("_doc/" + filename);
@@ -190,6 +221,7 @@ function updateSerivces() {
 
 // 分享图片
 function shareImage(path, sharetype) {
+	console.log("sharetype:" + sharetype);
 	var msg = {
 		type: 'image'
 	};
@@ -210,6 +242,7 @@ function shareImage(path, sharetype) {
 			share(sweixin, msg, buttons[1]);
 		}
 	} else {
+		console.log('当前环境不支持微信分享操作');
 		plus.nativeUI.alert('当前环境不支持微信分享操作!');
 	}
 }
@@ -237,7 +270,7 @@ function share(srv, msg, button) {
 		srv.authorize(function() {
 			doShare(srv, msg);
 		}, function(e) {
-			//console('认证授权失败：' + JSON.stringify(e));
+			console('认证授权失败：' + JSON.stringify(e));
 		});
 	}
 }
