@@ -45,19 +45,26 @@
 									<img class="acc_imgin" src="images/tx.png" id="img0">
 								</div>
 								<div class="acc_sc">
-									<a href="javascript:;" class="tc acc_scicon">选择图片</a>
+									<!-- <a id="file0" href="javascript:galleryImg();" class="tc acc_scicon">从相册中选择图片</a> -->
+									<a href=" javascript:;" class="tc acc_scicon">选择图片</a>
 									<input type="file" name="file0" id="file0" multiple class="ph08" />
 								</div>
 							</div>
 							<div class="xx-list">
 								<div class="item mui-clearfix">
-									<div class="name">中文名</div>
-									<input id="nickname" name="nickname" type="text" class="text" placeholder="请输入中文名" value="">
+									<div class="name">账户（手机号）</div>
+									<input id="mobile" name="mobile" type="text" class="text" value="" disabled="disabled" readonly="readonly">
+
 								</div>
 								<div class="item mui-clearfix">
+									<div class="name">昵称</div>
+									<input id="nickname" name="nickname" type="text" class="text" placeholder="请输入昵称" value="">
+								</div>
+								<!-- <div class="item mui-clearfix">
 									<div class="name">英文名</div>
 									<input id="engname" name="engname" type="text" class="text" placeholder="请输入英文名" value="">
-								</div>
+								</div> -->
+
 								<div id="inlinebirthday" class="item mui-clearfix">
 									<div class='name'>生日</div>
 									<div class=text id='birthday' startYear='2000' default-val=''></div>
@@ -85,10 +92,12 @@
 
 		<script type="text/javascript">
 			$("#file0").change(function() {
+
 				if (this.files && this.files[0]) {
 					var objUrl = getObjectURL(this.files[0]);
 					console.log("objUrl = " + objUrl);
 					if (objUrl) {
+						console.log('obj todo');
 						$("#img0").attr("src", objUrl);
 						$("#file0").click(function(e) {
 							$("#img0").attr("src", objUrl);
@@ -110,6 +119,7 @@
 					}
 				}
 			});
+			
 			//建立一個可存取到該file的url
 			function getObjectURL(file) {
 				var url = null;
@@ -122,6 +132,30 @@
 				}
 				return url;
 			}
+
+
+			// mui上传单张图片  
+			function galleryImg() {
+				//每次拍摄或选择图片前清空数组对象  
+				f1.splice(0, f1.length);
+				// 从相册中选择图片  
+				plus.gallery.pick(function(path) {
+					console.log('plus.gallery.pick:' + path);
+					if (0 != path.toString().indexOf("file://")) {
+						path = "file://" + path;
+					}
+					$("#img0").attr("src", path);
+					$("#file0").click(function(e) {
+						$("#img0").attr("src", path);
+					});
+				}, function(e) {
+					mui.toast("取消选择图片");
+				}, {
+					filter: "image",
+					multiple: false
+				});
+			}
+			var f1 = new Array();
 		</script>
 
 		<script src="js/swiper-3.4.0.jquery.min.js"></script>

@@ -33,15 +33,12 @@ function fetchuserinfo(token) {
 				return;
 			}
 			if (data.rst == 1) {
+				// console.log('fetchuserinfo:'+JSON.stringify(data))
 				var nickshow = "";
-				if (data.engname == null || data.engname == undefined || data.engname == "") {
-					if (data.nickname == "") {
-						nickshow = maskmobile(data.mobile);
-					} else {
-						nickshow = data.nickname;
-					}
+				if (data.nickname == null || data.nickname == undefined || data.nickname == "") {
+					nickshow = maskmobile(data.mobile);
 				} else {
-					nickshow = data.engname;
+					nickshow = data.nickname;
 				}
 				$("#nickname").text(nickshow);
 				localStorage.setItem('nickshow', nickshow);
@@ -91,6 +88,8 @@ function fetchuserinfo1(token) {
 				return;
 			}
 			if (data.rst == 1) {
+				console.log('fetchuserinfo1:' + JSON.stringify(data));
+				$("#mobile").val(data.mobile);
 				$("#nickname").val(data.nickname);
 				$("#engname").val(data.engname);
 				if (data.birthday != "") bbs = data.birthday;
@@ -101,7 +100,7 @@ function fetchuserinfo1(token) {
 				});
 				$("#sex").val(data.sex);
 				if (data.avata != "")
-					$("#ustx").html("<img class='acc_imgin' src=" + data.avata + ">");
+					$("#ustx").html("<img class='acc_imgin' id='img0' src=" + data.avata + ">");
 			}
 		},
 		error: function(xhr, type, errorThrown) {

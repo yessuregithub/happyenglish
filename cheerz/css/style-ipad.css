@@ -145,7 +145,7 @@ input:-ms-input-placeholder {color: #666;}
 
 
 .acc_img{width:1.26rem; height:1.26rem; position:relative; margin:0 auto; border-radius:50%; overflow:hidden;}
-.acc_imgin{width:1.26rem; height:1.26rem; position:relative; margin:0 auto; border-radius:50%; overflow:hidden;}
+.acc_imgin{width:1.26rem; height:auto; position:relative; margin:0 auto; border-radius:50%; overflow:hidden;}
 .acc_sc{ position:absolute; left:0; top:0; width:100%; height:100%;}
 .acc_scicon{ position:absolute; left:0; top:0; width:100%; height:100%;opacity: 0;}
 .ph08{ position:absolute; left:0; top:0; width:100%; height:100%;opacity: 0;}

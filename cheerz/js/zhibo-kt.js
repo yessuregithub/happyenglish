@@ -436,6 +436,7 @@ function enterlesson() {
 				return;
 			}
 			if (data.rst == 1) {
+				// console.log('Home_index_enterlesson:' + JSON.stringify(data));
 				initclassroom(data);
 				// debuggoless(); // todo delete
 				return;
