@@ -28,6 +28,9 @@ var s_good = null;
 // 防止二次退出
 var isquitlesson = false;
 
+// ios启动推流转屏
+var ios_pushrotate = false;
+
 function zb_test_str(str) {
 	console.log("zhibo-kt.html test string :" + str);
 }
@@ -250,8 +253,8 @@ function initclassroom(data) {
 			$(tag).text(playercoin[pos]);
 			tag = "#v" + pos;
 			// 自己使用用推流摄像头
-			if (pos == 1 && mui.os.android) {
-				// 显示自己的摄像头
+			if (pos == 1 && (mui.os.android || !ios_pushrotate)) {
+				// 使用自己的摄像头
 			} else {
 				player[pos] = createvideo("vp" + pos, "v" + pos, playervideo[pos], pos);
 
@@ -761,7 +764,7 @@ function createvideo(videoid, divid, url, pos) {
 // 推流
 function initPusher(userid) {
 	// pushurl = 'rtmp://47.241.111.251/live?vhost=rotate.localhost/' + userid;
-	if (mui.os.ios) {
+	if (mui.os.ios && ios_pushrotate) {
 		pushurl2 = 'rtmp://47.114.84.56:1935/live?vhost=rotate.localhost/' + userid; // 阿里	
 	} else {
 		pushurl2 = 'rtmp://47.114.84.56:1935/live/' + userid; // 阿里
@@ -780,16 +783,16 @@ function initPusher(userid) {
 	height = height;
 
 	pusher = new plus.video.LivePusher('pusher-box', {
-		'url': pushurl2,
-		'aspect': '16:9',
-		'mode': 'SD',
+		url: pushurl2,
+		aspect: '16:9',
+		mode: 'SD',
 		top: top + 'px',
 		left: left + 'px',
 		width: width + 'px',
 		height: height + 'px'
 		// 'muted': true,
 	});
-	if (mui.os.android) {
+	if (mui.os.android || !ios_pushrotate) {
 		plus.webview.currentWebview().append(pusher);
 	}
 
@@ -877,7 +880,7 @@ function startPusher() {
 
 // 推流失败切换国内服务器
 function updatePusher(pushurl) {
-	if (mui.os.ios) {
+	if (mui.os.ios && ios_pushrotate) {
 		pushurl = pushurl + '/live?vhost=rotate.localhost/' + userid; // 阿里	
 	} else {
 		pushurl = pushurl + '/live/' + userid; // 阿里

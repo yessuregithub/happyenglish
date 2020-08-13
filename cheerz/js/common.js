@@ -99,8 +99,10 @@ function fetchuserinfo1(token) {
 					'default-val': data.birthday
 				});
 				$("#sex").val(data.sex);
-				if (data.avata != "")
-					$("#ustx").html("<img class='acc_imgin' id='img0' src=" + data.avata + ">");
+				if (data.avata != "") {
+					$('#img0').attr('src', data.avata);
+				}
+				// $("#ustx").html("<img class='acc_imgin' id='img0' src='" + data.avata + "'>");
 			}
 		},
 		error: function(xhr, type, errorThrown) {
